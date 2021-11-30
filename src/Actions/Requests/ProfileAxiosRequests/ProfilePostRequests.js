@@ -599,6 +599,19 @@ export const toggleOffAscensionStatusIndicator=async(profileId)=>{
 	}
 }
 
+export const alterAirPlaneEnabledStatus=async(profileId,enableStatus)=>{
+	try{
+		const alteredAirPlaneEnabledStatusResponse=await axios.post(`${CreateUrl}/alterAirPlaneEnabledStatus`,{
+			profileId,
+			enableStatus
+		});
+		const {data}=alteredAirPlaneEnabledStatusResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 export const createBadge=async(badgeInformation)=>{
 	try{

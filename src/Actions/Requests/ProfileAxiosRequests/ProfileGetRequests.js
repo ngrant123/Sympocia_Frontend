@@ -732,22 +732,19 @@ export const retrieveBadgeInformation=async(profileId)=>{
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const retrieveAirPlaneEnabledStatus=async(profileId)=>{
+	try{
+		const airPlanesEnabledStatus=await axios.get(`${SearchUrl}/retrieveAirPlaneEnabledStatus`,{
+			params:{
+				profileId
+			}
+		});
+		const {data}=airPlanesEnabledStatus;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

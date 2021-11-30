@@ -39,6 +39,7 @@ import {refreshTokenApiCallHandle} from "../../../../Actions/Tasks/index.js";
 import {getPostCreationUpdateStatuses} from "../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import {hasUserViewedCommunity} from "../../../../Actions/Requests/SympociaCommunity/SympociaCommunityRetrieval.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import AirPlane from "../../Airplanes/index.js";
 
 const glowing=keyframes`
       0% { border-color: #D6C5F4; box-shadow: 0 0 5px #C8B0F4; }
@@ -260,12 +261,14 @@ const SignupButtonCSS={
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();
 	const {
-			pageProps:{
-				targetDom
-			},
-			isTransparent
-		}=pageProps;
-
+		targetDom,
+		page,
+		componentMountedStatus,
+		isTransparent,
+		paramsPageId
+	}=pageProps;
+	debugger;
+	console.log(pageProps);
 	const personalProfileState=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(personalProfileState.id=="0" || personalProfileState.isGuestProfile==true)==true?
 					true:false;
@@ -419,11 +422,11 @@ const NavBar=(pageProps)=>{
 
 
 	const displayChatContainerForPersonalPage=(pageProps)=>{
-			pageProps.pageProps.displayChatPage("personal");
+		pageProps.displayChatPage("personal");
 	}
 
 	const displayChatContainerForCompanyPage=(pageProps)=>{
-			pageProps.pageProps.displayChatPage("company");
+		pageProps.displayChatPage("company");
 	}
 
 	const logInToCompanyProfile=()=>{
@@ -747,8 +750,6 @@ const NavBar=(pageProps)=>{
 		)
 	}
 
-
-
 	return(
 		<Container isTransparent={isTransparent}>
 			{displayNotifications==true &&(
@@ -756,14 +757,13 @@ const NavBar=(pageProps)=>{
 					targetDom={targetDom}
 					closeModal={closeNotificationsPortal}
 					userId={personalProfileState.id}
-					history={pageProps.pageProps.routerHistory}
+					history={pageProps.routerHistory}
 					tokens={{
 						accessToken:personalProfileState.accessToken,
 						refreshToken:personalProfileState.refreshToken
 					}}
 				/>
 			)}
-
 			{displayAnonymousTipsPortal==true &&(
 				<AnonymousSuggestionPortal
 					closeModal={closeAnonymousTipPortals}
@@ -774,12 +774,18 @@ const NavBar=(pageProps)=>{
 				<React.Fragment>
 					<BackgroundContainer onClick={()=>changeDisplaySearchModal(!displaySearchModal)}/>
 					<SearchBarModal
-						history={pageProps.pageProps.routerHistory}
+						history={pageProps.routerHistory}
 						closeSearchModal={closeSearchModal}
 					/>
 				</React.Fragment>:
 				<React.Fragment></React.Fragment>
 			}
+			<AirPlane 
+				currentPage={page}
+				componentMountedStatus={componentMountedStatus}
+				userId={id}
+				paramsId={paramsPageId}
+			/>
 			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginTop:"5px"}}>
 				{displayDesktopUI==true ?
 					<>{desktopUI()}</>:

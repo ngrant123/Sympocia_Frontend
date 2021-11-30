@@ -7,6 +7,7 @@ import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 import DeletePostPortal from "../DeletePostConfirmationPortal.js";
 import {Link} from "react-router-dom";
+import {generateAirPlane} from "../../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 const SponsorExtendedModal=styled.div`
 	position:fixed;
@@ -251,7 +252,13 @@ const SponsorDisplayModal=(props)=>{
 						</li>
 					</ul>
 				</SponsorExtendedModal>:
-				<SponsorSimplifiedModal>
+				<SponsorSimplifiedModal id="championModal" 
+					onClick={()=>generateAirPlane({
+						pageType:"Profile",
+			            pageTypeParamsId:props.pageTypeParamsId,
+			            targetDivAccessed:"championModal",
+			            profileIdAccessingDiv:props.profileIdAccessingDiv
+					})}>
 					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
 						<ProfileLink
 							propsRendered={

@@ -8,6 +8,7 @@ import AlterFirstNamePrompt from "./AlterProfileDetails/AlterFirstNamePrompt.js"
 import AlterEmailPrompt from "./AlterProfileDetails/AlterEmailPrompt.js";
 import AlterLastNamePrompt from "./AlterProfileDetails/AlterLastNamePrompt.js";
 import DeleteProfilePrompt from "./DeleteProfilePrompt.js";
+import MiscellaneousOptionsDisplay from "./AlterProfileDetails/MiscellaneousOptions.js";
 
 import {Link} from "react-router-dom";
 
@@ -143,6 +144,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 	const [displayEmailModalPrompt,changeEmailPrompt]=useState(false);
 	const [displayDeleteProfilePrompt,changeDisplayDeleteProfilePrompt]=useState(false);
 	const [displayInitialSettingsModal,changeInitialSettingsModal]=useState(true);
+	const [displayMiscellaneousModal,changeMiscellaneousDisplayModal]=useState(false);
 
 	const displayInitilaModal=()=>{
 		changeDisplayFirstNamePrompt(false);
@@ -150,38 +152,32 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(true);
 		changeEmailPrompt(false);
+		changeMiscellaneousDisplayModal(false);
 	}
 
 	const hanldeDisplayFirstNameModal=()=>{
 		changeDisplayFirstNamePrompt(true);
-		changeDisplayLastNamePrompt(false);
-		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(false);
-		changeEmailPrompt(false);
 	}
 
 	const hanldeDisplayLastNameModal=()=>{
-		changeDisplayFirstNamePrompt(false);
 		changeDisplayLastNamePrompt(true);
-		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(false);
-		changeEmailPrompt(false);
 	}
 
 
 	const handleDisplayEmailModal=()=>{
-		changeDisplayFirstNamePrompt(false);
-		changeDisplayLastNamePrompt(false);
 		changeEmailPrompt(true);
-		changeDisplayDeleteProfilePrompt(false);
 		changeInitialSettingsModal(false);
 	}
 
 	const handleDisplayDeleteModal=()=>{
-		changeDisplayFirstNamePrompt(false);
-		changeDisplayLastNamePrompt(false);
-		changeEmailPrompt(false);
 		changeDisplayDeleteProfilePrompt(true);
+		changeInitialSettingsModal(false);
+	}
+
+	const handleDisplayMiscellaneousModal=()=>{
+		changeMiscellaneousDisplayModal(true);
 		changeInitialSettingsModal(false);
 	}
 
@@ -249,7 +245,17 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 										style={{marginLeft:"39%"}}
 									/>
 								</Link>
-								
+								<hr/>
+
+								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+									onClick={()=>handleDisplayMiscellaneousModal()}>
+									<p>
+										<b>Miscellaneous</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"39%"}}
+									/>
+								</div>
 							</div>
 							{/*
 								<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
@@ -312,6 +318,18 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 		)
 	}
 
+	const miscellaneousOptionsModal=()=>{
+		return(
+			<React.Fragment>
+				{displayMiscellaneousModal==true &&(
+					<MiscellaneousOptionsDisplay
+						closeModal={displayInitilaModal}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
@@ -323,6 +341,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 				{lastNamePrompt()}
 				{emailPrompt()}
 				{deleteModal()}
+				{miscellaneousOptionsModal()}
 			</Container>
 		</React.Fragment>
 	,document.getElementById("personalContainer"))

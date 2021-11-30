@@ -104,7 +104,7 @@ const FeaturePosts=({featuresType,isLoading})=>{
 	}
 
 	return(
-		<div style={{width:"100%"}}>
+		<div style={{width:"100%"}} id="featuresPagePosts">
 			{component()}
 		</div>
 	)

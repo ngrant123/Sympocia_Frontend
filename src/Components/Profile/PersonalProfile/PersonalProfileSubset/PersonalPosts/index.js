@@ -40,6 +40,7 @@ import {
 } from "../../../../../Actions/Tasks/Search/SearchSymposiums.js";
 import {getProfilePostsSearch} from "../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -1182,47 +1183,53 @@ const PersonalPostsIndex=(props)=>{
 			>
 			{props.personalInformation.isLoading==true?null:
 				<>
-				<ul>
-					<hr/>
-					{displayCreationPostContainer()}
-					<li id="postsContainer" style={{listStyle:"none"}}>
-						<ul style={{padding:"0px"}}>
-							{props.uiStatus.displayPhoneUI==true? 
-								<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
-								<PostOptionsAndSearchContainer 
-									displayExtendedSearchTextArea={displayExtendedSearchTextArea}>
-									<div style={{alignItems:"center",display:"flex",flexDirection:"row",marginRight:"5%",marginBottom:"15px"}}>
-										<SearchIcon
-											style={{fontSize:30}}
-										/>
-										<SearchPostsTextArea
-											id="searchPostTextArea"
-											onClick={()=>triggerSearchPostExtended()}
-											onKeyPress={e=>searchPromptTrigger(e)}
-											placeholder="Search for any posts here"
-										/>
-										{searchAreaCloseIcon()}
-									</div>
-									<div style={{display:"flex",flexDirection:"row"}}>
-										{postOptions()}
-										<li style={listCSSButton}>
-											<div class="dropdown">
-													<button id="symposiumsDropDown" 
-														class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-														style={SymposiumDropDownCSS}>
-														Symposiums
-													   	<span class="caret"></span>
-													</button>
-													{selectedPostSymposiums()}
-							  				 </div>
-										</li>
-									</div>
-								</PostOptionsAndSearchContainer>
-							}
-							{postsDisplaySystem()}
-						</ul>
-					</li>
-				</ul>
+					<ul>
+						<hr/>
+						{displayCreationPostContainer()}
+						<li id="postsContainer" style={{listStyle:"none"}}
+							onClick={()=>generateAirPlane({
+										    pageType:"Profile",
+								            pageTypeParamsId:props.pageTypeParamsId,
+								            targetDivAccessed:"postsContainer",
+								            profileIdAccessingDiv:props.profileIdAccessingDiv
+										})}>
+							<ul style={{padding:"0px"}}>
+								{props.uiStatus.displayPhoneUI==true? 
+									<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
+									<PostOptionsAndSearchContainer 
+										displayExtendedSearchTextArea={displayExtendedSearchTextArea}>
+										<div style={{alignItems:"center",display:"flex",flexDirection:"row",marginRight:"5%",marginBottom:"15px"}}>
+											<SearchIcon
+												style={{fontSize:30}}
+											/>
+											<SearchPostsTextArea
+												id="searchPostTextArea"
+												onClick={()=>triggerSearchPostExtended()}
+												onKeyPress={e=>searchPromptTrigger(e)}
+												placeholder="Search for any posts here"
+											/>
+											{searchAreaCloseIcon()}
+										</div>
+										<div style={{display:"flex",flexDirection:"row"}}>
+											{postOptions()}
+											<li style={listCSSButton}>
+												<div class="dropdown">
+														<button id="symposiumsDropDown" 
+															class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+															style={SymposiumDropDownCSS}>
+															Symposiums
+														   	<span class="caret"></span>
+														</button>
+														{selectedPostSymposiums()}
+								  				 </div>
+											</li>
+										</div>
+									</PostOptionsAndSearchContainer>
+								}
+								{postsDisplaySystem()}
+							</ul>
+						</li>
+					</ul>
 				</>
 			}
 			</PostProvider>

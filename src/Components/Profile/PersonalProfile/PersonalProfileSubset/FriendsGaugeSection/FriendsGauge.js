@@ -13,6 +13,7 @@ import {
   MobileRecruitAndFriendsGaugeOptions,
   EditNodeModal
 } from "../../PersonalProfileSet/MobileUI.js";
+import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 const Container=styled.div`
   margin-bottom:50px;
@@ -187,6 +188,8 @@ class FriendsGauge extends Component {
      but there probably is a better solution
   */
 
+  //pageTypeParamsId
+
   displayNodeInformation=(node,isDesktop,isFirstNode)=>{  
       this.setState({
         displayNodeInformationModule:true,
@@ -203,7 +206,6 @@ class FriendsGauge extends Component {
 
   constructProgessBarStep=(accomplished,index,node)=>{
       const currentNodeCounter=this.state.currentNodeCounter;
-      console.log(node);
       const {
         name,
         description,
@@ -372,7 +374,13 @@ class FriendsGauge extends Component {
   render() {
 
     return (
-        <Container>
+        <Container id="friendsGaugeContainer"
+          onClick={()=>generateAirPlane({
+            pageType:"Profile",
+            pageTypeParamsId:this.props.pageTypeParamsId,
+            targetDivAccessed:"friendsGaugeContainer",
+            profileIdAccessingDiv:this.props.personalId
+          })}>
           <li style={{listStyle:"none",marginBottom:"7%"}}>
             <ul style={{padding:"0px"}}>
               {this.props.mobileUIStatus.displayPhoneUI==false &&(

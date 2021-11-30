@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import ChatPageContainer from "../../GeneralComponents/ChatComponent/ChatContainerSet/ChatContainer.js";
 import {GeneralNavBar} from "../../GeneralComponents/NavBarComponent/LargeNavBarComponent/LargeNavBarComponent.js";
 import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
+import {generateAirPlane} from "../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
  const keyFrameExampleThree= keyframes`
   0% {
@@ -274,7 +275,8 @@ class PersonalFeedContainer extends Component{
 			displayChatPage:false,
 			chatPageIndicator:"",
 			displayDesktopUI:false,
-			originalSymposiums:[]
+			originalSymposiums:[],
+			componentMountedStatus:false
 		}
 	}
 
@@ -309,7 +311,8 @@ class PersonalFeedContainer extends Component{
 								symposiumArray:symposiums,
 								originalSymposiums:symposiums,
 								isPersonalProfile:isPersonalProfile,
-								isLoading:false
+								isLoading:false,
+								componentMountedStatus:true
 							}));
 						}
 					}else{
@@ -317,7 +320,8 @@ class PersonalFeedContainer extends Component{
 							...prevState,
 							symposiumArray:symposiums,
 							isPersonalProfile:isPersonalProfile,
-							isLoading:false
+							isLoading:false,
+							componentMountedStatus:true
 						}));	
 					}
 				}else{
@@ -563,7 +567,7 @@ class PersonalFeedContainer extends Component{
 										</li>
 									</ul>
 								</li>:
-							<React.Fragment>
+							<div>
 								{this.state.symposiumArray.map(data=>
 									<li id="symposiumsLI" style={{paddingBottom:"40px",listStyle:"none"}}>
 										<CommunityContainerAnimationFollowed>
@@ -576,7 +580,7 @@ class PersonalFeedContainer extends Component{
 										</CommunityContainerAnimationFollowed>
 									</li>
 								)}
-							</React.Fragment>
+							</div>
 						}	
 					</>
 				}
@@ -634,9 +638,11 @@ class PersonalFeedContainer extends Component{
 			<Container id="symposiumListContainer">
 				<GeneralNavBar
 					displayChatPage={this.displayChatPage}
-					page={"Home"}
+					page={"Symposium_List"}
 					routerHistory={this.props.history}
 					targetDom={"symposiumListContainer"}
+					componentMountedStatus={this.state.componentMountedStatus}
+					paramsPageId={null}
 				/>
 
 				{this.displaySymposiumPage()}

@@ -10,6 +10,7 @@ import {
 	getSymposiumsNotFollowed
 } from "../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {Link} from "react-router-dom";
+import {generateAirPlane} from "../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 const SuggestedSymposiumsContainer=styled.div`
 	background-color:white;
@@ -161,9 +162,19 @@ const ConstructSuggestedSymposium=({userId})=>{
 			</Link>
 		)
 	}
+
+	const triggerGenerateAirPlane=(selectedDivId)=>{
+		generateAirPlane({
+			pageType:"Explore",
+			pageTypeParamsId:null,
+			targetDivAccessed:selectedDivId,
+			profileIdAccessingDiv:userId
+		})
+	}
 	return (
 		<SuggestedSymposiumsContainer>
-			<div id="popularSymposiumsDiv" style={{display:"flex",flexDirection:"column"}}>
+			<div id="popularSymposiumsDiv" style={{display:"flex",flexDirection:"column"}}
+				onClick={()=>triggerGenerateAirPlane("popularSymposiumsDiv")}>
 				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
 					<p style={{color:"#BEBEBE"}}>
 						<b>Popular Symposiums</b>

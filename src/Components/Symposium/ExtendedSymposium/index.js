@@ -62,6 +62,7 @@ import Oligarchs from "./Modals/Oligarchs/index.js";
 import OligarchsFinalResults from "./Modals/Oligarchs/FinalResults.js";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import TokenDisplay from "../../GeneralComponents/TokenComponent/Display/index.js";
+import {generateAirPlane} from "../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
 
 
 const socket = io('http://localhost:4000');
@@ -111,7 +112,8 @@ class Symposium extends Component{
 			displayBeaconPrompt:false,
 			displayFinalOligarchsCompetitionResults:false,
 			isOligarch:false,
-			displayToken:false
+			displayToken:false,
+			componentMountedStatus:false
 		}
 	}
 
@@ -244,6 +246,7 @@ class Symposium extends Component{
 		  		miscellaneousSymposiumInformation:miscellaneous,
 		  		displayToken:true,
 		  		displayFinalOligarchsCompetitionResults:isOnboardingCompleted==true?false:!hasProfileViewedOligarchFinalResults,
+		  		componentMountedStatus:true,
 		  		isGuestProfile:(this.props.personalInformation.id=="0" || this.props.personalInformation.isGuestProfile==true)==true?
 								true:false
 	  		}));
@@ -767,6 +770,8 @@ class Symposium extends Component{
 		)
 	}
 
+
+
 	render(){
 		return(
 			<SymposiumProvider
@@ -823,30 +828,40 @@ class Symposium extends Component{
 					},
 					displayPhoneUI:this.state.displayPhoneUI,
 					symposiumName:this.props.match.params.symposiumName,
-					isOligarch:this.state.isOligarch
+					isOligarch:this.state.isOligarch,
+					triggerGenerateAirPlane:(selectedDivId)=>{
+						generateAirPlane({
+						    pageType:"Symposium",
+					        pageTypeParamsId:this.state.symposiumId,
+					        targetDivAccessed:selectedDivId,
+					        profileIdAccessingDiv:this.props.personalInformation.id
+						});
+					}
 				}}
 			>
 				<SymposiumContainer id="extendedSymposiumContainer">
 					<GeneralNavBar
 						displayChatPage={this.displayChatPage}
-						page={"Home"}
+						page={"Symposium"}
 						routerHistory={this.props.history}
 						targetDom={"extendedSymposiumContainer"}
+						componentMountedStatus={this.state.componentMountedStatus}
+						paramsPageId={this.state.symposiumId}
 					/>
-						{this.state.displayOnboarding==true &&(
-							<SymposiumOnboarding
+					{this.state.displayOnboarding==true &&(
+						<SymposiumOnboarding
+							closeModal={this.closeOnboardingModal}
+						/>
+					)}
+
+					{this.state.displayGuestOnboarding==true &&(
+						<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
+							<GuestOnboarding
+								targetDom="extendedSymposiumContainer"
 								closeModal={this.closeOnboardingModal}
 							/>
-						)}
-
-						{this.state.displayGuestOnboarding==true &&(
-							<div onMouseEnter={()=>this.setState({handleScroll:false})} onMouseLeave={()=>this.setState({handleScroll:true})}>
-								<GuestOnboarding
-									targetDom="extendedSymposiumContainer"
-									closeModal={this.closeOnboardingModal}
-								/>
-							</div>
-						)}
+						</div>
+					)}
 				
 					{this.state.displayConfetti &&(
 						<Confetti
