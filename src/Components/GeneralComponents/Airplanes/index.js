@@ -41,7 +41,9 @@ const AirplaneRender=({currentPage,componentMountedStatus,paramsId,userId})=>{
 						const airplaneAnimationProps={
 							startingPoint:startingPoints[eligibleTargetDivs[i].selectedDivId],
 							targetDivsInformation:eligibleTargetDivs[i],
-							divId:eligibleTargetDivs[i].selectedDivId
+							divId:eligibleTargetDivs[i].selectedDivId,
+							profilePicture:eligibleTargetDivs[i].profilePicture,
+							profileIdAccessing:eligibleTargetDivs[i].profileIdAccessing
 						}
 						const airplaneRender=<Airplane {...airplaneAnimationProps}/>;
 						airplanesRenderContainer.push(airplaneRender);

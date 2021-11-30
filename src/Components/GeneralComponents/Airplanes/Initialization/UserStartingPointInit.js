@@ -8,15 +8,18 @@ export const retrieveUserStartingPoints=(currentEligibleDivs)=>{
 			position:{
 				top
 		}}=currentEligibleDivs[i];
-		if(top>50){
+		if(top<200){
+			const randomTop=Math.random() * (20 - 1) + 1;
+
 			startingPoints[currentEligibleDivs[i].selectedDivId]={
 				startingLeft:"0%",
-				startingTop:"0%"
+				startingTop:randomTop+"%"
 			}
 		}else{
+			const randomLeft=Math.random() * (90 - 40) + 40;
 			startingPoints[currentEligibleDivs[i].selectedDivId]={
-				startingLeft:"0%",
-				startingTop:"100%"
+				startingLeft:randomLeft+"%",
+				startingTop:"90%"
 			}
 		}
 	}
