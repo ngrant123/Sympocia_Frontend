@@ -243,13 +243,12 @@ class HomePageContainer extends Component{
 		this.initiliazeUserProfileForHomePage(id);
 		this.triggerUIChange();
 		this.setState({
-			displayToken:true,
-			componentMountedStatus:true
+			displayToken:true
 		})	
 	}
 
 	initiliazeUserProfileForHomePage=async(id)=>{
-		
+		debugger;
 		var profile={};
 		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 		var isPersonalProfile=true;
@@ -430,6 +429,12 @@ class HomePageContainer extends Component{
 		)
 	}
 
+	notifyComponentMounted=()=>{
+		this.setState({
+			componentMountedStatus:true
+		})
+	}
+
 	render(){
 		return(
 			<HomeProvider
@@ -471,6 +476,7 @@ class HomePageContainer extends Component{
 						<ExplorePagePosts
 							displayGrids={this.handleDisplayGridLayout}
 							history={this.props.history}
+							notifyComponentMounted={this.notifyComponentMounted}
 						/>
 					}
 					

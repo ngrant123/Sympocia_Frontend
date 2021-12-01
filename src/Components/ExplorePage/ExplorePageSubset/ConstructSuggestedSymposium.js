@@ -92,7 +92,7 @@ const ShadowDivCSS={
 	height:"100%"
 }
 
-const ConstructSuggestedSymposium=({userId})=>{
+const ConstructSuggestedSymposium=({userId,triggerSymposiumDisplayComponentMountedStat})=>{
 	const [followedSymposiums,changeFollowedSymposiums]=useState([]);
 	const [unFollowedSymposiums,changeUnFollowedSymposiums]=useState([]);
 
@@ -119,6 +119,7 @@ const ConstructSuggestedSymposium=({userId})=>{
 					changeUnFollowedSymposiums([...splicedUnFollowedSymposiums]);
 				}
 			}
+			triggerSymposiumDisplayComponentMountedStat();
 		});
 	},[]);
 

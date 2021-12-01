@@ -454,6 +454,7 @@ class SearchExploreContainer extends Component{
 			<div style={{display:"flex",flexDirection:"column"}}>
 				<SuggestedSymposiums
 					userId={this.props.personalInformation.id}
+					triggerSymposiumDisplayComponentMountedStat={this.props.notifyComponentMounted}
 				/>
 				<hr style={HorizontalLineCSS}/>
 				<div id="explorePageHeader" style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
