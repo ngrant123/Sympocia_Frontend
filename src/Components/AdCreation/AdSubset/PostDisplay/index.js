@@ -73,12 +73,10 @@ const PostDisplay=(props)=>{
 		userId,
 		currentAdStatus
 	}=props;
-	console.log(props);
 
 	const [postsComponent,changePostsComponent]=useState();
 
 	useEffect(()=>{
-		debugger;
 		changePostsComponent(postMapping());
 	},[postDisplay,posts]);
 
@@ -166,7 +164,6 @@ const PostDisplay=(props)=>{
 	}
 
 	const videos=(data)=>{
-		console.log(data);
 		return(
 			<React.Fragment>
 				<div style={{position:"relative",flexDirection:"column",...PostCSS}}
@@ -185,7 +182,6 @@ const PostDisplay=(props)=>{
 	}
 
 	const blogs=(data)=>{
-		console.log(data);
 		return(
 			<div style={{display:"flex",flexDirection:"column",...PostCSS}}
 				onClick={()=>postClickTrigger(data)}>
@@ -212,7 +208,6 @@ const PostDisplay=(props)=>{
 
 
 	const texts=(data)=>{
-		console.log(data);
 		return(
 			<React.Fragment>
 				<div style={{position:"relative",width:"100%",...PostCSS}}

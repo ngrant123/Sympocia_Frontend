@@ -26,7 +26,6 @@ const PostsContainerDisplay=(props)=>{
         profileId,
         selectedSymposiumTitle
     }=props;
-    console.log(props);
 
 
     const [selectedCategoryType,changeSelectedCategoryType]=useState(state.displayDesktopUI==false?"The Grind":"General");
@@ -107,7 +106,6 @@ const PostsContainerDisplay=(props)=>{
                 }
             }
         }
-        console.log(selectedPostCategory);
         changeSelectedPostCategoryInformation(selectedPostCategory)
 
     },[selectedCategoryType,state.posts,state.displayDesktopUI])

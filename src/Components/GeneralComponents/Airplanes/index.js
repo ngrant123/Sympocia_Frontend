@@ -24,7 +24,6 @@ const userVisitedDiv={
 const AirplaneRender=({currentPage,componentMountedStatus,paramsId,userId})=>{
 	const [airplanes,changeAirplanes]=useState([]);
 	useEffect(()=>{
-		debugger;
 		const fetchData=async()=>{
 			if(componentMountedStatus){
 				const {confirmation,data}=await retrieveAirPlanes(

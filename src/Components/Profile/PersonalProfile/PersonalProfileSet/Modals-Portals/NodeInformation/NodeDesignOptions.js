@@ -87,7 +87,6 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 	},[displaySympociaFriendsNodeAvatars]);
 
 	const uploadImage=async()=>{
-		debugger;
 		const updatedAvatarInformation={
 			userId,
 			nodeId,

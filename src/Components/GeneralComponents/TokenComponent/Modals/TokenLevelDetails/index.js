@@ -115,12 +115,10 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	}
 
 	const triggerProgressBarCompletion=()=>{
-		debugger;
+		
 		const normalizedTokenScore=Math.floor((tokenScore/1000)*100)-(tokenLevel=="Gold"?0:10);
-		console.log(normalizedTokenScore);
 		setTimeout(()=>{
 	        while(currentPercentage<normalizedTokenScore){
-	        	console.log("Percentage increase");
 	        	changeCurrentPercentage(currentPercentage);
 	          	currentPercentage++;
         	}
@@ -129,7 +127,7 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 
 	const constructNodeElements=()=>{
 	    const ProgressBarSteps=[];
-	    debugger;
+	    
 	    for(var i=0;i<4;i++){
 	    	if(i==0){
 	    		ProgressBarSteps.push(<div></div>);  

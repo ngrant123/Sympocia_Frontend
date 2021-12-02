@@ -77,7 +77,6 @@ const ItemizedCheckout=({item,unMountItemCheckoutModal,isPhoneUIEnabled})=>{
 	const [pricingTotal,changePricingTotal]=useState(0);
 
 	useEffect(()=>{
-		debugger;
 		const currentItems=currentSelectedItems;
 		currentItems.push(item);
 		let currentPricingTotal=pricingTotal;
@@ -88,7 +87,6 @@ const ItemizedCheckout=({item,unMountItemCheckoutModal,isPhoneUIEnabled})=>{
 	},[item]);
 
 	const removeSelectedItem=(itemData)=>{
-		debugger;
 		const {offer,price}=itemData;
 		const items=currentSelectedItems;
 		for(var i=0;i<items.length;i++){

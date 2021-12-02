@@ -68,7 +68,6 @@ const Waves=({tokenScore,maxTokenScore})=>{
 	const [startingTopLevel,changeStartingTopLevel]=useState();
 
 	useEffect(()=>{
-		debugger;
 		const percentileCompleted=tokenScore/maxTokenScore;
 		const normalizedCompletion=percentileCompleted*100;
 		const cssCompatibleTopLevel=105-normalizedCompletion;

@@ -11,7 +11,6 @@ const BadgeInformation=({profileId})=>{
 			const {confirmation,data}=await retrieveBadgeInformation(profileId);
 			if(confirmation=="Success"){
 				const {message}=data;
-				console.log(data);
 				changeBadgeInformation(message);
 			}else{
 				alert('Unfortunately there has been an error retrieving this badge information. Please try again');

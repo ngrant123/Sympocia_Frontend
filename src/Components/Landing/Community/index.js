@@ -42,6 +42,12 @@ import PaymentBackgroundImg from "../../../designs/background/PaymentExplanation
 import AdBackgroundImg from "../../../designs/background/AdExplanation.png";
 import AdExplanation from "./News/AdExplanation.js";
 
+import AirPlanes from "./News/AirPlanes.js";
+import AirPlaneImg from "../../../designs/background/AirPlaneBlog.png";
+
+import Badges from "./News/BadgeAnnouncement.js";
+import BadgesImg from "../../../designs/background/Badge.png";
+
 import {addUserToCommunityViewedList} from "../../../Actions/Requests/SympociaCommunity/SympociaCommunityAdapter.js";
 import {useSelector} from "react-redux";
 
@@ -98,6 +104,18 @@ const InputContainer=styled.textarea`
 const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
 	const [newsMapping,changeNewsMapping]=useState([
+		{
+			title:"Whats with all the airplanes?",
+			description:"Quick introduction to the airplane feature you see flying around in Sympocia",
+			component:<AirPlanes/>,
+			headerImage:AirPlaneImg
+		},
+		{
+			title:"Badges Introduction",
+			description:"Lets talk about what badges are and why I introduced them :)",
+			component:<Badges/>,
+			headerImage:BadgesImg
+		},
 		{
 			title:"Ads Breakdown",
 			description:"In this post I talk about ads and how they are implemented",

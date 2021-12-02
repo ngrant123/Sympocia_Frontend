@@ -46,7 +46,6 @@ const ProfilePictureDividerCSS={
 }
 
 const Airplane=(props)=>{
-	console.log(props);
 	const {
 		startingPoint,
 		targetDivsInformation,
@@ -70,7 +69,6 @@ const Airplane=(props)=>{
 	}
 
 	useEffect(()=>{
-		debugger;
 		const {
 			position:{
 				top,

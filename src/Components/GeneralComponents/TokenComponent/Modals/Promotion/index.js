@@ -94,7 +94,6 @@ const Promotion=({closeModal,tokenLevel})=>{
 	},[]);
 
 	const displayUnlockedFeaturesBreakDown=()=>{
-		debugger;
 		switch(tokenLevel){
 			case "Bronze":{
 				changeFeaturesExplanation(options[0].offers);

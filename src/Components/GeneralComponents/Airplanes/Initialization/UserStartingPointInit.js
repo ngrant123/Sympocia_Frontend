@@ -1,7 +1,6 @@
 
 
 export const retrieveUserStartingPoints=(currentEligibleDivs)=>{
-	debugger;
 	let startingPoints={};
 	for(var i=0;i<currentEligibleDivs.length;i++){
 		const {

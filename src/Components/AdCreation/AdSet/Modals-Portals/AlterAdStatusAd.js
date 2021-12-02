@@ -53,7 +53,6 @@ const ButtonCSS={
 
 
 const PauseAd=({closeModal,postId,userId,postType,isAdPaused})=>{
-	console.log(isAdPaused);
 	const postAdConsumer=useContext(PostAdsContext);
 	const [pauseStatusIndicator,changePauseStatusIndicator]=useState(false); 
 

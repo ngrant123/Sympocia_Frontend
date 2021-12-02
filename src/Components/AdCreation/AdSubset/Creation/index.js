@@ -100,7 +100,7 @@ const Creation=()=>{
 			isGuestProfile:false,
 			requestedFriendsGaugeNodeId:null
 		}
-		debugger;
+		
 
 		switch(postDisplay){
 			case "Images":{
@@ -140,7 +140,7 @@ const Creation=()=>{
 	}
 
 	useEffect(()=>{
-		debugger;
+		
 		if(postCounter==0)
 			changeLoadingIndicator(true);
 		fetchData(false,null);
@@ -148,13 +148,13 @@ const Creation=()=>{
 
 	useEffect(()=>{
 		const fetchUserAdTotalAllocation=async()=>{
-			debugger;
+			
 			const promise=[];
 			promise.push(getCurrentAdCountPerProfile(userId));
 			promise.push(retrieveTotalAdsAllocatedPerProfile(userId));
 
 			await Promise.all(promise).then(result=>{
-				debugger;
+				
 				if(result[0].confirmation=="Success" && result[1].confirmation=="Success"){
 					const currentAdCount=result[0].data.message;
 					const totalAdAllocated=result[1].data.message;
@@ -172,7 +172,7 @@ const Creation=()=>{
 	const fetchData=async(isAccessTokenUpdated,updatedAccessToken)=>{
 		const {confirmation,data}=await postsFetch();
 		if(confirmation=="Success"){
-			debugger;
+			
 			let currentPosts=userUploadedPosts;
 			let {crownedPost,posts}=data;
 			if(posts.length==0 && crownedPost==null){

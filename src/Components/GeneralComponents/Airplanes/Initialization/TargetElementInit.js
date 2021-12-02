@@ -1,7 +1,7 @@
 import AIR_PLAN_TARGET_DIVS from "../../../../Constants/airPlaneTargetDivIds.js";
 
 export const retrieveTargetElementsFromPage=(currentPageType,userVisitedDivs)=>{
-	debugger;
+	
 	let pageSpecificTotalDivs;
 	switch(currentPageType){
 		case "Profile":{
@@ -38,7 +38,7 @@ export const retrieveTargetElementsFromPage=(currentPageType,userVisitedDivs)=>{
 }
 
 const retrieveDivsWithCoordinates=(totalPageDivs,userVisitedDivs)=>{
-	debugger;
+	
 	const eligibleDivs=[];
 	for(var i=0;i<totalPageDivs.length;i++){
 		const selectedDivId=totalPageDivs[i].divId;

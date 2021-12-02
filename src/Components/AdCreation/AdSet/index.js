@@ -98,7 +98,6 @@ const Ads=(props)=>{
 			const {confirmation,data}=await adPageVerification(id);
 			if(confirmation=="Success"){
 				const {message}=data;
-				console.log(data);
 				if(message){
 					changeIsAdCreationAllowed(true);
 				}

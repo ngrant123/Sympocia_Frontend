@@ -381,7 +381,7 @@ const PersonalPostsIndex=(props)=>{
 					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
-					debugger;
+					
 					let {
 						images,
 						crownedImage
@@ -482,7 +482,7 @@ const PersonalPostsIndex=(props)=>{
 
 				changeBlogPostsLoadingIndicator(false);
 				if(posts.length==0 && crownedPost==null){
-					debugger;
+					
 					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
 						props.currentRequestedFriendsGaugeNodeId!=null){
 						const blogObject={

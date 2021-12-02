@@ -89,7 +89,6 @@ const PaymentOptions=()=>{
 	]
 
 	useEffect(()=>{
-		debugger;
 		for(var i=0;i<options.length;i++){
 			const element=document.getElementById("tier"+options[i].tier);
 			const {offers}=options[i];
@@ -112,7 +111,6 @@ const PaymentOptions=()=>{
 	}
 
 	const handleTokenCallback=(token)=>{
-		console.log(token);
 	}
 
 	const paymentCard=({tier,offers,price})=>{

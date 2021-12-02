@@ -318,7 +318,7 @@ class SearchExploreContainer extends Component{
 		}
 		var {confirmation,data}=await explorePagePosts(searchParameters);
 		if(confirmation=="Success"){
-			debugger;
+			
 			const {message}=data;
 			if(message.length==0){
 				this.setState({

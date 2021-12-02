@@ -11,7 +11,6 @@ const StripePublishableKey=process.env.NODE_ENV=="production"?
 
 
 const Checkout=({paymentValue,tokenTier,itemizedIds,unMountItemCheckoutModal})=>{
-	debugger;
 	const userId=useSelector(state=>state.personalInformation.id);
 
 	const handleTokenCallback=async(tokenInformation)=>{

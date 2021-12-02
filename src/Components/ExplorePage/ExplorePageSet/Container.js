@@ -248,7 +248,7 @@ class HomePageContainer extends Component{
 	}
 
 	initiliazeUserProfileForHomePage=async(id)=>{
-		debugger;
+		
 		var profile={};
 		var symposiumsMap=this.constructSymposiumsMap(PERSONAL_INDUSTRIES.INDUSTRIES);
 		var isPersonalProfile=true;

@@ -111,7 +111,7 @@ const Ads=()=>{
 				postSessionManagmentToken:generatePostManagmentId()
 			});
 
-			debugger;
+		
 			if(confirmation=="Success"){
 				const {message}=data;
 				changePosts([...message]);
@@ -148,7 +148,7 @@ const Ads=()=>{
 	}
 
 	const triggerRemovePost=(postId)=>{
-		debugger;
+	
 		let currentPosts=posts;
 		for(let i=0;i<currentPosts.length;i++){
 			if(currentPosts[i]._id==postId){

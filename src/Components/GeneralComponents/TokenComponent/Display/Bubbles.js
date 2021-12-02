@@ -85,7 +85,6 @@ const Bubbles=()=>{
 					index={i}
 				/>);
 		}
-		console.log(currentBubbles);
 		changeBubbles([...currentBubbles]);
 	},[]);
 	

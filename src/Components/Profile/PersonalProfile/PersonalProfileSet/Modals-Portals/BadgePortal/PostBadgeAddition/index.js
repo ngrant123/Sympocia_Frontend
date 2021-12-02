@@ -83,7 +83,6 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 				if(message==null){
 					changeBadgeCreationRequestDisplay(true);
 				}else{
-					debugger;
 					const {
 						badgePostType,
 						_id,

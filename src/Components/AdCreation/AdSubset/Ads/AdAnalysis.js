@@ -176,8 +176,6 @@ const ShadowButtonCSS={
 }
 
 const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
-	console.log(postData);
-	console.log(postDisplayType);
 
 	const [adStatistics,changeAdStatistics]=useState();
 	const [loading,changeLoading]=useState(true);
@@ -353,12 +351,12 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 			<React.Fragment>
 				{displayDeleteAdPortal==true &&(
 					<PortalHOC
-						component=<DeleteAd
+						component={<DeleteAd
 										userId={userId}
 										postId={postData._id}
 										closeModal={closeAdDeletionModal}
 										postType={postDisplayType}
-									/>
+									/>}
 						closeModal={closeAdDeletionModal}
 					/>
 				)}
@@ -375,13 +373,13 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 			<React.Fragment>
 				{displayPauseAdPortal==true &&(
 					<PortalHOC
-						component=<PauseAd
+						component={<PauseAd
 										userId={userId}
 										postId={postData._id}
 										closeModal={closeAdPauseOrResumeModal}
 										postType={postDisplayType}
 										isAdPaused={!postData.isAdEnabled}
-									/>
+									/>}
 						closeModal={closeAdPauseOrResumeModal}
 					/>
 				)}

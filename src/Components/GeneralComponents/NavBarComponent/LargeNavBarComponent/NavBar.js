@@ -267,8 +267,6 @@ const NavBar=(pageProps)=>{
 		isTransparent,
 		paramsPageId
 	}=pageProps;
-	debugger;
-	console.log(pageProps);
 	const personalProfileState=useSelector(state=>state.personalInformation);
 	const isGuestProfile=(personalProfileState.id=="0" || personalProfileState.isGuestProfile==true)==true?
 					true:false;

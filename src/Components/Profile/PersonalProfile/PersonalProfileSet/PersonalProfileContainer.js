@@ -162,7 +162,6 @@ class LProfile extends Component{
 	}
 
 	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
-		debugger;
 		window.addEventListener('resize',this.triggerUIChange)
 		const {id}=this.props.match.params;
 		let confirmationResponse;
@@ -768,11 +767,11 @@ class LProfile extends Component{
 					<TokenPortalHOC
 						targetDom={"personalContainer"}
 						closeModal={this.hideTokenLevelDetails}
-						component=<TokenLevelDetails
+						component={<TokenLevelDetails
 									tokenScore={this.state.tokenScore}
 									tokenLevel={this.state.tokenLevel}
 									closeModal={this.hideTokenLevelDetails}
-								  />
+								  />}
 					/>
 				)}
 			</React.Fragment>
