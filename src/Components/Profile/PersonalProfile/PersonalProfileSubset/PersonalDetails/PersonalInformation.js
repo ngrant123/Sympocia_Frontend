@@ -545,9 +545,11 @@ const PersonalInformation=(props)=>{
 									displayConfettiHandle={props.displayConfetti}
 									userId={props.userId}
 								/>
-								<div class="fa fa-shield" style={{fontSize:"48px",color:"#0D0D0E",cursor:"pointer"}}
-									onClick={()=>changeFriendsGaugeBadge(true)}
-								/>
+								{props.personalInformation.isOwnProfile==true &&(
+									<div class="fa fa-shield" style={{fontSize:"48px",color:"#0D0D0E",cursor:"pointer"}}
+										onClick={()=>changeFriendsGaugeBadge(true)}
+									/>
+								)}
 							</div>
 
 							{personalInformation.isOwnProfile==true?
