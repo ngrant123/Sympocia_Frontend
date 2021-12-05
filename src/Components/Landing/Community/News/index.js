@@ -37,7 +37,7 @@ const BackButtonCSS={
 }
 
 
-const News=({news})=>{
+const News=({news,displayMobileUI})=>{
 	const [displayCurrentNews,changeDisplayCurrentNews]=useState(true);
 	const [selectedNews,changeSelectedNews]=useState();
 
@@ -51,6 +51,7 @@ const News=({news})=>{
 				<InitialNewsDisplaySpread 
 					news={news}
 					displaySelectedBlog={displaySelectedBlog}
+					displayMobileUI={displayMobileUI}
 				/>:
 				<ExtendedBlog>
 					<div onClick={()=>changeDisplayCurrentNews(true)} style={BackButtonCSS}>

@@ -32,7 +32,7 @@ const ShadowContainer= styled.div`
 `;
 
 
-const NavBarIndex=({history,isMissionPage})=>{
+const NavBarIndex=({history,isMissionPage,displayMobileUI})=>{
 	const [displayPageChoicesModal,changeMobileChoicesModal]=useState(false);
 	const [displayLoginModal,changeDisplayLoginModal]=useState(false);
 
@@ -76,6 +76,7 @@ const NavBarIndex=({history,isMissionPage})=>{
 				history={history}
 				displayLoginModalHandle={displayLoginModalHandle}
 				isMissionPage={isMissionPage}
+				displayMobileUI={displayMobileUI}
 			/>
 			{displayLoginModal &&(
 				<LoginUI

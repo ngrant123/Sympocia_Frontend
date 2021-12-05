@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
@@ -7,11 +7,17 @@ const TitleContainer=styled.div`
 	display:flex;
 	flex-direction:row;
 	margin-bottom:5%;
+	align-items:center;
 
 	@media screen and (max-width:650px){
-		flex-direction:column;
+		margin-bottom:5%;
 		#sympociaNewsHeader{
-			display:none !important;
+			font-size:14px !important;
+			width:50%;
+		}
+
+		#dropDownMenuDiv{
+			margin-left:-40px !important;
 		}
 	}
 `;
@@ -39,8 +45,6 @@ const InputContainer=styled.textarea`
 `;
 
 const PostTypeOptionButtonCSS={
-	display:"inline-block",
-	listStyle:"none",
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
@@ -53,7 +57,10 @@ const PostTypeOptionButtonCSS={
 	borderColor:"#5298F8",
 	borderStyle:"none",
 	textDecoration:"none",
-	borderBottom:"3px solid #5298F8"
+	borderBottom:"3px solid #5298F8",
+	display:"flex",
+	flexDirection:"row",
+	alignItems:"center"
 }
 
 const PostFilterButtonCSS={
@@ -76,26 +83,36 @@ const PostOptionButtonCSS={
 }
 
 const SympociaNewsOptionToolBar=({changePostTypeOption,news,interviews})=>{
+	const [selectedNewsOptions,changeSelectedNewsOptions]=useState("News");
+	const triggerNewOptions=()=>{
+		changePostTypeOption(true);
+		changeSelectedNewsOptions("News");
+	}
+
+	const triggerInterviewOptions=()=>{
+		changePostTypeOption(false);
+		changeSelectedNewsOptions("Videos Interviews")
+	}
 	return(
 		<React.Fragment>
 			<TitleContainer>
-				<p id="sympociaNewsHeader" style={{fontSize:"40px",marginRight:"5%"}}>
+				<p id="sympociaNewsHeader" style={{fontSize:"24px",marginRight:"5%"}}>
 					<b>Sympocia Community</b>
 				</p>
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
 						style={PostTypeOptionButtonCSS}>
-						News
+						{selectedNewsOptions}
 				   		<ArrowDropDownCircleOutlinedIcon
 				   			style={{marginLeft:"20px",fontSize:"20",color:"#C2C2C2"}}
 				   		/>
 					</button>
-					<ul class="dropdown-menu">
-						<li style={PostOptionButtonCSS} onClick={()=>changePostTypeOption(true)}>
+					<ul id="dropDownMenuDiv" class="dropdown-menu">
+						<li style={PostOptionButtonCSS} onClick={()=>triggerNewOptions()}>
 							News
 						</li>
 						<hr/>
-						<li style={PostOptionButtonCSS} onClick={()=>changePostTypeOption(false)}>
+						<li style={PostOptionButtonCSS} onClick={()=>triggerInterviewOptions()}>
 							Videos Interviews
 						</li>
 					</ul>

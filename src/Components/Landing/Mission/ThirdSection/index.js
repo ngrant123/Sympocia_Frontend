@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import LandingImage from "../../../../designs/img/ThirdSectionImage.png";
-import {Container} from "./indexCSS.js";
+import {
+	Container,
+	InformationDiv
+} from "./indexCSS.js";
 
 const ReasoningCSS={
 	color:"#5B5B5B",
@@ -20,8 +23,9 @@ const ImageDivCSS={
 const ThirdSection=()=>{
 	const addictionSymbol=()=>{
 		return(
-			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-biohazard" 
-				width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" 
+			<svg id="sectionDescriptionIcons"
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-biohazard" 
+				width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" 
 				stroke-linecap="round" stroke-linejoin="round">
 			  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 			  <circle cx="12" cy="12" r="2" />
@@ -32,8 +36,9 @@ const ThirdSection=()=>{
 
 	const normalitySympbol=()=>{
 		return(
-			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-crazy-happy"
-			 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" 
+			<svg id="sectionDescriptionIcons"
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-crazy-happy"
+			 	width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" 
 				stroke-linecap="round" stroke-linejoin="round">
 				<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 				<circle cx="12" cy="12" r="9" />
@@ -48,8 +53,9 @@ const ThirdSection=()=>{
 
 	const atomSymbol=()=>{
 		return(
-			<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom" 
-				width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" 
+			<svg id="sectionDescriptionIcons"
+				xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom" 
+				width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" 
 				fill="none" stroke-linecap="round" stroke-linejoin="round">
 				<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 				<line x1="12" y1="12" x2="12" y2="12.01" />
@@ -71,38 +77,46 @@ const ThirdSection=()=>{
                 </p>
                 <div id="thirdSectionPrimaryText"
                 	style={{marginTop:"5%",display:"flex",flexDirecition:"row",justifyContent:"space-between"}}>
-                	<div id="informationDiv" style={{width:"20%"}}>
+                	<InformationDiv textAlignPosition={"right"}>
                 		{addictionSymbol()}
-                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
-                			<b>Addiction</b>
-                		</p>
-                		<p id="reasoningText" style={ReasoningCSS}>
-                			Whether we like it or not, we’re all addicted to social media.
-                			We love connecting with people, learning, and growing from each other. 
-                		</p>
-                	</div>
+                		<div>
+	                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
+	                			<b>Addiction</b>
+	                		</p>
+	                		<p id="reasoningText" style={ReasoningCSS}>
+	                			Whether we like it or not, we’re all addicted to social media.
+	                			We love connecting with people, learning, and growing from each other. 
+	                		</p>
+                		</div>
+                	</InformationDiv>
 
-                	<div id="informationDiv" style={{width:"20%"}}>
+                	<InformationDiv textAlignPosition={"left"}>
                 		{normalitySympbol()}
-                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
-                			<b>Normality</b>
-                		</p>
-                		<p id="reasoningText" style={ReasoningCSS}>
-                			But currently we live in an era where misinformation is the new normal.
-                			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
-                		</p>
-                	</div>
 
-                	<div id="informationDiv" style={{width:"20%"}}>
+                		<div>
+	                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
+	                			<b>Normality</b>
+	                		</p>
+	                		<p id="reasoningText" style={ReasoningCSS}>
+	                			But currently we live in an era where misinformation is the new normal.
+	                			Where being fake is the new normal. Where getting clout is the main goal not authenticity.
+	                		</p>
+                		</div>
+                	</InformationDiv>
+
+                	<InformationDiv textAlignPosition={"right"}>
                 		{atomSymbol()}
-                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
-                			<b>Solution</b>
-                		</p>
-                		<p id="reasoningText" style={ReasoningCSS}>
-                			Sympocia allows you to truly be authentic and doesn’t force you to fit into this mold that other platforms have.
-							Just be yourself :) 
-                		</p>
-                	</div>
+
+                		<div>
+	                		<p id="reasoningTitleText" style={{marginTop:"10%"}}>
+	                			<b>Solution</b>
+	                		</p>
+	                		<p id="reasoningText" style={ReasoningCSS}>
+	                			Sympocia allows you to truly be authentic and doesn’t force you to fit into this mold that other platforms have.
+								Just be yourself :) 
+	                		</p>
+                		</div>
+                	</InformationDiv>
                 </div>
             </div>
             <div style={ImageDivCSS}>

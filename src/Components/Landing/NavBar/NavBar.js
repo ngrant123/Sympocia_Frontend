@@ -33,7 +33,6 @@ const NavBarContainer=styled.div`
 			display:block !important;
 		}
 
-    flex-direction:column;
     padding:0px;
     margin-left:5%;
     #forgotPassword{
@@ -42,6 +41,8 @@ const NavBarContainer=styled.div`
     padding:30px;
     width:90%;
     box-shadow:none;
+
+    
   }
 `;
 
@@ -72,7 +73,14 @@ const LoginButton={
 }
 
 
-const LandingPageNavBar=({isMissionPage,displayCommunityMissionOption,history,displayLoginModalHandle})=>{
+const LandingPageNavBar=(props)=>{
+  const {
+      displayMobileUI,
+      isMissionPage,
+      displayCommunityMissionOption,
+      history,
+      displayLoginModalHandle
+  }=props;
 	const [displayMissionPage,changeDisplayMissionPage]=useState(true);
 	//<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}>
 	const communityButton=()=>{
@@ -101,27 +109,84 @@ const LandingPageNavBar=({isMissionPage,displayCommunityMissionOption,history,di
 				  <circle cx="15" cy="9" r="1" />
 			</svg>
 	}
-	return (
-		<NavBarContainer>
+
+  const desktopNavBar=()=>{
+    return(
+      <React.Fragment>
         <p onClick={()=>history.push({pathname:'/'})} style={{cursor:"pointer",fontSize:"30px",color:"#C8B0F4"}}>
             <b>Sympocia</b>
         </p>
         {isMissionPage==true?
-        	<>{missionButton()}</>:
-        	<>{communityButton()}</>
-       	}
+          <>{missionButton()}</>:
+          <>{communityButton()}</>
+        }
         <SignUpLoginContainer>
-        	<p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} 
-        		style={{cursor:"pointer",color:"#5298F8"}}>
-        		Forgot Password? 
-        	</p>
-        	<div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})}style={SignUpButton}>
-        		Sign Up
-        	</div>
-        	<div onClick={()=>displayLoginModalHandle()}style={LoginButton}>
-        		Login
-        	</div>
+          <p id="forgotPassword" onClick={()=>history.push({pathname:'/emailreset'})} 
+            style={{cursor:"pointer",color:"#5298F8"}}>
+            Forgot Password? 
+          </p>
+          <div id="signUpButton" onClick={()=>history.push({pathname:'/signup'})} style={SignUpButton}>
+            Sign Up
+          </div>
+          <div onClick={()=>displayLoginModalHandle()} style={LoginButton}>
+            Login
+          </div>
         </SignUpLoginContainer>
+      </React.Fragment>
+    )
+  }
+
+  const mobileSandwichIcon=()=>{
+    return(
+      <div class="btn-group">
+        <button class="btn btn-primary dropdown-toggle" type="button" 
+          data-toggle="dropdown" style={{backgroundColor:"white",borderStyle:"none"}}>
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" 
+            width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" 
+            stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+        <ul class="dropdown-menu" style={{marginLeft:"-90px",padding:"10px"}}>
+          <li onClick={()=>history.push({pathname:'/signup'})}>
+            Sign Up
+          </li>
+          <hr/>
+          <li onClick={()=>displayLoginModalHandle()}>
+            Login
+          </li>
+          <hr/>
+          <li onClick={()=>history.push({pathname:"/"})}>
+            Mission
+          </li>
+          <hr/>
+          <li onClick={()=>history.push({pathname:"/sympociaCommunity"})}>
+            Sympocia Community
+          </li>
+        </ul>
+      </div>
+    )
+  }
+
+  const mobileNavBar=()=>{
+    return(
+      <React.Fragment>
+        <p onClick={()=>history.push({pathname:'/'})} style={{cursor:"pointer",fontSize:"18px",color:"#C8B0F4"}}>
+            <b>Sympocia</b>
+        </p>
+        {mobileSandwichIcon()}
+      </React.Fragment>
+    )
+  }
+	return (
+		<NavBarContainer>
+      {displayMobileUI==false?
+        <>{desktopNavBar()}</>:
+        <>{mobileNavBar()}</>
+      }
     </NavBarContainer>
 	)
 }

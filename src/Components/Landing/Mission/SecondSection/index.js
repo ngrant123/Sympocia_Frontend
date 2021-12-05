@@ -34,21 +34,7 @@ const OLListCSS={
   marginBottom:"5%"
 }
 
-const SecondSection=()=>{
-	const [displayPhoneUI,changeDisplayPhoneUI]=useState(false);
-
-	const triggerUIChange=()=>{
-		if(window.innerWidth<1370){
-			changeDisplayPhoneUI(true);
-		}else{
-			changeDisplayPhoneUI(false);
-		}
-	}
-	useEffect(()=>{
-		triggerUIChange();
-		window.addEventListener('resize', triggerUIChange)
-	},[window.innerWidth]);
-
+const SecondSection=({displayMobileUI})=>{
 	const testDisplay=()=>{
 		return(
 			<>
@@ -99,7 +85,7 @@ const SecondSection=()=>{
 	}
 	return(
 		<Container>
-			{displayPhoneUI==true?
+			{displayMobileUI==true?
 				<MobileTextDisplay>
 					{testDisplay()}
 				</MobileTextDisplay>:

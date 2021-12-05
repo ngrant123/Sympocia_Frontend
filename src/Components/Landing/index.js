@@ -45,8 +45,15 @@ const LandingPage=(props)=>{
 		}else if(isLoggedIn==true && ownerId!=""){
 			history.push('/home');
 		}
-		triggerUIChange()
-	},[])
+		triggerUIChange();
+	},[]);
+
+	useEffect(()=>{
+		triggerUIChange();
+		window.addEventListener('resize', triggerUIChange)
+	},[window.innerWidth]);
+
+
 
 	const increasePageCounter=()=>{
 		
@@ -77,12 +84,15 @@ const LandingPage=(props)=>{
 			<NavBar
 				history={props.history}
 				isMissionPage={true}
+				displayMobileUI={displayMobileUI}
 			/>
 			<hr/>
 			<FirstSection
 				history={props.history}
 			/>
-			<SecondSection/>
+			<SecondSection
+				displayMobileUI={displayMobileUI}
+			/>
 			<ThirdSection/>
 			<FourthSection
 				history={props.history}

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{css} from "styled-components";
 
 export const Container=styled.div`
 	display:flex;
@@ -64,6 +64,16 @@ export const Container=styled.div`
 			width:90% !important;
 			margin-left:2% important;
 			margin-bottom:20% !important;
+
+			display:flex;
+			flex-direction:row;
+
+			text-align:left;
+		}
+
+		#sectionDescriptionIcons{
+			height:200px !important;
+			width:200px !important;
 		}
 
 		#thirdSectionImage{
@@ -74,6 +84,7 @@ export const Container=styled.div`
 		#thirdSectionHeaderText{
 			font-size:24px !important;
 		}
+
 	}
 
 	@media screen and (max-width:840px) and (max-height:580px) and (orientation:landscape){
@@ -96,6 +107,48 @@ export const Container=styled.div`
 		}
     }
 `;
+
+export const InformationDiv=styled.div`
+	width:20%;
+	display:flex;
+	flex-direction:column;
+	justify-content:space-between;
+
+	@media screen and (max-width:650px){
+		width:90% !important;
+		margin-left:2% important;
+		margin-bottom:20% !important;
+		flex-direction:row;
+
+
+		${({textAlignPosition})=>
+			textAlignPosition=="left"?
+			css`
+				text-align:left;
+				flex-direction:row-reverse;
+
+				#sectionDescriptionIcons{
+					margin-left:5% !important;
+				}
+			`:
+			css`
+				text-align:right;
+				#sectionDescriptionIcons{
+					margin-right:5% !important;
+				}
+
+			`
+		}
+	}
+
+
+	@media screen and (max-width:840px) and (max-height:580px) and (orientation:landscape){
+		width:90% !important;
+		margin-left:2% important;
+		margin-bottom:20% !important;
+    }
+`;
+
 
 
 

@@ -103,6 +103,7 @@ const InputContainer=styled.textarea`
 
 const CommunityContainer=(props)=>{
 	const [displayNews,changeDisplayNews]=useState(true);
+	const [displayMobileUI,changeDisplayMobileUI]=useState(false);
 	const [newsMapping,changeNewsMapping]=useState([
 		{
 			title:"Whats with all the airplanes?",
@@ -204,6 +205,19 @@ const CommunityContainer=(props)=>{
 	const ownerId=useSelector(state=>state.personalInformation.id);
 
 	useEffect(()=>{
+		triggerUIChange();
+		window.addEventListener('resize', triggerUIChange)
+	},[window.innerWidth]);
+
+	const triggerUIChange=()=>{
+		if(window.innerWidth<1370){
+			changeDisplayMobileUI(true); 
+		}else{
+			changeDisplayMobileUI(false);
+		}
+	}
+
+	useEffect(()=>{
 		addUserToCommunityViewedList(ownerId);
 	},[]);
 
@@ -216,6 +230,7 @@ const CommunityContainer=(props)=>{
 			<NavBar
 				history={props.history}
 				isMissionPage={false}
+				displayMobileUI={displayMobileUI}
 			/>
 			<NewAndInterviewsContainer>
 				<SympociaNewsOptions
@@ -224,6 +239,7 @@ const CommunityContainer=(props)=>{
 				{displayNews==true?
 					<News
 						news={newsMapping}
+						displayMobileUI={displayMobileUI}
 					/>:<Interviews/>
 				}
 			</NewAndInterviewsContainer>

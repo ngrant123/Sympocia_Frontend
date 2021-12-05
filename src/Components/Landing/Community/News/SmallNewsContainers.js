@@ -77,43 +77,101 @@ const HorizontalLineCSS={
 }
 
 
-const SmallNewsContainer=({news,displaySelectedBlog,headerImage})=>{
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"30px",
+ 	marginRight:"5%",
+ 	marginLeft:"5%"
+}
+
+const SmallNewsContainer=(props)=>{
+	const {
+		news,
+		displaySelectedBlog,
+		headerImage,
+		displayMobileUI
+	}=props;
+
+	const desktopNewsDisplay=(data)=>{
+		return(
+			<React.Fragment>
+				<div id="newsImage" style={{height:"250px",overflow:"hidden"}}>
+					<img src={data.headerImage} style={{width:"100%",height:"100%"}}/>
+				</div>
+				<NewsInformation>
+					<p style={{fontSize:"20px",maxHeight:"60px",overflow:"hidden"}}>
+						<b>
+							{data.title}
+						</b>
+					</p>
+					<OwnerInformation>
+						<img src={SympociaProfilePicture} style={{borderRadius:"50%",width:"40px",height:"35px"}}/>
+						<p style={{fontSize:"12px",color:"#939393",marginLeft:"2%",maxWidth:"200px",maxHeight:"30px",overflow:"hidden"}}>
+							Sympocia
+						</p>
+					</OwnerInformation>
+		 			<PostInformation>
+						<p style={{maxHeight:"40px",overflow:"hidden",color:"#939393"}}>
+							{data.description}
+						</p>
+						<hr style={HorizontalLineCSS}/>
+						<SecondaryPostInformation>
+							<div style={ReadButtonCSS} onClick={()=>displaySelectedBlog(data)}>
+								Read
+							</div>
+
+						</SecondaryPostInformation>
+					</PostInformation>
+
+				</NewsInformation>
+			</React.Fragment>
+		)
+	}
+
+	const mobileNewsDisplay=(data)=>{
+		return(
+			<React.Fragment>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center",padding:"5px"}}>
+					<img src={data.headerImage} style={{width:"50px",height:"50px"}}/>
+					<div style={VerticalLineCSS}/>
+					<img src={SympociaProfilePicture} style={{borderRadius:"50%",width:"40px",height:"40px"}}/>
+					<p style={{fontSize:"12px",color:"#939393",marginLeft:"2%",maxWidth:"200px",maxHeight:"30px",overflow:"hidden"}}>
+						Sympocia
+					</p>
+				</div>
+				<hr/>
+				<div style={{padding:"5%"}}>
+					<p style={{fontSize:"20px",maxHeight:"60px",overflow:"hidden"}}>
+						<b>
+							{data.title}
+						</b>
+					</p>
+					<p style={{maxHeight:"40px",overflow:"hidden",color:"#939393"}}>
+						{data.description}
+					</p>
+					<SecondaryPostInformation>
+						<div style={ReadButtonCSS} onClick={()=>displaySelectedBlog(data)}>
+							Read
+						</div>
+
+					</SecondaryPostInformation>
+				</div>
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<React.Fragment>
 			{news.map(data=>
-				<React.Fragment>
-					<NewsContainer>
-						<div id="newsImage" style={{height:"250px",overflow:"hidden"}}>
-							<img src={data.headerImage} style={{width:"100%",height:"100%"}}/>
-						</div>
-						<NewsInformation>
-							<p style={{fontSize:"20px",maxHeight:"60px",overflow:"hidden"}}>
-								<b>
-									{data.title}
-								</b>
-							</p>
-							<OwnerInformation>
-								<img src={SympociaProfilePicture} style={{borderRadius:"50%",width:"40px",height:"35px"}}/>
-								<p style={{fontSize:"12px",color:"#939393",marginLeft:"2%",maxWidth:"200px",maxHeight:"30px",overflow:"hidden"}}>
-									Sympocia
-								</p>
-							</OwnerInformation>
-				 			<PostInformation>
-								<p style={{maxHeight:"40px",overflow:"hidden",color:"#939393"}}>
-									{data.description}
-								</p>
-								<hr style={HorizontalLineCSS}/>
-								<SecondaryPostInformation>
-									<div style={ReadButtonCSS} onClick={()=>displaySelectedBlog(data)}>
-										Read
-									</div>
-
-								</SecondaryPostInformation>
-							</PostInformation>
-
-						</NewsInformation>
-					</NewsContainer>
-				</React.Fragment>
+				<NewsContainer>
+					{displayMobileUI==false?
+						<>{desktopNewsDisplay(data)}</>:
+						<>{mobileNewsDisplay(data)}</>
+					}
+				</NewsContainer>
 			)}
 		</React.Fragment>
 	)
