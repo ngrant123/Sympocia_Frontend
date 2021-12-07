@@ -392,7 +392,7 @@ class PersonalSignUp extends Component{
 						<InputContainer onKeyDown={e=>this.test(e)} 
 							onClick={()=>this.checkIfEmailIsValid()} id="password"
 							placeholder="Password (required)"
-							style={{width:"85%"}}
+							style={{width:"85%",webkitTextSecurity:"square"}}
 						/>
 						<div>
 							<HelpOutlineOutlinedIcon

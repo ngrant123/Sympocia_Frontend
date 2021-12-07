@@ -69,7 +69,7 @@ const NewAndInterviewsContainer=styled.div`
 
 	@media screen and (max-width:650px){
 		padding-top:0px !important;
-		margin-left:4%;
+		margin-left:5%;
 	}
 `;
 

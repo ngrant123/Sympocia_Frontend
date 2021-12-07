@@ -35,7 +35,7 @@ const OLListCSS={
 }
 
 const SecondSection=({displayMobileUI})=>{
-	const testDisplay=()=>{
+	const contents=()=>{
 		return(
 			<>
 				<div style={{marginLeft:"5%"}}>
@@ -87,11 +87,11 @@ const SecondSection=({displayMobileUI})=>{
 		<Container>
 			{displayMobileUI==true?
 				<MobileTextDisplay>
-					{testDisplay()}
+					{contents()}
 				</MobileTextDisplay>:
 				<React.Fragment>
 					<InformationalContainer>
-						{testDisplay()}
+						{contents()}
 					</InformationalContainer>
 					<div id="backgroundDiv" style={BackgroundDivCSS}>
 						<div id="secondaryBackgroundDiv" 

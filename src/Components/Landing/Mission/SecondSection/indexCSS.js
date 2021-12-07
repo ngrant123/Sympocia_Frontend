@@ -74,7 +74,7 @@ export const InformationalContainer=styled.div`
 	justify-content:space-between;
 
 
-    @media screen and (min-width:1920px){
+    @media screen and (min-width:1900px){
 		margin-top:7%;
 		#manifestoText{
 			font-size:24px !important;

@@ -12,6 +12,13 @@ const NewsContainer=styled.div`
 	box-shadow: 5px 10px 10px #E1E1E1;
 	overflow:hidden;
 
+    @media screen and (min-width:2500px){
+		#newsImage{
+			height:500px !important;
+		}
+		font-size:24px !important;
+    }
+
 	@media screen and (max-width:1370px){
 		width:40% !important;
 
@@ -22,6 +29,7 @@ const NewsContainer=styled.div`
  
 	@media screen and (max-width:650px){
 		width:100% !important;
+		margin-top:5% !important;
 
 		#newsImage{
 			height:200px !important;

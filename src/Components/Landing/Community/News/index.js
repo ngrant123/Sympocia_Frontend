@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import InitialNewsDisplaySpread from "./SmallNewsContainers.js";
 
@@ -11,8 +11,6 @@ const Container=styled.div`
 	@media screen and (max-width:650px){
 		flex-direction:column;
 	}
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    }
 `;
 
 const ExtendedBlog=styled.div`
@@ -40,6 +38,10 @@ const BackButtonCSS={
 const News=({news,displayMobileUI})=>{
 	const [displayCurrentNews,changeDisplayCurrentNews]=useState(true);
 	const [selectedNews,changeSelectedNews]=useState();
+
+	useEffect(()=>{
+		window.scrollTo({ top: 0, behavior: "smooth" });
+	},[displayCurrentNews]);
 
 	const displaySelectedBlog=(blogData)=>{
 		changeSelectedNews(blogData);

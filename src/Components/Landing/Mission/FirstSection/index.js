@@ -3,6 +3,9 @@ import LandingImage from '../../../../designs/img/FirstSectionLandingPAgeImage.p
 import {getInterestedProfiles} from "../../../../Actions/Requests/MarketingRequests.js";
 import {MobileLoginUI} from "../../NavBar/LoginImplementation.js";
 import {Container} from "./indexCSS.js";
+import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
+import {Link} from "react-router-dom";
+
 
 const SignUpButton={
     listStyle:"none",
@@ -100,8 +103,12 @@ const FirstSection=({history})=>{
 					style={{padding:"5px",width:"450px",height:"70px",borderRadius:"5px",overflowX:"auto",boxShadow:"1px 5px 5px 5px #d5d5d5"}}>
 	                {usersInterested.map(data=>
 						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%",marginBottom:"2%"}}>
-						  {profilePersonaIcon()}
-						</li>
+		                	<Link to={{pathname:`/profile/${data._id}`}}>
+						  		<img id="profilePicture" src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
+									style={{borderRadius:"50%",width:"55px",height:"50px"}}
+								/>
+		                	</Link>
+		                </li>
 	                )}
 				</div>
 			</div>

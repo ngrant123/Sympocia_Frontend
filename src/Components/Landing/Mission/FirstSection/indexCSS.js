@@ -119,6 +119,12 @@ export const Container=styled.div`
 		}
 	}
 
+	@media screen and (max-width:350px){
+		#interestedProfilesDiv{
+			width:280px !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		margin-top:2%;
 		#mainIntroductionDiv{

@@ -24,6 +24,10 @@ const Container=styled.div`
   overflow:hidden;
   flex-direction:column;
 
+  @media screen and (min-width:2500px){
+    height:25%;
+  }
+
   @media screen and (max-width:1370px){
     width:90% !important;
     left:5% !important;
@@ -50,6 +54,7 @@ const LoginBox=styled.textarea`
   margin-bottom:2%;
   margin-right:2%;
   height:50px;
+  -webkit-text-security: square;
   @media screen and (max-width:700px){
     width:95% !important;
   }
@@ -150,6 +155,7 @@ const triggerResetPasswordDisplay=(history)=>{
 }
 
 const handleLoginClick=async(email,password,dispatch,history)=>{
+  debugger;
   const {confirmation,data}=await loginProfile(email,password);
 
   if(confirmation=="Success"){
