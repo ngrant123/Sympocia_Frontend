@@ -10,9 +10,10 @@ import {loginCompanyPage} from "../../../Actions/Redux/Actions/CompanyActions.js
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import PasswordSuggestions from "../../GeneralComponents/PassWordSuggestionsModal.js";
 import {PersonalSignUpCard} from "./LSignUpPageCSS.js";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 
-const InputContainer=styled.textarea`
+const InputContainer=styled.input`
 	position:relative;
 	border-radius:5px;
 	width:85%;
@@ -144,12 +145,15 @@ const TermsOfAgreement=styled.div`
 
 `;
 
-/*
-	Currently trying to convert password into * so that to increase security
-	but it taking a little bit longer than i had hoped so I'm going to go 
-	back to it later
-*/
-
+const HorizontalLineCSS={
+	position:"relative",
+	width:"90%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px",
+	marginBottom:"5px",
+	marginTop:"5px"
+}
 
 class PersonalSignUp extends Component{
 	constructor(props){
@@ -160,8 +164,17 @@ class PersonalSignUp extends Component{
 			password:[],
 			reformatedPassword:"",
 			isCreatingProfile:false,
-			displayPasswordSuggestionsModal:false
+			displayPasswordSuggestionsModal:false,
+			enableWebTextSecurity:true
 		}
+	}
+
+	componentDidMount(){
+	    var passwordTextArea = document.getElementById('password');
+	    var style = window.getComputedStyle(passwordTextArea);
+	    if(!style.webkitTextSecurity){
+	      passwordTextArea.setAttribute("type","password");
+	    }
 	}
 
 	handleSignUpButton=async()=>{
@@ -360,6 +373,28 @@ class PersonalSignUp extends Component{
 		}
 	}
 
+	triggerChangePassWordVisibility=()=>{
+		debugger;
+		var passwordTextArea = document.getElementById('password');
+		var style = window.getComputedStyle(passwordTextArea);
+		if(this.state.enableWebTextSecurity){
+			if(!style.webkitTextSecurity){
+				passwordTextArea.setAttribute("type","none");
+			}else{
+				passwordTextArea.style.webkitTextSecurity="none";
+			}
+		}else{
+			if(!style.webkitTextSecurity){
+				passwordTextArea.setAttribute("type","password");
+			}else{
+				passwordTextArea.style.webkitTextSecurity="circle";
+			}
+		}
+		this.setState({
+			enableWebTextSecurity:!this.state.enableWebTextSecurity
+		})
+	}
+
 
 	render(){
 		return (
@@ -369,7 +404,7 @@ class PersonalSignUp extends Component{
 					displayPasswordSuggestionsModal={this.state.displayPasswordSuggestionsModal}
 				/>
 				<img id="image" src={SympociaIcon} 
-					style={{position:"relative",width:"80px",height:"60px"}}
+					style={{position:"relative",width:"80px",height:"75px"}}
 				/>
 				<p id="headerText" style={{textAlign:"center",fontSize:"30px",color:"#424242"}}>
 					<b>Welcome to Sympocia</b>
@@ -390,14 +425,20 @@ class PersonalSignUp extends Component{
 					<div id="passwordContainer" style={{position:"relative",display:"flex",flexDirection:"row",width:"88%"
 					,marginLeft:"1%"}}>
 						<InputContainer onKeyDown={e=>this.test(e)} 
-							onClick={()=>this.checkIfEmailIsValid()} id="password"
+							onClick={()=>this.checkIfEmailIsValid()} 
+							id="password"
 							placeholder="Password (required)"
-							style={{width:"85%",webkitTextSecurity:"square"}}
+							style={{width:"85%",webkitTextSecurity:"circle"}}
 						/>
-						<div>
+						<div style={{display:"flex",flexDirection:"column"}}>
 							<HelpOutlineOutlinedIcon
 								style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
 								onClick={()=>this.setState({displayPasswordSuggestionsModal:true})}
+							/>
+							<hr style={HorizontalLineCSS}/>
+							<VisibilityIcon
+								onClick={()=>this.triggerChangePassWordVisibility()}
+								style={{fontSize:"30",marginRight:"5%",color:"#C8B0F4",cursor:"pointer"}}
 							/>
 						</div>
 					</div>

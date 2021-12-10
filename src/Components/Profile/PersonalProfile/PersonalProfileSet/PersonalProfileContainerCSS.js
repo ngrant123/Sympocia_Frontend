@@ -66,7 +66,6 @@ export const Container=styled.div`
 			margin-top:180% !important;
 		}
 		#friendsGaugeContainer{
-			margin-left: -60% !important;
     		padding-right: 10%;
 		}
     }

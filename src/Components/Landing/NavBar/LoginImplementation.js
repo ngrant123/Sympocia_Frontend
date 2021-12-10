@@ -42,7 +42,7 @@ const Container=styled.div`
     }
 `;
 
-const LoginBox=styled.textarea`
+const LoginBox=styled.input`
   position:relative;
   border-radius:5px;
   width:95%;
@@ -54,7 +54,6 @@ const LoginBox=styled.textarea`
   margin-bottom:2%;
   margin-right:2%;
   height:50px;
-  -webkit-text-security: square;
   @media screen and (max-width:700px){
     width:95% !important;
   }
@@ -203,8 +202,21 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
 
   useEffect(()=>{
     triggerUIChange();
+    setWebTextSecurity();
   },[]);
   window.addEventListener('resize',triggerUIChange);
+
+
+  const setWebTextSecurity=()=>{
+    debugger;
+    var x = document.getElementById('LoginPassword');
+    var style = window.getComputedStyle(x);
+    if(style.webkitTextSecurity){
+    }else{
+        x.setAttribute("type","password");
+    }
+       
+  }
 
   const inspectKeyCodeEntered=(event)=>{
     if(event.key==" "){
@@ -226,7 +238,15 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
             spellcheck="false" id="LoginEmail" placeholder="Email"
             onKeyPress={event=>inspectKeyCodeEntered(event)}
           />
-          <LoginBox autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="LoginPassword" placeholder="Password"/>
+          <LoginBox 
+            autoComplete="off" 
+            autoCorrect="off" 
+            autoCapitalize="off" 
+            spellCheck="false" 
+            id="LoginPassword"
+            placeholder="Password"
+            style={{webkitTextSecurity:"circle"}}
+          />
           <Submit onClick ={() =>  handleLoginClick(  
                                     document.getElementById("LoginEmail").value,
                                     document.getElementById("LoginPassword").value,
@@ -248,8 +268,3 @@ export{
  LoginUI,
  MobileLoginUI
 };
-
-
-
-
-

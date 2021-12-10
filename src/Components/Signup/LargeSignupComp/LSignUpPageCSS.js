@@ -272,6 +272,7 @@ export const BodyContainer= styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		padding-bottom:0%;
        	#titleHeader{
 			font-size:30px !important;
 		}
