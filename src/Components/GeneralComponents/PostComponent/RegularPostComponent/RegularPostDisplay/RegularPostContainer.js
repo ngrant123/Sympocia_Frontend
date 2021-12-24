@@ -25,6 +25,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import {PostDisplayConsumer} from "../../../../Symposium/ExtendedSymposium/Posts/PostDisplay/PostDisplayContext.js";
 import PostBadgeAdditionModal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/BadgePortal/PostBadgeAddition/index.js";
 import BadgeDisplay from "../../../BadgeComponent/index.js"; 
+import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	padding:30px;
@@ -259,8 +260,6 @@ const ShadowButtonCSS={
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
-	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"5%",
 	marginBottom:"2%",
@@ -301,8 +300,7 @@ const VerticalLineCSS={
 	borderColor:"#EBEBEB",
 	borderLeft:"2px",
  	height:"30px",
- 	marginRight:"2%",
-	display:"none"
+ 	marginRight:"2%"
 }
 
 /*
@@ -526,15 +524,17 @@ const RegularPostContainer=(props)=>{
 									closeModal={closeRegularCreationModal}
 								/>
 								:<PostContainer>
-									<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>props.closePostModal()}>
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-											 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-											 stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <circle cx="12" cy="12" r="9" />
-											  <path d="M10 10l4 4m0 -4l-4 4" />
-										</svg>
-									</div>
+									{(displayCommentsAndResponses==false)==true &&(
+										<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>props.closePostModal()}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+												 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+												 stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <circle cx="12" cy="12" r="9" />
+												  <path d="M10 10l4 4m0 -4l-4 4" />
+											</svg>
+										</div>
+									)}
 									{displayCommentsAndResponses==true?
 										<CommentsContainer
 											postId={postData._id}
@@ -552,21 +552,31 @@ const RegularPostContainer=(props)=>{
 										<React.Fragment>
 											<div id="ownerOptionsAndPostOptions" 
 												style={{display:"flex",flexDirection:"column",flexWrap:"wrap",width:"100%"}}>
-												<div style={{width:"100%",display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
-													<img id="profilePictureDiv" src={profilePicture==null?
-														NoProfilePicture:profilePicture}
-														style={{width:"50px",height:"50px",borderRadius:"50%",marginRight:"5%"}}
-													/>
-													<p style={{marginRight:"5%",maxWidth:"60%",maxHeight:"20px",overflow:"hidden"}}>
-														<b>{props.postData.owner.firstName}</b>
-													</p>
+												{profileType!="personalProfile" &&(
+													<div style={{width:"100%",display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
+														<Link style={{textDecoration:"none",color:"black",marginRight:"5%"}}
+															to={{pathname:`/profile/${props.postData.owner._id}`}}
+														>	
+															<img id="profilePictureDiv" src={profilePicture==null?
+																NoProfilePicture:profilePicture}
+																style={{width:"50px",height:"50px",borderRadius:"50%"}}
+															/>
+														</Link>
+														<Link style={{textDecoration:"none",color:"black",marginRight:"5%",maxWidth:"60%"}}
+															to={{pathname:`/profile/${props.postData.owner._id}`}}
+														>	
+															<p style={{marginRight:"5%",maxHeight:"20px",overflow:"hidden"}}>
+																<b>{props.postData.owner.firstName}</b>
+															</p>
+														</Link>
 
-													{profileType!="personalProfile"==true &&(
-														<BadgeDisplay
-															profileId={props.postData.owner._id}
-														/>
-													)}
-												</div>
+														{profileType!="personalProfile"==true &&(
+															<BadgeDisplay
+																profileId={props.postData.owner._id}
+															/>
+														)}
+													</div>
+												)}
 												<div id="postOptionsDiv" style={{flexWrap:"wrap",marginLeft:"10%",display:"flex",flexDirection:"row",alignItems:"center"}}>
 													<div onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} 
 														style={ShadowButtonCSS}
@@ -575,7 +585,7 @@ const RegularPostContainer=(props)=>{
 															style={{fontSize:30}}
 														/>
 													</div>
-													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+													<div style={VerticalLineCSS}/>
 													<div onClick={()=>displayCommentsTrigger()} 
 														style={ShadowButtonCSS}
 														id="postOptions">
@@ -589,14 +599,14 @@ const RegularPostContainer=(props)=>{
 														  <line x1="8" y1="13" x2="14" y2="13" />
 														</svg>
 													</div>
-													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+													<div style={VerticalLineCSS}/>
 													<div style={ShadowButtonCSS} id="postOptions">
 														<AssessmentIcon
 															onClick={()=>changeDisplayPollingOptions(true)}
 															style={{fontSize:30}}
 														/>
 													</div>
-													<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+													<div style={VerticalLineCSS}/>
 													{(profileType=="personalProfile" && isOwnProfile==true) &&(
 														<React.Fragment>
 															<div onClick={()=>displayEditPostHandle()} style={ShadowButtonCSS}
@@ -605,7 +615,7 @@ const RegularPostContainer=(props)=>{
 																	style={{fontSize:30}}
 																/>
 															</div>
-															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div style={VerticalLineCSS}/>
 															<div onClick={()=>handleRemoveRegularPost()} style={ShadowButtonCSS}
 																id="postOptions">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
@@ -620,7 +630,7 @@ const RegularPostContainer=(props)=>{
 																  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
 																</svg>
 															</div>
-															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div style={VerticalLineCSS}/>
 															<div onClick={()=>triggerPromoteModal()} style={ShadowButtonCSS}
 																id="postOptions">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
@@ -633,7 +643,7 @@ const RegularPostContainer=(props)=>{
 																	  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
 																</svg>
 															</div>
-															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div style={VerticalLineCSS}/>
 															<div class="fa fa-shield" onClick={()=>changePostBadgeAdditionalDisplayPortal(true)}
 																style={{...ShadowButtonCSS,fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
 																id="postOptions"
@@ -642,7 +652,7 @@ const RegularPostContainer=(props)=>{
 													)}
 													{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
 														<React.Fragment>
-															<div id="mobilePostOptionsDivider" style={VerticalLineCSS}/>
+															<div style={VerticalLineCSS}/>
 															<div style={ShadowButtonCSS} 
 																onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
 																										postData._id,
@@ -659,6 +669,10 @@ const RegularPostContainer=(props)=>{
 												{displayPollingOptions==true?
 													<PollingOptionsContainer>
 														<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+														<p>
+															Create a comment about why you think this post is authentic or.... tell everyone 
+															why you think this post is fake
+														</p>
 														<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
 															Approve Post
 														</p>

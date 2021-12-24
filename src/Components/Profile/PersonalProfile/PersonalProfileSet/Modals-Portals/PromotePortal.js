@@ -30,6 +30,13 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
 	}
+
+	@media screen and (max-width:650px){
+		width:100% !important;
+		height:100%;
+		top:0%;
+		left:0% !important;
+	}
 `;
 
 const ButtonCSS={
@@ -101,12 +108,28 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 		changeIsProcessingSubmit(false);
 	}
 
+	const closeModalIcon=()=>{
+		return(
+			<div id="closeModalButton" 
+				onClick={()=>closePromotePortal()} style={{marginTop:"0%",cursor:"pointer"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
 	return createPortal(
 		<>
 			<ShadowContainer
 				onClick={()=>closePromotePortal()}
 			/>
 			<Container>
+				{closeModalIcon()}
 				{displayConfirmationPage==false?
 					<>
 						<p style={{fontSize:"20px"}}>

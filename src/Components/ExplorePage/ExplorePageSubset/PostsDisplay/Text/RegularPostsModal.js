@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {useSelector} from "react-redux";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
@@ -17,6 +17,7 @@ import {
 	ProfilePictureLink,
 	PostUserInformation
 } from "./TextPostCSS.js";
+import NextButton from "../NextButton.js";
 
 const RegularPostLabelCSS={
 	listStyle:"none",
@@ -38,42 +39,27 @@ const BorderCSS={
 	padding:"10px"
 }
 
-const NextButtonCSS={
-	listStyle:"none",
-	display:"inline-block",
-	backgroundColor:"white",
-	borderRadius:"5px",
-	padding:"10px",
-	color:"#3898ec",
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
-	cursor:"pointer",
-	width:"10%"
-}
-
 const RegularPostModal=(props)=>{
-	const headerRegularPost=props.posts[0];
-	const regularPosts=props.posts;
+	const [textOrAudioPosts,changeTextOrAudioPosts]=useState(props.posts);
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 
 	const [displayRegualrPostDisplayPortal,changeRegularPostDisplay]=useState(false);
 	const [selectedRegularPost,changeSelectedRegularPost]=useState();
 	const [displayRecommendedPosts,changeRecommendedPosts]=useState();
 
+	useEffect(()=>{
+		const currentPosts=textOrAudioPosts;
+		const updatedTextOrAudioPosts=currentPosts.concat(props.posts);
+		changeTextOrAudioPosts([...updatedTextOrAudioPosts]);
+	},[props.posts]);
+
 	const closeModal=()=>{
 		changeRegularPostDisplay(false)
 	}
 
-	const handleDisplayHeaderPost=()=>{
-		changeSelectedRegularPost(headerRegularPost);
-		changeRecommendedPosts(regularPosts);
-		changeRegularPostDisplay(true);
-	}
-
 	const displayPostModal=(data)=>{
 		changeSelectedRegularPost(data);
-		changeRecommendedPosts(regularPosts);
+		changeRecommendedPosts(textOrAudioPosts);
 		changeRegularPostDisplay(true);
 	}
 	const detectEndOfPostContainer=(divElement)=>{
@@ -85,7 +71,7 @@ const RegularPostModal=(props)=>{
 
 	return(
 		<Container>
-			{regularPosts.map(data=>
+			{textOrAudioPosts.map(data=>
 				<React.Fragment>
 					{data=="suggestedSymposium"?
 						<ConstructSuggestedSymposium
@@ -102,16 +88,12 @@ const RegularPostModal=(props)=>{
 					}
 				</React.Fragment>
 			)}
-			{props.endOfPostsDBIndicator==false && (
-				<React.Fragment>
-					{props.isLoadingReloadedPosts==true?
-						<p>Loading please wait...</p>:
-						<p onClick={()=>props.triggerReloadingPostsHandle("RegularPosts")} style={{...NextButtonCSS,marginLeft:"2%",marginTop:"20%"}}>
-							Next
-						</p>
-					}
-				</React.Fragment>
-			)}
+			<NextButton
+				endOfPostsDBIndicator={props.endOfPostsDBIndicator}
+				isLoadingReloadedPosts={props.isLoadingReloadedPosts}
+				triggerReloadingPostsHandle={props.triggerReloadingPostsHandle}
+				postType={"RegularPosts"}
+			/>
 		</Container>
 	)
 }

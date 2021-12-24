@@ -30,7 +30,9 @@ import {
 } from "./../../../../../Actions/Redux/Actions/PersonalProfile.js";
 
 const Container=styled.div`
-	padding:20px;
+	display:flex;
+	flex-direction:column;
+	padding-left:5%;
 
 	@media screen and (min-width:2500px){
 		#text{
@@ -53,13 +55,11 @@ const Container=styled.div`
 		left:1% !important; 
 		height:100% !important;
 		width:100%;
-		#editImageFlexDiv{
-			flex-direction:column !important;
-		}
 
 		#imageContainerDiv{
 			margin-bottom:10%;
 			height:40% !important;
+			flex-direction:column !important;
 		}
 
 		#verticalLineId{
@@ -87,11 +87,13 @@ const Container=styled.div`
 
 		#imageContainerDiv{
 			height:30% !important;
+			margin-right:5% !important;
 		}
 		#uploadedImage{
-			height:120px !important;
-			width:40% !important;
-			margin-right:90px !important;
+			height:50px !important;
+			width:50px !important;
+			margin-bottom:10% !important;
+			margin-right:10px !important;
 		}
 		#imageListContainer{
 			display:block !important;
@@ -100,6 +102,13 @@ const Container=styled.div`
 		}
 		#imageInformationSelection{
 			width:250px !important;
+		}
+
+		#imageUploadSecondaryInformation{
+			flex-direction:column-reverse !important;
+		}
+		#secondaryInformationHorizontalLineCSS{
+			display:none !important;
 		}
     }
 
@@ -158,7 +167,8 @@ const Image=styled.div`
 `;
 
 const ImageTextArea=styled.textarea`
-	width:350px;
+	height:90px;
+	width:80%;
 	resize:none;
 	text-decoration:none;
 	color:#8c8c8c;
@@ -166,6 +176,7 @@ const ImageTextArea=styled.textarea`
 	border-radius:5px;
 	background-color:#f1f1f1;
 	padding:5px;
+	margin-bottom:2%;
 
 	@media screen and (min-width:2500px){
 		width:90% !important;
@@ -173,7 +184,8 @@ const ImageTextArea=styled.textarea`
 	}
 
 	@media screen and (max-width:650px){
-		width:90% !important;
+		width:95% !important;
+		height:60px !important;
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -213,8 +225,16 @@ const CrownIconContainer=styled.div`
 	border-width:2px;
 	border-color:red;
 	animation: glowing 1300ms infinite;
+	background-color:red;
 	border-radius:50%;
 	cursor:pointer;
+	height:100%;
+	margin-left:5%;
+
+	@media screen and (max-width:650px){
+		width:30px !important;
+		height:30px !important;
+	}
 
 
 	@keyframes glowing {
@@ -284,7 +304,7 @@ const VerticalLineCSS={
 	borderWidth:"1px",
 	borderColor:"#EBEBEB",
 	borderLeft:"2px",
- 	height:"300px",
+ 	height:"220px",
  	marginRight:"5%",
  	marginLeft:"5%"
 }
@@ -303,6 +323,27 @@ const ButtonCSS={
   borderColor:"#3898ec",
   marginRight:"4%"
 }
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"90%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
+
+const SubmitButtonCSS={
+	cursor:"pointer",
+	listStyle:"none",
+	marginTop:"10%",
+	fontSize:"15px",
+	backgroundColor:"#C8B0F4",
+	padding:"5px",
+	borderRadius:"5px",
+	width:"150px",
+	marginBottom:"10%"	
+}
+
 
 class EditImageCreation extends Component{
 	constructor(props){
@@ -821,18 +862,15 @@ class EditImageCreation extends Component{
 		<UserConsumer>
 			{userSessionInformation=>(
 				<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
-					{this.props.isPhoneUIEnabled==true &&(
-						<div onClick={()=>this.props.closeModal()}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-							 stroke-linecap="round" stroke-linejoin="round">
-							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-							  <circle cx="12" cy="12" r="9" />
-							  <path d="M10 10l4 4m0 -4l-4 4" />
-							</svg>
-						</div>
-					)}
-					<hr/>
+					<div onClick={()=>this.props.closeModal()}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <circle cx="12" cy="12" r="9" />
+						  <path d="M10 10l4 4m0 -4l-4 4" />
+						</svg>
+					</div>
 					{this.state.displayReplaceImageModal==true &&(
 						<>
 							<ShadowContainerNewImageCreation 
@@ -960,18 +998,17 @@ class EditImageCreation extends Component{
 							</CrownPostModal>
 						</React.Fragment>
 					}
-					<div id="editImageFlexDiv" style={{display:"flex",flexDirection:"row",marginTop:"5%"}}>
-						<div id="imageContainerDiv" 
-							style={{height:"60%",display:"flex",flexDirection:"row"}}>
-							<div id="uploadedImage" style={{width:"320px",height:"300px"}}>
+					<div id="editImageFlexDiv" style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+						<div id="imageContainerDiv" style={{display:"flex",flexDirection:"column",marginTop:"2%"}}>
+							<div id="uploadedImage" style={{width:"150px",height:"150px"}}>
 								<img src={this.state.imgSrc}
 									style={{width:"100%",height:"100%",borderRadius:"5px"}}
 								/>
 							</div>
-							<div style={{display:"flex",flexDirection:"column",marginLeft:"2%"}}>
+							<div style={{display:"flex",flexDirection:"row",marginTop:"5%"}}>
 								<ReplayIcon
 									onClick={()=>this.setState({changeImageVerification:true})}
-									style={{cursor:"pointer",fontSize:30,marginBottom:"60px"}}
+									style={{cursor:"pointer",fontSize:24,marginBottom:"60px"}}
 								/>
 								<CrownIconContainer onClick={()=>this.setState({displayCrownModalIndicator:true})}>
 									<Icon 
@@ -979,37 +1016,30 @@ class EditImageCreation extends Component{
 										icon={crownIcon}
 										style={{
 											borderRadius:"50%",zIndex:"8",backgroundColor:"white",
-											fontSize:"40px",color:"#C8B0F4"}}
+											fontSize:"24px",color:"#C8B0F4",height:"100%",width:"100%"
+										}}
 									/>
 								</CrownIconContainer>
 							</div>
 						</div>
 						<div id="verticalLineId" style={VerticalLineCSS}/>
 
-						<div style={{width:"100%",display:"flex",flexDirection:"column"}}>
-							<IndustryPostOptions
-								alterSelectedIndustry={this.alterSelectedIndustry}
-								alterSelectedSubCommunities={this.alterSelectedSubCommunities}
-								symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
-								uploadedCategorySection={this.props.previousData==null?null:this.props.previousData.symposiumUploadCategory}
-								alterSymposiumUploadedCategory={this.alterSymposiumUploadedCategory}
-							/>
-							<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-								<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-												Writing a caption...
-								</ImageTextArea>
-							</li>
-
-							<li style={{listStyle:"none",marginTop:"5%",fontSize:"15px"}}>
-								<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
-									Write a title description...
-								</ImageTextArea>
-
-							</li>
-							<p style={{marginLeft:"50%",fontSize:"20px",color:"#5298F8"}}> Or </p>
+						<div style={{display:"flex",flexDirection:"column",width:"100%"}}>
+							<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+											Writing a caption...
+							</ImageTextArea>
+							<ImageTextArea id="descriptionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
+								Write a title description...
+							</ImageTextArea>
+						</div>
+					</div>
+					<hr style={HorizontalLineCSS}/>
+					<div id="imageUploadSecondaryInformation"
+						style={{display:"flex",flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
+						<div style={{display:"flex",flexDirection:"column",width:"90%",marginRight:"10%"}}>
 							<ul style={{padding:"0px"}}>
 								<li id="text" style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
-									Create either a video or voice description for your image. Much more interesting than regular text imo ;)
+									Create either a video or voice description for your image. Much more interesting than regular text imo
 								</li>
 								<li style={{listStyle:"none",boxShadow:"1px 1px 10px #d5d5d5",borderRadius:"5px"}}>
 									<ul style={{padding:"10px"}}>
@@ -1071,7 +1101,7 @@ class EditImageCreation extends Component{
 
 							{this.state.isSubmittedAndProcessing==false?
 								<li id="submitButton"
-									style={{cursor:"pointer",listStyle:"none",marginTop:"15%",fontSize:"15px",backgroundColor:"#C8B0F4",padding:"5px",borderRadius:"5px",width:"150px"}}>
+									style={SubmitButtonCSS}>
 									<ul onClick={()=>this.sendImageDateToDB({profilePostInformation,isAccessTokenUpdated:false})}>
 										{this.props.previousData==null?
 											<React.Fragment>
@@ -1094,6 +1124,14 @@ class EditImageCreation extends Component{
 						 		<p>Please wait...</p>
 						 	}
 						</div>
+						<hr id="secondaryInformationHorizontalLineCSS" style={VerticalLineCSS}/>
+						<IndustryPostOptions
+							alterSelectedIndustry={this.alterSelectedIndustry}
+							alterSelectedSubCommunities={this.alterSelectedSubCommunities}
+							symposiumsUploaded={this.props.previousData==null?[]:this.props.previousData.industriesUploaded}
+							uploadedCategorySection={this.props.previousData==null?null:this.props.previousData.symposiumUploadCategory}
+							alterSymposiumUploadedCategory={this.alterSymposiumUploadedCategory}
+						/>
 					</div>
 				</Container>
 			) 

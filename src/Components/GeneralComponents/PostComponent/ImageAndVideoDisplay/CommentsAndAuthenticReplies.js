@@ -53,7 +53,8 @@ const CommentsAndAuthenticReplies=(props)=>{
 		<React.Fragment>
 			{displayPostAdditionalInformation==true?
 				<React.Fragment>
-					<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+					<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)} 
+					style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
 					{postCaptionAndDescription(headlineText,secondaryText)}
 				</React.Fragment>:
 				<React.Fragment>
@@ -69,7 +70,15 @@ const CommentsAndAuthenticReplies=(props)=>{
 							isOwnProfile={isOwnProfile}
 						/>:
 						<PollingOptionsContainer>
-							<p onClick={()=>displayPollingOptionsTrigger(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+							<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)}
+								style={{marginBottom:"10%",...ButtonCSS}}>
+								Back
+							</p>
+
+							<p>
+								Create a comment about why you think this post is authentic or.... tell everyone 
+								why you think this post is fake
+							</p>
 							<p onClick={()=>displayPollingOptionsTrigger(true)} style={PollingOptionsCSS}>
 								Approve Post
 							</p>

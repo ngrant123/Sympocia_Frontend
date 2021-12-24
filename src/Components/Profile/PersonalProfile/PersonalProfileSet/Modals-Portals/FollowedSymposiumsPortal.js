@@ -5,6 +5,10 @@ import {removeSymposium} from "../../../../../Actions/Requests/ProfileAxiosReque
 import {getSymposiumsFollowedPersonal} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../Actions/Tasks/DisableScrolling.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -56,9 +60,9 @@ const Container=styled.div`
 		height:60%;
     }
     @media screen and (max-width:700px){
-		width:90% !important;
-		left:5% !important;
-		height:60%;
+		width:80% !important;
+		left:10% !important;
+		height:55%;
     }
 `;
 
@@ -107,7 +111,14 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 			changeIsLoadingStatus(false);
 		}
 		getSymposiums();
+		disableScrolling("personalContainer");
 	},[]);
+
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
+
 	const displayRemoveSymposiumModal=(data)=>{
 		changeSelectedSymposium(data);
 		changeDisplayRemoveSymposiumModal(true);
@@ -151,7 +162,7 @@ const FollowedSymposiumsModal=({isOwner,closeModal,userId})=>{
 	return createPortal(
 		<>	
 			<ShadowContainer
-				onClick={()=>closeModal()}
+				onClick={()=>closePortal()}
 			/>
 			<Container>
 				{displayRemoveSymposiumVerification==false?

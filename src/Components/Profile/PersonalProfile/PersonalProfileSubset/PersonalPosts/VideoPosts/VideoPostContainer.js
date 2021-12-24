@@ -1,4 +1,4 @@
-import React,{useContext,useMemo,useCallback} from "react";
+import React,{useContext,useMemo} from "react";
 import styled from "styled-components";
 import SmallVideoContainer from "./SmallVideos.js";
 import {getCompanyVideos} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -11,6 +11,8 @@ import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProf
 import CrownedVideo from "./CrownedVideoContainer.js";
 import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
+import NextButton from "../NextButton.js";
+
 
 const Container=styled.div`
 	position:absolute;
@@ -123,59 +125,55 @@ const NextPostLabelCSS={
 const VideoPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.videos.videos]);
 
 	const displayPostModal=(data)=>{
 		PostDisplay.handleVideoPostModal(data,PostContextValues);
 	}
 
+	const videos=useMemo(()=>{
+		return(
+			<React.Fragment>
+				{props.isLoadingIndicatorVideos==true ? 
+					<p>We are currently getting the videos please wait </p>:
+					<React.Fragment>
+						{props.videos.videos.length==0 && props.videos.headerVideo==null? 
+							<NoPostsModal
+								id="noPostsModalContainer"
+								postType={"video"}
+								profilePageType={props.profile}
+								isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+							/>:
+							<ul style={{padding:"0px"}}>
+								{props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
+									<React.Fragment>
+										<CrownedVideo
+											headerVideo={props.videos.headerVideo}
+											displayPostModal={displayPostModal}
+											friendsColorNodesMap={props.friendsColorNodesMap}
+										/>
+										<hr/>
+									</React.Fragment>
+								}
+								<SmallVideoContainer
+									videos={props.videos.videos}
+									displayPostModal={displayPostModal}
+									friendsColorNodesMap={props.friendsColorNodesMap}
+								/>
+								<NextButton/>
+							</ul>
+						}
+					</React.Fragment>
+				}
+			</React.Fragment>
+		)
+	},[
+		props.isLoadingIndicatorVideos,
+		props.videos
+	])
+
 	return(
 		<Container>
-			{props.isLoadingIndicatorVideos==true ? <p>We are currently getting the videos please wait </p>:
-				<React.Fragment>
-					{props.videos.videos.length==0 && props.videos.headerVideo==null? 
-						<NoPostsModal
-							id="noPostsModalContainer"
-							postType={"video"}
-							profilePageType={props.profile}
-							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
-						/>:
-						<ul style={{padding:"0px"}}>
-							{props.videos.headerVideo==null? <React.Fragment></React.Fragment>:
-								<React.Fragment>
-									<CrownedVideo
-										headerVideo={props.videos.headerVideo}
-										displayPostModal={displayPostModalCallback}
-										friendsColorNodesMap={props.friendsColorNodesMap}
-									/>
-									<hr/>
-								</React.Fragment>
-							}
-							<SmallVideoContainer
-								videos={props.videos.videos}
-								displayPostModal={displayPostModalCallback}
-								friendsColorNodesMap={props.friendsColorNodesMap}
-							/>
-							{PostContextValues.endOfPostsDBIndicator==false
-								&& PostContextValues.isSearchFilterActivated==false 
-								&& PostContextValues.isFilteredPostsActivated==false && (
-								<React.Fragment>
-									{PostContextValues.isLoadingReloadedPosts==true?
-										 <Typed 
-						                    strings={['Loading...']} 
-						                    typeSpeed={60} 
-						                    backSpeed={30} 
-				                		  />:
-										<p onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
-											Next
-										</p>
-									}
-								</React.Fragment>
-							)}
-						</ul>
-					}
-				</React.Fragment>
-			}
+			{videos}
 		</Container>
 	)
 }

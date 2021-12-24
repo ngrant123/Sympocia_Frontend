@@ -1,4 +1,9 @@
-import React,{useState,useContext} from "react";
+import React,{
+	useState,
+	useEffect,
+	useContext,
+	useMemo
+} from "react";
 import styled from "styled-components";
 import DonatePortal from "../../PersonalProfileSet/Modals-Portals/DonatePortal.js";
 import ChampionPortal from "../../PersonalProfileSet/Modals-Portals/ChampionModalPortal/index.js";
@@ -20,7 +25,7 @@ import OligarchPortalDisplay from "../../PersonalProfileSet/Modals-Portals/Oliga
 import PaymentButton from '@material-ui/icons/MonetizationOn';
 import {adPageVerification} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import BadgeEntrance from "../../PersonalProfileSet/Modals-Portals/BadgePortal/BadgeInformation/index.js";
-import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
+import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js";
 
 import {UserContext} from "../../UserContext.js";
 
@@ -196,25 +201,20 @@ const FirstNameCSS={
 const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const _id=personalInformation._id;
 
-	const isOwnProfileRecruitButtonDecider=()=>{
-		const recruits=personalInformation.recruits;
+	const [isProfileRecruit,changeIsProfileRecruit]=useState();
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
+	useEffect(()=>{
 		let isRecruit=false;
+		const recruits=personalInformation.recruits;
 
 		recruits.forEach((data,index)=>{
 			if(data._id==userId)
 				isRecruit=true;
 		})
-		if(personalInformation.isOwnProfile || isRecruit){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	const isRecruitOrOwner=isOwnProfileRecruitButtonDecider();
-	const [isProfileARecruitOrOwner,changeIsProfileARecruitOrOwner]=useState(isRecruitOrOwner);
-	const personalReduxInformation=useSelector(state=>state.personalInformation);
-	const dispatch=useDispatch();
+		changeIsProfileRecruit(isProfileRecruit);
+	},[]);
 
 	const recruitProfile=()=>{
 		if(personalInformation.isGuestVisitorProfile==true){
@@ -233,7 +233,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 				personalReduxInformation.accessToken
 			})
 			if(confirmation=="Success"){
-				changeIsProfileARecruitOrOwner(false);
+				changeIsProfileRecruit(false);
 			}else{
 				const {statusCode}=data;
 				if(statusCode==401){
@@ -266,7 +266,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 			if(statusCode==300){
 				alert('You have reached the limit of 100 recruits. Please delete some to recruit this person');
 			}else{
-				changeIsProfileARecruitOrOwner(true);
+				changeIsProfileRecruit(true);
 				displayConfettiHandle();
 			}
 		}else{
@@ -292,14 +292,18 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 	return(
 		<React.Fragment>
-			{isProfileARecruitOrOwner==true?
-				<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
-					- Recruit
-				</RecruitButtonContainer>
-				:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
-					+ Recruit
-				</RecruitButtonContainer>
-			}
+			{personalInformation.isOwnProfile==false &&(
+				<React.Fragment>
+					{isProfileRecruit==true?
+						<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
+							- Recruit
+						</RecruitButtonContainer>
+						:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
+							+ Recruit
+						</RecruitButtonContainer>
+					}
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }
@@ -539,14 +543,14 @@ const PersonalInformation=(props)=>{
 									</FriendsAndIndustryDisplayButton>
 								</a>
 							</li>
-							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+							<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",marginBottom:"2%"}}>
 								<RecruitButton
 									personalInformation={personalInformation}
 									displayConfettiHandle={props.displayConfetti}
 									userId={props.userId}
 								/>
 								{props.personalInformation.isOwnProfile==true &&(
-									<div class="fa fa-shield" style={{fontSize:"48px",color:"#0D0D0E",cursor:"pointer"}}
+									<div class="fa fa-shield" style={{fontSize:"36px",color:"#1E1E21",cursor:"pointer"}}
 										onClick={()=>changeFriendsGaugeBadge(true)}
 									/>
 								)}
@@ -622,6 +626,27 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
+	const personalInformationModal=useMemo(()=>{
+		return(
+			<React.Fragment>
+				{props.personalInformation.isGuestProfile==true?
+					<GuestLockScreenHOC
+						component={userInformationComponent(
+								props.personalInformation,
+								props.displayDesktopUI,
+								props.displayMobileProfileOptionsTrigger
+						)}
+					/>:
+					<>{userInformationComponent(
+							props.personalInformation,
+							props.displayDesktopUI,
+							props.displayMobileProfileOptionsTrigger
+						)}</>
+				}
+			</React.Fragment>
+		)
+	},[props.personalInformation.firstName])
+
 
 	return(
 		<Container>
@@ -644,20 +669,7 @@ const PersonalInformation=(props)=>{
 							isOwner={props.personalInformation.isOwnProfile}
 						/>
 					)}
-					{props.personalInformation.isGuestProfile==true?
-						<GuestLockScreenHOC
-							component={userInformationComponent(
-									props.personalInformation,
-									props.displayDesktopUI,
-									props.displayMobileProfileOptionsTrigger
-							)}
-						/>:
-						<>{userInformationComponent(
-								props.personalInformation,
-								props.displayDesktopUI,
-								props.displayMobileProfileOptionsTrigger
-							)}</>
-					}
+					{personalInformationModal}
 					{displayDonationModal==true?
 						<DonatePortal
 							closeModal={handleDonateButton}

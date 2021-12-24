@@ -29,6 +29,7 @@ import {
 		setPersonalProfileRefreshToken
 	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
+import ReplayIcon from '@material-ui/icons/Replay';
 
 
 const Container=styled.div`
@@ -109,10 +110,13 @@ const TextContainerDescription=styled.textarea`
 	resize:none;
 	border-style:none;
 	color:#1C1C1C;
-	border-style:solid;
 	border-radius:5px;
 	border-width:1px;
-	border-color:#d7dadb;
+	color:#8c8c8c;
+	background-color:#f1f1f1;
+	height:90px;
+	margin-bottom:5%;
+	padding:15px;
 	width:100%;
 
 	@media screen and (max-width:650px){
@@ -125,11 +129,14 @@ const TextContainerTitle=styled.textarea`
 	resize:none;
 	border-style:none;
 	color:#1C1C1C;
-	border-style:solid;
 	border-radius:5px;
 	border-width:1px;
-	border-color:#d7dadb;
 	width:100%;
+	color:#8c8c8c;
+	background-color:#f1f1f1;
+	margin-bottom:5%;
+	height:90px;
+	padding:15px;
 
 	@media screen and (min-width:2500px){
 		font-size:36px !important;
@@ -148,15 +155,12 @@ const VideoDescriptionContainer=styled.div`
 `;
 
 const CrownIconContainer=styled.div`
-	position:absolute;
+	position:relative;
 	border-style:solid;
 	border-width:2px;
-	border-color:#C8B0F4;;
+	border-color:#C8B0F4;
 	animation: glowing 1300ms infinite;
-	top:25%;
-	left:77%;
 	border-radius:50%;
-	z-index:20;
 
 
 	@keyframes glowing {
@@ -164,10 +168,6 @@ const CrownIconContainer=styled.div`
 	    50% { border-color: #C8B0F4; box-shadow: 0 0 20px #C8B0F4; }
 	    100% { border-color: #B693F7; box-shadow: 0 0 5px #C8B0F4; }
 	 }
-
-	 @media screen and (max-width:420px){
-	 	top:40% !important;
-	}
     
 `;
 
@@ -204,6 +204,15 @@ const ButtonCSS={
   marginRight:"4%",
   marginTop:"10%",
   cursor:"pointer"
+}
+
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"90%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
 }
 
 class EditVideoModal extends Component{
@@ -663,16 +672,30 @@ isArrayEqual=(arr1,arr2)=>{
 
 	displayVideoElement=()=>{
 		return(
-			<li id="videoElementContainer"
-				style={{position:"relative",listStyle:"none",width:"45%",display:"inline-block",marginLeft:"3%"}}>
-				<ul style={{padding:"0px"}}>
-					<li id="videoElement" style={{listStyle:"none",borderRadius:"5px",overflow:"hidden"}}>
-						<video id="video" key={this.uuidv4()} width="100%" height="80%" controls autoplay>
-								<source src={this.state.videoSrc} type="video/mp4"/>
-						</video>
-					</li>
-				</ul>
-			</li>
+			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+				<div style={{height:"220px",width:"80%",position:"relative"}}>
+					<video  id="video" 
+						style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
+						 position="relative" height="90%" width="100%" borderRadius="50%"
+					 	key={this.uuidv4()} autoPlay loop autoBuffer muted playsInline controls>
+						<source src={this.state.videoSrc} type="video/mp4"/>
+					</video>
+				</div>
+				<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+					<CrownIconContainer onClick={()=>this.setState({changeVideoVerification:true})}>
+						<Icon 
+							id="crownIcon"
+							icon={crownIcon}
+							style={{borderRadius:"50%",backgroundColor:"white",fontSize:"34px",color:"#C8B0F4"}}
+						/>
+					</CrownIconContainer>
+					<hr style={HorizontalLineCSS}/>
+					<ReplayIcon
+						onClick={()=>this.redoVideo()}
+						style={{cursor:"pointer",fontSize:34,marginTop:"10px"}}
+					/>
+				</div>
+			</div>
 		)
 	}
 
@@ -748,96 +771,27 @@ isArrayEqual=(arr1,arr2)=>{
 										/>
 										:null
 									}
-
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<CrownIconContainer onClick={()=>this.setState({changeVideoVerification:true})}>
-											<Icon 
-												id="crownIcon"
-												icon={crownIcon}
-												style={{borderRadius:"50%",backgroundColor:"white",fontSize:"40px",color:"#C8B0F4"}}
-											/>
-										</CrownIconContainer>
-									</a>
-
 									<ul style={{padding:"20px"}}>
-										<li style={{listStyle:"none"}}>
-											<ul style={{padding:"0px"}}>
-												<li id="title" style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e"}}>
-													<b>Edit Video Description </b>
-												</li>
-											</ul>				
-										</li>
-						
-										<hr/>
-										<li id="editContainer" style={{position:"relative",listStyle:"none",top:"-50px",display:"inline-block",marginLeft:"5%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<ul style={{padding:"0px"}}>
-														<li id="text" onClick={()=>this.redoVideo()} style={ButtonCSS}>
-															Redo
-														</li>
 
-														<li style={{listStyle:"none",paddingTop:"3%"}}>
-															<ul style={{padding:"0px"}}>
-																<li id="text" style={{listStyle:"none",}}>
-																	<b>Title for video (optional)</b>
-																</li>
+										<div id="editContainer" style={{display:"flex",flexDirection:"column"}}>
+											{this.displayVideoElement()}
+											<div style={{display:"flex",flexDirection:"column"}}>
+												<TextContainerTitle
+													placeholder="Write a title for your video"
+													id="videoTitle"
+												/>
 
-																<li style={{color:"#5298F8",listStyle:"none"}}>
-																	You will be able to edit this title at any point later
-																</li>
-															</ul>
-														</li>
-														{userSessionInformation.displayDesktopUI==false &&(
-															<>
-																{this.displayVideoElement()}
-															</>
-														)}
+												<TextContainerDescription
+													placeholder="Write a description about your video"
+													id="videoDescription"
+												/>
+											</div>
+										</div>
 
-														<li style={{listStyle:"none"}}>
-															<TextContainerTitle
-																placeholder="Write a title for your video"
-																id="videoTitle"
-															/>
-														</li>
 
-														<li style={{listStyle:"none",paddingTop:"3%",marginTop:"3%"}}>
-															<ul style={{padding:"0px"}}>
-																<li id="text" style={{position:"relative",listStyle:"none",display:"inline-block"}}>
-																	<b>Enter a description for your video (optional)</b>
-																</li>
-
-																<li style={{listStyle:"none",color:"#5298F8"}}>
-																	You will be able to edit this description at any point later
-																</li>
-															</ul>
-														</li>
-
-														<li style={{listStyle:"none",fontSize:"15px"}}>
-																	<TextContainerDescription
-																		placeholder="Write a description about your video"
-																		id="videoDescription"
-																	/>
-														</li>
-													</ul>
-												</li>
-												{userSessionInformation.displayDesktopUI==true &&(
-													<>
-														{this.displayVideoElement()}
-													</>
-												)}
-												
-											</ul>
-										</li>
 										<hr/>
 										<li id="secondaryVideoInformation" style={{listStyle:"none"}}>
 											<ul style={{padding:"0px"}}>
-												<li id="text"
-													style={{listStyle:"none",display:"inline-block",fontSize:"25px",color:"#5e5e5e",marginBottom:"4%"}}>
-													<b>Audio/Video Description</b>
-
-												</li>
 												<li style={{marginBottom:"2%",listStyle:"none",color:"#8c8c8c"}}>
 													Create either a video or voice description for your image. Much more interesting than regular text imo ;)
 												</li>
@@ -905,9 +859,6 @@ isArrayEqual=(arr1,arr2)=>{
 											</ul>
 										</li>
 										<hr/>
-										<li style={{listStyle:"none",fontSize:"25px",color:"#5e5e5e"}}>
-											<b>Symposiums </b>
-										</li>
 										<li  style={{listStyle:"none",display:"inline-block"}}>
 											<IndustryPostOptions
 												alterSelectedIndustry={this.alterSelectedIndustry}

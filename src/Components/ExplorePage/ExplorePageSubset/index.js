@@ -18,6 +18,7 @@ import {
 } from "../../../Actions/Tasks/Search/SearchSymposiums.js";
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import EditExplorePageDisplay from "../ExplorePageSet/Modals-Portals/EditExploreFeed/index.js";
+import {identicalPostsIndicator} from "./PostsDisplay/IdenticalPostsIndicator.js";
 
 const Container=styled.div`
 	display:flex;
@@ -320,7 +321,8 @@ class SearchExploreContainer extends Component{
 		if(confirmation=="Success"){
 			
 			const {message}=data;
-			if(message.length==0){
+			debugger;
+			if(identicalPostsIndicator(this.state.postsInformation,message)){
 				this.setState({
 					endOfPostsDBIndicator:true,
 					isLoadingReloadedPosts:false,

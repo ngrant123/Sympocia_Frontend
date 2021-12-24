@@ -67,8 +67,7 @@ const VideoOptionCSS={
 	borderStyle:"solid",
 	borderWidth:"1px",
 	color:"white",
-	backgroundColor:"#5298F8",
-	boxShadow:"2px 10px 10px #b9d6ff"
+	backgroundColor:"#5298F8"
 }
 
  const VideoPostCreation=(props)=>{
@@ -164,15 +163,15 @@ const VideoOptionCSS={
 							<ul style={{padding:"0px"}}>
 								<li id="uploadOptionTypeLI" style={{listStyle:"none",display:"inline-block",marginRight:"10%"}}>
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={VideoOptionCSS}>
-											<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
-												<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-													<CameraIcon/>
-												</li>
+										<ul style={{padding:"0px"}} onClick={()=>clickUploadVideoButton()}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+												<CameraIcon/>
+											</li>
 
-												<li id="secondaryCreationText" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
-													Upload Video
-												</li>
-											</ul>																			
+											<li id="secondaryCreationText" style={{listStyle:"none",display:"inline-block",marginRight:"2%",fontSize:"20px"}}>
+												Upload Video
+											</li>
+										</ul>																			
 									</button>
 								</li>
 

@@ -1,6 +1,10 @@
-import React from "react";
+import React,{useEffect,useRef} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../Actions/Tasks/DisableScrolling.js";
 
 const BackgroundModalContainer= styled.div`
 	position:fixed;
@@ -39,6 +43,13 @@ const PortalHOCContainer=styled.div`
 
 
 const PortalHOC=({targetDom,closeModal,component})=>{
+	useEffect(()=>{
+		disableScrolling(targetDom);
+		return () => {
+			enableScrolling(targetDom);
+		}
+	},[]);
+
 	return createPortal(
 		<React.Fragment>
 			<BackgroundModalContainer onClick={()=>closeModal()}/>

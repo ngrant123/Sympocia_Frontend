@@ -62,6 +62,7 @@ class LargePostComponent extends Component{
 
 	constructor(props){
 		super(props);
+		console.log(props);
 		this.state={
 			companyTitle:"CEO",
 			companyName:"Razu",
@@ -167,6 +168,17 @@ class LargePostComponent extends Component{
 		)
 	}
 
+	routeToBlogCreation=()=>{
+		if(this.props.isPhoneUIEnabled==true){
+			alert('Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue');
+		}else{
+			this.props.history.push({
+				pathname:`/createBlog`,
+				state:{postType:"Creation"}
+			})
+		}
+	}
+
 	originalScreen=()=>{
 		this.setState({
 			displayGeneralCreationModal:true	
@@ -198,7 +210,7 @@ class LargePostComponent extends Component{
 										displayGeneralCreationModal:false
 									 })} 
 							id="postOptionLI">
-							<p>Post</p>
+							<p>Text/Audio</p>
 						</PostOptionButton>
 						{this.props.isPhoneUIEnabled==true &&(
 							<hr style={HorizontalLineCSS}/>
@@ -236,13 +248,11 @@ class LargePostComponent extends Component{
 							<hr style={HorizontalLineCSS}/>
 						)}
 
-						<Link to={{pathname:`/createBlog`,state:{postType:"Creation"}}}
-							style={{textDecoration:"none"}}>
-							<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
-								id="blogPostOptionLI">
-									Blog
-							</PostOptionButton>
-						</Link>
+						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+							id="blogPostOptionLI"
+							onClick={()=>this.routeToBlogCreation()}>
+								Blog
+						</PostOptionButton>
 					</PostOptionsContainer>
 				</React.Fragment>
 		)

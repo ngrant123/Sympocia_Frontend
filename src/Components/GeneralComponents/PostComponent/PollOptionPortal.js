@@ -264,7 +264,7 @@ const PollOptionPortal=(props)=>{
 						
 						{displayCreateComment==true?
 							<ul style={{padding:"0px"}}>
-								<li style={{marginBottom:"2%",...ExploreButton}} onClick={()=>changeDisplayCreateComment(false)}>
+								<li style={{marginBottom:"2%",...ExploreButton}} onClick={()=>closeModal()}>
 									Back
 								</li>
 								<ExtendedInputContainer

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 import styled from "styled-components";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -15,12 +15,15 @@ const SponsorExtendedModal=styled.div`
 	height:35%;
 	background-color:white;
 	top:0px;
-	overflow-y:scroll;
+	overflow-y:auto;
 	z-index:40;
 	border-radius:5px;
 	box-shadow: 10px 10px 20px 	#9395a0;
 	left:65%;
 	top:60%;
+	display:flex;
+	flex-direction:column;
+	padding:15px;
 
 	@media screen and (min-width:2500px){
 		#championDescription{
@@ -73,7 +76,9 @@ const SponsorSimplifiedModal=styled.div`
 	display:flex;
 	flex-direction:row;
 	box-shadow: 10px 10px 20px 	#9395a0;
-	padding:10px;
+	padding:15px;
+	justify-content:space-between;
+	align-items:center;
 
 
 	@media screen and (min-width:2500px){
@@ -91,8 +96,9 @@ const ExtendedChampionModalContainer=styled.div`
 
 const ExtendedChampionInformation=styled.div`
 	display:flex;
-	flex-direction:column;
+	flex-direction:row;
 	margin-bottom:5%;
+	align-items:center;
 
 
 	@media screen and (max-width:1370px){
@@ -150,14 +156,23 @@ const DeleteChampionCSS={
 	borderWidth:"2px",
 	borderColor:"#3898ec",
 	marginBottom:"2%",
-	cursor:"pointer"
+	cursor:"pointer",
+	marginRight:"5%"
+}
+
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	marginTop:"0%",
+	marginBottom:"0%",
+	width:"100%"
 }
 
 
 const ChampionImageCSS={
 	position:"relative",
-	width:"70px",
-	height:"70px",
+	width:"50px",
+	height:"50px",
 	borderRadius:"50%"
 }
 
@@ -175,24 +190,32 @@ const ChampionNameCSS={
 
 
 const ExtendedChampionModal=(championData)=>{
-	return  <ExtendedChampionModalContainer id="extendedChampionModalUL">
+	const extendedChampionModal=useMemo(()=>{
+		return(
+			<ExtendedChampionModalContainer id="extendedChampionModalUL">
 				<ExtendedChampionInformation>
 					<ProfileLink
 						propsRendered={
 							<img id="championImageLI" src={championData.imgUrl} 
-								style={{width:"70px",height:"70px",borderRadius:"50%"}}
+								style={{width:"50px",height:"50px",borderRadius:"50%"}}
 							/>
 						}
 						championData={championData}
 					/>
 
 					<p id="championName"
-						style={{fontSize:"20px",maxWidth:"60%",overflow:"hidden",color:"#5298F8",marginTop:"2%"}}>
+						style={{fontSize:"20px",maxWidth:"60%",overflow:"hidden",color:"#5298F8",marginTop:"2%",marginLeft:"5%"}}>
 						<b>{championData.name}</b>
 					</p>
 				</ExtendedChampionInformation>
+				<hr style={HorizontalLineCSS}/>
 				<p id="championDescription">{championData.description}</p>
 			</ExtendedChampionModalContainer>
+		)
+	},[championData])
+	return(
+		<>{extendedChampionModal}</>
+	)
 }
 
 const ProfileLink=({propsRendered,championData})=>{
@@ -217,76 +240,83 @@ const SponsorDisplayModal=(props)=>{
 		changeDisplayDeletePortal(false);
 	}
 
-	return (
-		<React.Fragment>
-			{displayDeletePortal &&(
-				<DeletePostPortal
-					postType="Champion"
-					closeModal={closeDeletePortal}
-					targetDom={"personalContainer"}
-				/>
-			)}
-			{displayExtendedSponsorModal==true?
-				<SponsorExtendedModal>
-					<ul style={{padding:"15px"}}>
+	const championData=useMemo(()=>{
+		return(
+			<React.Fragment>
+				{displayDeletePortal &&(
+					<DeletePostPortal
+						postType="Champion"
+						closeModal={closeDeletePortal}
+						targetDom={"personalContainer"}
+					/>
+				)}
+				{displayExtendedSponsorModal==true?
+					<SponsorExtendedModal>
 						{props.isOwnProfile==true &&(
-							<li onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
-								Delete Champion
-							</li>
-
+							<div style={{display:"flex",flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
+								<div style={{display:"flex",flexDirection:"row"}}>
+									<div onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
+										Delete
+									</div>
+									<div onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
+										Edit
+									</div>
+								</div>
+								{props.isMobile==false &&(
+									<li style={{listStyle:"none",marginBottom:"5%"}}>
+										<KeyboardArrowDownIcon
+											style={{borderStyle:"solid",
+													borderRadius:"50%",
+													color:"#BDBDBD",
+													fontSize:30,
+													cursor:"pointer"}}
+											onClick={()=>changeExtendedSponsorModal(false)}
+										/>
+									</li>
+								)}
+							</div>
 						)}
-						{props.isMobile==false &&(
-							<li style={{listStyle:"none",marginBottom:"5%",marginLeft:"85%"}}>
-								<KeyboardArrowDownIcon
-									style={{borderStyle:"solid",
-											borderRadius:"50%",
-											color:"#BDBDBD",
-											fontSize:30}}
-									onClick={()=>changeExtendedSponsorModal(false)}
-								/>
-							</li>
-						)}
-
-						<li style={{listStyle:"none",marginTop:"10%"}}>
+						<div style={{listStyle:"none",marginTop:"5%"}}>
 							{ExtendedChampionModal(props.championData)}
-						</li>
-					</ul>
-				</SponsorExtendedModal>:
-				<SponsorSimplifiedModal id="championModal" 
-					onClick={()=>generateAirPlane({
-						pageType:"Profile",
-			            pageTypeParamsId:props.pageTypeParamsId,
-			            targetDivAccessed:"championModal",
-			            profileIdAccessingDiv:props.profileIdAccessingDiv
-					})}>
-					<li style={{listStyle:"none",display:"inline-block",marginRight:"10%",width:"80px"}}>
-						<ProfileLink
-							propsRendered={
-								<img src={props.championData.imgUrl} 
-									style={ChampionImageCSS}
-								/>
-							}
-							championData={props.championData}
-						/>
-					</li>
-					<li id="championName" style={ChampionNameCSS}>
-						<b>{props.championData.name}</b> 
-					</li>
-					<li style={{listStyle:"none",display:"inline-block"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<KeyboardArrowUpIcon
-								style={{borderStyle:"solid",
-										borderRadius:"50%",
-										color:"#BDBDBD",
-										fontSize:30}}
-								onClick={()=>changeExtendedSponsorModal(true)}
+						</div>
+					</SponsorExtendedModal>:
+					<SponsorSimplifiedModal id="championModal" 
+						onClick={()=>generateAirPlane({
+							pageType:"Profile",
+				            pageTypeParamsId:props.pageTypeParamsId,
+				            targetDivAccessed:"championModal",
+				            profileIdAccessingDiv:props.profileIdAccessingDiv
+						})}>
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							<ProfileLink
+								propsRendered={
+									<img src={props.championData.imgUrl} 
+										style={ChampionImageCSS}
+									/>
+								}
+								championData={props.championData}
 							/>
-						</a>
-					</li>
-				</SponsorSimplifiedModal>
-			}
+							<p style={{marginLeft:"5%",fontSize:"18px"}}>
+								<b>{props.championData.name}</b>
+							</p>
+						</div>
+						<KeyboardArrowUpIcon
+							style={{borderStyle:"solid",
+									borderRadius:"50%",
+									color:"#BDBDBD",
+									fontSize:30,
+									cursor:"pointer"}}
+							onClick={()=>changeExtendedSponsorModal(true)}
+						/>
+					</SponsorSimplifiedModal>
+				}
 
-		</React.Fragment>
+			</React.Fragment>
+		)
+	},[props.championData]);
+
+	return (
+		<>{championData}</>
 
 	)
 }

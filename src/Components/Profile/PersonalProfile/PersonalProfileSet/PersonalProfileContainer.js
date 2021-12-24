@@ -563,19 +563,17 @@ class LProfile extends Component{
 	}
 
 	displayChampionModalTrigger=()=>{
-		return <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-					<li style={{listStyle:"none",marginLeft:"-165%"}}>
-						{this.state.displayChampion==true &&(
-							<SponsorDisplayModal
-								championData={this.state.championModalData}
-								isOwnProfile={this.state.isOwnProfile}
-								isMobile={this.state.displayPhoneUI}
-								pageTypeParamsId={this.props.match.params.id}
-								profileIdAccessingDiv={this.props.personalInformation.id}
-							/>
-						)}
-					</li>
-				</a>
+		return  <li style={{listStyle:"none",marginLeft:"-165%"}}>
+					{this.state.displayChampion==true &&(
+						<SponsorDisplayModal
+							championData={this.state.championModalData}
+							isOwnProfile={this.state.isOwnProfile}
+							isMobile={this.state.displayPhoneUI}
+							pageTypeParamsId={this.props.match.params.id}
+							profileIdAccessingDiv={this.props.personalInformation.id}
+						/>
+					)}
+				</li>
 	}
 
 	closePostsModal=()=>{
@@ -735,6 +733,7 @@ class LProfile extends Component{
 	}
 
 	hideTokenLevelDetails=()=>{
+
 		this.setState({
 			displayTokenLevelDetails:false
 		})
@@ -827,7 +826,8 @@ class LProfile extends Component{
 							this.setState({
 								postData:blogPostData,
 								displayPostData:true,
-								displayShadowBackground:true
+								displayShadowBackground:true,
+								selectedDisplayPostType:"Blogs"
 							})
 						},
 						handleRegularPostModal:(regularPostData,contextLocation)=>{
@@ -933,12 +933,9 @@ class LProfile extends Component{
 											displayIpadUI:this.state.displayIpadUI,
 											displayDesktopUI:this.state.displayDesktopUI,
 										}}
+										history={this.props.history}
 										visitorId={this.state.isOwnProfile==true?null:this.state.visitorId}
 										displayConfetti={this.displayConfetti}
-										triggerPostReload={this.state.triggerPostReload}
-										isPostReloading={this.isPostReloading}
-										unTriggerReload={this.unTriggerReload}
-										finalPostRecieved={this.finalPostRecieved}
 										isGuestProfile={this.state.isGuestProfile}
 										isGuestVisitorProfile={this.state.isGuestVisitorProfile}
 										updateEndOfPostsDBIndicator={this.updateEndOfPostsDBIndicator}

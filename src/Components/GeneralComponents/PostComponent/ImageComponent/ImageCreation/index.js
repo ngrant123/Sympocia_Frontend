@@ -18,7 +18,7 @@ const Container=styled.div`
 			top:10%;
 			left:10%;
 			width:80%;
-			overflow-y:scroll;
+			overflow:auto;
 			height:80%;
 			padding:5px;
 		`:
@@ -28,14 +28,11 @@ const Container=styled.div`
 			background-color:white;
 			border-radius:5px;
 			top:20%;
-			left:35%;
+			left:30%;
 			height:40%;
-			width:35%;
-			overflow:hidden;
+			width:45%;
 			display:flex;
 			flex-direction:column;
-			justify-content:center;
-			align-items:center;
 
 		`
 	}
@@ -148,7 +145,7 @@ class ImageCreation extends Component{
 				{this.state.displayEditImagesScreen==false?
 					<React.Fragment>
 						<div id="closeModalButton" 
-							onClick={()=>this.props.closeModal()} style={{marginLeft:"-70%",marginTop:"0%"}}>
+							onClick={()=>this.props.closeModal()} style={{marginTop:"0%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 							 stroke-linecap="round" stroke-linejoin="round">
@@ -159,10 +156,12 @@ class ImageCreation extends Component{
 						</div>
 						{this.state.displayCreateImageScreen==false?
 							<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
-							
-								<li id="text" style={{fontSize:"20px",marginBottom:"1%",listStyle:"none"}}>	
-									Image Creation
-								</li>
+								<p id="text" style={{fontSize:"25px"}}>
+									<b>Create your own image here with the click of a button</b>
+								</p>
+								<p id="secondaryCreationText" style={{fontSize:"15px",color:"#b3b3b3"}}>
+									Everyone loves pictures. Show people your skills
+								</p>
 								<hr/>
 								<li onClick={()=>this.clickUploadPhotoButton()} style={{listStyle:"none",display:"inline-block",marginRight:"1%"}}>
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style={ImageOptionsCSS}>

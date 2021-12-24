@@ -7,6 +7,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import {getProfilesFromSearch} from "../../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import {SympociaProfileSearchTextArea} from "./DescriptionModalCSS.js";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../Actions/Tasks/DisableScrolling.js";
+
 
 const Container=styled.div`
 	position:fixed;
@@ -233,6 +238,15 @@ const SponsorPortal=(props)=>{
 	const [loadingProfilesPrompt,changeLoadingProfilesPrompt]=useState(false);
 	const [searchedProfile,changeSearchedProfile]=useState();
 
+	useEffect(()=>{
+		disableScrolling("personalContainer");
+	},[]);
+
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		props.closeModal();
+	}
+
 	const fetchProfileFromSearchUrl=async()=>{
 		changeLoadingProfilesPrompt(true);
 		const searchedProfile=document.getElementById("sympociaProfilesSearchUrl").value;
@@ -297,7 +311,7 @@ const SponsorPortal=(props)=>{
 	}
 	const mobileCloseButton=()=>{
 		return(
-			<div id="mobileCloseButton" onClick={()=>props.closeModal()} style={{display:"none"}}>
+			<div id="mobileCloseButton" onClick={()=>closePortal()} style={{display:"none"}}>
 				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 				 stroke-linecap="round" stroke-linejoin="round">
@@ -383,6 +397,7 @@ const SponsorPortal=(props)=>{
 										style={{fontSize:"40",cursor:"pointer"}}
 										onClick={()=>changeProfileTagModalDisplay(true)}
 									/>
+									<p>Search for a specific sympocia profile instead</p>
 								</div>
 								<input type="file" name="img" id="imageFile" style={{width:"5%",opacity:"0"}} onChange={()=>displayImage()}  
 							        accept="application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,.doc,.gif,.jpeg,.jpg,.pdf,.png,.xls,.xlsx,.zip" 
@@ -395,12 +410,12 @@ const SponsorPortal=(props)=>{
 						imgData={imageData}
 						selectedSympociaProfile={searchedProfile}
 						backButton={displayUploadImageSearchProfileScreen}
-						closeModal={props.closeModal}
+						closeModal={closePortal}
 						profileType={props.profileType}   
 					/>
 				}
 			</Container>
-			<ShadowContainer onClick={()=>props.closeModal()}/>
+			<ShadowContainer onClick={()=>closePortal()}/>
 		</React.Fragment>
 	,document.getElementById("personalContainer"));
 }

@@ -102,21 +102,7 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 					<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
 					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"120px"}}>
 						<SmallVideoComponent>
-							<ul style={{padding:"0px"}}>
-								<li style={{listStyle:"none"}}>
-									{video(data)}
-								</li>
-
-								<div id="postInformation">
-									<li style={{listStyle:"none",fontSize:"15px",maxWidth:"60%",maxHeight:"50px",overflow:"hidden"}}>
-										<b>{data.title} </b>
-									</li>
-
-									<li id="symposiumsDisplay" style={{listStyle:"none"}}>
-										{displayIndustries(data)}
-									</li>
-								</div>
-							</ul>
+							{video(data)}
 						</SmallVideoComponent>
 							
 					</li>

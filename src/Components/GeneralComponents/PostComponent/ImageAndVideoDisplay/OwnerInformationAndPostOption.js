@@ -17,8 +17,6 @@ const ShadowButtonCSS={
 	padding:"10px",
 	backgroundColor:"white",
 	color:"#6e6e6e",
-	boxShadow:"1px 1px 5px #6e6e6e",
-	borderRadius:"50%",
 	borderStyle:"none",
 	marginRight:"2%",
 	marginBottom:"2%",
@@ -31,13 +29,12 @@ const VerticalLineCSS={
 	borderWidth:"1px",
 	borderColor:"#EBEBEB",
 	borderLeft:"2px",
- 	height:"30px",
+ 	height:"40px",
  	marginRight:"2%"
 }
 
 const PostOptionsMobileDividerCSS={
-	...VerticalLineCSS,
-	display:"none"
+	...VerticalLineCSS
 }
 const userActionsContainer=({
 						actions,
@@ -74,13 +71,13 @@ const userActionsContainer=({
 				style={{fontSize:50,...ShadowButtonCSS}}
 				onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})}
 			/>
-			<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+			<div style={PostOptionsMobileDividerCSS}/>
 			<ChatIcon
 				id="postOptions"
 				style={{fontSize:50,...ShadowButtonCSS}}
 				onClick={()=>displayComments()}
 			/>
-			<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+			<div style={PostOptionsMobileDividerCSS}/>
 			<AssessmentIcon
 				id="postOptions"
 				style={{fontSize:50,...ShadowButtonCSS}}
@@ -88,7 +85,7 @@ const userActionsContainer=({
 			/>
 			{(symposiumPostInformation!=null && symposiumPostInformation.isOligarch==true)==true &&(
 				<React.Fragment>
-					<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+					<div style={PostOptionsMobileDividerCSS}/>
 					<div style={ShadowButtonCSS} 
 						id="postOptions"	
 						onClick={()=>symposiumPostInformation.displayOligarchPostSettings(
@@ -98,7 +95,7 @@ const userActionsContainer=({
 					</div>
 				</React.Fragment>
 			)}
-			<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>	
+			<div style={PostOptionsMobileDividerCSS}/>	
 			{(profileType=="personalProfile" && isOwnProfile==true) &&(
 				<>
 					<BorderColorIcon
@@ -106,7 +103,7 @@ const userActionsContainer=({
 						style={{fontSize:50,...ShadowButtonCSS}}
 						onClick={()=>changeDisplayPost(!displayPostModal)}
 					/>
-					<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+					<div style={PostOptionsMobileDividerCSS}/>
 					<div style={ShadowButtonCSS} id="postOptions">
 						<svg id="removePostOption" onClick={()=>handleRemoveImagePost()}
 							 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
@@ -120,7 +117,7 @@ const userActionsContainer=({
 						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
 						</svg>
 					</div>
-					<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+					<div style={PostOptionsMobileDividerCSS}/>
 					<div style={ShadowButtonCSS} id="postOptions">
 						<svg id="promotePostOption" onClick={()=>promoteModal()}
 							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
@@ -132,7 +129,7 @@ const userActionsContainer=({
 							  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
 						</svg>
 					</div>
-					<div id="mobilePostOptionsDivider" style={PostOptionsMobileDividerCSS}/>
+					<div style={PostOptionsMobileDividerCSS}/>
 					<div class="fa fa-shield" onClick={()=>handleDisplayPostBadgeAdditionModal()}
 						style={{...ShadowButtonCSS,fontSize:"30px",color:"#6e6e6e",cursor:"pointer"}}
 						id="postOptions"
@@ -163,17 +160,19 @@ const OwnerInformationAndPostOptions=(props)=>{
 					<PersonalInformation>
 						{targetDom!="personalContainer" &&(
 							<div style={{width:"60%",display:"flex",flexDirection:"row",alignItems:"center"}}>
-								<img id="ownerProfilePicture" 
-									src={postData.owner.profilePicture==null?
-									NoProfilePicture:postData.owner.profilePicture}
-								 	style={{borderRadius:"50%",width:"50px",height:"50px",marginRight:"5%"}}
-								/>
-								<Link style={{marginLeft:"4%",fontSize:"20px",height:"30px",maxHeight:"30px",textDecoration:"none",color:"black",marginRight:"10%"}}
+								<Link style={{fontSize:"20px",height:"30px",maxHeight:"30px",textDecoration:"none",color:"black",marginRight:"10%",marginTop:"-5%"}}
 									to={{pathname:`/profile/${postData.owner._id}`}}
 								>	
-									<p>
-										<b>{postData.owner.firstName}</b>
-									</p>
+									<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+										<img id="ownerProfilePicture" 
+											src={postData.owner.profilePicture==null?
+											NoProfilePicture:postData.owner.profilePicture}
+										 	style={{borderRadius:"50%",width:"50px",height:"50px",marginRight:"5%"}}
+										/>
+											<p style={{marginLeft:"4%"}}>
+												<b>{postData.owner.firstName}</b>
+											</p>
+									</div>
 								</Link>
 								<div style={VerticalLineCSS}/>
 								<BadgeDisplay

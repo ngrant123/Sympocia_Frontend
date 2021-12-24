@@ -207,7 +207,12 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 						<div style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
 							Upload image
 						</div>
-						<input type="file" name="img" id="uploadPictureFile" style={{opacity:"0"}}  onChange={()=>handleUploadPicture()} 
+						<input 
+							type="file" 
+							name="img" 
+							id="uploadPictureFile" 
+							style={{opacity:"0"}}  
+							onChange={()=>handleUploadPicture()} 
 					        accept="image/jpeg" 
 					        name="attachments">
 					    </input>
@@ -234,7 +239,7 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 								You can access this option through the payment page.
 							</p>
 							<div style={ButtonCSS}>
-								<Link to={{pathname:"/payment"}}>
+								<Link to={{pathname:"/payment"}} style={{textDecoration:"none"}}>
 									<p>Proceed to payment page</p>
 								</Link>
 							</div>

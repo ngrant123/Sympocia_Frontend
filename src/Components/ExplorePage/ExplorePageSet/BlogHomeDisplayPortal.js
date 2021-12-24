@@ -570,6 +570,10 @@ const BlogHomeDisplayPortal=(props)=>{
 									{displayApproveDisapproveIndicator==true?
 										<React.Fragment>
 											<p onClick={()=>changeDisplayApproveDisapproveIndicator(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+											<p>
+												Create a comment about why you think this post is authentic or.... tell everyone 
+												why you think this post is fake
+											</p>
 											<p onClick={()=>triggerApprovePollModal(true)} style={PollingOptionsCSS}>
 												Approve Post
 											</p>

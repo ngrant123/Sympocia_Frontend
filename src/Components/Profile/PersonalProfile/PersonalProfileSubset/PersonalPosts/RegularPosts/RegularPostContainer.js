@@ -1,4 +1,4 @@
-import React,{useContext,useMemo,useCallback} from "react";
+import React,{useContext,useMemo} from "react";
 import styled from "styled-components";
 import {getRegularPostFromUser} from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {getCompanyRegularPosts} from "../../../../../../Actions/Requests/CompanyPageAxiosRequests/CompanyPageGetRequests.js";
@@ -10,7 +10,7 @@ import SmallRegularPost from "./SmallRegularPostsContainer.js";
 import HeaderPost from "./HeaderRegularPost.js";
 import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProfilePostsDisplayContext.js";
 import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
-
+import NextButton from "../NextButton.js";
 import {PostConsumer,PostContext} from "../PostsContext.js";
 import Typed from "react-typed";
 
@@ -168,18 +168,17 @@ const NextPostLabelCSS={
 const RegularPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.posts.posts]);
-
 
 	const displayPostModal=(data)=>{
 		PostDisplay.handleRegularPostModal(data,PostContextValues);
 	}
 
-	return(
-		<Container>
-			{props.isLoadingIndicatorRegularPost==true?
-				<p>We are currently getting posts</p>:
-				<React.Fragment>
+	const textPostsDisplay=useMemo(()=>{
+		return(
+			<React.Fragment>
+				{props.isLoadingIndicatorRegularPost==true?
+					<p>We are currently getting posts</p>:
+					<React.Fragment>
 					{props.posts.posts.length==0 && props.posts.headerPost==null?
 													<NoPostsModal
 														id="noPostsModalContainer"
@@ -193,7 +192,7 @@ const RegularPostsContainer=(props)=>{
 											<HeaderPost
 												post={props.posts.headerPost}
 												profilePicture={props.profilePicture}
-												displayPostModal={displayPostModalCallback}
+												displayPostModal={displayPostModal}
 												friendsColorNodesMap={props.friendsColorNodesMap}
 											/>	
 											<hr/>
@@ -202,30 +201,25 @@ const RegularPostsContainer=(props)=>{
 									<SmallRegularPost
 										posts={props.posts.posts}
 										profilePicture={props.profilePicture}
-										displayPostModal={displayPostModalCallback}
+										displayPostModal={displayPostModal}
 										friendsColorNodesMap={props.friendsColorNodesMap}
 									/>
-									{PostContextValues.endOfPostsDBIndicator==false
-									 && PostContextValues.isSearchFilterActivated==false 
-									 && PostContextValues.isFilteredPostsActivated==false  && (
-										<React.Fragment>
-											{PostContextValues.isLoadingReloadedPosts==true?
-												 <Typed 
-								                    strings={['Loading...']} 
-								                    typeSpeed={60} 
-								                    backSpeed={30} 
-						                		  />:
-												<p onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
-													Next
-												</p>
-											}
-										</React.Fragment>
-									)}
+									<NextButton/>
 								</ul>
 						}
 					</React.Fragment>
 				}
-			</Container>
+			</React.Fragment>
+		)
+	},[
+		props.isLoadingIndicatorRegularPost,
+		props.posts
+	])
+
+	return(
+		<Container>
+			{textPostsDisplay}
+		</Container>
 	)
 }
 

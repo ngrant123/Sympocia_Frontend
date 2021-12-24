@@ -608,12 +608,16 @@ const NavBar=(pageProps)=>{
 							style={{fontSize:"25",marginTop:"-10px"}}
 						/>
 						<p style={{fontSize:"16px"}}>
-							<Link style={{color:"#151515"}} to="/home">Explore</Link>
+							<Link style={{color:"#151515",textDecoration:"none"}} to="/home">
+								Explore
+							</Link>
 						</p>
 
 					</div>
 					<p style={{fontSize:"16px",color:"#151515",marginRight:"5%",marginLeft:"5%"}}>
-						<Link style={{color:"#151515"}} to="/symposiumList">Symposiums</Link>
+						<Link style={{color:"#151515",textDecoration:"none"}} to="/symposiumList">
+							Symposiums
+						</Link>
 					</p>
 
 					<div class="dropdown">

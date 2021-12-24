@@ -518,6 +518,15 @@ const BlogHomeDisplayPortal=(props)=>{
 		changeDisplayCommentsContainer(true);
 		triggerAudioDescriptionViewProcessing();
 	}
+
+	const closeBlogPortal=()=>{
+		if(postData.closeModal==null){
+			console.log(props);
+			props.closePostModal();
+		}else{
+			postData.closeModal();
+		}
+	}
 	
 
 	return createPortal(
@@ -525,7 +534,7 @@ const BlogHomeDisplayPortal=(props)=>{
 		{symposiumPostInformation=>{
 			return(
 				<React.Fragment>
-					<ShadowContainerBlog onClick={()=>postData.closeModal()}/>
+					<ShadowContainerBlog onClick={()=>closeBlogPortal()}/>
 					<Container>	
 						<FirstTimePostOnboarding
 							userId={personalInformation.id}
@@ -539,7 +548,7 @@ const BlogHomeDisplayPortal=(props)=>{
 								triggerVideoInitS3Processing={triggerInitVideoS3Processing}
 							/>
 						)}
-						<div onClick={()=>postData.closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
+						<div onClick={()=>closeBlogPortal()} style={{cursor:"pointer",marginBottom:"5%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 							 stroke-linecap="round" stroke-linejoin="round">

@@ -48,7 +48,6 @@ const TextAndAudioCSS={
 	top:"70px",
 	listStyle:"none",
 	display:"inline-block",
-	width:"100%",
 	overflow:"hidden",
 	marginLeft:"5%"
 }
@@ -103,32 +102,39 @@ const SymposiumAndExplorePageDisplay=({regularPostInformation,targetDom})=>{
 					postData={regularPostInformation}
 				/>
 			</div>
-			<PostUserInformation>
-				<ProfilePictureLink swimmingStatus={swimmingStatus} 
-					to={{pathname:`/profile/${regularPostInformation.owner._id}`}}
-					style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
-					<img src={regularPostInformation.owner.profilePicture!=null?
-							  regularPostInformation.owner.profilePicture:
-							  NoProfilePicture} 
-					style={{height:"50px",width:"55px",borderRadius:"50%"}}/>
-				</ProfilePictureLink>
-				<p id="headerOwnerNameLI" style={headerPostNameCSS}>
-					<b>{regularPostInformation.owner.firstName}</b>
-				</p>
-			</PostUserInformation>
+			<div style={{width:"100%",height:"100%"}} onClick={()=>displayPostModal(regularPostInformation)}>
+				<PostUserInformation>
+					<ProfilePictureLink swimmingStatus={swimmingStatus} 
+						to={{pathname:`/profile/${regularPostInformation.owner._id}`}}
+						style={{position:"relative",display:"inline-block",listStyle:"none",width:"20%",borderRadius:"5px"}}>
+						<img src={regularPostInformation.owner.profilePicture!=null?
+								  regularPostInformation.owner.profilePicture:
+								  NoProfilePicture} 
+						style={{height:"50px",width:"55px",borderRadius:"50%"}}/>
+					</ProfilePictureLink>
+					<p id="headerOwnerNameLI" style={headerPostNameCSS}>
+						<b>{regularPostInformation.owner.firstName}</b>
+					</p>
+				</PostUserInformation>
 
-			<p id="headerPostTextOrAudioContainerLI" style={TextAndAudioCSS}
-				onClick={()=>displayPostModal(regularPostInformation)}>
-				{regularPostInformation.isAudioPost==true?
-					<audio id="audio" controls>
-					 	<source src={regularPostInformation.post} type="audio/ogg"/>
-					  	<source src={regularPostInformation.post} type="audio/mp4"/>
-						Your browser does not support the audio element.
-					</audio>
-					:
-					<>{regularPostInformation.post}</>
-				}
-			</p>
+				<p id="headerPostTextOrAudioContainerLI" style={TextAndAudioCSS}>
+					{regularPostInformation.isAudioPost==true?
+						<audio id="audio" controls>
+						 	<source src={regularPostInformation.post} type="audio/ogg"/>
+						  	<source src={regularPostInformation.post} type="audio/mp4"/>
+							Your browser does not support the audio element.
+						</audio>
+						:
+						<>
+							{/*
+								{regularPostInformation.post}
+							*/}
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+						</>
+					}
+				</p>
+			</div>
 		</React.Fragment>
 	)
 }

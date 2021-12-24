@@ -1,5 +1,6 @@
 import React from "react";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
+import CameraIcon from '@material-ui/icons/Camera';
 
 import {
 	ProfilePictureContainer,
@@ -12,6 +13,7 @@ const ProfilePicture=({
 	displayCreatePostOptionTrigger,
 	handleChangeProfilePicture,
 	diplayMobileChampionTrigger})=>{
+
 	const displayMobileUserInformationnModal=()=>{
 		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
 					{/*
@@ -32,6 +34,7 @@ const ProfilePicture=({
 					*/}
 			   </ul>
 	}
+
 	return(
 		<ProfilePictureContainer>
 			{(state.displayDesktopUI==false && state.isOwnProfile==true)? 
@@ -54,7 +57,7 @@ const ProfilePicture=({
 						src={state.profilePicture==null?
 								NoProfilePicture:
 								state.profilePicture
-							} style={{position:"absolute",width:"70%",height:"75%",borderRadius:"50%"}}
+							} style={{position:"absolute",width:"250px",height:"250px",borderRadius:"50%"}}
 					/>
 					
 					{state.isLoading==true &&(
@@ -67,16 +70,13 @@ const ProfilePicture=({
 					{state.displayIpadUI==true?
 						<>{displayMobileUserInformationnModal()}</>:
 						<>
-							{state.isOwnProfile==true?
-								<React.Fragment>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<ChangePictureButton onClick={()=>handleChangeProfilePicture()}>
-											Change Profile Picture
-										</ChangePictureButton>
-									</a>
-								</React.Fragment>:
-								<React.Fragment></React.Fragment>
-							}
+							{state.isOwnProfile==true &&(
+								<ChangePictureButton style={{cursor:"pointer"}} onClick={()=>handleChangeProfilePicture()}>
+									<CameraIcon
+										style={{fontSize:"24"}}
+									/>
+								</ChangePictureButton>
+							)}
 						</>
 					}
 				</>

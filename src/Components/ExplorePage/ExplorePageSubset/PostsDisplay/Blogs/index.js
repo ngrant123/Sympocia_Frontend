@@ -7,6 +7,7 @@ import PERSONAL_INDUSTRIES from "../../../../../Constants/personalIndustryConsta
 import COMPANY_INDUSTRIES from "../../../../../Constants/industryConstants.js";
 import Header from "./Header.js";
 import Posts from "./Posts.js";
+import NextButton from "../NextButton.js";
 
 import {
 	Container,
@@ -82,19 +83,6 @@ const PostsHorizontalLineCSS={
 	width:"100%"
 }
 
-const NextButtonCSS={
-	listStyle:"none",
-	display:"inline-block",
-	backgroundColor:"white",
-	borderRadius:"5px",
-	padding:"10px",
-	color:"#3898ec",
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
-	cursor:"pointer",
-	width:"10%"
-}
 const BlogPostModal=(props)=>{
 	const personalInformationRedux=useSelector(state=>state.personalInformation);
 	const companyInformationRedux=useSelector(state=>state.companyInformation);
@@ -107,6 +95,7 @@ const BlogPostModal=(props)=>{
 	const [blogs,changeBlogs]=useState([]);
 
 	useEffect(()=>{
+		console.log("Rerun");
 		if(firstIndicator==false){
 			const splicedHeaderPosts=props.posts.slice(0,3);
 			const splicedBlogs=props.posts.slice(3,props.posts.length);
@@ -148,17 +137,12 @@ const BlogPostModal=(props)=>{
 					targetDom={props.targetDom}
 					isSymposiumPostUI={props.isSymposiumPostUI}
 				/>
-				{props.endOfPostsDBIndicator==false && (
-					<React.Fragment>
-						{props.isLoadingReloadedPosts==true?
-							<p>Loading please wait...</p>:
-							<p id="nextButton" onClick={()=>props.triggerReloadingPostsHandle("Blogs")} 
-								style={NextButtonCSS}>
-								Next
-							</p>
-						}
-					</React.Fragment>
-				)}
+				<NextButton
+					endOfPostsDBIndicator={props.endOfPostsDBIndicator}
+					isLoadingReloadedPosts={props.isLoadingReloadedPosts}
+					triggerReloadingPostsHandle={props.triggerReloadingPostsHandle}
+					postType={"Blogs"}
+				/>
 			</React.Fragment>	
 		)
 	}

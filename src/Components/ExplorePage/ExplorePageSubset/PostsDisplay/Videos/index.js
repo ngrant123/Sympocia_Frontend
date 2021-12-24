@@ -8,6 +8,7 @@ import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Header from "./Header.js";
 import Posts from "./Posts.js";
+import NextButton from "../NextButton.js";
 
 import {
 	Container,
@@ -87,21 +88,6 @@ const PostsHorizontalLineCSS={
 	width:"100%"
 }
 
-const NextButtonCSS={
-	listStyle:"none",
-	display:"inline-block",
-	backgroundColor:"white",
-	borderRadius:"5px",
-	padding:"10px",
-	color:"#3898ec",
-	borderStyle:"solid",
-	borderWidth:"2px",
-	borderColor:"#3898ec",
-	cursor:"pointer",
-	width:"10%"
-}
-
-
 const VideoPostModal=(props)=>{
 	const isMobileUI=props.isMobileUI;
 
@@ -156,18 +142,12 @@ const VideoPostModal=(props)=>{
 					targetDom={props.targetDom}
 					isSymposiumPostUI={props.isSymposiumPostUI}
 				/>
-
-				{props.endOfPostsDBIndicator==false && (
-					<React.Fragment>
-						{props.isLoadingReloadedPosts==true?
-							<p>Loading please wait...</p>:
-							<p id="nextButton" onClick={()=>props.triggerReloadingPostsHandle("Videos")} 
-								style={NextButtonCSS}>
-								Next
-							</p>
-						}
-					</React.Fragment>
-				)}
+				<NextButton
+					endOfPostsDBIndicator={props.endOfPostsDBIndicator}
+					isLoadingReloadedPosts={props.isLoadingReloadedPosts}
+					triggerReloadingPostsHandle={props.triggerReloadingPostsHandle}
+					postType={"Videos"}
+				/>
 			</React.Fragment>
 		)
 	}

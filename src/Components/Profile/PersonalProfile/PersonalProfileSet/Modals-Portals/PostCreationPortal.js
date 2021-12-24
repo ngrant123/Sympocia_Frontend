@@ -1,7 +1,11 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import CreateAPostComponent from "../../../../GeneralComponents/PostComponent/LargePostComponent/LargePostComponent.js";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../Actions/Tasks/DisableScrolling.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -20,22 +24,24 @@ const PostCreationContainer=styled.div`
 `;
 
 const PostCreationPortal=(props)=>{
-	const {postOption,closeModal,isPhoneUIEnabled}=props;
+	const {closeModal}=props;
+
+	useEffect(()=>{
+		disableScrolling("personalContainer");
+	},[]);
+
 
 	const closeModalHandle=()=>{
+		enableScrolling("personalContainer");
 		closeModal();
 	}
 
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
-				onClick={()=>closeModal()}
+				onClick={()=>closeModalHandle()}
 			/>
-			<CreateAPostComponent
-				postOption={postOption}
-				closeModal={closeModalHandle}
-				isPhoneUIEnabled={isPhoneUIEnabled}
-			/>
+			<CreateAPostComponent {...props}/>
 
 		</React.Fragment>
 	,document.getElementById("personalContainer"));

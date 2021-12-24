@@ -93,6 +93,8 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	const [silverUnlockedUsers,changeSilverUnlockedUsers]=useState(0);
 	const [goldUnlockedUSers,changeGoldUnlockedUsers]=useState(0);
 
+	console.log(tokenLevel);
+
 	useEffect(()=>{
 		retrieveUsersUnlocked();
 		triggerProgressBarCompletion();
@@ -195,7 +197,10 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 					<b>Progress Bar</b>
 				</p>
 				<div style={TokenLevelDisplayCSS}>
-					{tokenLevel}
+					{tokenLevel==""?
+						<p>Unranked</p>:
+						<p>{tokenLevel}</p>
+					}
 				</div>
 			</div>
 			<hr style={HorizontalLineCSS}/>

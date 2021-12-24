@@ -17,6 +17,11 @@ import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCir
 import {Link} from "react-router-dom";
 import {getVideoUrl} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
 import NodeDesignOptions from "./NodeDesignOptions.js";
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../Actions/Tasks/DisableScrolling.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -101,7 +106,7 @@ const ShadowContainer= styled.div`
 `;
 
 const NameTextArea=styled.textarea`
-	width:90%;
+	width:100%;
 	resize:none;
 	@media screen and (min-width:2500px){
 		font-size:36px !important;
@@ -112,7 +117,7 @@ const NameTextArea=styled.textarea`
 `;
 
 const DescriptionTextArea=styled.textarea`
-	width:90%;
+	width:100%;
 	height:40%;
 	resize:none;
 	margin-bottom:5%;
@@ -220,7 +225,13 @@ const NodeInformationPortal=({
 		if(nodeVideoDescription==null && containsVideoDescription==true){
 			fetchData();
 		}
+		disableScrolling("personalContainer");
 	},[]);
+
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
 
 	const submitInformation=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const name=document.getElementById("name").value;
@@ -257,7 +268,7 @@ const NodeInformationPortal=({
 				...nodeObject,
 				nodeNumber:nodeInformation.nodeCounter
 			});
-			closeModal();
+			closePortal();;
 		}else{
 			
 			const {statusCode}=data;
@@ -346,27 +357,23 @@ const NodeInformationPortal=({
 		return(
 			<li onClick={()=>changeDisplayEditArea(true)} 
 				style={{listStyle:"none",display:"inline-block",marginRight:"80%",cursor:"pointer"}}>
-				<svg id="editIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="30" 
-					height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" 
-					stroke-linecap="round" stroke-linejoin="round">
-				  <path stroke="none" d="M0 0h24v24H0z"/>
-				  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-				  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-				  <line x1="16" y1="5" x2="19" y2="8" />
-				</svg>
+				<BorderColorIcon
+					id="postCreationIcon"
+					style={{fontSize:"24",color:"#C8B0F4"}}
+				/>
 			</li>
 		)
 	}
 
 	const closeModalIcon=()=>{
 		return(
-			<li onClick={()=>closeModal()} style={{listStyle:"none",display:"inline-block"}}>
-				<svg id="closeModalIcon" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" 
-					width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#2196F3" fill="none" 
-					stroke-linecap="round" stroke-linejoin="round">
-					<path stroke="none" d="M0 0h24v24H0z"/>
-					<rect x="4" y="4" width="16" height="16" rx="2" />
-					<path d="M10 10l4 4m0 -4l-4 4" />
+			<li onClick={()=>closePortal()} style={{listStyle:"none",display:"inline-block"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
 				</svg>
 			</li>
 		)
@@ -525,7 +532,7 @@ const NodeInformationPortal=({
 		}else{
 			triggerFriendsGaugePostDisplay(nodeInformation._id);
 		}
-		closeModal()
+		closePortal();
 	}
 
 	const closeEditArea=()=>{
@@ -535,7 +542,7 @@ const NodeInformationPortal=({
 	return createPortal(
 		<>
 			<ShadowContainer
-				onClick={()=>closeModal()}
+				onClick={()=>closePortal()}
 			/>
 			<Container videoDescription={videoDescription}>
 				<ul style={{padding:"15px"}}>
@@ -640,7 +647,7 @@ const NodeInformationPortal=({
 							</>:
 							<>
 								{nodeInformation.isFirstNode==true?
-									<div style={ButtonCSS}>
+									<div style={{...ButtonCSS,width:"20%"}}>
 										Node Design
 									</div>:
 									<div class="btn-group">

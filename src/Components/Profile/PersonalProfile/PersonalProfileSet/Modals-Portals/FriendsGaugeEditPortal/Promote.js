@@ -71,12 +71,14 @@ const InputContainer=styled.textarea`
 `;
 
 const NextButton=styled.div`
-	position:relative;
+	position:sticky;
 	text-align:center;
 	color:white;
 	padding:10px;
 	background-color:#C8B0F4;
 	border-radius:5px;
+	cursor:pointer;
+	top:10px;
 
 	@media screen and (min-width:2500px){
 		font-size:36px !important;
@@ -111,9 +113,24 @@ const RecruitsContainerCSS={
 	justifyContent:"center",
 	alignItems:"center",
 	width:"35%",
-	marginRight:"3%",
+	marginRight:"5%",
 	borderRadius:"5px",
 	boxShadow:"1px 1px 10px #d5d5d5",
+	cursor:"pointer",
+	marginBottom:"10%",
+	padding:"5px"
+}
+
+const BackButtonCSS={
+	listStyle:"none",
+	display:"inline-block",
+	backgroundColor:"white",
+	borderRadius:"5px",
+	padding:"10px",
+	color:"#3898ec",
+	borderStyle:"solid",
+	borderWidth:"2px",
+	borderColor:"#3898ec",
 	cursor:"pointer"
 }
 
@@ -134,6 +151,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	const [selectedNode,changeSelectedNode]=useState();
 	const [selectedRecruitsMap,changeSelectedRecruitsMap]=useState(new Map());
 	const [isProcessingSubmit,changeIsSubmitProcessing]=useState(false); 
+	const [displaySubmitPromotionModal,changeDisplaySubmitPromotionModal]=useState(false);
 
 	useEffect(()=>{
 		
@@ -163,6 +181,7 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	}
 
 	const pushSelectedPersonToArray=(data)=>{
+		console.log(data);
 		selectedRecruits.push(data);
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);
@@ -216,114 +235,135 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 		changeIsSubmitProcessing(false);
 	}
 
+	const triggerDisplaySubmitPrompt=(data)=>{
+		changeSelectedNode(data);
+		changeDisplaySubmitPromotionModal(true);
+	}
+	const submitText=()=>{
+		let usersEligibleForPromotion="";
+		for(var i=0;i<selectedRecruits.length;i++){
+			if(i!=selectedRecruits.length-1){
+				usersEligibleForPromotion+=selectedRecruits[i].firstName+",";
+			}else{
+				usersEligibleForPromotion+=" and "+selectedRecruits[i].firstName;
+			}
+		}
+		return <p>Are you sure you want to promote {usersEligibleForPromotion} to node level: {selectedNode.name}?</p>
+	}
 
 	return(
 		<Container>
 			{displayPromoteSomeoneScreen==false?
-				 <ul style={{padding:"25px"}}>
-				 		{/*
-							<li style={{listStyle:"none",marginTop:"5%",marginLeft:"10%"}}>
-								<InputContainer placeholder="Search for some here"/>
-							</li>
-							<hr/>
-				 		*/}
-				 		<p id="title" style={{fontSize:"20px"}}>
-				 			<b>Click on the recruits that you would like to promote </b>
-				 		</p>
-				 		<hr/>
-						{selectedRecruits.map(data=>
-							<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
-								<ul style={{padding:"0px",width:"150%"}}>
-									<li id="recruitFirstName" style={{listStyle:"none",display:"inline-block"}}>
-										{data.firstName}
-									</li>
-									<li onClick={()=>removeSelectedPerson(data)} 
-										style={{listStyle:"none",display:"inline-block",width:"20%",cursor:"pointer"}}>
-										<HighlightOffIcon
-											id="removedRecruitIcon"
-											onClick={()=>removeSelectedPerson(data)}
-										/>
-									</li>
-								</ul>
-							</li>
-						)}
-						<li style={{listStyle:"none",height:"45%",overflowY:"auto",marginBottom:"1%"}}>
-							<ul style={{padding:"0px"}}>
-								{recruitsInformationProp.length==0?
-									<p> Unfortunately you dont have any recruits. Add some then come back here later </p>:
-									<div style={{display:"flex",flexDirection:"row"}}>
-										{recruitsInformationProp.map(data=>
-											<div id="recruitContainer"
-												onClick={()=>pushSelectedPersonToArray(data)} style={RecruitsContainerCSS}>
-												<img id="recruitImage" src={data.profilePicture==null?
-													NoProfilePicture:data.profilePicture} style={ImageCSS}
-												/>
-												<p id="recruitFirstName">{data.firstName}</p>
-												<p id="promoteButton" style={PromoteButtonCSS}>
-													Promote
-												</p>
-											</div>
-										)}
-									</div>
-								}
+				<ul style={{padding:"25px"}}>
+					{selectedRecruits.length>0 &&(
+						<NextButton onClick={()=>changeDisplayPromotionScreen(true)}>
+							Next
+						</NextButton>
+					)}
+			 		{/*
+						<li style={{listStyle:"none",marginTop:"5%",marginLeft:"10%"}}>
+							<InputContainer placeholder="Search for some here"/>
+						</li>
+						<hr/>
+			 		*/}
+			 		<p id="title">
+			 			<b>Click on the recruits that you would like to promote </b>
+			 		</p>
+			 		<hr/>
+					{selectedRecruits.map(data=>
+						<li style={{listStyle:"none",display:"inline-block",width:"20%",marginBottom:"5%"}}>
+							<ul style={{padding:"0px",width:"150%"}}>
+								<li id="recruitFirstName" style={{listStyle:"none",display:"inline-block"}}>
+									{data.firstName}
+								</li>
+								<li onClick={()=>removeSelectedPerson(data)} 
+									style={{listStyle:"none",display:"inline-block",width:"20%",cursor:"pointer"}}>
+									<HighlightOffIcon
+										id="removedRecruitIcon"
+										onClick={()=>removeSelectedPerson(data)}
+									/>
+								</li>
 							</ul>
 						</li>
-						{selectedRecruits.length>0?
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<NextButton onClick={()=>changeDisplayPromotionScreen(true)}>
-									Next
-								</NextButton>
-							</a>
-
-						:null}
-					</ul>:
-					<>
-						<ul style={{padding:"25px"}}>
-							{selectedNode!=null?
-								<>
-									{isProcessingSubmit==true?
-										<p>Please wait...</p>
-										:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-											<li style={{listStyle:"none",marginBottom:"5%"}}>
-												<SubmitButton onClick={()=>promoteRecruits({isAccessTokenUpdated:false})}>
-													Submit
-												</SubmitButton>
-											</li>
-										</a>
-									}
-								</>:null
+					)}
+					<li style={{listStyle:"none",height:"45%",marginBottom:"1%"}}>
+						<ul style={{padding:"0px"}}>
+							{recruitsInformationProp.length==0?
+								<p> Unfortunately you dont have any recruits. Add some then come back here later </p>:
+								<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
+									{recruitsInformationProp.map(data=>
+										<div id="recruitContainer"
+											onClick={()=>pushSelectedPersonToArray(data)} style={RecruitsContainerCSS}>
+											<img id="recruitImage" src={data.profilePicture==null?
+												NoProfilePicture:data.profilePicture} style={ImageCSS}
+											/>
+											<p id="recruitFirstName">{data.firstName}</p>
+											<p id="promoteButton" style={PromoteButtonCSS}>
+												Promote
+											</p>
+										</div>
+									)}
+								</div>
 							}
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									<p id="title"  style={{marginBottom:"5%",fontSize:"20px"}}>
-							 			Click the level that you want to promote the recruit to
-							 		</p>
-							 		<hr/>
-							 		{nodes.length==0?
-							 			<p>
-							 				Unfortunately you have no levels to promote your recruit to.
-							 			 	Please create a new one and revisit this screen again
-							 			</p>:
-							 			<>
-											{nodes.map(data=>
-												<>
-													<li onClick={()=>changeSelectedNode(data)}
-														style={{listStyle:"none",cursor:"pointer"}}>
-														<p id="nodeTitle" style={{fontSize:"25px"}}>
-															<b> {data.name} </b>
-														</p>
-														<p id="nodeDescription">{data.description}</p>
-													</li>
-													<hr/>
-												</>
-											)}
-							 			</>
-							 		}
-								</ul>
-							</li>
 						</ul>
-					</>
-				}
+					</li>
+				</ul>:
+				<>
+					<ul style={{padding:"25px"}}>
+						{displaySubmitPromotionModal==false?
+							<React.Fragment>
+								<div style={BackButtonCSS} onClick={()=>changeDisplayPromotionScreen(false)}>
+									Back
+								</div>
+								<li style={{listStyle:"none"}}>
+									<ul style={{padding:"0px"}}>
+										<p id="title"  style={{marginBottom:"5%"}}>
+								 			Click the level that you want to promote the recruit to
+								 		</p>
+								 		<hr/>
+								 		{nodes.length==0?
+								 			<p>
+								 				Unfortunately you have no levels to promote your recruit to.
+								 			 	Please create a new one and revisit this screen again
+								 			</p>:
+								 			<>
+												{nodes.map(data=>
+													<>
+														<li onClick={()=>triggerDisplaySubmitPrompt(data)}
+															style={{listStyle:"none",cursor:"pointer"}}>
+															<p id="nodeTitle" style={{fontSize:"25px"}}>
+																<b> {data.name} </b>
+															</p>
+															<p id="nodeDescription">{data.description}</p>
+														</li>
+														<hr/>
+													</>
+												)}
+								 			</>
+								 		}
+									</ul>
+								</li>
+							</React.Fragment>:
+							<React.Fragment>
+								<div style={BackButtonCSS} onClick={()=>changeDisplaySubmitPromotionModal(false)}>
+									Back
+								</div>
+								<p>{submitText()}</p>
+								{isProcessingSubmit==true?
+									<p>Please wait...</p>
+									:<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<SubmitButton onClick={()=>promoteRecruits({isAccessTokenUpdated:false})}>
+												Submit
+											</SubmitButton>
+										</li>
+									</a>
+								}
+							</React.Fragment>
+						}
+					</ul>
+				</>
+			}
 		</Container>
 
 	)

@@ -120,9 +120,9 @@ const ProfilePicturesDefaultOptions=({targetDom,closeModal,userId,accessToken,re
 			<React.Fragment>
 				{displayDefaultOptions==true &&(
 					<React.Fragment>
-						<div onClick={()=>closeModal()} style={{marginBottom:"5%"}}>
+						<div onClick={()=>closeModal()} style={{cursor:"pointer",marginBottom:"5%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 							 stroke-linecap="round" stroke-linejoin="round">
 							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 							  <circle cx="12" cy="12" r="9" />

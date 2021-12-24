@@ -6,6 +6,7 @@ export const SmallBlogComponent=styled.div`
 	width:200px;
 	height:40%;
 	margin-right:8%;
+	cursor:pointer;
 	margin-bottom:7%;
 
 	@media screen and (min-width:2500px){
@@ -108,7 +109,7 @@ export const ColorPatchContainer=styled.div`
 `;
 
 
-export const Container=styled(Link)`
+export const Container=styled.div`
 	margin-right:5% !important;
 	@media screen and (max-width:650px){
 		#blogHorizontalLine{

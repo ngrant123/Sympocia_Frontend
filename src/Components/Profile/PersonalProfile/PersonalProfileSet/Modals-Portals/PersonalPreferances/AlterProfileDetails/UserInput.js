@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const Container=styled.div`
 	position:absolute;
+	width:90%;
 	@media screen and (min-width:2500px){
 		margin-left:-5%;
 		#submitButton{

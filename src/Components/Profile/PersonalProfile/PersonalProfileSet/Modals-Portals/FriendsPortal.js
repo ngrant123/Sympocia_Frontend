@@ -7,6 +7,10 @@ import {getRecruits} from "../../../../../Actions/Requests/ProfileAxiosRequests/
 import {removeRecruitProfileIsFollowing} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../Actions/Tasks/DisableScrolling.js";
 
 
 const ShadowContainer= styled.div`
@@ -61,9 +65,9 @@ const Container=styled.div`
     }
 
     @media screen and (max-width:700px){
-		width:90% !important;
-		left:5% !important;
-		height:60%;
+		width:80% !important;
+		left:10% !important;
+		height:55%;
     }
 
      @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
@@ -150,7 +154,14 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 			changeIsLoadingStatus(false);
 		}
 		getRecruitsFromDB();
+		disableScrolling("personalContainer");
 	},[]);
+
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
+
 
 	const displayRemoveRecruitModal=(selectedData)=>{
 		changeSelectedRecruit(selectedData);
@@ -195,7 +206,7 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 	return createPortal(
 		<>
 			<ShadowContainer
-				onClick={()=>closeModal()}
+				onClick={()=>closePortal()}
 			/>
 			<Container>
 				{displayRemoveRecruitsVerification==false?

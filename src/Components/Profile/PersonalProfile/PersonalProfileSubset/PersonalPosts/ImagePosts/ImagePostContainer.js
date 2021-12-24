@@ -1,4 +1,8 @@
-import React,{useState,useMemo,memo,useContext,useCallback} from "react";
+import React,{
+	useState,
+	useMemo,
+	useContext
+} from "react";
 import styled from "styled-components";
 import NoPostsModal from "../NoPostsModal.js";
 import {PostDisplayConsumer,PostDisplayContext} from "../../../PostDisplayModalContext.js";
@@ -7,7 +11,8 @@ import {CompanyPostDisplayConsumer} from "../../../../CompanyProfile/CompanyProf
 import CrownedImageContainer from "./CrownedImageContainer.js";
 import SmallImageContainer from "./SmallImageContainer.js";
 import {PostConsumer,PostContext} from "../PostsContext.js";
-import Typed from "react-typed";
+import NextButton from "../NextButton.js";
+
 
 const Container=styled.div`
 	position:absolute;
@@ -119,7 +124,6 @@ const ImageLabelCSS={
 const ImagePostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
-	const displayPostModalCallback=useCallback((data)=>displayPostModal(data),[props.imageData.images]);
 
 	const constructDate=(date)=>{
 		var convertedDate=new Date(parseInt(date));
@@ -133,44 +137,55 @@ const ImagePostsContainer=(props)=>{
 	const displayPostModal=(data)=>{
 		PostDisplay.handleImagePostModal(data,PostContextValues);
 	}
-	return(
-		<Container>
-			{props.isLoading==true?
-					<p>Give us a second we're getting your information</p>:
-					<React.Fragment>
-					{props.imageData.images.length==0 &&
-						props.imageData.crownedImage==null?
-						<NoPostsModal
-							id="noPostsModalContainer"
-							postType={"image"}
-							profilePageType={props.profile}
-							isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
-							currentRequestedFriendsGaugeNodeId={props.currentRequestedFriendsGaugeNodeId}
-						 />:
-						<ul style={{padding:"0px",width:"100%"}}>
-							{props.imageData.crownedImage==null?
-								null:
-								<React.Fragment>
-									<CrownedImageContainer
-										crownedImage={props.imageData.crownedImage}
-										displayPostModal={displayPostModalCallback}
-										friendsColorNodesMap={props.friendsColorNodesMap}
-									/>
-									<hr/>
-								</React.Fragment>
-							}	
-							<SmallImageContainer
-								images={props.imageData.images}
-								displayPostModal={displayPostModalCallback}
-								friendsColorNodesMap={props.friendsColorNodesMap}
-								PostContextValues={PostContextValues}
-							/>
-						</ul>
+
+	const images=useMemo(()=>{
+		return(
+			<Container>
+				{props.isLoading==true?
+						<p>Give us a second we're getting your information</p>:
+						<React.Fragment>
+						{props.imageData.images.length==0 &&
+							props.imageData.crownedImage==null?
+							<NoPostsModal
+								id="noPostsModalContainer"
+								postType={"image"}
+								profilePageType={props.profile}
+								isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+								currentRequestedFriendsGaugeNodeId={props.currentRequestedFriendsGaugeNodeId}
+							 />:
+							<ul style={{padding:"0px",width:"100%"}}>
+								{props.imageData.crownedImage==null?
+									null:
+									<React.Fragment>
+										<CrownedImageContainer
+											crownedImage={props.imageData.crownedImage}
+											displayPostModal={displayPostModal}
+											friendsColorNodesMap={props.friendsColorNodesMap}
+										/>
+										<hr/>
+									</React.Fragment>
+								}	
+								<SmallImageContainer
+									images={props.imageData.images}
+									displayPostModal={displayPostModal}
+									friendsColorNodesMap={props.friendsColorNodesMap}
+									PostContextValues={PostContextValues}
+								/>
+								<NextButton/>
+							</ul>
+						}
+						</React.Fragment>
 					}
-					</React.Fragment>
-				}
-		</Container>
+			</Container>
+		)
+	},[
+		props.imageData,
+		props.isLoading
+	]);
+
+	return(
+		<>{images}</>
 	)
 }
 
-export default memo(ImagePostsContainer);
+export default ImagePostsContainer;

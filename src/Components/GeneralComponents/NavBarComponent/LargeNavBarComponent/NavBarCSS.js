@@ -111,10 +111,16 @@ export const Container=styled.div`
 
 	@media screen and (max-width:650px) {
 		width:105%;
-		height:12%;
+		height:9%;
 		margin-left:-3%;
 		#mobileRoutesButton{
 			margin-left:2% !important;
+		}
+		#routeIcon{
+			height:25px !important;
+		}
+		#searchLIContainer{
+			height:25px !important;
 		}
 		#searchLIContainer{
 			margin-left:-150% !important;

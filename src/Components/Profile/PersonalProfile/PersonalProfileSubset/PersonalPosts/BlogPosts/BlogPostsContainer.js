@@ -15,6 +15,8 @@ import {
 import {connect} from "react-redux";
 import CrownedBlogContainer from "./CrownedBlogContainer.js";
 import SmallBlogContainer from "./SmallBlogContainer.js";
+import NextButton from "../NextButton.js";
+import {PostDisplayContext} from "../../../PostDisplayModalContext.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -96,88 +98,82 @@ const NextPostLabelCSS={
 const BlogsPostsContainer=(props)=>{
 	const PostContextValues=useContext(PostContext);
 	const UserContextValues=useContext(UserContext);
+	const PostDisplay=useContext(PostDisplayContext);
 
-	const constructDate=(date)=>{
-		var convertedDate=new Date(parseInt(date));
-		var dateToString=convertedDate.toString();
-		var current=new Date();
-
-		//work on this a little more
-		return dateToString;
+	const displayPostModal=(data)=>{
+		debugger;
+		if(UserContextValues.isOwnProfile){
+			PostContextValues.history({
+				pathname:UserContextValues.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
+				state:{
+						...data,
+						profileType:props.profileType,
+						friendsNodes:props.friendsNodes
+				}
+			});
+		}else{
+			PostDisplay.handleBlogPostModal(data,PostContextValues);
+		}
 	}
 
-	const crownPostRender=useMemo(()=>{
+	const blogPostsRender=useMemo(()=>{
 		return(
-			<CrownedBlogContainer
-				headerBlog={props.blogData.headerBlog}
-				isOwnProfile={UserContextValues.isOwnProfile}
-				profileType={props.profileType}
-				friendsColorNodesMap={props.friendsColorNodesMap}
-				friendsNodes={props.friendsNodes}
-			/>
-		)
-	},[props.blogData.headerBlog]);
+			<React.Fragment>
+				{props.isLoadingIndicatorBlogPost==true?<p>Currently loading blog posts</p>:
+					<React.Fragment>
+						{props.blogData.blogs.length==0 && props.blogData.headerBlog==null?
+							<NoPostsModal
+								id="noPostsModalContainer"
+								postType={"blog"}
+								profilePageType={props.profile}
+								isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
+							/>:
+							<ul style={{padding:"0px"}}>
+								<li style={{listStyle:"none"}}>
+									{props.blogData.headerBlog==null?<React.Fragment></React.Fragment>:
+										<React.Fragment>
+											<CrownedBlogContainer
+												headerBlog={props.blogData.headerBlog}
+												isOwnProfile={UserContextValues.isOwnProfile}
+												profileType={props.profileType}
+												friendsColorNodesMap={props.friendsColorNodesMap}
+												friendsNodes={props.friendsNodes}
+												displayPostModal={displayPostModal}
+											/>
+											<hr/>
+										</React.Fragment>
+									}
+								</li>
 
-	const blogPostRender=useMemo(()=>{
-		return(
-			<div id="smallPostsContainer" style={{flexWrap:"wrap",display:"flex",flexDirection:"row"}}>
-				{props.blogData.blogs.map(data=>
-					<SmallBlogContainer
-						data={data}
-						isOwnProfile={UserContextValues.isOwnProfile}
-						profileType={props.profileType}
-						friendsColorNodesMap={props.friendsColorNodesMap}
-						friendsNodes={props.friendsNodes}
-					/>
-				)}
-			</div>
+								<li style={{listStyle:"none",marginTop:"5%"}}>	
+									<div id="smallPostsContainer" style={{flexWrap:"wrap",display:"flex",flexDirection:"row"}}>
+										{props.blogData.blogs.map(data=>
+											<SmallBlogContainer
+												data={data}
+												isOwnProfile={UserContextValues.isOwnProfile}
+												profileType={props.profileType}
+												friendsColorNodesMap={props.friendsColorNodesMap}
+												friendsNodes={props.friendsNodes}
+												displayPostModal={displayPostModal}
+											/>
+										)}
+									</div>
+									<NextButton/>
+								</li>
+							</ul>
+						}
+					</React.Fragment>
+				}
+			</React.Fragment>
 		)
-	},[props.blogData.blogs]);
+	},[
+		props.blogData,
+		props.isLoadingIndicatorBlogPost
+	])
 
 	return(
-		 <Container>
-			{props.isLoadingIndicatorBlogPost==true?<p>Currently loading blog posts</p>:
-				<React.Fragment>
-					{props.blogData.blogs.length==0 && props.blogData.headerBlog==null?
-					<NoPostsModal
-						id="noPostsModalContainer"
-						postType={"blog"}
-						profilePageType={props.profile}
-						isSearchFilterActivated={PostContextValues.isSearchFilterActivated}
-					/>:
-					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none"}}>
-							{props.blogData.headerBlog==null?<React.Fragment></React.Fragment>:
-								<React.Fragment>
-									{crownPostRender}
-									<hr/>
-								</React.Fragment>
-							}
-						</li>
-
-						<li style={{listStyle:"none",marginTop:"5%"}}>	
-								{blogPostRender}
-								{PostContextValues.endOfPostsDBIndicator==false
-								 && PostContextValues.isSearchFilterActivated==false 
-								 && PostContextValues.isFilteredPostsActivated==false  && (
-									<React.Fragment>
-										{PostContextValues.isLoadingReloadedPosts==true?
-											 <Typed 
-							                    strings={['Loading...']} 
-							                    typeSpeed={60} 
-							                    backSpeed={30} 
-					                		  />:
-											<p id="nextButton" onClick={()=>PostContextValues.fetchNextPosts()} style={NextPostLabelCSS}>
-												Next
-											</p>
-										}
-									</React.Fragment>
-								)}
-							</li>
-						</ul>
-					}	
-				</React.Fragment>
-			}
+		<Container>
+			{blogPostsRender}	
 		</Container>
 	)
 }

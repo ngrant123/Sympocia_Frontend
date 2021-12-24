@@ -599,6 +599,7 @@ const PersonalPostsIndex=(props)=>{
 				postOption={postOption}
 				closeModal={closeModal}
 				isPhoneUIEnabled={props.uiStatus.displayPhoneUI}
+				history={props.history}
 			/>:null;
 	}
 
@@ -1091,6 +1092,7 @@ const PersonalPostsIndex=(props)=>{
 					isFilteredPostsActivated,
 					isLoadingReloadedPosts,
 					endOfPostsDBIndicator,
+					history:props.history,
 					updatePostComponent:(postOption)=>{
 						changePostOption(postOption);
 						changeDisplayCreationPost(true);

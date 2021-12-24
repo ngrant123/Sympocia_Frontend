@@ -10,6 +10,7 @@ const ThumbnailBlogComponent=styled(Link)`
 	display:flex;
 	flex-direction:row;
 	margin-top:2%;
+	cursor:pointer;
 
 	@media screen and (min-width:2500px){
 		margin-top:2%;
@@ -213,13 +214,8 @@ const CrownedBlogContainer=(props)=>{
 
 
 	return(
-		<ThumbnailBlogComponent to={{pathname:props.isOwnProfile==true?`/createBlog`
-										:`/blog/${props.headerBlog._id}`,
-											state:{
-													...props.headerBlog,
-													profileType:props.profileType,
-													friendsNodes:props.friendsNodes
-											}}} style={{textDecoration:"none"}}>
+		<ThumbnailBlogComponent onClick={()=>props.displayPostModal(props.headerBlog)} 
+			style={{textDecoration:"none"}}>
 			<div id="imageContainer" style={{display:"flex",flexDirection:"column",width:"50%",marginRight:"2%"}}>
 				<div style={{display:"flex",flexDirection:"row",marginBottom:"2%"}}>
 					{props.headerBlog.audioDescription!=null &&(

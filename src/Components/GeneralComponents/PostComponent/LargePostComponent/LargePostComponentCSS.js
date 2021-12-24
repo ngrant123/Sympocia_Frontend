@@ -50,13 +50,11 @@ export const Container=styled.div`
     	#postOptionLI{
     		display:block !important;
     		margin-bottom:5% !important;
-    		height:20% !important;
     	}
 
         #blogPostOptionLI{
             display:block !important;
             margin-bottom:5% !important;
-            height:20% !important;
         }
     }
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -296,6 +294,7 @@ export const PostOptionButton = styled.div`
  				color:#C8B0F4;`
  			)
  		}
+        height:10%;
  	}
 
 

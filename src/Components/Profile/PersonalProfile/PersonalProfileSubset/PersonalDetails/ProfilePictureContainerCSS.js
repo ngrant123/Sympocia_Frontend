@@ -13,6 +13,7 @@ export const ProfilePictureContainer=styled.div`
 	box-shadow: 1px 1px 10px #d5d5d5;
 	display:flex;
 	justify-content:center;
+  align-items:center;
   margin-top:5%;
 
   @media screen and (min-width:2500px){
@@ -154,14 +155,11 @@ export const ProfilePictureContainer=styled.div`
 export const ChangePictureButton=styled.div`  
   position:absolute;
   top:85%;
-  background-color:#5298F8;
   padding:5px;
   border-radius:5px;
-  color:white;
-  left:5%;
-
-
-
+  left:5%; 
+  cursor:pointer;
+  box-shadow: 1px 1px 10px #d5d5d5;
 `;
 
 

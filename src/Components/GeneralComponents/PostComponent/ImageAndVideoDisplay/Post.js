@@ -124,8 +124,10 @@ const PostDisplayContainer=(props)=>{
 	}
 
 	const displayVideoContainer=()=>{
-		pauseVideoUrls();
-		changeZoomedInPostDisplay(true)
+		if(postData.videoDescription!=null){
+			pauseVideoUrls();
+			changeZoomedInPostDisplay(true)
+		}
 	}
 
 	const closeModal=()=>{

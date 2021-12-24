@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
@@ -9,6 +9,10 @@ import AlterEmailPrompt from "./AlterProfileDetails/AlterEmailPrompt.js";
 import AlterLastNamePrompt from "./AlterProfileDetails/AlterLastNamePrompt.js";
 import DeleteProfilePrompt from "./DeleteProfilePrompt.js";
 import MiscellaneousOptionsDisplay from "./AlterProfileDetails/MiscellaneousOptions.js";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../Actions/Tasks/DisableScrolling.js";
 
 import {Link} from "react-router-dom";
 
@@ -25,7 +29,6 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 	padding:30px;
-	align-items:center;
 	overflow-y:scroll;
 
 	@media screen and (min-width:2500px){
@@ -52,6 +55,11 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
+		width:100% !important;
+		left:0% !important;
+		height:100%;
+		top:0%;
+
 		#settingsContainer{
 			width:110% !important;
 		}
@@ -124,6 +132,7 @@ const UserSettingOptionsCSS={
 	width:"70%",
 	display:"flex",
 	flexDirection:"column",
+	justifyContent:"center",
 	borderRadius:"5px",
 	marginBottom:"5%",
 	paddingBottom:"10px"
@@ -132,6 +141,7 @@ const UserSettingOptionsCSS={
 const SpecificSettingOptionCSS={
 	display:"flex",
 	flexDirection:"row",
+	justifyContent:"space-between",
 	cursor:"pointer",
 	marginTop:"5%"
 }
@@ -145,6 +155,10 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 	const [displayDeleteProfilePrompt,changeDisplayDeleteProfilePrompt]=useState(false);
 	const [displayInitialSettingsModal,changeInitialSettingsModal]=useState(true);
 	const [displayMiscellaneousModal,changeMiscellaneousDisplayModal]=useState(false);
+
+	useEffect(()=>{
+		disableScrolling("personalContainer");
+	},[]);
 
 	const displayInitilaModal=()=>{
 		changeDisplayFirstNamePrompt(false);
@@ -181,87 +195,106 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 		changeInitialSettingsModal(false);
 	}
 
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
+
+	const closeModalIcon=()=>{
+		return(
+			<div id="closeModalButton" 
+				onClick={()=>closePortal()} style={{marginTop:"0%",cursor:"pointer"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
 
 	const initialDisplayModal=()=>{
 		return(
 			<React.Fragment>
 				{displayInitialSettingsModal==true &&(
 					<React.Fragment>
-						<CloseIcon
-							onClick={()=>closeModal()}
-							style={{color:"A4A4A4",marginLeft:"90%",cursor:"pointer"}}
-						/>
-						<img id="settingsProfilePicture" src={userProfilePicture==null?
-									NoProfilePicture:userProfilePicture
-								} 
-								style={{width:"20%",height:"90px",borderRadius:"50%"}}
-						/>
-						<hr style={HorizontalLineCSS}/>
-						<div id="settingsContainer" style={UserSettingOptionsCSS}>
-							<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
-								<b>Account Settings</b>
-							</p>
-							<div id="options" style={{padding:"40px",borderRadius:"5px",boxShadow:"2px 2px 10px #A4A4A4"}}>
-								<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
-									style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
-									<p>
-										<b>Update email addresses</b>
-									</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{marginLeft:"20%"}}
-									/>
-								</div>
-								<hr/>
+						{closeModalIcon()}
+						<div style={{display:"flex",alignItems:"center",flexDirection:"column"}}>
+							<img id="settingsProfilePicture" src={userProfilePicture==null?
+										NoProfilePicture:userProfilePicture
+									} 
+									style={{width:"80px",height:"80px",borderRadius:"50%"}}
+							/>
+							<hr style={HorizontalLineCSS}/>
+							<div id="settingsContainer" style={UserSettingOptionsCSS}>
+								<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
+									<b>Account Settings</b>
+								</p>
+								<div id="options" style={{borderRadius:"5px",marginTop:"5%"}}>
+									<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
+										style={SpecificSettingOptionCSS}>
+										<p>
+											<b>Update email addresses</b>
+										</p>
+										<ArrowDropDownCircleOutlinedIcon
+											style={{marginLeft:"20%"}}
+										/>
+									</div>
+									<hr/>
 
-								<div id="profilePreferencesOption" onClick={()=>hanldeDisplayFirstNameModal()}
-									style={SpecificSettingOptionCSS}>
-									<p>
-										<b>Update first name</b>
-									</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{marginLeft:"38%"}}
-									/>
-								</div>
-								<hr/>
+									<div id="profilePreferencesOption" onClick={()=>hanldeDisplayFirstNameModal()}
+										style={SpecificSettingOptionCSS}>
+										<p>
+											<b>Update first name</b>
+										</p>
+										<ArrowDropDownCircleOutlinedIcon
+											style={{marginLeft:"38%"}}
+										/>
+									</div>
+									<hr/>
 
-								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
-									onClick={()=>hanldeDisplayLastNameModal()}>
-									<p>
-										<b>Update last name</b>
-									</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{marginLeft:"39%"}}
-									/>
-								</div>
-								<hr/>
+									<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+										onClick={()=>hanldeDisplayLastNameModal()}>
+										<p>
+											<b>Update last name</b>
+										</p>
+										<ArrowDropDownCircleOutlinedIcon
+											style={{marginLeft:"39%"}}
+										/>
+									</div>
+									<hr/>
 
-								<Link id="profilePreferencesOption"
-									to={{pathname:'/emailreset'}} 
-									style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
-									<p>
-										<b>Update password</b>
-									</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{marginLeft:"39%"}}
-									/>
-								</Link>
-								<hr/>
+									<Link id="profilePreferencesOption"
+										to={{pathname:'/emailreset'}} 
+										style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
+										<p>
+											<b>Update password</b>
+										</p>
+										<ArrowDropDownCircleOutlinedIcon
+											style={{marginLeft:"39%"}}
+										/>
+									</Link>
+									<hr/>
 
-								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
-									onClick={()=>handleDisplayMiscellaneousModal()}>
-									<p>
-										<b>Miscellaneous</b>
-									</p>
-									<ArrowDropDownCircleOutlinedIcon
-										style={{marginLeft:"39%"}}
-									/>
+									<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+										onClick={()=>handleDisplayMiscellaneousModal()}>
+										<p>
+											<b>Miscellaneous</b>
+										</p>
+										<ArrowDropDownCircleOutlinedIcon
+											style={{marginLeft:"39%"}}
+										/>
+									</div>
 								</div>
+								{/*
+									<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
+										Delete Profile
+									</div>
+								*/}
 							</div>
-							{/*
-								<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
-									Delete Profile
-								</div>
-							*/}
 						</div>
 
 					</React.Fragment>
@@ -333,7 +366,7 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
-				onClick={()=>closeModal()}
+				onClick={()=>closePortal()}
 			/>
 			<Container>
 				{initialDisplayModal()}

@@ -3,6 +3,10 @@ import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {retrieveBadgeInformation} from "../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import {addPostBadge} from "../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../../Actions/Tasks/DisableScrolling.js";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -90,7 +94,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 					}=message;
 					if(badgePostType!=postType){
 						alert('Unfortunately you can only add the same post-type on your badge');
-						closeModal();
+						closePortal();
 					}else{
 						if(badgePosts.length>=5){
 							changeMaximumBadgePostsIndicator(true);
@@ -102,9 +106,15 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 			}else{
 				alert('Unfortunately there has been an error retrieving this badge information. Please try again');
 			}
+			disableScrolling("personalContainer");
 		}	
 		fetchData();
 	},[]);
+
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
 
 
 	const addPostToBadgeHandler=async()=>{
@@ -118,7 +128,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 		const {confirmation,data}=await addPostBadge(badgeInformation);
 		if(confirmation=="Success"){
 			alert('Post added to badge');
-			closeModal();
+			closePortal();
 		}else{
 			alert('Unfortunately there has been an error when adding this post to your badge. Please try again');
 		}
@@ -128,9 +138,9 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 
 	return createPortal(
 		<React.Fragment>
-			<ShadowContainer onClick={()=>closeModal()}/>
+			<ShadowContainer onClick={()=>closePortal()}/>
 			<Container>
-				<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>closeModal()}>
+				<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>closePortal()}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 						 stroke-linecap="round" stroke-linejoin="round">
@@ -157,7 +167,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 												</div>
 
 												<div style={{...ButtonCSS,marginLeft:"0%",marginLeft:"2%"}}
-													onClick={()=>closeModal()}>
+													onClick={()=>closePortal()}>
 													No
 												</div>
 											</React.Fragment>

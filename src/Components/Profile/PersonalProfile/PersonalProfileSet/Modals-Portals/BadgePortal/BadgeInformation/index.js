@@ -4,6 +4,11 @@ import {createPortal} from "react-dom";
 import {retrieveBadgeInformation} from "../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
 import EditBadge from "./EditBadge/index.js";
 import BadgeCreation from "./BadgeCreation.js";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../../Actions/Tasks/DisableScrolling.js";
+
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -91,15 +96,21 @@ const BadgePortal=({closeModal,profileId})=>{
 				alert('Unfortunately there has been an error retrieving this badge information. Please try again');
 			}
 			changeIsLoadingStatus(false);
+			disableScrolling("personalContainer");
 		}	
 		fetchData();
 	},[]);
 
+	const closePortal=()=>{
+		enableScrolling("personalContainer");
+		closeModal();
+	}
+
 	return createPortal(
 		<React.Fragment>
-			<ShadowContainer onClick={()=>closeModal()}/>
+			<ShadowContainer onClick={()=>closePortal()}/>
 			<Container>
-				<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>closeModal()}>
+				<div style={{marginBottom:"2%",cursor:"pointer"}} onClick={()=>closePortal()}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 						 stroke-linecap="round" stroke-linejoin="round">
@@ -115,11 +126,11 @@ const BadgePortal=({closeModal,profileId})=>{
 							<EditBadge
 								badgeInformation={badgeInformation}
 								profileId={profileId}
-								closeParentModal={closeModal}
+								closeParentModal={closePortal}
 							/>:
 							<BadgeCreation
 								profileId={profileId}
-								closeParentModal={closeModal}
+								closeParentModal={closePortal}
 							/>
 						}
 					</React.Fragment>

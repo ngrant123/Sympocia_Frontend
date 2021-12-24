@@ -114,22 +114,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 					</div>
 				</div>
 			)}
-			{ PostContextValues.endOfPostsDBIndicator==false
-			 && PostContextValues.isSearchFilterActivated==false 
-			 && PostContextValues.isFilteredPostsActivated==false  && (
-				<React.Fragment>
-					{PostContextValues.isLoadingReloadedPosts==true?
-						 <Typed 
-		                    strings={['Loading...']} 
-		                    typeSpeed={60} 
-		                    backSpeed={30} 
-                		  />:
-						<p id="nextButton" onClick={()=>PostContextValues.fetchNextPosts()} style={ImageLabelCSS}>
-							Next
-						</p>
-					}
-				</React.Fragment>
-			)}
 		</Container>
 	)
 }

@@ -8,6 +8,10 @@ import AddLevel from "./AddLevel.js";
 import RemoveLevel from "./RemoveLevel.js";
 import Promote from "./Promote.js";
 import Demote from "./Demote.js";
+import {
+	disableScrolling,
+	enableScrolling
+} from "../../../../../../Actions/Tasks/DisableScrolling.js";
 
 
 const Container=styled.div`
@@ -150,6 +154,7 @@ const FriendsGaugeEditPortal=(props)=>{
 			const {confirmation,data}=await getRecruits(props.userInformation);
 			if(confirmation=="Success"){
 				const {message}=data;
+				console.log(message);
 				const {
 					recruits,
 					recruitsFollowing
@@ -165,6 +170,7 @@ const FriendsGaugeEditPortal=(props)=>{
 			changeLoadingStatus(false);
 		};
 		getRecruitData();
+		disableScrolling("personalContainer");
 	},[]);
 
 	const closingScreen=(data)=>{
@@ -174,6 +180,10 @@ const FriendsGaugeEditPortal=(props)=>{
 		changeDisplayClosingScreen(true);
 	}
 
+	const closePortal=()=>{
+		enableScrolling("personalContainer")
+		props.hideModal();
+	}
 	const closingConfirmationScreen=()=>{
 		return	 <ul style={{padding:"20px"}}>
 					<li style={{listStyle:"none",marginLeft:"20%"}}>
@@ -230,11 +240,11 @@ const FriendsGaugeEditPortal=(props)=>{
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
-				onClick={props.hideModal}
+				onClick={()=>closePortal()}
 			/>
 			<Container>
 				<div id="closeModalButton" 
-					onClick={()=>props.hideModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+					onClick={()=>closePortal()} style={{marginTop:"0%",cursor:"pointer"}}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 					 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 					 stroke-linecap="round" stroke-linejoin="round">

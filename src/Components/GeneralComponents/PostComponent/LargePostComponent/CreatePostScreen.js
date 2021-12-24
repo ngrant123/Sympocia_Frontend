@@ -28,7 +28,9 @@ const CreatePostScreen=(props)=>{
 				page={"Home"}
 				routerHistory={props.history}
 			/>
-			<LargePostComponent/>
+			<LargePostComponent
+				history={props.history}
+			/>
 			
 		</Container>
 	)

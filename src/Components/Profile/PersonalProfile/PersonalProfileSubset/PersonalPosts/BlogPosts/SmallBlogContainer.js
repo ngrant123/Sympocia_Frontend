@@ -74,13 +74,8 @@ const BlogContainer=(props)=>{
 	}
 
 	return(
-		<Container to={{pathname:props.isOwnProfile==true?`/createBlog`:`/blog/${props.data._id}`,
-										state:{
-												...props.data,
-												profileType:props.profileType,
-												friendsNodes:props.friendsNodes
-										}}}>
-			<SmallBlogComponent>
+		<Container style={{textDecoration:"none"}} >
+			<SmallBlogComponent onClick={()=>props.displayPostModal(props.data)}>
 				<ul style={{padding:"0px"}}>
 					<li style={{listStyle:"none"}}>
 						{props.data.audioDescription!=null &&(
@@ -93,16 +88,14 @@ const BlogContainer=(props)=>{
 					</li>
 					{blogImage()}
 
-					<li style={SmallBlogTitleCSS}>
-						<b> {props.data.title} </b>
-					</li>
-					<li style={SmallBlogDescriptionCSS}>
-						{props.data.description}
-					</li>
-
-					<li id="symposiumsLI" style={SymposiumCSS}>
-						{props.data.industriesUploaded[0].industry}
-					</li>
+					<div style={{marginTop:"5%"}}>
+						<li style={SmallBlogTitleCSS}>
+							<b> {props.data.title} </b>
+						</li>
+						<li style={SmallBlogDescriptionCSS}>
+							{props.data.description}
+						</li>
+					</div>
 				</ul>
 			</SmallBlogComponent>
 			<hr id="blogHorizontalLine" style={{display:"none"}}/>

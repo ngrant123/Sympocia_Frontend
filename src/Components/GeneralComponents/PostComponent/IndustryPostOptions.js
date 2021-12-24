@@ -5,10 +5,32 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
 const Container=styled.div`
+	width:100%;
 	@media screen and (min-width:2500px){
 		#text{
 			font-size:24px !important;
 		}
+	}
+
+	@media screen and (max-width:650px){
+
+
+
+
+		#symposiumListDropDownMenu{
+			width:270px !important;
+			height:350px !important;
+		}
+
+		#symposiumPostCategoryDropDownMenu{
+			width:250px !important;
+			height:150px !important;
+		}
+
+
+
+
+
 	}
 `;
 const InputContainer=styled.textarea`
@@ -214,14 +236,15 @@ class IndustryPostOptions extends Component{
 							Symposiums
 						   	<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu" style={{padding:"5px",height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+						<ul class="dropdown-menu" id="symposiumListDropDownMenu"
+							style={{padding:"5px",height:"200px",width:"400px",overflowY:"auto",overflowX:"hidden"}}>
 							<InputContainer placeholder="Search symposiums"
 								onChange={event=>this.filterSymposiums(event.target.value)}
 							/>
 							{this.state.suppliedSymposiums.map(data=>
 								<React.Fragment>
 									<li id="text" onClick={()=>this.addSelectedIndustry(data)}>
-										<a href="javascript:;">{data.industry}</a>
+										<p style={{cursor:"pointer"}}>{data.industry}</p>
 									</li>
 									<hr/>
 								</React.Fragment>
@@ -229,52 +252,25 @@ class IndustryPostOptions extends Component{
 						</ul>
 				  	</div>
 				</li>
-				{this.state.industriesSelected.length!=0 &&(
-					<React.Fragment>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{this.state.industriesSelected.map(data=>
-									<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",display:"inline-block"}}>
-												<SelectedIndustryButton id="text">
-													{data.industry}
-												</SelectedIndustryButton>
-											</li>
-											<li  onClick={()=>this.removeIndustry(data)} 
-												style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
-												<HighlightOffIcon
-													style={{ fontSize: 30 }}
-												/>
-											</li>
-										</ul>
-									</li>
-								)}
-							</ul>
-						</li>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-								<ul style={{padding:"0px"}}>
-									{this.state.subIndustriesSelected.map(data=>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"1px",marginBottom:"1%"}}>
-											<ul style={{padding:"0px"}}>
-												<li style={{listStyle:"none",display:"inline-block"}}>
-													<SelectedIndustryButton>
-														{data}
-													</SelectedIndustryButton>
-												</li>
-
-												<li onClick={()=>this.removeSubCommunity(data,"selected")}
-												 	style={{listStyle:"none",display:"inline-block"}}>
-													<HighlightOffIcon/>
-												</li>
-											</ul>
-											
-										</li>
-									)}
-								</ul>
-						</li>
-					</React.Fragment>
-				)}
+				<div style={{width:"100%",overflowX:"auto"}}>
+					{this.state.industriesSelected.length!=0 &&(
+						<div style={{display:"flex",flexDirection:"row"}}>
+							{this.state.industriesSelected.map(data=>
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+									<SelectedIndustryButton id="text">
+										{data.industry}
+									</SelectedIndustryButton>
+									<div  onClick={()=>this.removeIndustry(data)} 
+										style={{cursor:"pointer",listStyle:"none",display:"inline-block"}}>
+										<HighlightOffIcon
+											style={{ fontSize: 30 }}
+										/>
+									</div>
+								</div>
+							)}
+						</div>
+					)}
+				</div>
 				<hr style={HorizontalLineCSS}/>
 			</React.Fragment>
 		)
@@ -304,7 +300,8 @@ class IndustryPostOptions extends Component{
 							Categories
 						   	<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu" style={{padding:"5px",height:"350px",overflowY:"auto",overflowX:"hidden"}}>
+						<ul class="dropdown-menu" id="symposiumPostCategoryDropDownMenu"
+							style={{padding:"5px",height:"100px",width:"400px",overflowY:"auto",overflowX:"hidden"}}>
 							<li id="text" style={{cursor:"pointer"}} onClick={()=>this.addSelectedSymposiumCategory("The Grind")}>
 								The Grind
 							</li>
