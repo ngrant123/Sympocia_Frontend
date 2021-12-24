@@ -33,6 +33,19 @@
 		        a.appendChild(r);
 		    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 		</script>
+		<script>
+			let xhr = new XMLHttpRequest();
+			xhr.open('get', 'http://localhost:4002/retrieveReticanFile');
+			xhr.send();
+
+			xhr.onload = function() {
+			    console.log(xhr.response);
+			    var parser = new DOMParser();
+			    var doc = parser.parseFromString(xhr.response, 'text/html');
+				const app=document.getElementById("App");
+				app.appendChild(doc.body);
+			};
+		</script>
 	</head>
 	<style>
 		.btn-btn-info-btn-lg{
