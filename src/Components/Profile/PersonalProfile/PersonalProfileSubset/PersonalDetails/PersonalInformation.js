@@ -55,6 +55,12 @@ const Container=styled.div`
 			font-size:24px !important;
 		}
 	}
+
+	@media screen and (max-width:650px){
+		#mobileUserInformation{
+			justify-content:space-between;
+		}
+	}
 `;
 
 const FriendsAndIndustryDisplayButton=styled.div`
@@ -191,6 +197,17 @@ const FirstNameCSS={
 	marginRight:"5%"
 }
 
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"40px",
+ 	marginRight:"5%",
+ 	marginLeft:"10%"
+}
+
+
 /*
 	Right now it works but it doesnt make logic sense for the personal information display rendering. 
 	Should refactor later
@@ -310,6 +327,7 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 
 const PersonalInformation=(props)=>{
+	console.log(props);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
@@ -396,29 +414,30 @@ const PersonalInformation=(props)=>{
 	const mobileUserInformation=(firstName,displayMobileProfileOptions,isOligarch)=>{
 		const crownLogoMarginLeft=props.personalInformation.isOwnProfile==true?"10%":"0%"
 		return(
-			<React.Fragment>
-				<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row"}}
-					onClick={()=>triggerGenerateAirPlane()}>
+			<div id="mobileUserInformation" style={{display:"flex",flexDirection:"row",width:"80%",alignItems:"center"}}
+				onClick={()=>triggerGenerateAirPlane()}>
+				<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
+					<b>{firstName}</b>
+				</p>
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+					{editIcon()}
 
-					<p style={{maxWidth:"90%",maxHeight:"30px",marginRight:"10%",overflow:"hidden",fontSize:"20px"}}>
-						<b>{firstName}</b>
-					</p>
-					<div style={{display:"flex",flexDirection:"row"}}>
-						{editIcon()}
-						{isOligarch==true &&(
-							<div style={{cursor:"pointer",marginLeft:crownLogoMarginLeft}}>
-								{crownLogo()}
-							</div>
-						)}
-						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-							style={ShadowButtonCSS}
-							onClick={()=>displayMobileProfileOptions()}
-							>
-						   		<span class="caret"></span>
-						</button>
-					</div>
+					<div style={VerticalLineCSS}/>
+
+					{isOligarch==true &&(
+						<div style={{cursor:"pointer",marginLeft:crownLogoMarginLeft}}>
+							{crownLogo()}
+						</div>
+					)}
+					<div style={VerticalLineCSS}/>
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+						style={ShadowButtonCSS}
+						onClick={()=>displayMobileProfileOptions()}
+						>
+					   		<span class="caret"></span>
+					</button>
 				</div>
-			</React.Fragment>
+			</div>
 		)
 	}
 
@@ -645,7 +664,10 @@ const PersonalInformation=(props)=>{
 				}
 			</React.Fragment>
 		)
-	},[props.personalInformation.firstName])
+	},[
+		props.personalInformation.firstName,
+		props.displayDesktopUI
+	])
 
 
 	return(

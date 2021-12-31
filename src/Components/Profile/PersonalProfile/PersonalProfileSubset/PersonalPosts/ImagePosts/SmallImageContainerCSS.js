@@ -10,19 +10,19 @@ export const Container=styled.div`
 
 
 	@media screen and (min-width:2500px){
-		#smallImageDiv{
-			height:270px !important;
-		}
 		#smallPostLI{
-			width:300px !important;
+			height:270px !important;
 		}
   	}
 
 	@media screen and (max-width:1370px){
 		#videoAndAudioDescriptionLI{
+			margin-top:-140px !important;
 		}
 		#smallPostLI{
-			margin-right:10% !important;
+			margin-right:5% !important;
+			width:170px !important;
+			height:150px !important;
 		}
 	}
 
@@ -33,10 +33,8 @@ export const Container=styled.div`
 		#videoAndAudioDescriptionLI{
 			display:none !important;
 		}
-		#smallImageDiv{
-			height:110px !important;
-		}
 		#smallPostLI{
+			height:110px !important;
 			width:37% !important;
 			margin-right:10% !important;
 			margin-bottom:5% !important;
@@ -45,7 +43,7 @@ export const Container=styled.div`
 
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:740px) and (max-height:850px){
-	    #smallImageDiv{
+	    #smallPostLI{
 			height:190px !important;
 		}
 		margin-left:10% !important;
@@ -54,7 +52,7 @@ export const Container=styled.div`
 
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:1000px) and (max-height:1370px){
-	    #smallImageDiv{
+	    #smallPostLI{
 			height:140px !important;
 		}
 		margin-left:10% !important;
@@ -62,7 +60,7 @@ export const Container=styled.div`
 
 	@media screen and (min-width:500px) and (max-width:570px) 
 	    and (min-height:700px) and (max-height:800px){
-	    #smallImageDiv{
+	    #smallPostLI{
 			height:170px !important;
 		}
 	}
@@ -92,10 +90,9 @@ export const Container=styled.div`
 	 	justify-content:start !important;
 	 	margin-left:0% !important;
 	 	width:90% !important;
-		#smallImageDiv{
-			height:170px !important;
-		}
+
 		#smallPostLI{
+			height:170px !important;
 			width:35% !important;
 			margin-left:3% !important;
 			margin-bottom:5% !important;

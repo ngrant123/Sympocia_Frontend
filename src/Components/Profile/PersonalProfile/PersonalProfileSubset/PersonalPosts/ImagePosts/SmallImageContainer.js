@@ -1,6 +1,7 @@
 import React,{useState,useEffect,memo,useContext} from "react";
 import styled from "styled-components";
 import EditIcon from '@material-ui/icons/Edit';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Typed from "react-typed";
 
 import {
@@ -44,20 +45,13 @@ const ImageLabelCSS={
 
 const VideoAndAudioDescriptionCSS={
 	position:"absolute",
-	padding:"0px",
+	padding:"5px",
 	marginTop:"-165px",
 	display:"flex",
 	flexDirection:"column-reverse"
 }
 
 const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostContextValues})=>{
-	const constructDate=(date)=>{
-		var convertedDate=new Date(parseInt(date));
-		var dateToString=convertedDate.toString();
-		var current=new Date();
-		//work on this a little more
-		return dateToString;
-	}
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -69,25 +63,28 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 
 	const image=(data)=>{
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		return 	<div>
+		return 	<div style={{width:"100%",height:"100%"}}>
 					<img id="img" src={data.imgUrl} 
 						style={{cursor:"pointer",borderRadius:"5px",height:"100%",width:"100%"}}
 					/>
 					<ul id="videoAndAudioDescriptionLI" style={VideoAndAudioDescriptionCSS}>
 						{data.videoDescription!=null &&(
-							<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-								width="90px" height="40px" borderRadius="5px">
+							<video key={uuidv4()} style={{borderRadius:"50%"}} autoPlay loop autoBuffer muted playsInline 
+								width="40px" height="40px" borderRadius="5px">
 								<source src={data.videoDescription} type="video/mp4"/>
 							</video>
 						)}
 						
-						{data.audioDescription!=null &&(
+						{/*
 							<audio id="audioLI" key={uuidv4()} 
-								style={{width:"200px",height:"40px",marginBottom:"2%"}} controls>
+								style={{width:"100px",height:"20px",marginBottom:"2%"}} controls>
 								<source src={data.audioDescription} type="audio/ogg"/>
 								<source src={data.audioDescription} type="audio/mp4"/>
 								Your browser does not support the audio element.
 							</audio>
+						*/}
+						{data.audioDescription!=null &&(
+							<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
 						)}
 					</ul>
 					<ColorPatchContainer colorCode={colorCode}/>
@@ -99,19 +96,19 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	return(
 		<Container style={{marginTop:"5%",width:"90%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 			{images.map(data=>
-				<div id="smallPostLI" style={{marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
-					<div id="smallImageDiv" style={{height:"170px",marginBottom:"5%"}}>
-						{image(data)}
-					</div>
-					<div id="postInformation">
-						{data.caption!=""?
-							<li style={{listStyle:"none",marginBottom:"5%"}}>
-								<ImageCaption>
-									{data.caption}
-								</ImageCaption>
-							</li>:<React.Fragment></React.Fragment>
-						}
-					</div>
+				<div id="smallPostLI" style={{height:"170px",marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
+					{image(data)}
+					{/*
+						<div id="postInformation">
+							{data.caption!=""?
+								<li style={{listStyle:"none",marginBottom:"5%"}}>
+									<ImageCaption>
+										{data.caption}
+									</ImageCaption>
+								</li>:<React.Fragment></React.Fragment>
+							}
+						</div>
+					*/}
 				</div>
 			)}
 		</Container>

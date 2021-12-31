@@ -188,8 +188,10 @@ const PostOptionsAndSearchContainer=styled.div`
   
 
 	@media screen and (max-width:1370px){
+		margin-top:-2%;
+		margin-bottom:2%;
 		#postOptionsAndSearchDiv{
-			margin-bottom:5% !important;
+			margin-top:-1% !important;
 		}
 	}
 `;
@@ -223,6 +225,7 @@ const SymposiumDropDownCSS={
 }
 
 const PostOptionsDropDownCaret={
+	position:"relative",
 	borderStyle:"none",
 	backgroundColor:"white",
 	color:"#C8B0F4",
@@ -1212,7 +1215,7 @@ const PersonalPostsIndex=(props)=>{
 											/>
 											{searchAreaCloseIcon()}
 										</div>
-										<div style={{display:"flex",flexDirection:"row"}}>
+										<div id="postOptionsAndSearchDiv" style={{display:"flex",flexDirection:"row"}}>
 											{postOptions()}
 											<li style={listCSSButton}>
 												<div class="dropdown">

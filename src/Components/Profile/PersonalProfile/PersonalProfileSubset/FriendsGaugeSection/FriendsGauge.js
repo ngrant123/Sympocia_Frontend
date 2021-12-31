@@ -36,10 +36,14 @@ const Container=styled.div`
     margin-right:5%;
   }
 
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-     margin-top:-10%;
-     margin-bottom:5%;
-    }
+  @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    margin-left:-5% !important;
+  }
+
+  @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    margin-top:-10%;
+    margin-bottom:5%;
+  }
 `;
 
 const LocksCSS={
@@ -77,7 +81,6 @@ const FriendsGaugeTitleCSS={
   is a number. Its an array rn with object in it so it should be changed 
 */
 class FriendsGauge extends Component {
-
   constructor(props){
     super(props);
     var numberNodes;
@@ -100,6 +103,7 @@ class FriendsGauge extends Component {
       }
     }
 
+    console.log(props.mobileUIStatus);
 
     this.state={
       currentPercentage:0,

@@ -130,6 +130,7 @@ class LProfile extends Component{
 	}
 
 	triggerUIChange=()=>{
+		debugger;
 		if(window.innerWidth<650){
 
 			this.setState({
@@ -159,7 +160,14 @@ class LProfile extends Component{
 	async componentDidMount(){
 		this.triggerUIChange();
 		this.getProfileApiTriggerCall({isAccessTokenUpdated:false});
+		window.addEventListener('resize', this.triggerUIChange());
 	}
+
+	// componentDidUpdate(prevProps){
+	// 	if (prevProps.window.innerWidth !== this.window.innerWidth) {
+	// 		this.triggerUIChange();
+	// 	}
+	// }
 
 	getProfileApiTriggerCall=async({isAccessTokenUpdated})=>{
 		window.addEventListener('resize',this.triggerUIChange)

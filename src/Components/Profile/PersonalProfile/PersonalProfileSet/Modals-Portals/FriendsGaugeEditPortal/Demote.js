@@ -87,7 +87,8 @@ const ImageCSS={
 	borderRadius:"50%",
 	borderType:"solid",
 	borderColor:"#5298F8",
-	borderWidth:"1px"
+	borderWidth:"1px",
+	padding:"5px"
 }
 
 const RecruitsContainerCSS={
@@ -111,7 +112,8 @@ const ButtonCSS={
 	borderWidth:"1px",
 	padding:"10px",
 	textAlign:"center",
-	cursor:"pointer"
+	cursor:"pointer",
+	marginBottom:"5%"
 }
 
 
@@ -246,6 +248,14 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 			changeIsGeneralNode(true);
 		changeDestinationDemoteNode(data)
 	}
+
+	const backButtonDisplay=(action,data)=>{
+		return(
+			<p id="backButton" style={ButtonCSS} onClick={()=>action(data)}>
+				Back
+			</p>
+		)
+	}
 	return(
 
 		<Container>
@@ -253,7 +263,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 				<React.Fragment>
 					{selectedNodeInformation==null?
 						<React.Fragment>
-							<p id="backButton" style={ButtonCSS} onClick={()=>changeSelectedRecruit(null)}>Back</p>
+							{backButtonDisplay(changeSelectedRecruit,null)}
 							<p id="title">You've selected <b>{selectedRecruit.recruits.firstName}</b> to demote </p>
 							<p id="secondaryText">
 								Below are the current nodes they are on. Click on the node 
@@ -273,9 +283,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 						<React.Fragment>
 							{destinationDemoteNode==null?
 								<React.Fragment>
-									<p id="backButton" style={ButtonCSS} onClick={()=>changeSelectedNodeInformation(null)}>
-										Back
-									</p>
+									{backButtonDisplay(changeSelectedNodeInformation,null)}
 									<p id="title">What node do you want to demote the recruit to?</p>
 									{nodesNotAssignedToRecruit.map((data,index)=>
 										<React.Fragment>
@@ -288,9 +296,8 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 									)}
 								</React.Fragment>:
 								<React.Fragment>
-									<p id="backButton" style={ButtonCSS} onClick={()=>changeDestinationDemoteNode(null)}>
-										Back
-									</p>
+
+									{backButtonDisplay(changeDestinationDemoteNode,null)}
 									<p id="title"> 
 										Are you sure you want to demote <b>{selectedRecruit.recruits.firstName}</b>
 									</p>

@@ -382,6 +382,7 @@ class EditImageCreation extends Component{
 		and altering it there? Maybe...maybe not who knows
 	*/
 	componentDidMount(){
+		debugger;
 		const {previousData}=this.props;
 		if(previousData!=null){
 			var {
@@ -395,11 +396,11 @@ class EditImageCreation extends Component{
 			document.getElementById("descriptionTextArea").value=description;
 			document.getElementById("captionTextArea").value=caption;
 
-			if(isCrownedPost==true){
-				const crownElement=document.getElementById("crownIcon");
-				crownElement.style.backgroundColor="#D6C5F4";
-				crownElement.style.color="white";
-			}
+			// if(isCrownedPost==true){
+			// 	const crownElement=document.getElementById("crownIcon");
+			// 	crownElement.style.backgroundColor="#D6C5F4";
+			// 	crownElement.style.color="white";
+			// }
 		}
 
 		this.setState({ 
@@ -415,13 +416,21 @@ class EditImageCreation extends Component{
 		});
 	}
 
-	componentDidUpdate(){
+	componentDidUpdate(prevProps,prevState){
 		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
 			const crownElement=document.getElementById("crownIcon");
 			crownElement.style.backgroundColor="#D6C5F4";
 			crownElement.style.color="white";
 		}
+
+		if(prevState.isPostCrowned!=this.props.previousData.isCrownedPost){
+			const crownElement=document.getElementById("crownIcon");
+			crownElement.style.backgroundColor="#D6C5F4";
+			crownElement.style.color="white";
+		}
 	}
+
+
 
 	clearImageCaptionTextArea=()=>{
 		if(this.state.isCaptionCleared==false){
@@ -944,13 +953,12 @@ class EditImageCreation extends Component{
 							<ShadowContainer onClick={()=>this.setState({displayCrownModalIndicator:false})} />
 							<CrownPostModal>
 								<ul style={{padding:"20px"}}>
-									<a href="javascript:void(0);">
-										<li onClick={()=>this.setState({displayCrownModalIndicator:false})} style={{listStyle:"none",marginLeft:"90%"}}>
-											<HighlightOffIcon
-												style={{fontSize:"20"}}
-											/>
-										</li>
-									</a>
+									<li onClick={()=>this.setState({displayCrownModalIndicator:false})} 
+										style={{listStyle:"none",marginLeft:"90%",cursor:"pointer"}}>
+										<HighlightOffIcon
+											style={{fontSize:"20"}}
+										/>
+									</li>
 									{this.state.isPostCrowned==true?
 										<React.Fragment>
 											<p> 

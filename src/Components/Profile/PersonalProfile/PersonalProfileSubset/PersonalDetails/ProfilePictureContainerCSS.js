@@ -119,9 +119,9 @@ export const ProfilePictureContainer=styled.div`
   }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-    	margin-left:5%;
+    	margin-left:-15%;
   	 	#profilePicture{
-  	 		width:45% !important;
+  	 		width:40% !important;
   	 	}
     }
 

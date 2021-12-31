@@ -100,14 +100,6 @@ const ExtendedChampionInformation=styled.div`
 	margin-bottom:5%;
 	align-items:center;
 
-
-	@media screen and (max-width:1370px){
-		#championImageLI{
-			width:100px !important;
-			height:100px !important;
-		}
-	}
-
 	@media screen and (max-width:650px){
 		#championImageLI{
 			width:50px !important;
@@ -188,9 +180,8 @@ const ChampionNameCSS={
 	maxHeight:"50px"
 }
 
-
 const ExtendedChampionModal=(championData)=>{
-	const extendedChampionModal=useMemo(()=>{
+	const extendedChampionModal=()=>{
 		return(
 			<ExtendedChampionModalContainer id="extendedChampionModalUL">
 				<ExtendedChampionInformation>
@@ -212,9 +203,10 @@ const ExtendedChampionModal=(championData)=>{
 				<p id="championDescription">{championData.description}</p>
 			</ExtendedChampionModalContainer>
 		)
-	},[championData])
+	}
+
 	return(
-		<>{extendedChampionModal}</>
+		<>{extendedChampionModal()}</>
 	)
 }
 
@@ -313,7 +305,11 @@ const SponsorDisplayModal=(props)=>{
 
 			</React.Fragment>
 		)
-	},[props.championData]);
+	},[
+		props.championData,
+		displayExtendedSponsorModal,
+		displayDeletePortal
+	]);
 
 	return (
 		<>{championData}</>

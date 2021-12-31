@@ -9,6 +9,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	@media screen and (min-width:2500px){
@@ -108,7 +109,7 @@ const NextButton=styled.div`
 `;
 
 const ImageCSS={
-	width:"80%",
+	width:"60px",
 	height:"55px",
 	borderRadius:"50%",
 	borderType:"solid",
@@ -127,6 +128,8 @@ const ButtonCSS={
   marginBottom:"5%",
   cursor:"pointer"
 }
+
+
 
 const AddButtonCSS={
 	listStyle:"none",
@@ -169,6 +172,13 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 		}
 		fetchPaymentVerification();
 	},[]);
+
+	useEffect(()=>{
+		if(displayAddNodeScreen==false &&(levelName!=null && levelDescription!=null)){
+			document.getElementById("levelName").value=levelName;
+			document.getElementById("levelDescription").value=levelDescription;
+		}
+	},[displayAddNodeScreen]);
 
 	const addNodeToProfile=()=>{
 		if(document.getElementById("levelName").value!=""){
@@ -366,7 +376,10 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 				<p style={{padding:"20px"}}>Maximum nodes is 3 :( Please delete one</p>:
 				<React.Fragment>
 					{displayAddNodeScreen==true?
-					 <ul style={{padding:"10px"}}>
+					 	<ul style={{padding:"10px"}}>
+					 		<div style={{...ButtonCSS,width:"25%"}} onClick={()=>changeDisplayAddScreen(false)}>
+					 			Back
+					 		</div>
 							<p id="levelName" style={{color:"#292929"}}>
 								<b>{levelName}</b>
 							</p>
@@ -388,10 +401,10 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 													{data.firstName}
 												</li>
 												<li onClick={()=>removeSelectedPerson(data)} style={{listStyle:"none",display:"inline-block",width:"20%"}}>
-														<HighlightOffIcon
-															id="removedRecruitIcon"
-															onClick={()=>removeSelectedPerson(data)}
-														/>
+													<HighlightOffIcon
+														id="removedRecruitIcon"
+														onClick={()=>removeSelectedPerson(data)}
+													/>
 												</li>
 											</ul>
 										</li>
@@ -412,12 +425,9 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 																<li id="recruitFirstName" style={{listStyle:"none"}}>
 																	{data.firstName}
 																</li>
-																 <a href="javascript:void(0);" style={{textDecoration:"none"}}>
-																		<li onClick={()=>pushSelectedPersonToArray(data)} style={{listStyle:"none",color:"#5298F8",borderRadius:"5px",borderColor:"#5298F8",borderStyle:"solid",borderWidth:"1px",padding:"10px",textAlign:"center"}}>
-																			Add 
-																		</li>
-																</a>
-
+																<li onClick={()=>pushSelectedPersonToArray(data)} style={ButtonCSS}>
+																	Add 
+																</li>
 															</ul>
 														</li>
 													)}
@@ -425,20 +435,17 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 												<>
 													{recruitsInformation.map(data=>
 														<li style={{listStyle:"none",display:"inline-block",width:"25%",marginRight:"3%",borderRadius:"5px",boxShadow:"1px 1px 10px #d5d5d5"}}>
-															<ul style={{padding:"10px"}}>
-																<li style={{listStyle:"none"}}>
-																	<img id="recruitImage" src={data.profilePicture==null?
-																								NoProfilePicture:data.profilePicture} 
-																		 style={ImageCSS}/>
+															<div style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"10px"}}>
+																<img id="recruitImage" src={
+																	data.profilePicture==null?
+																	NoProfilePicture:
+																	data.profilePicture} style={ImageCSS}
+																/>
+																<p>{data.firstName}</p>
+																<li onClick={()=>pushSelectedPersonToArray(data)} style={ButtonCSS}>
+																	Add 
 																</li>
-																<li id="recruitFirstName" style={{listStyle:"none"}}>
-																	{data.firstName}
-																</li>
-																<li id="addButton" 
-																	onClick={()=>pushSelectedPersonToArray(data)} style={AddButtonCSS}>
-																	Add
-																</li>
-															</ul>
+															</div>
 														</li>
 													)}
 												</>
@@ -482,10 +489,18 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 										</div>
 									</div>
 									{nodeVideoDescription!=null &&(
-										<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-											width="100%" height="100%" style={{backgroundColor:"#151515"}}>
-											<source src={nodeVideoDescription} type="video/mp4"/>
-										</video>
+										<VideoLoadingPrompt
+											videoElement={
+												<video id="friendsLevelVideoDescription" key={uuidv4()} 
+													autoPlay preload="none" controls 
+													loop autoBuffer 
+													muted playsInline 
+													width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+													<source src={nodeVideoDescription} type="video/mp4"/>
+												</video>
+											}
+											videoId="friendsLevelVideoDescription"
+										/>
 									)}
 								</div>
 							}
@@ -499,7 +514,7 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 								</NextButton>
 							</a>
 						</ul>
-						}
+					}
 				</React.Fragment>
 			}
 		</Container>

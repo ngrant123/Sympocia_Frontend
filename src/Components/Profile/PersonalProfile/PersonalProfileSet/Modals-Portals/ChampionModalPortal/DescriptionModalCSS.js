@@ -20,8 +20,8 @@ export const Container=styled.div`
 	@media screen and (max-width:1370px){
 		padding:20px;
 		#pictureLI{
-			width:140px !important;
-			height:120px !important;
+			width:110px !important;
+			height:100px !important;
 		}
 	}
 
@@ -156,7 +156,7 @@ export const SubmitButton=styled.div`
 	}
 
 	@media screen and (max-width:1370px){
-		width:100%;
+		width:20%;
 		margin-top:2%;
 		margin-bottom:10px;
 	}

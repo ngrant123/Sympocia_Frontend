@@ -1,27 +1,5 @@
 import styled from "styled-components";
 
-	// @media screen and (max-width:1370px){
-	// 	#postsContainer{
-	// 		margin-left:-50%;
-	// 		margin-top:20% !important;
-	// 	}
-	// 	#createPostIcon{
-	// 		top:5% !important;
-	// 		position:absolute !important;
-	// 		left:10px !important;
-	// 		margin-left:0px !important;
-	// 		z-index:22;
-	// 	}
-
-	// 	#championIcon{
-	// 		top: 5% !important;
-	// 	    position: absolute !important;
-	// 	    left: 10px !important;
-	// 	    margin-left: 0px !important;
-	// 	    z-index: 22;
-	// 	}
- //    }
-
 export const Container=styled.div`
 	position:absolute;
 	width:100%;
@@ -40,8 +18,6 @@ export const Container=styled.div`
 			margin-left:0px !important;
 			z-index:22;
 		}
-
-
     }
 
     @media screen and (max-width:1060px){
@@ -154,9 +130,9 @@ export const Container=styled.div`
 		}
 	}
 
-    @media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#postsContainer{
-			margin-top:0% !important;
+			margin-top:10% !important;
 		}
     }
 
@@ -257,7 +233,7 @@ export const ProfileContainer=styled.div`
 		position:absolute;
 		margin-left:2% !important;
 		height:150px !important;
-		width:90%;
+		width:100%;
 	}
 	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
 		height:30% !important;
@@ -562,17 +538,13 @@ export const CreatePostButton=styled.div`
 			margin-top:15%;
 		}
   	}
-  	@media screen and (max-width:1200px){
+  	@media screen and (max-width:1370px){
 			width:60px !important;
 			height:60px !important;
     }
-    @media screen and (max-width:1080px){
-			width:50px !important;
-			height:50px !important;
-    }
-     @media screen and (max-width:1080px){
-			width:70px !important;
-			height:70px !important;
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	display:none !important;
     }
 `;
 
@@ -610,6 +582,9 @@ export const ChampionMobileUIButton=styled.div`
      @media screen and (max-width:1080px){
 			width:70px !important;
 			height:70px !important;
+    }
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+    	display:none !important;
     }
 `;
 

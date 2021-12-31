@@ -12,7 +12,11 @@ const FriendsGaugeContainer=(props)=>{
 		return <FriendsGauge
 					{...props}
 				/>
-	},[friendsGauge,friendsGaugeNodes])
+	},[
+		friendsGauge,
+		friendsGaugeNodes,
+		props.mobileUIStatus
+		])
 	return(
 		<>{renderFriendsGauge}</>
 	)

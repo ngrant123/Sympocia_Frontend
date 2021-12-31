@@ -27,20 +27,22 @@ const ButtonContainerCSS={
   cursor:"pointer",
   marginRight:"5%",
   marginTop:"5%",
-  marginBottom:"5%"
+  marginBottom:"5%",
+  width:"15%"
 }
 
-
 const UploadOptionsCSS={
-	borderColor:"#5298F8",
-	borderStyle:"solid",
-	borderWidth:"1px",
-	color:"white",
-	backgroundColor:"#5298F8",
-	padding:"20px",
-	borderRadius:"5px",
-	cursor:"pointer",
-	width:"50%"
+  listStyle:"none",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  cursor:"pointer",
+  width:"30%",
+  marginRight:"2%"
 }
 
 const ImageCSS={
@@ -85,6 +87,7 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 			<p style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
 				Back
 			</p>
+			<hr/>
 			{uploadedImageSrc!=null ?
 				<React.Fragment>
 					<img id="uploadedImage" src={uploadedImageSrc} style={ImageCSS}/>

@@ -79,6 +79,7 @@ const NextButton=styled.div`
 	border-radius:5px;
 	cursor:pointer;
 	top:10px;
+	margin-bottom:5%;
 
 	@media screen and (min-width:2500px){
 		font-size:36px !important;
@@ -131,7 +132,8 @@ const BackButtonCSS={
 	borderStyle:"solid",
 	borderWidth:"2px",
 	borderColor:"#3898ec",
-	cursor:"pointer"
+	cursor:"pointer",
+	marginBottom:"5%"
 }
 
 const PromoteButtonCSS={

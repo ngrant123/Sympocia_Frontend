@@ -29,7 +29,7 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:column;
 	padding:30px;
-	overflow-y:scroll;
+	overflow-y:auto;
 
 	@media screen and (min-width:2500px){
 		height:50%;
@@ -48,10 +48,6 @@ const Container=styled.div`
 		width:90% !important;
 		left:5% !important;
 		overflow:scroll !important;
-		#settingsProfilePicture{
-			height:150px !important;
-			width:170px !important;
-		}
 	}
 
 	@media screen and (max-width:650px){
@@ -135,7 +131,9 @@ const UserSettingOptionsCSS={
 	justifyContent:"center",
 	borderRadius:"5px",
 	marginBottom:"5%",
-	paddingBottom:"10px"
+	paddingBottom:"10px",
+	position:"relative",
+	height:"100%"
 }
 
 const SpecificSettingOptionCSS={
@@ -233,68 +231,66 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 								<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
 									<b>Account Settings</b>
 								</p>
-								<div id="options" style={{borderRadius:"5px",marginTop:"5%"}}>
-									<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
-										style={SpecificSettingOptionCSS}>
-										<p>
-											<b>Update email addresses</b>
-										</p>
-										<ArrowDropDownCircleOutlinedIcon
-											style={{marginLeft:"20%"}}
-										/>
-									</div>
-									<hr/>
-
-									<div id="profilePreferencesOption" onClick={()=>hanldeDisplayFirstNameModal()}
-										style={SpecificSettingOptionCSS}>
-										<p>
-											<b>Update first name</b>
-										</p>
-										<ArrowDropDownCircleOutlinedIcon
-											style={{marginLeft:"38%"}}
-										/>
-									</div>
-									<hr/>
-
-									<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
-										onClick={()=>hanldeDisplayLastNameModal()}>
-										<p>
-											<b>Update last name</b>
-										</p>
-										<ArrowDropDownCircleOutlinedIcon
-											style={{marginLeft:"39%"}}
-										/>
-									</div>
-									<hr/>
-
-									<Link id="profilePreferencesOption"
-										to={{pathname:'/emailreset'}} 
-										style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
-										<p>
-											<b>Update password</b>
-										</p>
-										<ArrowDropDownCircleOutlinedIcon
-											style={{marginLeft:"39%"}}
-										/>
-									</Link>
-									<hr/>
-
-									<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
-										onClick={()=>handleDisplayMiscellaneousModal()}>
-										<p>
-											<b>Miscellaneous</b>
-										</p>
-										<ArrowDropDownCircleOutlinedIcon
-											style={{marginLeft:"39%"}}
-										/>
-									</div>
+								<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
+									style={SpecificSettingOptionCSS}>
+									<p>
+										<b>Update email addresses</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"20%"}}
+									/>
 								</div>
+								<hr/>
+
+								<div id="profilePreferencesOption" onClick={()=>hanldeDisplayFirstNameModal()}
+									style={SpecificSettingOptionCSS}>
+									<p>
+										<b>Update first name</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"38%"}}
+									/>
+								</div>
+								<hr/>
+
+								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+									onClick={()=>hanldeDisplayLastNameModal()}>
+									<p>
+										<b>Update last name</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"39%"}}
+									/>
+								</div>
+								<hr/>
+
+								<Link id="profilePreferencesOption"
+									to={{pathname:'/emailreset'}} 
+									style={{...SpecificSettingOptionCSS,textDecoration:"none",color:"black"}}>
+									<p>
+										<b>Update password</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"39%"}}
+									/>
+								</Link>
+								<hr/>
+
+								<div id="profilePreferencesOption" style={SpecificSettingOptionCSS} 
+									onClick={()=>handleDisplayMiscellaneousModal()}>
+									<p>
+										<b>Miscellaneous</b>
+									</p>
+									<ArrowDropDownCircleOutlinedIcon
+										style={{marginLeft:"39%"}}
+									/>
+								</div>
+							</div>
 								{/*
 									<div style={Button} onClick={()=>handleDisplayDeleteModal()}>
 										Delete Profile
 									</div>
 								*/}
-							</div>
 						</div>
 
 					</React.Fragment>

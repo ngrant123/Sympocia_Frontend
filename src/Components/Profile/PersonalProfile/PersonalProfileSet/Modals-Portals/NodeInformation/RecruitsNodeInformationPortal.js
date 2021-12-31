@@ -16,12 +16,14 @@ import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {Link} from "react-router-dom";
 import {getVideoUrl} from "../../../../../../Actions/Requests/PostAxiosRequests/PostPageGetRequests.js";
+import ArrowCircleRightOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import NodeDesignOptions from "./NodeDesignOptions.js";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {
 	disableScrolling,
 	enableScrolling
 } from "../../../../../../Actions/Tasks/DisableScrolling.js";
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	position:fixed;
@@ -367,7 +369,7 @@ const NodeInformationPortal=({
 
 	const closeModalIcon=()=>{
 		return(
-			<li onClick={()=>closePortal()} style={{listStyle:"none",display:"inline-block"}}>
+			<li onClick={()=>closePortal()} style={{listStyle:"none",display:"inline-block",cursor:"pointer"}}>
 				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 				 stroke-linecap="round" stroke-linejoin="round">
@@ -439,7 +441,7 @@ const NodeInformationPortal=({
 											<img id="profilePictureRecruit" src={data.profilePicture==null?
 														NoProfilePicture
 														:data.profilePicture}
-												style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+												style={{marginRight:"2%",borderRadius:"50%",width:"55px",height:"50px"}}
 											/>
 										</Link>
 									)}
@@ -463,7 +465,7 @@ const NodeInformationPortal=({
 											<img id="profilePictureRecruit" src={data.profilePicture==null?
 														NoProfilePicture
 														:data.profilePicture}
-												style={{marginRight:"2%",borderRadius:"50%",width:"60px",height:"50px"}}
+												style={{marginRight:"2%",borderRadius:"50%",width:"55px",height:"50px"}}
 											/>
 										</Link>
 									)}
@@ -550,7 +552,13 @@ const NodeInformationPortal=({
 						{isOwner==true &&(
 							<React.Fragment>
 								<li style={{listStyle:"none",marginBottom:"10%"}}>
-									{editIcon()}
+									{displayEditArea==false?
+										<>{editIcon()}</>:
+										<ArrowCircleRightOutlinedIcon
+											onClick={()=>changeDisplayEditArea(false)}
+											style={{fontSize:"24",transform:"rotate(-90deg)",color:"#C8B0F4",cursor:"pointer"}}
+										/>
+									}
 								</li>
 								{/*
 									{nodeInformation.nodeCounter==0 ?
@@ -672,7 +680,7 @@ const NodeInformationPortal=({
 										</ul>
 									</div>	
 								}
-
+								<hr/>
 
 								{(displayNodeInformation==true && nodeInformation.nodeCounter!=0)==true?
 									<React.Fragment>
@@ -710,11 +718,17 @@ const NodeInformationPortal=({
 															Clear video
 														</div>
 													</div>
-													<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-														width="100%" height="100%" style={{backgroundColor:"#151515"}}>
-														<source src={changedVideoDesciption==null?
-															videoDescription:changedVideoDesciption} type="video/mp4"/>
-													</video>
+													<VideoLoadingPrompt
+														videoElement={
+															<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+																id="nodeInformationVideoDescription" controls
+																width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+																<source src={changedVideoDesciption==null?
+																	videoDescription:changedVideoDesciption} type="video/mp4"/>
+															</video>
+														}
+														videoId="nodeInformationVideoDescription"
+													/>
 												</div>
 												<hr/>
 											</React.Fragment>

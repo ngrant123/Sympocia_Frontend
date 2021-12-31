@@ -130,12 +130,18 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 	}
 
 
-	const selectedImageDisplay=()=>{
+	const selectedImageDisplay=(action,data)=>{
+		const triggerAction=()=>{
+			if(action!=null){
+				action(data);
+			}
+			changeImgUrl(null);
+		}
 		return(
 			<div style={{display:"flex",flexDirection:"column"}}>
 				<img src={img} />
 				<div style={{display:"flex",flexDirection:"row",marginTop:"2%"}}>
-					<div onClick={()=>changeDisplaySelectedFriendsGaugeAvatar(false)}
+					<div onClick={()=>triggerAction()}
 						style={ButtonCSS}>
 						Back
 					</div>
@@ -156,7 +162,7 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 				</div>
 				<hr/>
 				{displaySelectedSympociaFriendGaugeAvatar==true?
-					<>{selectedImageDisplay()}</>:
+					<>{selectedImageDisplay(changeDisplaySelectedFriendsGaugeAvatar,false)}</>:
 					<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 						{sympociaFriendsGaugeAvatars.map(data=>
 							<>{sympociaFriendsGaugeAvatar(data)}</>
@@ -204,8 +210,11 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 			<div>
 				{img==null?
 					<>
-						<div style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
-							Upload image
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							{backButton()}
+							<div style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
+								Upload Image
+							</div>
 						</div>
 						<input 
 							type="file" 

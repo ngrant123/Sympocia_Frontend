@@ -16,13 +16,13 @@ import {
 
 const Container=styled.div`
 	position:fixed;
-	width:25%;
-	height:50%;
+	width:35%;
+	height:60%;
 	background-color:white;
 	z-index:35;
 	top:20%;
 	border-radius:5px;
-	left:40%;
+	left:35%;
 	overflow-y:auto;
 
 	@media screen and (min-width:2500px){
@@ -33,8 +33,8 @@ const Container=styled.div`
 
 
 	@media screen and (max-width:1370px){
-		width:60% !important;
-		left:20% !important;
+		width:70% !important;
+		left:15% !important;
     }
     @media screen and (max-width:650px){
 		width:100% !important;

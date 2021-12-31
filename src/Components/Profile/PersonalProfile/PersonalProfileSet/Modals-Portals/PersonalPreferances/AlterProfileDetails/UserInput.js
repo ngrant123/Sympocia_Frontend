@@ -4,6 +4,8 @@ import styled from "styled-components";
 const Container=styled.div`
 	position:absolute;
 	width:90%;
+	display:flex;
+	flex-direction:column;
 	@media screen and (min-width:2500px){
 		margin-left:-5%;
 		#submitButton{
@@ -28,10 +30,6 @@ const InputContainer=styled.textarea`
 		width:120%;
 		height:70% !important;
 		font-size:30px !important;
-	}
-
-	@media screen and (max-width:1370px){
-		left:1% !important;
 	}
 
 	@media screen and (max-width:650px){
@@ -68,7 +66,8 @@ const BackButton={
   borderStyle:"solid",
   borderWidth:"2px",
   borderColor:"#3898ec",
-  cursor:"pointer"
+  cursor:"pointer",
+  width:"20%"
 }
 
 

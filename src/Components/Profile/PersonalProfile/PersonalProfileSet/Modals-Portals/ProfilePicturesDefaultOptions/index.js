@@ -19,7 +19,7 @@ const Container=styled.div`
 	display:flex;
 	padding:15px;
 	flex-direction:column;
-	overflow:scroll;
+	overflow:auto;
 
 	@media screen and (min-width:2500px){
 		padding:20px;

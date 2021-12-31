@@ -72,6 +72,9 @@ const DescriptionModal=(props)=>{
 	const [loadingProfilesPrompt,changeLoadingProfilesPrompt]=useState(false);
 	const [searchProfiles,changeSearchedProfiles]=useState();
 
+	const [championName,changeChampionName]=useState();
+	const [championDescription,changeChampionDescription]=useState();
+
 	useEffect(()=>{
 		if(isAccessTokenRefreshTriggered==true){
 			dispatch(setPersonalProfileAccessToken(currentAccessToken));
@@ -85,6 +88,12 @@ const DescriptionModal=(props)=>{
 			document.getElementById("name").value=firstName;
 		}
 	},[currentAccessToken]);
+
+	useEffect(()=>{
+		if(displayChampionExpirationDate==false){
+			displayPreviouslyEnteredValues();
+		}
+	},[displayChampionExpirationDate]);
 
 	const handleSubmitButton=async(personalInformation,companyInformation)=>{
 		
@@ -148,7 +157,7 @@ const DescriptionModal=(props)=>{
 		var date = new Date(timeStampEvent.toString());
 		var newDate= (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
 		changeDisplayDate(newDate);
-		changeChampionExpirationDateDisplay(false)
+		changeChampionExpirationDateDisplay(false);
 	}
 
 	const resetSelectedDisplayDate=()=>{
@@ -157,6 +166,29 @@ const DescriptionModal=(props)=>{
 	}
 	const displayInitialScreen=()=>{
 		changeChampionExpirationDateDisplay(false);
+	}
+
+	const displayPreviouslyEnteredValues=()=>{
+		if(championName!=null){
+			document.getElementById("name").value=championName;
+		}
+
+		if(championDescription!=null){
+			document.getElementById("description").value=championDescription;
+		}
+	}
+
+	const triggerAccessExpirationOptions=()=>{
+		const currentName=document.getElementById("name").value;
+		const currentDescription=document.getElementById("description").value;
+		if(currentName!=""){
+			changeChampionName(currentName);
+		}
+
+		if(currentDescription!=""){
+			changeChampionDescription(currentDescription);
+		}
+		changeChampionExpirationDateDisplay(true);
 	}
 
 	return(
@@ -181,7 +213,7 @@ const DescriptionModal=(props)=>{
 												{selectedDisplayDate==null ?
 													<AccessTimeIcon
 														style={{fontSize:"30",cursor:"pointer"}}
-														onClick={()=>changeChampionExpirationDateDisplay(true)}
+														onClick={()=>triggerAccessExpirationOptions()}
 													/>
 													:<div style={{display:"flex",flexDirection:"column"}}>
 														{selectedDisplayDate}

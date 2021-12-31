@@ -35,15 +35,30 @@
 		</script>
 		<script>
 			let xhr = new XMLHttpRequest();
-			xhr.open('get', 'http://localhost:4002/retrieveReticanFile');
+			xhr.open('get', 'http://localhost:4002/retrieveInitialReticanFile?reticanOverviewId=61cd351be1b4e72e25399227');
 			xhr.send();
 
 			xhr.onload = function() {
-			    console.log(xhr.response);
-			    var parser = new DOMParser();
-			    var doc = parser.parseFromString(xhr.response, 'text/html');
 				const app=document.getElementById("App");
-				app.appendChild(doc.body);
+				const test=document.createElement('div');
+				test.innerHTML=xhr.response;
+				test.id="atlesium_div";
+				app.appendChild(test);
+				var tmpScripts = document.getElementsByTagName('script');
+				if (tmpScripts.length > 0) {
+				    var scripts = [];
+				    for (var i = 0; i < tmpScripts.length; i++) {
+				        scripts.push(tmpScripts[i]);
+				    }
+				    for (var i = 0; i < scripts.length; i++) {
+				    	if(scripts[i].id=="atlesium_script"){
+					        var s = document.createElement('script');
+					        s.innerHTML = scripts[i].innerHTML;
+					        scripts[i].parentNode.appendChild(s);
+					        scripts[i].parentNode.removeChild(scripts[i]);
+				    	}
+				    }
+				}
 			};
 		</script>
 	</head>

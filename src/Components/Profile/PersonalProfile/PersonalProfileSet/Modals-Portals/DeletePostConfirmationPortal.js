@@ -14,7 +14,7 @@ const Container=styled.div`
 	height:50%;
 	background-color:white;
 	z-index:51;
-	top:20%;
+	top:25%;
 	border-radius:5px;
 	left:40%;
 	display:flex;
@@ -22,8 +22,8 @@ const Container=styled.div`
 	padding:30px;
 
 	@media screen and (max-width:1370px){
-		width:90% !important;
-		left:5% !important;
+		width:80% !important;
+		left:10% !important;
 		overflow:scroll !important;
 	}
 `;
@@ -37,10 +37,18 @@ const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.7);
 	z-index:50;
 	top:0px;
 `;
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"100%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
 
 const ConfirmationButtonCSS={
 	backgroundColor:"white",
@@ -154,7 +162,7 @@ const DeletePostConfirmationPortal=({postType,content,closeModal,selectedPostTyp
 									<p style={{fontSize:"20px"}}>
 										<b>Are you sure you want to delete this {postType=="Champion"?"champion":"post"}? </b>
 									</p>
-									<hr/>
+									<hr style={HorizontalLineCSS}/>
 									<ConfirmationContainer>
 										<p onClick={()=>handleDelete(personalContextInformation)} style={ConfirmationButtonCSS}> Yes </p>
 										<p onClick={()=>closeModal()} style={ConfirmationButtonCSS}> No </p>

@@ -1,17 +1,28 @@
 import React,{memo} from "react";
 import styled from "styled-components";
 
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 const Container=styled.div`
 	position:relative;
 	z-index:25;
-	width:140%;
+	width:100%;
 	display:flex;
 	margin-top:2%;
+	margin-bottom:-5%;
+	cursor:pointer;
+	display:flex;
+	flex-direction:row;
 
 	@media screen and (min-width:2500px){
 		margin-top:5%;
 		margin-bottom:15px;
+  	}
+
+  	@media screen and (max-width:1370px){
+  		#crownedImageAudio{
+  			display:none !important;
+  		}
   	}
 
 	@media screen and (max-width:650px){
@@ -50,8 +61,8 @@ const Container=styled.div`
 
 const Image=styled.div`
 	position:relative;
-	width:400px;
-	height:260px;
+	width:320px;
+	height:230px;
 	background-color:blue;
 	border-radius:5px;
 	overflow:hidden;
@@ -64,9 +75,9 @@ const Image=styled.div`
   	}
 
 	@media screen and (max-width:1370px){
-		width:320px !important;
+		width:300px !important;
 		margin-bottom:40px;
-		height:220px;
+		height:200px;
 	}
 	@media screen and (max-width:650px){
 		width:250px !important;
@@ -115,7 +126,7 @@ const VideoDesriptionContainer=styled.div`
 	width:20%;
 	height:30%;
 	border-radius:50%;
-	top:70%;
+	top:60%;
 	left:2%;
 	z-index:8;
 `;
@@ -138,10 +149,10 @@ const CaptionCSS={
 	listStyle:"none",
 	marginRight:"5%",
 	marginBottom:"15px",
-	maxWidth:"70%",
 	maxHeight:"50px",
 	overflow:"hidden",
-	fontSize:"18px"
+	fontSize:"18px",
+	marginTop:"5%"
 }
 
 const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap})=>{
@@ -160,6 +171,7 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 		return <Image>
 					<img src={crownedImage.imgUrl} style={{width:"100%",height:"100%"}}/>
 					<VideoDesriptionContainer>
+						<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
 						<video key={videoDescriptionId} autoPlay loop autoBuffer muted playsInline 
 							style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
 							<source src={crownedImage.videoDescription} type="video/mp4"/>
@@ -170,41 +182,39 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 	}
 
 	return(
-		<Container style={{listStyle:"none",marginBottom:"-5%",cursor:"pointer"}} 
+		<Container id="parentContainer" style={{marginBottom:"-5%",cursor:"pointer"}} 
 				onClick={()=>displayPostModal(
 				 				crownedImage
 							)}>
-			<div id="parentContainer" style={{display:"flex",flexDirection:"row",padding:"0px",overflow:"hidden"}}>
-				{image()}
-				<div id="postInformationLI" style={{top:"0%",width:"50%"}}>
-					<ul style={{paddging:"0px"}}>
-						<li style={IndustryButtonCSS}>
-							{crownedImage.industriesUploaded[0].industry}
-						</li>
-						<li style={CaptionCSS}>
-							<b>{crownedImage.caption}</b>
-						</li>
+			{image()}
+			<div id="postInformationLI" style={{top:"0%",width:"80%"}}>
+				<ul style={{paddging:"0px"}}>
+					<li style={IndustryButtonCSS}>
+						{crownedImage.industriesUploaded[0].industry}
+					</li>
+					<li style={CaptionCSS}>
+						<b>{crownedImage.caption}</b>
+					</li>
 
-						<li style={{listStyle:"none"}}>
-							<Description style={{maxWidth:"60%",maxHeight:"60px",overflow:"hidden"}}>
-								{crownedImage.description}
-							</Description>
-						</li>
-						<li style={{listStyle:"none",marginTop:"2%"}}>
-							<ul style={{padding:"0px"}}>
-								{crownedImage.audioDescription!=null?
-									<li style={{listStyle:"none"}}>
-											<audio key={audioId} style={{width:"200px"}} controls>
-											  <source src={crownedImage.audioDescription} type="audio/ogg"/>
-											  <source src={crownedImage.audioDescription} type="audio/mp4"/>
-											Your browser does not support the audio element.
-											</audio>
-									</li>:null
-								}	
-							</ul>
-						</li>
-					</ul>
-				</div>
+					<li style={{listStyle:"none"}}>
+						<Description style={{maxHeight:"60px",overflow:"hidden"}}>
+							{crownedImage.description}
+						</Description>
+					</li>
+					<li id="crownedImageAudio" style={{listStyle:"none",marginTop:"2%"}}>
+						<ul style={{padding:"0px"}}>
+							{crownedImage.audioDescription!=null?
+								<li style={{listStyle:"none"}}>
+										<audio key={audioId} style={{width:"200px"}} controls>
+										  <source src={crownedImage.audioDescription} type="audio/ogg"/>
+										  <source src={crownedImage.audioDescription} type="audio/mp4"/>
+										Your browser does not support the audio element.
+										</audio>
+								</li>:null
+							}	
+						</ul>
+					</li>
+				</ul>
 			</div>
 		</Container>
 	)
