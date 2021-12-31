@@ -34,16 +34,42 @@
 		    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 		</script>
 		<script>
+
 			let xhr = new XMLHttpRequest();
-			xhr.open('get', 'http://localhost:4002/retrieveReticanFile');
+			xhr.open('get', 'http://localhost:4002/retrieveInitialReticanFile?reticanOverviewId=61ca6a23a5ade093dab67738');
 			xhr.send();
 
 			xhr.onload = function() {
 			    console.log(xhr.response);
-			    var parser = new DOMParser();
-			    var doc = parser.parseFromString(xhr.response, 'text/html');
 				const app=document.getElementById("App");
-				app.appendChild(doc.body);
+				const test=document.createElement('div');
+				test.innerHTML=xhr.response;
+				app.appendChild(test);
+				debugger;
+				// get a list of all <script> tags in the new page
+				var tmpScripts = document.getElementsByTagName('script');
+				if (tmpScripts.length > 0) {
+				    // push all of the document's script tags into an array
+				    // (to prevent dom manipulation while iterating over dom nodes)
+				    var scripts = [];
+				    for (var i = 0; i < tmpScripts.length; i++) {
+				        scripts.push(tmpScripts[i]);
+				    }
+
+				    // iterate over all script tags and create a duplicate tags for each
+				    for (var i = 0; i < scripts.length; i++) {
+				    	if(scripts[i].id=="atlesium_script"){
+					        var s = document.createElement('script');
+					        s.innerHTML = scripts[i].innerHTML;
+
+					        // add the new node to the page
+					        scripts[i].parentNode.appendChild(s);
+
+					        // remove the original (non-executing) node from the page
+					        scripts[i].parentNode.removeChild(scripts[i]);
+				    	}
+				    }
+				}
 			};
 		</script>
 	</head>
