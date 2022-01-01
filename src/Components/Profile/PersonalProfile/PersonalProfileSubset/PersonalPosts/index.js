@@ -232,6 +232,16 @@ const PostOptionsDropDownCaret={
 	fontSize:"17px",
 	padding:"1px"
 }
+
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"40px",
+ 	marginRight:"5%",
+ 	marginLeft:"10%"
+}
 /*
 	Later down the road this whole post section has to be refactored completely 
 	because at this point it getting too crazy and sphagetti like 
@@ -626,33 +636,56 @@ const PersonalPostsIndex=(props)=>{
 	}
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
 		return (
-			<div id="postSelectionAndRecruitDiv" style={{display:"flex",flexDirection:"row"}}>
-				<div class="dropdown" id="mobilePhonePostOption"
-				 	style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
-					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
-						style={ShadowButtonCSS}>
-							Post Type <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						{postOptions()}
-					</ul>
+			<div id="postSelectionAndRecruitDiv" style={{display:"flex",flexDirection:"row",width:"100%",overflowX:"auto",padding:"10px",alignItems:"center"}}>
+				<div style={{marginLeft:"0%",position:"relative",width:"120px",height:"100%"}}>
+					<RecruitButton
+						personalInformation={{
+							_id:personalInformation._id,
+							isGuestProfile:personalInformation.isGuestProfile,
+							isOwnProfile:personalInformation.isOwnProfile,
+							firstName:personalInformation.firstName,
+							socialMediaUrls:{
+								instagramUrl:"",
+								tikTokUrl:""
+							},
+							isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
+							recruits:personalInformation.recruits
+						}}
+						displayConfettiHandle={personalInformation.displayConfettiHandle}
+						userId={personalRedux.id}
+					/>
 				</div>
-				<RecruitButton
-					personalInformation={{
-						_id:personalInformation._id,
-						isGuestProfile:personalInformation.isGuestProfile,
-						isOwnProfile:personalInformation.isOwnProfile,
-						firstName:personalInformation.firstName,
-						socialMediaUrls:{
-							instagramUrl:"",
-							tikTokUrl:""
-						},
-						isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
-						recruits:personalInformation.recruits
-					}}
-					displayConfettiHandle={personalInformation.displayConfettiHandle}
-					userId={personalRedux.id}
-				/>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					{postOptions()}
+				</div>
+				{/*
+					<div class="dropdown" id="mobilePhonePostOption"
+					 	style={{marginLeft:"25%",listStyle:"none",display:"inline-block",marginRight:"5%"}}>
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 
+							style={ShadowButtonCSS}>
+								Post Type <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{postOptions()}
+						</ul>
+					</div>
+					<RecruitButton
+						personalInformation={{
+							_id:personalInformation._id,
+							isGuestProfile:personalInformation.isGuestProfile,
+							isOwnProfile:personalInformation.isOwnProfile,
+							firstName:personalInformation.firstName,
+							socialMediaUrls:{
+								instagramUrl:"",
+								tikTokUrl:""
+							},
+							isGuestVisitorProfile:personalInformation.isGuestVisitorProfile,
+							recruits:personalInformation.recruits
+						}}
+						displayConfettiHandle={personalInformation.displayConfettiHandle}
+						userId={personalRedux.id}
+					/>
+				*/}
 			</div>
 		)
 	}
@@ -1041,6 +1074,8 @@ const PersonalPostsIndex=(props)=>{
 	const postOptions=()=>{
 		return(
 			<React.Fragment>
+				<div id="verticalLineId" style={VerticalLineCSS}/>
+
 				<li id="images" style={{listStyle:"none",fontSize:"17px",padding:"10px",textDecoration:"none",color:"#C8B0F4",cursor:"pointer"}}>
 					{currentPostType=="image"?
 						<>{postOptionsDropDownHOC("Images")}</>:
@@ -1050,6 +1085,8 @@ const PersonalPostsIndex=(props)=>{
 						</div>
 					}
 				</li>
+
+				<div id="verticalLineId" style={VerticalLineCSS}/>
 
 				{(props.isGuestProfile==false && props.isGuestVisitorProfile==false) && (
 					<React.Fragment>
@@ -1063,6 +1100,8 @@ const PersonalPostsIndex=(props)=>{
 							}
 						</li>
 
+						<div id="verticalLineId" style={VerticalLineCSS}/>
+
 						<li id="regularPosts" style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",cursor:"pointer"}}>
 							{currentPostType=="regularPost"?
 								<>{postOptionsDropDownHOC("Texts")}</>:
@@ -1073,6 +1112,8 @@ const PersonalPostsIndex=(props)=>{
 							}
 							 
 						</li>
+
+						<div id="verticalLineId" style={VerticalLineCSS}/>
 
 						<li id="blogs" style={{listStyle:"none",fontSize:"17px",padding:"10px",color:"#bebebf",textDecoration:"none",color:"#bebebf",cursor:"pointer"}}>
 							{currentPostType=="blog"?

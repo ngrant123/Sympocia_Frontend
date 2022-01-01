@@ -12,6 +12,11 @@ import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/Gues
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
+	@media screen and (max-width:650px){
+		#sympociaNoPostsLogo{
+			display:none !important;
+		}
+	}
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		margin-left:10% !important;
     }
@@ -24,7 +29,8 @@ const SympociaStampIconContainer=styled.div`
 	height:40%;
 
 	@media screen and (max-width:650px){
-		height:110px;
+		height:100px;
+		width:105px;
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -42,6 +48,8 @@ const CreatePostContainer=styled.div`
 	box-shadow:1px 1px 5px #9395a0;
 	padding-top:20px;
 	height:60%;
+	display:flex;
+	flex-direction:column;
 
 	&:hover{
 		box-shadow:5px 5px 5px 5px #9395a0;
@@ -161,24 +169,21 @@ const NoPostsModal=(props)=>{
 						{displayCreatePostIndicator==true && props.isSearchFilterActivated==false?
 							 <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
 									<CreatePostContainer id="createPostContainer">
-										<ul style={{padding:"0px"}}>
-											<li style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
-												<SympociaStampIconContainer>
-													<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
-												</SympociaStampIconContainer>
-											</li>
-											<p style={{fontSize:"20px"}}><b>Upload a {props.postType} of your own to get started</b></p>
-											<p>Show people your story through {props.postType}s and start sharing your story to others </p>
-
-											{profileContext.isGuestProfile==true? 
-												<GuestLockScreenHOC
-													component={uploadButtonComponent()}
-												/>
-												:<>{uploadButtonComponent()}</>
-											}
-											</ul>
+										<li id="sympociaNoPostsLogo" style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
+											<SympociaStampIconContainer>
+												<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
+											</SympociaStampIconContainer>
+										</li>
+										<p style={{fontSize:"20px"}}><b>Upload a {props.postType} of your own to get started</b></p>
+										<p>Show people your story through {props.postType}s and start sharing your story to others </p>
+										<hr/>
+										{profileContext.isGuestProfile==true? 
+											<GuestLockScreenHOC
+												component={uploadButtonComponent()}
+											/>
+											:<>{uploadButtonComponent()}</>
+										}
 									</CreatePostContainer>
-									<hr/>
 								</li>:null
 						}
 					</React.Fragment>
@@ -187,10 +192,14 @@ const NoPostsModal=(props)=>{
 
 	return(
 			<Container>
-				<p>Currently there are no posts available here</p>
-				{props.currentRequestedFriendsGaugeNodeId==null &&(
-					<>{createPostModal()}</>
-				)}
+				{profileContext.isOwnProfile==false?
+					<p>Currently there are no posts available here</p>:
+					<React.Fragment>
+						{props.currentRequestedFriendsGaugeNodeId==null &&(
+							<>{createPostModal()}</>
+						)}
+					</React.Fragment>
+				}
 			</Container>
 	)
 }

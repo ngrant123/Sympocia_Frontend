@@ -116,6 +116,11 @@ const RecruitButtonContainer=styled.div`
 		font-size:24px;
 		width:120px;
 	}
+
+	@media screen and (max-width:650px){
+		width:100px !important;
+		margin-bottom:0%;
+	}
 `;
 
 
@@ -309,18 +314,40 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 	return(
 		<React.Fragment>
-			{personalInformation.isOwnProfile==false &&(
-				<React.Fragment>
-					{isProfileRecruit==true?
-						<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
-							- Recruit
-						</RecruitButtonContainer>
-						:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
-							+ Recruit
-						</RecruitButtonContainer>
-					}
-				</React.Fragment>
-			)}
+			<React.Fragment>
+				{isProfileRecruit==true?
+					<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
+						- Recruit
+					</RecruitButtonContainer>
+					:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
+						+ Recruit
+					</RecruitButtonContainer>
+				}
+			</React.Fragment>
+
+
+
+
+
+
+
+
+
+
+			{/*
+				{personalInformation.isOwnProfile==false &&(
+					<React.Fragment>
+						{isProfileRecruit==true?
+							<RecruitButtonContainer onClick={()=>unRecruitVisitor({isAccessTokenUpdated:false})}>
+								- Recruit
+							</RecruitButtonContainer>
+							:<RecruitButtonContainer onClick={()=>recruitProfile({isAccessTokenUpdated:false})}>
+								+ Recruit
+							</RecruitButtonContainer>
+						}
+					</React.Fragment>
+				)}
+			*/}
 		</React.Fragment>
 	)
 }
@@ -422,12 +449,14 @@ const PersonalInformation=(props)=>{
 				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 					{editIcon()}
 
-					<div style={VerticalLineCSS}/>
 
 					{isOligarch==true &&(
-						<div style={{cursor:"pointer",marginLeft:crownLogoMarginLeft}}>
-							{crownLogo()}
-						</div>
+						<React.Fragment>
+							<div style={VerticalLineCSS}/>
+							<div style={{cursor:"pointer",marginLeft:crownLogoMarginLeft}}>
+								{crownLogo()}
+							</div>
+						</React.Fragment>
 					)}
 					<div style={VerticalLineCSS}/>
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" 

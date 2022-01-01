@@ -52,6 +52,10 @@ export const ProfilePictureContainer=styled.div`
         height:105% !important;
         left:10% !important;
 	    }
+
+      #postCreationIcon{
+        font-size:20px !important;
+      }
     }
 
   @media screen and (max-width:340px){

@@ -39,10 +39,12 @@ const ProfilePicture=({
 		<ProfilePictureContainer>
 			{(state.displayDesktopUI==false && state.isOwnProfile==true)? 
 				<>
-					{state.isGuestProfile==false && (
-						<>{displayCreatePostOptionTrigger()}</>
-					)}
-					{diplayMobileChampionTrigger()}
+					<div style={{display:"flex",flexDirection:"column",backgroundColor:"red"}}>
+						{state.isGuestProfile==false && (
+							<>{displayCreatePostOptionTrigger()}</>
+						)}
+						{diplayMobileChampionTrigger()}
+					</div>
 					<img id="profilePicture" 
 						onClick={()=>handleChangeProfilePicture()}
 						src={state.profilePicture==null?

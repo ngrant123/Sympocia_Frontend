@@ -39,7 +39,7 @@ export const Container=styled.div`
     	}
     	#postsContainer{
 			margin-left:-80% !important;
-			margin-top:180% !important;
+			margin-top:155% !important;
 		}
 		#friendsGaugeContainer{
     		padding-right: 10%;
