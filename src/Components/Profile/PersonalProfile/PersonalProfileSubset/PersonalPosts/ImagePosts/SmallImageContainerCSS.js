@@ -1,12 +1,18 @@
 import styled from "styled-components";
 
+		// padding-left:40px;
+		// padding-right:40px;
 
+// background-color:blue;
 export const Container=styled.div`
 	display:flex;
 	#smallPostLI{
 		width:200px !important;
 		margin-right:7% !important;
 	}
+
+	background-color:blue;
+	
 
 
 	@media screen and (min-width:2500px){
@@ -21,25 +27,43 @@ export const Container=styled.div`
 		}
 		#smallPostLI{
 			margin-right:5% !important;
-			width:170px !important;
-			height:150px !important;
+			width:140px !important;
+			height:130px !important;
 		}
 	}
 
 	@media screen and (max-width:650px){
-		width:100% !important;
-		margin-left:5% !important;
-		justify-content:center !important;
+		width:105% !important;
+		justify-content:center;
+
+
 		#videoAndAudioDescriptionLI{
 			display:none !important;
 		}
 		#smallPostLI{
-			height:110px !important;
-			width:37% !important;
-			margin-right:10% !important;
+			height:115px !important;
+			width:120px !important;
 			margin-bottom:5% !important;
 		}
+
+		#smallPostDiv{
+			width:80% !important;
+		}
 	}
+
+	@media screen and (max-width:350px){
+		#smallPostDiv{
+			width:95% !important;
+		}
+	}
+
+	@media screen and (min-width:400px) and (max-width:430px) 
+	    and (min-height:730px) and (max-height:800px){
+	   	#smallPostDiv{
+			width:75% !important;
+		}	
+	}
+
 
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:740px) and (max-height:850px){
@@ -53,10 +77,22 @@ export const Container=styled.div`
 	@media screen and (min-width:400px) and (max-width:650px) 
 	    and (min-height:1000px) and (max-height:1370px){
 	    #smallPostLI{
-			height:140px !important;
+			height:120px !important;
+		}
+		margin-left:10px !important;
+	}
+
+	@media screen and (min-width:450px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+	    #smallPostLI{
+			height:150px !important;
+			width:150px !important;
 		}
 		margin-left:10% !important;
 	}
+
+
+
 
 	@media screen and (min-width:500px) and (max-width:570px) 
 	    and (min-height:700px) and (max-height:800px){
@@ -71,9 +107,39 @@ export const Container=styled.div`
 		margin-left:15% !important;
 	}
 
-	@media screen and (min-width:630px) and (max-width:670px) 
-	    and (min-height:1350px) and (max-height:1370px){
+	@media screen and (min-width:250px) and (max-width:450px) 
+	    and (min-height:800px) and (max-height:1200px){
+		
+		#smallPostLI{
+			height:100px !important;
+			width:105px !important;
+		} 
 	}
+
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+	    and (min-height:600px) and (max-height:900px){
+	    #smallPostLI{
+			height:90px !important;
+			width:95px !important;
+		} 
+	}
+
+
+
+
+
+	@media screen and (min-width:300px) and (max-width:550px) 
+	    and (min-height:800px) and (max-height:1200px){
+		margin-left:5%;
+		#smallPostLI{
+			height:150px !important;
+			width:160px !important;
+		} 
+	}
+
+
+
 
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -89,11 +155,11 @@ export const Container=styled.div`
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 	 	justify-content:start !important;
 	 	margin-left:0% !important;
-	 	width:90% !important;
+	 	width:100% !important;
 
 		#smallPostLI{
-			height:170px !important;
-			width:35% !important;
+			height:90px !important;
+			width:95px !important;
 			margin-left:3% !important;
 			margin-bottom:5% !important;
 		}

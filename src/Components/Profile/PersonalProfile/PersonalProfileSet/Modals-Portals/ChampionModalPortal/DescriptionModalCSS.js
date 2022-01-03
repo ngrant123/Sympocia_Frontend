@@ -160,6 +160,10 @@ export const SubmitButton=styled.div`
 		margin-top:2%;
 		margin-bottom:10px;
 	}
+
+	@media screen and (max-width:650px){
+		width:35%;
+	}
 `;
 
 export const ShadowContainer= styled.div`

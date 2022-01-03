@@ -329,6 +329,7 @@ const MobileRecruitAndFriendsGaugeOptions=({editFriendNodeActionType,isOwner})=>
 	const displayNodeOptions=()=>{
 		changeDisplayEditNodeOptions(true);
 	}
+	
 	return <UserConsumer>
 				{personalInformation=>{
 					return <>

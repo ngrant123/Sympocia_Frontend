@@ -133,10 +133,11 @@ const Container=styled.div`
 		overflow-y:scroll;
 		height:90% !important;
 
-		#imageContainerDiv{
-			margin-bottom:20%;
+		#editImageFlexDiv{
+			align-items:start !important;
+			height:60% !important;
+			padding:10px !important;
 		}
-
     	#imageListContainer{
 			display:block !important;
 			width:100% !important;
@@ -145,8 +146,8 @@ const Container=styled.div`
 
 		#uploadedImage{
 			margin-right:150px !important;
-			height:150px !important;
-			width:30% !important;
+			height:70px !important;
+			width:70px !important;
 		}
     }
 `;
@@ -235,6 +236,17 @@ const CrownIconContainer=styled.div`
 		width:30px !important;
 		height:30px !important;
 	}
+
+
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+    	width:30px !important;
+		height:30px !important;	
+    }
+
+
+
 
 
 	@keyframes glowing {
@@ -423,10 +435,12 @@ class EditImageCreation extends Component{
 			crownElement.style.color="white";
 		}
 
-		if(prevState.isPostCrowned!=this.props.previousData.isCrownedPost){
-			const crownElement=document.getElementById("crownIcon");
-			crownElement.style.backgroundColor="#D6C5F4";
-			crownElement.style.color="white";
+		if(this.props.previousData!=null){		
+			if(prevState.isPostCrowned!=this.props.previousData.isCrownedPost){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
 		}
 	}
 
@@ -606,6 +620,8 @@ class EditImageCreation extends Component{
 				}
 			}
 		}
+
+		
 		this.setState({
 			isSubmittedAndProcessing:false
 		})

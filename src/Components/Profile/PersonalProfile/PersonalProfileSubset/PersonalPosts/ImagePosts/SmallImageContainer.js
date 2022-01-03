@@ -94,23 +94,25 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<Container style={{marginTop:"5%",width:"90%",display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
-			{images.map(data=>
-				<div id="smallPostLI" style={{height:"170px",marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
-					{image(data)}
-					{/*
-						<div id="postInformation">
-							{data.caption!=""?
-								<li style={{listStyle:"none",marginBottom:"5%"}}>
-									<ImageCaption>
-										{data.caption}
-									</ImageCaption>
-								</li>:<React.Fragment></React.Fragment>
-							}
-						</div>
-					*/}
-				</div>
-			)}
+		<Container style={{marginTop:"5%",width:"90%"}}>
+			<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",width:"100%"}}>
+				{images.map(data=>
+					<div id="smallPostLI" style={{height:"170px",marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
+						{image(data)}
+						{/*
+							<div id="postInformation">
+								{data.caption!=""?
+									<li style={{listStyle:"none",marginBottom:"5%"}}>
+										<ImageCaption>
+											{data.caption}
+										</ImageCaption>
+									</li>:<React.Fragment></React.Fragment>
+								}
+							</div>
+						*/}
+					</div>
+				)}
+			</div>
 		</Container>
 	)
 }

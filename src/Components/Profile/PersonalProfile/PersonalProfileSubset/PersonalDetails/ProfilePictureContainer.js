@@ -15,7 +15,7 @@ const ProfilePicture=({
 	diplayMobileChampionTrigger})=>{
 
 	const displayMobileUserInformationnModal=()=>{
-		return <ul style={{maxHeight:"20px",position:"relative",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
+		return <ul style={{maxHeight:"20px",position:"relative",padding:"0px",top:"80%",marginTop:"2%"}}>
 					{/*
 						<MediumMobileScreenUserInformation>
 							<p style={{maxWidth:"90%",maxHeight:"20px",overflow:"hidden"}}>
@@ -39,19 +39,22 @@ const ProfilePicture=({
 		<ProfilePictureContainer>
 			{(state.displayDesktopUI==false && state.isOwnProfile==true)? 
 				<>
-					<div style={{display:"flex",flexDirection:"column",backgroundColor:"red"}}>
+					<div id="postAndChampionMobileCreationContainer"
+						style={{position:"relative",display:"flex",flexDirection:"column"}}>
 						{state.isGuestProfile==false && (
 							<>{displayCreatePostOptionTrigger()}</>
 						)}
 						{diplayMobileChampionTrigger()}
 					</div>
-					<img id="profilePicture" 
-						onClick={()=>handleChangeProfilePicture()}
-						src={state.profilePicture==null?
-								NoProfilePicture:
-								state.profilePicture
-							} style={{position:"absolute",width:"100%",height:"100%",borderRadius:"50%"}}
-					/>
+					<div id="profilePicture" style={{position:"absolute"}}>
+						<img 
+							onClick={()=>handleChangeProfilePicture()}
+							src={state.profilePicture==null?
+									NoProfilePicture:
+									state.profilePicture
+								} style={{width:"100%",height:"100%",borderRadius:"50%"}}
+						/>
+					</div>
 				</>:
 				<>
 					{diplayMobileChampionTrigger()}

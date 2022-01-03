@@ -14,6 +14,16 @@ const Container=styled.div`
 	    	font-size:36px !important;
 	    }
 	}
+
+	@media screen and (max-width:650px){
+		#backButton{
+			width:100% !important;
+		}
+
+		#uploadOptionFile{
+			width:100% !important;
+		}
+	}
 `;
 
 const ButtonContainerCSS={
@@ -84,7 +94,7 @@ const UploadProfilePictureOption=({backButtonTrigger,uploadFile})=>{
 
 	return(
 		<Container>
-			<p style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
+			<p id="backButton" style={ButtonContainerCSS} onClick={()=>backButtonTrigger()}>
 				Back
 			</p>
 			<hr/>

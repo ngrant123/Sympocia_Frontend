@@ -4,14 +4,25 @@ import {PostContext} from "./PostsContext.js";
 import ArrowForwardIosIcon from '@material-ui/icons/KeyboardArrowDown';
 import Typed from "react-typed";
 
+const Container=styled.div`
+	width:100%;
 
-const NextButton=()=>{
+	@media screen and (max-width:650px){
+		#nextButton{
+			margin-left:0% !important;
+		}
+	}
+`;
+
+const NextButton=({postsLength})=>{
 	const PostContextValues=useContext(PostContext);
 
 	return(
-		<div style={{width:"100%"}}>
-			<hr/>
-			<div style={{display:"flex",alignItems:"center",justifyContent:"center",width:"100%",marginLeft:"-10%"}}>
+		<Container>
+			{postsLength>0 &&(
+				<hr/>
+			)}
+			<div id="nextButton" style={{display:"flex",alignItems:"center",justifyContent:"center",width:"100%",marginLeft:"-10%"}}>
 				{ PostContextValues.endOfPostsDBIndicator==false
 					&& PostContextValues.isSearchFilterActivated==false 
 				 	&& PostContextValues.isFilteredPostsActivated==false  && (
@@ -35,7 +46,7 @@ const NextButton=()=>{
 					</React.Fragment>
 				)}
 			</div>
-		</div>
+		</Container>
 	)
 }
 

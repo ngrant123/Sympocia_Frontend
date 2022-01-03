@@ -41,6 +41,7 @@ import {
 import {getProfilePostsSearch} from "../../../../../Actions/Requests/SearchPageAxiosRequests/index.js";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {generateAirPlane} from "../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
+import {enableScrolling} from "../../../../../Actions/Tasks/DisableScrolling.js";
 
 const PostCreationContainer=styled.div`
 	position:relative;
@@ -637,7 +638,7 @@ const PersonalPostsIndex=(props)=>{
 	const mobilePostSelectionAndRecruitUI=(personalInformation)=>{
 		return (
 			<div id="postSelectionAndRecruitDiv" style={{display:"flex",flexDirection:"row",width:"100%",overflowX:"auto",padding:"10px",alignItems:"center"}}>
-				<div style={{marginLeft:"0%",position:"relative",width:"120px",height:"100%"}}>
+				<div style={{marginLeft:"0%",position:"relative",width:"120px"}}>
 					<RecruitButton
 						personalInformation={{
 							_id:personalInformation._id,
@@ -1129,6 +1130,11 @@ const PersonalPostsIndex=(props)=>{
 			</React.Fragment>
 		)
 	}
+
+	const enableScrollingFeature=()=>{
+		enableScrolling("personalContainer");
+	}
+
 	return (
 			<PostProvider
 				value={{
@@ -1151,12 +1157,14 @@ const PersonalPostsIndex=(props)=>{
 						changeImagePost(newImageObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
+						enableScrollingFeature();
 					},
 					updateVideoPost:(videoObject)=>{
 						let newVideoObject=updateVideoPostIndexContext(videoObject,videoPost);
 						changeVideoPosts(newVideoObject);		
 						changeDisplayCreationPost(false);
 						props.closeModal();
+						enableScrollingFeature();
 					},
 					updateRegularPost:(regularPostProp)=>{
 						const {isCrownedPost,post}=regularPostProp;
@@ -1167,6 +1175,7 @@ const PersonalPostsIndex=(props)=>{
 						changeRegularPost(newPostObject);
 						changeDisplayCreationPost(false);
 						props.closeModal();
+						enableScrollingFeature();
 					},
 					editPost:(postData)=>{
 						const {postType}=postData;
@@ -1230,7 +1239,7 @@ const PersonalPostsIndex=(props)=>{
 			{props.personalInformation.isLoading==true?null:
 				<>
 					<ul>
-						<hr/>
+						<hr id="postsDivider"/>
 						{displayCreationPostContainer()}
 						<li id="postsContainer" style={{listStyle:"none"}}
 							onClick={()=>generateAirPlane({
@@ -1240,7 +1249,7 @@ const PersonalPostsIndex=(props)=>{
 								            profileIdAccessingDiv:props.profileIdAccessingDiv
 										})}>
 							<ul style={{padding:"0px"}}>
-								{props.uiStatus.displayPhoneUI==true? 
+								{props.uiStatus.displayDesktopUI==false? 
 									<>{mobilePostSelectionAndRecruitUI(props.personalInformation)}</>:
 									<PostOptionsAndSearchContainer 
 										displayExtendedSearchTextArea={displayExtendedSearchTextArea}>

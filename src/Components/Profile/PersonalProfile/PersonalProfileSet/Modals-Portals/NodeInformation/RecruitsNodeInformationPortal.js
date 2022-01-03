@@ -82,6 +82,13 @@ const Container=styled.div`
 		height:100% !important;
 		top:0% !important;
 
+		#nodeInformationVideoDescription{
+			height:40% !important;
+		}
+
+		#nodeDesignUploadImageButton{
+			width:60% !important;
+		}
 		#nodeInformationDropDownMenu{
 			${({videoDescription})=>
 				videoDescription!=null ?
@@ -209,6 +216,8 @@ const NodeInformationPortal=({
 	const [loadingVideoDescription,changeLoadingVideoDescription]=useState(false);
 	const [displayNodeInformation,changeDisplayNodeInformation]=useState(true);
 
+	const [isMountedStatus,changeIsMountedStatus]=useState(false);
+
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -221,6 +230,7 @@ const NodeInformationPortal=({
 				alert('Unfortunately there was an error retrieving this levels video description');
 			}
 			changeLoadingVideoDescription(false);
+			changeIsMountedStatus(true);
 		}	
 
 		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
@@ -591,19 +601,21 @@ const NodeInformationPortal=({
 									</React.Fragment>
 								)}
 								<hr/>
-								{nodeInformation.containsVideoDescription==true &&(
-									<React.Fragment>	
-										{loadingVideoDescription==true ?
-											<p>Loading video description...</p>:
-											<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-												controls
-												width="100%" height="100%" style={{backgroundColor:"#151515"}}>
-												<source src={videoDescription} type="video/mp4"/>
-											</video>
-										}
-										<hr/>
-									</React.Fragment>
-								)}
+
+								<div style={{height:"50%"}}>
+									{isMountedStatus==true?
+										<VideoLoadingPrompt
+											videoElement={<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+															controls id="nodeVideoDescription"
+															width="100%" height="100%" style={{backgroundColor:"#151515",borderRadius:"5px"}}>
+															<source src={videoDescription} type="video/mp4"/>
+														</video>}
+											videoId="nodeVideoDescription"
+										/>:
+										<p>Please wait...</p>
+									}
+								</div>
+
 								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 									<p style={{fontSize:"15px",marginTop:"2%"}}>Node Information:</p>
 									<div class="dropdown">

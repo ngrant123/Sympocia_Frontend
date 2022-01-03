@@ -36,6 +36,11 @@ export const ProfilePictureContainer=styled.div`
         width:85% !important;
         margin-left:10%;
 	   }
+
+     #postAndChampionMobileCreationContainer{
+        margin-left:-180px !important;
+        margin-top:-160px !important;
+     }
   }
 
 
@@ -47,8 +52,12 @@ export const ProfilePictureContainer=styled.div`
 		  z-index:10;
 		  margin-top:55%;
 
+      #postAndChampionMobileCreationContainer{
+        margin-left:-80%;
+        margin-top:-80%;
+      }
+
 		  #profilePicture{
-	      width:90% !important;
         height:105% !important;
         left:10% !important;
 	    }
@@ -64,6 +73,94 @@ export const ProfilePictureContainer=styled.div`
         height:110% !important;
     }
   }
+
+
+
+  @media screen and (min-width:270px) and (max-width:400px) 
+    and (min-height:750px) and (max-height:1039px){
+    margin-top:190px !important;
+  }
+
+  @media screen and (min-width:350px) and (max-width:560px) 
+    and (min-height:700px) and (max-height:1100px){
+    margin-top:185px !important;
+
+    #profilePicture{
+      margin-top:10%;
+      height:240px !important;
+      width:250px !important;
+    }
+
+    #postAndChampionMobileCreationContainer{
+      margin-left:-230px !important;
+    }
+  }
+
+
+  @media screen and (min-width:240px) and (max-width:430px) 
+    and (min-height:600px) and (max-height:900px){
+
+    #profilePicture{
+      margin-top:10%;
+      height:160px !important;
+      width:170px !important;
+    }
+  }
+
+
+
+  @media screen and (min-width:500px) and (max-width:650px) 
+    and (min-height:600px) and (max-height:900px){
+
+    #profilePicture{
+      margin-top:-5px;
+      height:260px !important;
+      width:270px !important;
+      margin-left:15% !important;
+    }
+    #postAndChampionMobileCreationContainer{
+      display:none !important;
+    }
+  }
+
+
+
+  @media screen and (min-width:650px) and (max-width:800px) 
+    and (min-height:600px) and (max-height:900px){
+
+    #profilePicture{
+      margin-top:-5px;
+      height:110px !important;
+      width:120px !important;
+      margin-left:15% !important;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+  @media screen and (min-width:1000px) and (max-width:1030px) 
+    and (min-height:1350px) and (max-height:1380px){
+    #postAndChampionMobileCreationContainer{
+      margin-left:-80% !important;
+      margin-top:-60% !important;
+    }
+  }
+
 
   @media screen and (min-width:490px) and (max-width:570px) 
     and (min-height:740px) and (max-height:900px){
@@ -114,23 +211,22 @@ export const ProfilePictureContainer=styled.div`
     }
   }
 
-  @media screen and (min-width:650px) and (max-width:700px) 
+  @media screen and (min-width:650px) and (max-width:800px) 
     and (min-height:1000px) and (max-height:1040px){
     #profilePicture{
         width:150px !important;
-        height:140px !important;
+        height:150px !important;
     }
   }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-    	margin-left:-15%;
   	 	#profilePicture{
   	 		width:40% !important;
   	 	}
     }
 
   @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	margin-top:0%;
+    	margin-top:20%;
     	margin-bottom:-10px;
     	height:80px !important;
     	width:160px !important;
@@ -147,10 +243,10 @@ export const ProfilePictureContainer=styled.div`
     	height:120px !important;
     	margin-left:25% !important;
     	#profilePicture{
-	 		width:90% !important;
-	        height:120% !important;
-	        left:10% !important;
-	 	}
+  	 		width:90% !important;
+  	        height:120% !important;
+  	        left:10% !important;
+  	 	}
    	}
 `;
 

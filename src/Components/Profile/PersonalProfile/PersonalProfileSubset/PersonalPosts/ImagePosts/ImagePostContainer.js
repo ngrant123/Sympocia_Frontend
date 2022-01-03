@@ -171,7 +171,9 @@ const ImagePostsContainer=(props)=>{
 									friendsColorNodesMap={props.friendsColorNodesMap}
 									PostContextValues={PostContextValues}
 								/>
-								<NextButton/>
+								<NextButton
+									postsLength={props.imageData.images.length}
+								/>
 							</ul>
 						}
 						</React.Fragment>

@@ -28,6 +28,9 @@ export const Container=styled.div`
 
 
     @media screen and (max-width:650px){
+    	#postsDivider{
+    		display:none !important;
+    	}
 		#postSelectionAndRecruitDiv{
 			margin-top:-10% !important;
 		}
@@ -129,6 +132,22 @@ export const Container=styled.div`
 			margin-left:140px !important;
 		}
 	}
+
+	@media screen and (min-width:530px) and (max-width:680px) 
+    	and (min-height:1150px) and (max-height:1400px){
+		#postSelectionAndRecruitDiv{
+			margin-left:50px !important;
+		}
+	}
+
+
+  @media screen and (min-width:500px) and (max-width:710px) 
+    and (min-height:600px) and (max-height:900px){
+
+		#postSelectionAndRecruitDiv{
+			margin-left:20px !important;
+		}
+  }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#postsContainer{
@@ -298,13 +317,10 @@ export const PersonalProfileInformationContainer= styled.div`
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:40px !important;
-    	#mobileUserInformation{
-			flex-direction:column !important;
-		}
    	}
 
    	@media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
-    	top:-40% !important;
+    	top:-30% !important;
    	}
 `;
 
@@ -413,7 +429,23 @@ export const PostInformationContainer=styled.div`
 	@media screen and (max-width:736px) and (max-height:320px){
 	 	top:35% !important;
     }
- 
+
+  	@media screen and (min-width:350px) and (max-width:560px) 
+    	and (min-height:700px) and (max-height:1100px){
+		top:290px !important;
+	}
+
+	@media screen and (min-width:230px) and (max-width:560px) 
+    	and (min-height:1150px) and (max-height:1400px){
+		top:350px !important;
+	}
+
+
+
+
+
+
+
  	@media screen and (max-width:1370px) and (max-height:600px) and (orientation: landscape) {
 		top:20%;
     }

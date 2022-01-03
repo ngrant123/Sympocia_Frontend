@@ -3,6 +3,15 @@ import styled from "styled-components";
 
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
+
+/*
+	  @media screen and (min-width:250px) and (max-width:450px) 
+	    and (min-height:800px) and (max-height:1200px){
+	    width:87%;
+	}
+
+*/
+
 const Container=styled.div`
 	position:relative;
 	z-index:25;
@@ -13,6 +22,8 @@ const Container=styled.div`
 	cursor:pointer;
 	display:flex;
 	flex-direction:row;
+
+	background-color:red;
 
 	@media screen and (min-width:2500px){
 		margin-top:5%;
@@ -27,7 +38,10 @@ const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		width:100%;
+		margin-top:5%;
 		justify-content:center;
+		margin-left: 10px !important;
+
 		#postInformationLI{
     		width:30% !important;
     		margin-left:-5%;
@@ -36,6 +50,7 @@ const Container=styled.div`
     		display:none !important;
     	}
     }
+
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#parentContainer{
@@ -59,6 +74,37 @@ const Container=styled.div`
     }
 `;
 
+
+/*
+	   @media screen and (min-width:250px) and (max-width:450px) 
+	    and (min-height:800px) and (max-height:1200px){
+	    width:220px !important;
+		height:190px !important;
+	}
+
+
+	@media screen and (min-width:400px) and (max-width:550px) 
+	    and (min-height:800px) and (max-height:1200px){
+	    width:260px !important;
+		height:230px !important;
+		margin-left:30px;
+	}
+
+	@media screen and (min-width:450px) and (max-width:650px) 
+	    and (min-height:1000px) and (max-height:1370px){
+		margin-left:10% !important;
+	}
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+	    and (min-height:600px) and (max-height:900px){
+	   width:180px !important;
+	   height:150px !important;
+	   margin-left:-20px !important;
+	}
+
+
+*/
+
 const Image=styled.div`
 	position:relative;
 	width:320px;
@@ -80,14 +126,16 @@ const Image=styled.div`
 		height:200px;
 	}
 	@media screen and (max-width:650px){
-		width:250px !important;
-		height:200px !important;
+		width:270px !important;
+		height:240px !important;
 		margin-bottom:15px
     }
 
+
+
      @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-		height:250px !important;
-		width:300px !important;
+		height:180px !important;
+		width:195px !important;
     }
 `;
 

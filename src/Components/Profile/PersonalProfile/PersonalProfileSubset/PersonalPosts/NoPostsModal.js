@@ -12,6 +12,7 @@ import GuestLockScreenHOC from "../../../../GeneralComponents/PostComponent/Gues
 import {Link} from "react-router-dom";
 
 const Container=styled.div`
+	margin-top:2%;
 	@media screen and (max-width:650px){
 		#sympociaNoPostsLogo{
 			display:none !important;
@@ -25,8 +26,10 @@ const Container=styled.div`
 const SympociaStampIconContainer=styled.div`
 	position:relative;
 	border-radius:50%;
-	width:65%;
-	height:40%;
+	width:50%;
+	height:50%;
+	margin-left:20%;
+	margin-bottom:2%;
 
 	@media screen and (max-width:650px){
 		height:100px;
@@ -59,6 +62,10 @@ const CreatePostContainer=styled.div`
 		&:hover{
 			box-shadow:none;
 		}
+    }
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		height:350px !important;
+		width:350px !important;
     }
 `;
 
@@ -169,11 +176,9 @@ const NoPostsModal=(props)=>{
 						{displayCreatePostIndicator==true && props.isSearchFilterActivated==false?
 							 <li style={{marginRight:"5%",listStyle:"none",display:"inline-block"}}>
 									<CreatePostContainer id="createPostContainer">
-										<li id="sympociaNoPostsLogo" style={{listStyle:"none",marginLeft:"20%",marginBottom:"2%"}}>
-											<SympociaStampIconContainer>
-												<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
-											</SympociaStampIconContainer>
-										</li>
+										<SympociaStampIconContainer id="sympociaNoPostsLogo">
+											<img position="relative" src={SympociaIcon} width="100%" height="100%"/>
+										</SympociaStampIconContainer>
 										<p style={{fontSize:"20px"}}><b>Upload a {props.postType} of your own to get started</b></p>
 										<p>Show people your story through {props.postType}s and start sharing your story to others </p>
 										<hr/>

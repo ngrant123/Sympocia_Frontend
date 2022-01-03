@@ -37,7 +37,7 @@ const Container=styled.div`
   }
 
   @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    margin-left:-5% !important;
+
   }
 
   @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){

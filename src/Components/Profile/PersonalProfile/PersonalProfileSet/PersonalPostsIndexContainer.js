@@ -5,13 +5,17 @@ import PersonalPostsIndex from "../PersonalProfileSubset/PersonalPosts/index.js"
 
 const PersonalPostsIndexContainer=(props)=>{
 	const {
-		displayCreationPortal
+		displayCreationPortal,
+		uiStatus
 	}=props;
 	const posts=useMemo(()=>{
 		return <PersonalPostsIndex
 					{...props}
 				/>
-	},[displayCreationPortal]);	
+	},[
+		displayCreationPortal,
+		uiStatus
+	]);	
 
 	return(
 		<>{posts}</>

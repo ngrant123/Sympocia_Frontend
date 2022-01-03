@@ -212,7 +212,7 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 					<>
 						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 							{backButton()}
-							<div style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
+							<div id="nodeDesignUploadImageButton" style={{...ButtonCSS,width:"30%"}} onClick={()=>clickUploadPhotoButton()}>
 								Upload Image
 							</div>
 						</div>
