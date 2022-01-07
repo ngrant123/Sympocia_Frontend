@@ -23,93 +23,22 @@ const Container=styled.div`
 	display:flex;
 	flex-direction:row;
 
-	background-color:red;
-
 	@media screen and (min-width:2500px){
 		margin-top:5%;
 		margin-bottom:15px;
   	}
 
-  	@media screen and (max-width:1370px){
-  		#crownedImageAudio{
+  	@media screen and (max-width:650px){
+  		#postInformationLI{
   			display:none !important;
   		}
   	}
-
-	@media screen and (max-width:650px){
-		width:100%;
-		margin-top:5%;
-		justify-content:center;
-		margin-left: 10px !important;
-
-		#postInformationLI{
-    		width:30% !important;
-    		margin-left:-5%;
-    	}
-    	#postInformationLI{
-    		display:none !important;
-    	}
-    }
-
-
-    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
-    	#parentContainer{
-			height:60% !important;
-		}
-    }
-
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-	 	justify-content:start;
-		#parentContainer{
-			height:100% !important;
-			margin-left:2% !important;
-		}
-    }
-
-    @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
-		#parentContainer{
-			margin-left:15% !important;
-		}
-    }
 `;
-
-
-/*
-	   @media screen and (min-width:250px) and (max-width:450px) 
-	    and (min-height:800px) and (max-height:1200px){
-	    width:220px !important;
-		height:190px !important;
-	}
-
-
-	@media screen and (min-width:400px) and (max-width:550px) 
-	    and (min-height:800px) and (max-height:1200px){
-	    width:260px !important;
-		height:230px !important;
-		margin-left:30px;
-	}
-
-	@media screen and (min-width:450px) and (max-width:650px) 
-	    and (min-height:1000px) and (max-height:1370px){
-		margin-left:10% !important;
-	}
-
-	@media screen and (min-width:250px) and (max-width:400px) 
-	    and (min-height:600px) and (max-height:900px){
-	   width:180px !important;
-	   height:150px !important;
-	   margin-left:-20px !important;
-	}
-
-
-*/
 
 const Image=styled.div`
 	position:relative;
 	width:320px;
 	height:230px;
-	background-color:blue;
 	border-radius:5px;
 	overflow:hidden;
 	margin-bottom:35px;
@@ -122,18 +51,46 @@ const Image=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:300px !important;
-		margin-bottom:40px;
+		margin-bottom:60px;
 		height:200px;
 	}
 	@media screen and (max-width:650px){
-		width:270px !important;
+		height:290px !important;
+		width:100% !important;
+    }
+
+    @media screen and (max-width:350px){
+		width:100% !important;
 		height:240px !important;
 		margin-bottom:15px
     }
 
 
+	@media screen and (min-width:490px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+		
+		height:355px !important;
+	}
 
-     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:700px) and (max-height:850px){
+		
+		height:200px !important;
+	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:700px) and (max-height:1030px){
+		
+		height:200px !important;
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:860px){
+	   	height:350px !important;
+	}
+
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 		height:180px !important;
 		width:195px !important;
     }
@@ -237,9 +194,6 @@ const CrownedImageContainer=({crownedImage,displayPostModal,friendsColorNodesMap
 			{image()}
 			<div id="postInformationLI" style={{top:"0%",width:"80%"}}>
 				<ul style={{paddging:"0px"}}>
-					<li style={IndustryButtonCSS}>
-						{crownedImage.industriesUploaded[0].industry}
-					</li>
 					<li style={CaptionCSS}>
 						<b>{crownedImage.caption}</b>
 					</li>

@@ -492,10 +492,9 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 										<VideoLoadingPrompt
 											videoElement={
 												<video id="friendsLevelVideoDescription" key={uuidv4()} 
-													autoPlay preload="none" controls 
-													loop autoBuffer 
-													muted playsInline 
-													width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+													width="100%" height="100%" borderRadius="50%"
+													autoPlay loop autoBuffer 
+													controls playsInline style={{backgroundColor:"#151515"}}>
 													<source src={nodeVideoDescription} type="video/mp4"/>
 												</video>
 											}

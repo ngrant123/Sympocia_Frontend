@@ -9,7 +9,7 @@ export const Container=styled.div`
 	@media screen and (max-width:1370px){
 		#postsContainer{
 			margin-left:-50%;
-			margin-top:20% !important;
+			margin-top:10% !important;
 		}
 		#createPostIcon{
 			top:5% !important;
@@ -117,12 +117,47 @@ export const Container=styled.div`
 	    #postSelectionAndRecruitDiv{
 			margin-left:60px !important;
 		}
+
+		#postCollectionContainer{
+			margin-left:10% !important;
+		}
 	}
+
+	@media screen and (min-width:490px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+	    #postCollectionContainer{
+			margin-left:12% !important;
+		}
+	}
+
 
 	@media screen and (min-width:500px) and (max-width:570px) 
 	    and (min-height:700px) and (max-height:860px){
 	    #postSelectionAndRecruitDiv{
 			margin-left:70px !important;
+		}	
+
+		#postCollectionContainer{
+    		margin-left:10% !important;
+    	}
+	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:600px) and (max-height:670px){
+
+	    #postSelectionAndRecruitDiv{
+			margin-left:70px !important;
+		}	
+
+		#postCollectionContainer{
+    		margin-left:10% !important;  
+    	}
+	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:600px) and (max-height:670px){
+	   	#postSelectionAndRecruitDiv{
+			margin-left:30px !important;
 		}	
 	}
 
@@ -140,14 +175,6 @@ export const Container=styled.div`
 		}
 	}
 
-
-  @media screen and (min-width:500px) and (max-width:710px) 
-    and (min-height:600px) and (max-height:900px){
-
-		#postSelectionAndRecruitDiv{
-			margin-left:20px !important;
-		}
-  }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#postsContainer{

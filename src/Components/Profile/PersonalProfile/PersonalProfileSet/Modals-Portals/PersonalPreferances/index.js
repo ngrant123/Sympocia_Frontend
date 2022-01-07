@@ -67,7 +67,7 @@ const Container=styled.div`
 		}
 		#settingsProfilePicture{
 			width:55px !important;
-			height:50px !important;
+			height:60px !important;
 		}
 	}
 
@@ -80,6 +80,12 @@ const Container=styled.div`
 
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		padding:40px;
+		top:0%;
+		left:0% !important;
+		width:100% !important;
+		height:100%;
+
     	#settingsProfilePicture{
 			width:10% !important;
 			height:35% !important;
@@ -228,9 +234,11 @@ const ProfileSettings=({closeModal,userProfilePicture})=>{
 							/>
 							<hr style={HorizontalLineCSS}/>
 							<div id="settingsContainer" style={UserSettingOptionsCSS}>
-								<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
-									<b>Account Settings</b>
-								</p>
+								<div style={{display:"flex",width:"90%",justifyContent:"center"}}>
+									<p id="accountSettingsTitle" style={{color:"A4A4A4"}}>
+										<b>Account Settings</b>
+									</p>
+								</div>
 								<div id="profilePreferencesOption" onClick={()=>handleDisplayEmailModal()}
 									style={SpecificSettingOptionCSS}>
 									<p>

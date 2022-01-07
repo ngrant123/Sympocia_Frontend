@@ -38,7 +38,7 @@ const InputContainer=styled.textarea`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		width:110% !important;
+		width:90% !important;
 		height:90px !important;
    	}
 `;

@@ -59,7 +59,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	    return v.toString(16);
 	  });
 	}
-	//onClick={()=>displayPostModal(data)} 
 
 	const image=(data)=>{
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
@@ -74,15 +73,7 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 								<source src={data.videoDescription} type="video/mp4"/>
 							</video>
 						)}
-						
-						{/*
-							<audio id="audioLI" key={uuidv4()} 
-								style={{width:"100px",height:"20px",marginBottom:"2%"}} controls>
-								<source src={data.audioDescription} type="audio/ogg"/>
-								<source src={data.audioDescription} type="audio/mp4"/>
-								Your browser does not support the audio element.
-							</audio>
-						*/}
+
 						{data.audioDescription!=null &&(
 							<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
 						)}
@@ -94,22 +85,11 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<Container style={{marginTop:"5%",width:"90%"}}>
+		<Container style={{marginTop:"5%"}}>
 			<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",width:"100%"}}>
 				{images.map(data=>
 					<div id="smallPostLI" style={{height:"170px",marginBottom:"5%"}} onClick={()=>displayPostModal(data)}>
 						{image(data)}
-						{/*
-							<div id="postInformation">
-								{data.caption!=""?
-									<li style={{listStyle:"none",marginBottom:"5%"}}>
-										<ImageCaption>
-											{data.caption}
-										</ImageCaption>
-									</li>:<React.Fragment></React.Fragment>
-								}
-							</div>
-						*/}
 					</div>
 				)}
 			</div>

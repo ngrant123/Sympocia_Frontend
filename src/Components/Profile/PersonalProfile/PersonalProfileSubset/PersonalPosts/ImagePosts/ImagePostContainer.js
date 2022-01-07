@@ -30,10 +30,15 @@ const Container=styled.div`
     }
 	@media screen and (max-width:650px){
 		justify-content:center;
-		margin-left:-5% !important;
+
 		#parentLISmallPostContainer{
 			width:190% !important;
 		}
+    }
+
+    @media screen and (max-width:350px){
+
+		margin-left:-5% !important;
     }
 
 
@@ -42,6 +47,21 @@ const Container=styled.div`
 	    margin-left:7% !important;
 	}
 
+
+    @media screen and (min-width:490px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+	    width:130% !important;
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:860px){
+	   	width:130%;
+	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:600px) and (max-height:670px){
+	    width:110% !important;
+	}
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#parentLISmallPostContainer{

@@ -4,6 +4,16 @@ import styled from "styled-components";
 		// padding-right:40px;
 
 // background-color:blue;
+
+
+
+// @media screen and (max-width:350px){
+// 	#smallPostLI{
+// 		width:115px !important;
+// 		height:110px !important;
+// 	}
+// }
+
 export const Container=styled.div`
 	display:flex;
 	#smallPostLI{
@@ -11,161 +21,60 @@ export const Container=styled.div`
 		margin-right:7% !important;
 	}
 
-	background-color:blue;
-	
-
-
-	@media screen and (min-width:2500px){
-		#smallPostLI{
-			height:270px !important;
-		}
-  	}
-
 	@media screen and (max-width:1370px){
-		#videoAndAudioDescriptionLI{
-			margin-top:-140px !important;
-		}
 		#smallPostLI{
-			margin-right:5% !important;
-			width:140px !important;
-			height:130px !important;
+			width:180px !important;
 		}
 	}
 
 	@media screen and (max-width:650px){
-		width:105% !important;
-		justify-content:center;
+		position:relative;
+		justify-content:center !important;
+		align-items:center !important;
 
-
-		#videoAndAudioDescriptionLI{
-			display:none !important;
-		}
 		#smallPostLI{
-			height:115px !important;
-			width:120px !important;
-			margin-bottom:5% !important;
+			width:30% !important;
+			height:17% !important;
+			margin-right:2% !important;
 		}
-
-		#smallPostDiv{
-			width:80% !important;
-		}
-	}
-
-	@media screen and (max-width:350px){
-		#smallPostDiv{
-			width:95% !important;
+		#videoAndAudioDescriptionLI{
+			margin-top:-80px !important;
 		}
 	}
 
-	@media screen and (min-width:400px) and (max-width:430px) 
-	    and (min-height:730px) and (max-height:800px){
-	   	#smallPostDiv{
-			width:75% !important;
-		}	
-	}
-
-
-	@media screen and (min-width:400px) and (max-width:650px) 
-	    and (min-height:740px) and (max-height:850px){
-	    #smallPostLI{
-			height:190px !important;
-		}
-		margin-left:10% !important;
-	}
-
-
-	@media screen and (min-width:400px) and (max-width:650px) 
-	    and (min-height:1000px) and (max-height:1370px){
-	    #smallPostLI{
-			height:120px !important;
-		}
-		margin-left:10px !important;
-	}
-
-	@media screen and (min-width:450px) and (max-width:650px) 
-	    and (min-height:1000px) and (max-height:1370px){
-	    #smallPostLI{
-			height:150px !important;
-			width:150px !important;
-		}
-		margin-left:10% !important;
-	}
-
-
-
-
-	@media screen and (min-width:500px) and (max-width:570px) 
-	    and (min-height:700px) and (max-height:800px){
-	    #smallPostLI{
-			height:170px !important;
+	@media screen and (min-width:300px) and (max-width:400px) 
+		and (min-height:900px) and (max-height:1400px){
+		#smallPostLI{
+			height:10% !important;
 		}
 	}
 
-
-	@media screen and (min-width:620px) and (max-width:650px) 
-	    and (min-height:1300px) and (max-height:1370px){
-		margin-left:15% !important;
+	@media screen and (min-width:490px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+		#smallPostLI{
+			height:15% !important;
+		}
 	}
 
-	@media screen and (min-width:250px) and (max-width:450px) 
-	    and (min-height:800px) and (max-height:1200px){
-		
+	@media screen and (min-width:300px) and (max-width:420px) 
+	    and (min-height:700px) and (max-height:900px){
 		#smallPostLI{
 			height:100px !important;
-			width:105px !important;
-		} 
+		}
 	}
 
-
-	@media screen and (min-width:250px) and (max-width:400px) 
-	    and (min-height:600px) and (max-height:900px){
-	    #smallPostLI{
-			height:90px !important;
-			width:95px !important;
-		} 
-	}
-
-
-
-
-
-	@media screen and (min-width:300px) and (max-width:550px) 
-	    and (min-height:800px) and (max-height:1200px){
-		margin-left:5%;
+	@media screen and (min-width:300px) and (max-width:420px) 
+	    and (min-height:800px) and (max-height:1100px){
 		#smallPostLI{
-			height:150px !important;
+			height:12% !important;
+		}
+	}
+
+
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+		#smallPostLI{
 			width:160px !important;
-		} 
-	}
-
-
-
-
-
-	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-		width:100% !important;
-		#videoAndAudioDescriptionLI{
-			display:none !important;
-		}
-		#smallPostLI{
-			margin-bottom:5% !important;
-		}
-    }
-
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
-	 	justify-content:start !important;
-	 	margin-left:0% !important;
-	 	width:100% !important;
-
-		#smallPostLI{
-			height:90px !important;
-			width:95px !important;
-			margin-left:3% !important;
-			margin-bottom:5% !important;
-		}
-
-		#nextButton{
-			margin-left:3% !important;
+			height:155px !important;
 		}
     }
 `;
@@ -191,17 +100,6 @@ export const ImageContainer=styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
-		height:270px !important;
-		width:100%;
-	 	#imageAudio{
-			display:none
-		}
-		#postInformation{
-			display:none;
-		}
-		#videoAndAudioDescriptionLI{
-			display:none !important;
-		}
     }
 `;
 
