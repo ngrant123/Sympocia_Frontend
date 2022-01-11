@@ -30,7 +30,7 @@ const ShadowContainer = styled.div`
 	height:100%;
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	display:block;
-	z-index:51;
+	z-index:41;
 `;
 
 const CommentContainer=styled.div`

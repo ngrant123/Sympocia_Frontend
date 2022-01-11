@@ -19,10 +19,11 @@ const Container=styled.div`
 	width:25%;
 	height:50%;
 	background-color:white;
-	z-index:50;
-	top:20%;
+	z-index:51;
+	top:25%;
 	border-radius:5px;
 	left:40%;
+
 	overflow-y:auto;
 	padding:20px;
 

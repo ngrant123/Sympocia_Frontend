@@ -75,14 +75,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 							</video>
 						)}
 						
-						{/*
-							<audio id="audioLI" key={uuidv4()} 
-								style={{width:"100px",height:"20px",marginBottom:"2%"}} controls>
-								<source src={data.audioDescription} type="audio/ogg"/>
-								<source src={data.audioDescription} type="audio/mp4"/>
-								Your browser does not support the audio element.
-							</audio>
-						*/}
 						{data.audioDescription!=null &&(
 							<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
 						)}

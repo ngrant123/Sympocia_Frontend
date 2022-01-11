@@ -10,6 +10,7 @@ import {
 import StampIcon from "../../../../designs/img/StampIcon.png";
 import VideoDescriptionMobileDisplayPortal from "../VideoDescriptionMobileDisplayPortal.js";
 import ZoomedPostImageOrVideoPortal from "../ZoomedInPostImageOrVideo.js";
+import VideoLoadingPrompt from "../VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	display:flex;
@@ -49,6 +50,17 @@ const Container=styled.div`
    		}
     }
 `;
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"80%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px",
+	marginTop:"5%",
+	marginBottom:"5%"
+}
+
 const postCaptionAndDescription=(caption,description)=>{
 	return(
 		<React.Fragment>
@@ -58,7 +70,7 @@ const postCaptionAndDescription=(caption,description)=>{
 				</b>
 			</p>
 
-			<p style={{marginTop:"10%",fontSize:"13px",color:"#8c8c8c",listStyle:"none"}}>
+			<p style={{marginTop:"2%",fontSize:"13px",color:"#8c8c8c",listStyle:"none"}}>
 				{description}
 			</p>
 		</React.Fragment>
@@ -178,30 +190,8 @@ const PostDisplayContainer=(props)=>{
 				/>
 			)}
 			<hr/>
-			{postData.audioDescription!=null &&(
-				<div style={{marginLeft:"10%",marginBottom:"2%"}}>
-					{postData.videoDescription!=null &&(
-						<div id="audioOnClickDiv" onClick={()=>playAudio()} style={{cursor:"pointer",zIndex:"7",position:"absolute",width:"800px",height:"7%"}}>
-						</div>
-					)}
-					<audio id="audioDescription" onPlay={()=>triggerAudioInitS3Proccessing()} style={{width:"800px"}} controls>
-						<source src={postData.audioDescription} type="audio/ogg"/>
-						<source src={postData.audioDescription} type="audio/mp4"/>
-						Your browser does not support the audio element.
-					</audio>
-				</div>
-			)}
 			<Post isWidthFocusedImage={postWidth>postHeight}  
 				isImagePost={containsVideoDescriptionAndIsImage} postWidth={postWidth}>
-				{postData.videoDescription==null?null:
-					<VideoDesriptionContainer postHeight={postHeight} onClick={()=>displayVideoDescriptionContainer()}>
-						<video id="videoDescription"
-							width="100%" height="100%" borderRadius="50%"
-							autoPlay loop autoBuffer playsInline>
-							<source src={postData.videoDescription} type="video/mp4"/>
-						</video>
-					</VideoDesriptionContainer>
-				}
 				{displayStampEffect==true?
 					<React.Fragment>
 						<StampIconEffect
@@ -213,20 +203,57 @@ const PostDisplayContainer=(props)=>{
 					null
 				}
 
-				{postData.imgUrl==null?
-					<VideoDesriptionContainer onClick={()=>displayVideoContainer()}>
-						<video id="videoElement"
-							width="100%" height="100%" borderRadius="50%"
-							autoPlay loop autoBuffer muted={postData.videoDescription==null?false:true} 
-							controls={postData.videoDescription==null?true:false} playsInline>
-							<source src={postData.videoUrl} type="video/mp4"/>
-						</video>
-					</VideoDesriptionContainer>
-					:<Image
-						style={{height:postHeight,width:postWidth}} onClick={()=>changeZoomedInPostDisplay(true)}>	
-						<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
-					</Image>
-				}
+				<div>
+					{postData.audioDescription!=null &&(
+						<React.Fragment>
+							{postData.videoDescription!=null &&(
+								<div id="audioOnClickDiv" onClick={()=>playAudio()} style={{cursor:"pointer",zIndex:"7",position:"absolute",width:"800px",height:"7%"}}>
+								</div>
+							)}
+							<audio id="audioDescription" onPlay={()=>triggerAudioInitS3Proccessing()} 
+								style={{marginBottom:"2%",width:"200px"}} controls>
+								<source src={postData.audioDescription} type="audio/ogg"/>
+								<source src={postData.audioDescription} type="audio/mp4"/>
+								Your browser does not support the audio element.
+							</audio>
+						</React.Fragment>
+					)}
+					<div style={{display:"flex",flexDirection:"row"}}>
+						{postData.videoDescription==null?null:
+							<VideoDesriptionContainer postHeight={postHeight} onClick={()=>displayVideoDescriptionContainer()}>
+								<VideoLoadingPrompt
+									videoElement={
+										<video id="videoDescription"
+											width="100%" height="100%" borderRadius="50%"
+											autoPlay loop autoBuffer playsInline>
+											<source src={postData.videoDescription} type="video/mp4"/>
+										</video>
+									}
+									videoId="videoDescription"
+								/>
+							</VideoDesriptionContainer>
+						}
+						{postData.imgUrl==null?
+							<VideoDesriptionContainer onClick={()=>displayVideoContainer()}>
+								<VideoLoadingPrompt
+									videoElement={
+										<video id="extendedPostVideoElement"
+											width="100%" height="100%" borderRadius="50%"
+											style={{borderRadius:"5px"}}
+											autoPlay loop autoBuffer muted={postData.videoDescription==null?false:true} 
+											controls={postData.videoDescription==null?true:false} playsInline>
+											<source src={postData.videoUrl} type="video/mp4"/>
+										</video>
+									}
+									videoId="extendedPostVideoElement"
+								/>
+							</VideoDesriptionContainer>
+							:<Image onClick={()=>changeZoomedInPostDisplay(true)}>	
+								<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
+							</Image>
+						}
+					</div>
+				</div>
 			</Post>
 			{displayMobileUI==true ?
 				<React.Fragment>
@@ -234,11 +261,17 @@ const PostDisplayContainer=(props)=>{
 						{userActionsContainer({...userActions})}
 					</div>
 				</React.Fragment>:
-				<div  id="postInformation" style={{display:"flex",justifyContent:"center"}}>
-					<div style={{width:"70%",padding:"20px"}}>
-						{postCaptionAndDescription(headlineText,secondaryText)}
+				<React.Fragment>
+					<hr style={HorizontalLineCSS}/>
+					<div  id="postInformation" style={{width:"100%",display:"flex",justifyContent:"center",flexDirection:"column",paddingLeft:"9%"}}>
+						<p style={{fontSize:"24px"}}>
+							<b>{headlineText}</b>
+						</p>
+						<p style={{fontSize:"16px"}}>
+							{secondaryText}
+						</p>
 					</div>
-				</div>
+				</React.Fragment>
 			}
 
 		</Container>

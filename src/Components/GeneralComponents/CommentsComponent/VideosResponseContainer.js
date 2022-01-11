@@ -28,12 +28,13 @@ const Video=styled.div`
 	position:relative;
 	width:100%;
 	height:80%;
-	overflow:hidden;
 	border-radius:5px
 	display:flex;
 	flex-direction:column;
 	z-index:5;
 	background-color:white;
+	display:flex;
+	flex-direction:row;
 
 	@media screen and (max-width:1370px){
 		#videoElement{
@@ -171,6 +172,15 @@ const ShadowButtonCSS={
 	marginLeft:"5%"
 }
 
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"30px",
+ 	marginRight:"5%",
+ 	marginLeft:"5%"
+}
 
 /*
 	Later should have sharing etc but not implementing right now
@@ -373,16 +383,14 @@ class VideoResponseContainer extends Component{
 	commentUI=()=>{
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
-					<li onClick={()=>this.setState({displayComments:false})} style={{marginRight:"80%",listStyle:"none"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-							  width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" 
-							  stroke-linecap="round" stroke-linejoin="round">
-								  <path stroke="none" d="M0 0h24v24H0z"/>
-								  <circle cx="12" cy="12" r="9" />
-								  <path d="M10 10l4 4m0 -4l-4 4" />
-							</svg>
-						</a>
+					<li onClick={()=>this.setState({displayComments:false})} style={{marginRight:"80%",listStyle:"none",cursor:"pointer"}}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+						 	width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 	stroke-linecap="round" stroke-linejoin="round">
+						  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  	<circle cx="12" cy="12" r="9" />
+						  	<path d="M10 10l4 4m0 -4l-4 4" />
+						</svg>
 					</li>
 					{this.createCommentUI()}
 					<li style={{listStyle:"none",marginTop:"10px"}}>
@@ -396,7 +404,7 @@ class VideoResponseContainer extends Component{
 												<li style={{listStyle:"none",display:"inline-block",marginRight:"10px"}}>
 													<img src={data.ownerObject.profilePicture==null
 														?NoProfilePicture:data.ownerObject.profilePicture} 
-														style={{borderRadius:"50%",width:"50px",height:"45px"}}/>
+														style={{borderRadius:"50%",width:"50px",height:"50px"}}/>
 												</li>
 												<li style={{listStyle:"none",display:"inline-block"}}>
 													<b>{data.ownerObject.owner.firstName}</b>
@@ -522,45 +530,58 @@ class VideoResponseContainer extends Component{
 										}
 									</ul>
 									<Video>
-										<div style={{display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
-											<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
-												<img src={videoData.ownerObject.profilePicture==null?
-													NoProfilePicture:videoData.ownerObject.profilePicture}
-													style={{borderRadius:"50%",width:"50px",height:"45px"}}
-												/>
-											</Link>
-											<p id="ownerFirstName"
-												style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
-												<b>{videoData.ownerObject.owner.firstName}</b>
-											</p>
-											<BadgeDisplay
-												profileId={videoData.ownerObject.owner._id}
-											/>
+										<div style={{display:"flex",flexDirection:"row"}}>
+											<video id="videoElement"
+												style={{borderRadius:"5px",backgroundColor:"#151515"}}
+												key={videoData._id} objectFit="cover" position="absolute" 
+												width="250px" top="0px" height="240px" borderRadius="50%" 
+												autoplay="true" controls>
+												<source src={videoData.videoSrc} type="video/mp4"/>
+											</video>
+											<hr style={{...VerticalLineCSS,height:"200px"}}/>
+											<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",justifyContent:"space-between",height:"240px"}}>
+												<div style={{display:"flex",flexDirection:"row",marginBottom:"5px",alignItems:"center"}}>
+													<Link to={{pathname:`/profile/${videoData.ownerObject.owner._id}`}}>
+														<img src={videoData.ownerObject.profilePicture==null?
+															NoProfilePicture:videoData.ownerObject.profilePicture}
+															style={{borderRadius:"50%",width:"50px",height:"50px"}}
+														/>
+													</Link>
 
-											{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
-												|| videoData.ownerObject.owner._id==this.props.personalState.id)==true &&(
-												<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
-													isAccessTokenUpdated:false,
-													commentId:videoData._id
-												})}>
-													{this.deleteCommentIcon()}
+													<div style={VerticalLineCSS}/>
+
+													<p id="ownerFirstName"
+														style={{color:"#2E2E2E",fontSize:"25px",marginLeft:"5%"}}>
+														<b>{videoData.ownerObject.owner.firstName}</b>
+													</p>
+
+													<div style={VerticalLineCSS}/>
+
+													<BadgeDisplay
+														profileId={videoData.ownerObject.owner._id}
+													/>
+
+													<div style={VerticalLineCSS}/>
+
+													{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
+														|| videoData.ownerObject.owner._id==this.props.personalState.id)==true &&(
+														<div onClick={()=>this.triggerDeleteVideoCommentOrReply({
+															isAccessTokenUpdated:false,
+															commentId:videoData._id
+														})}>
+															{this.deleteCommentIcon()}
+														</div>
+													)}
 												</div>
-											)}
-										</div>
-										<video id="videoElement"
-											style={{borderRadius:"5px",backgroundColor:"#151515"}}
-											key={videoData._id} objectFit="cover" position="absolute" 
-											width="100%" top="0px" height="50%" borderRadius="50%" 
-											autoplay="true" controls>
-											<source src={videoData.videoSrc} type="video/mp4"/>
-										</video>
-										{this.state.isCurrentlyFetchReplies==true?
-											<p>Please wait...</p>:
-											<div onClick={()=>this.getReplies(videoData)} 
-												style={ButtonCSS}>
-												Comments
+												{this.state.isCurrentlyFetchReplies==true?
+													<p>Please wait...</p>:
+													<div onClick={()=>this.getReplies(videoData)} 
+														style={ButtonCSS}>
+														Comments
+													</div>
+												}
 											</div>
-										}
+										</div>
 									</Video>
 								</React.Fragment>
 							}
@@ -695,7 +716,6 @@ class VideoResponseContainer extends Component{
 								parentContainer={this.props.targetContainer}
 							/>:
 							<>
-								<hr/>
 								{this.state.isProcessingInput==true?
 									<p>Please wait...</p>:
 									<ul style={{padding:"0px"}}>
@@ -708,7 +728,7 @@ class VideoResponseContainer extends Component{
 													</li>
 												</a>
 
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+												<a href="javascript:void(0);" style={{textDecoration:"none",marginLeft:"2%"}}>
 													<li onClick={()=>this.setState({displayFinalResultVideoResponseScreen:false})}style={SubmitButtonCSS}>
 														Redo response
 													</li>
@@ -716,8 +736,9 @@ class VideoResponseContainer extends Component{
 											</ul>
 										</li>
 
-										<li style={{listStyle:"none"}}>
-											<video width="100%" height="100%" autoplay="true" controls>
+										<li style={{listStyle:"none",marginTop:"2%"}}>
+											<video width="200px" height="190px" autoplay="true" controls
+												style={{backgroundColor:"#151515",borderRadius:"5px"}}>
 												<source src={this.state.createdVideoSrc} type="video/mp4"/>
 											</video>
 										</li>

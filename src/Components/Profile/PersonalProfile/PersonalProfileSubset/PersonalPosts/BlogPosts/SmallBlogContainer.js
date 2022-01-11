@@ -8,6 +8,7 @@ import {
 	Container,
 	VideoDesriptionContainer
 } from "./SmallBlogContainerCSS.js";
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 
 const SymposiumCSS={
@@ -67,6 +68,11 @@ const BlogContainer=(props)=>{
 							<source src={props.data.videoDescription} type="video/mp4"/>
 						</video>
 					)}
+
+					{props.data.audioDescription!=null &&(
+						<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
+					)}
+
 				</VideoDesriptionContainer>
 				<ColorPatchContainer colorCode={colorCode}/>
 			</SmallBlog>
@@ -77,15 +83,6 @@ const BlogContainer=(props)=>{
 		<Container style={{textDecoration:"none"}} >
 			<SmallBlogComponent onClick={()=>props.displayPostModal(props.data)}>
 				<ul style={{padding:"0px"}}>
-					<li style={{listStyle:"none"}}>
-						{props.data.audioDescription!=null &&(
-							<audio id="smallAudio" controls style={{width:"120px",height:"20px"}}>
-							  <source src={props.data.audioDescription} type="audio/ogg"/>
-							  <source src={props.data.audioDescription} type="audio/mp4"/>
-							  Your browser does not support the audio element.
-							</audio>
-						)}
-					</li>
 					{blogImage()}
 
 					<div style={{marginTop:"5%"}}>

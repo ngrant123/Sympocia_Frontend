@@ -100,10 +100,12 @@ const BlogsPostsContainer=(props)=>{
 	const UserContextValues=useContext(UserContext);
 	const PostDisplay=useContext(PostDisplayContext);
 
+	console.log(PostContextValues);
+
 	const displayPostModal=(data)=>{
 		debugger;
 		if(UserContextValues.isOwnProfile){
-			PostContextValues.history({
+			PostContextValues.history.push({
 				pathname:UserContextValues.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
 				state:{
 						...data,

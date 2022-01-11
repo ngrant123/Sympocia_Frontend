@@ -13,7 +13,7 @@ const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
-	z-index:11;
+	z-index:50;
 	top:0px;
 `;
 
@@ -22,7 +22,7 @@ const CrownPostModal=styled.div`
 	width:30%;
 	height:20%;
 	background-color:white;
-	z-index:21;
+	z-index:50;
 	left:40%;
 	top:40%;
 	border-radius:5px;

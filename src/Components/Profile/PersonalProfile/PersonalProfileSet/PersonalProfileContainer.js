@@ -37,6 +37,7 @@ import PostDisplay from "./PostsDisplay/index.js";
 import PersonalPostsIndexContainer from "./PersonalPostsIndexContainer";
 import TokenLevelDetails from "../../../GeneralComponents/TokenComponent/Modals/TokenLevelDetails/index.js";
 import TokenPortalHOC from "../../../GeneralComponents/TokenComponent/Modals/index.js";
+import {enableScrolling} from "../../../../Actions/Tasks/DisableScrolling.js";
 
 
 import {
@@ -384,6 +385,7 @@ class LProfile extends Component{
 	}
 
 	closeModal=()=>{
+		enableScrolling("personalContainer");
 		this.setState({
 			displayCreationPortal:false,
 			displayShadowBackground:false,

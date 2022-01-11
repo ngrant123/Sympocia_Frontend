@@ -22,6 +22,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:100%;
+		height:18%;
 		#profilePicture{
 			height:100px !important;
 			width:110px !important;
@@ -46,6 +47,7 @@ const Container=styled.div`
 			width:90px !important;
 		}
 		width:200%;
+		height:20% !important;
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 	 	height:70% !important;
@@ -160,7 +162,15 @@ const PostFirstSection=styled.div`
 	margin-right:5%;
 	@media screen and (max-width:1370px){
 		width:60% !important;
+		align-items:center;
+
+		#textSymposiumContainer{
+			width:80%;
+			overflow-x:auto;
+			margin-top:5%;
+		}
 	}
+
 	@media screen and (max-width:700px){
 		display:none !important;
 	}
@@ -297,7 +307,7 @@ const HeaderRegularPost=({post,profilePicture,displayPostModal,friendsColorNodes
 						style={{width:"100%",height:"130px",borderRadius:"50%",marginBottom:"4%"}}
 					/>
 					{post.industriesUploaded[0]!=null?
-						<li style={IndustryButtonCSS}>
+						<li id="textSymposiumContainer" style={IndustryButtonCSS}>
 								<p>{post.industriesUploaded[0].industry}</p>
 						</li>:null
 					}

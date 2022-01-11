@@ -27,14 +27,14 @@ const ShadowContainer= styled.div`
 const Container=styled.div`
 	position:fixed;
 	background-color:white;
-	width:50%;
+	width:40%;
 	top:20%;
 	left:30%;
 	z-index:45;
 	height:60%;
 	top:20%;
 	border-radius:5px;
-	overflow-y:scroll;
+	overflow-y:auto;
 	padding:10px;
 
 	@media screen and (max-width:1370px){
@@ -281,7 +281,7 @@ const VideoResultContainerCSS={
 			alert('Just letting you know we only accept video descriptions that have a size of 11MB :( Sorry.')
 			return(
 				<>
-					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%"}}>
+					<div onClick={()=>props.closeModal()} style={{marginBottom:"5%",cursor:"pointer"}}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 						 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 						 stroke-linecap="round" stroke-linejoin="round">

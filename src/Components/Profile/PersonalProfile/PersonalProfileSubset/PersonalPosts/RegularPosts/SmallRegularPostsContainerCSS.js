@@ -24,7 +24,7 @@ export const Container=styled.div`
 		height:80%;
 		#smallRegularPostProfilePicture{
 			height:80px !important;
-			width:90px !important;
+			width:85px !important;
 			margin-bottom:2% !important;
 		}
 
@@ -63,14 +63,23 @@ export const Container=styled.div`
 		margin-left:10% !important;
 	}
 
+	@media screen and (min-width:300px) and (max-width:350px) 
+	    and (min-height:1000px) and (max-height:1030px){
+		#smallRegularPostProfilePicture{
+			height:60px !important;
+			width:65px !important;
+		}
+	}
+
+
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 	 	width:350% !important;
 		height:90% !important;
 
 		#smallRegularPostProfilePicture{
-			height:50px !important;
-			width:60px !important;
+			height:60px !important;
+			width:65px !important;
 		}
     }
 

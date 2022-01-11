@@ -1,5 +1,26 @@
 import styled from "styled-components";
 
+export const Container=styled.div`
+	margin-top:1%;
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+
+
+	@media screen and (min-width:2500px){
+		margin-right:-10% !important;
+		margin-top:5% !important;
+	}
+
+	@media screen and (max-width:1370px){
+		margin-left:-5% !important;
+	}
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		margin-bottom:-5% !important;
+    }
+`;
+
 export const SmallVideoComponent=styled.div`
 	position:relative;
 	width:250px;
@@ -51,20 +72,29 @@ export const SmallVideoComponent=styled.div`
 
 export const SmallVideo=styled.div`
 	position:relative;
-	height:50%;
-	width:100%;
+	height:150px;
+	width:30%;
 	background-color:white;
 	border-radius:5px;
 	overflow:hidden;
+	margin-right:20px;
+	margin-bottom:20px;
+	cursor:pointer;
 
 	@media screen and (max-width:1370px){
 		#videoAndAudioDescriptionLI{
-			margin-top:30% !important;
+			margin-top:10% !important;
 		}
+		margin-left:5%;
+		margin-right:5% !important;
+		width:40% !important;
 	}
 
+
 	@media screen and (max-width:740px){
-		height:60%;
+		height:200px;
+		width:100% !important;
+		
 		#videoAndAudioDescriptionLI{
 			display:none !important;
 		}
@@ -76,8 +106,9 @@ export const SmallVideo=styled.div`
 
 	 @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#videoAndAudioDescriptionLI{
-			margin-top:10% !important;
+			margin-top:5% !important;
 		}
+		margin-bottom:5% !important;
     }
       @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		#videoAndAudioDescriptionLI{

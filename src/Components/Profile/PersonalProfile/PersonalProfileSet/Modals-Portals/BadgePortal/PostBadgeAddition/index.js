@@ -81,6 +81,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
+			disableScrolling("personalContainer");
 			const {confirmation,data}=await retrieveBadgeInformation(profileId);
 			if(confirmation=="Success"){
 				const {message}=data;
@@ -93,6 +94,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 						badgePosts
 					}=message;
 					if(badgePostType!=postType){
+						enableScrolling("personalContainer");
 						alert('Unfortunately you can only add the same post-type on your badge');
 						closePortal();
 					}else{
@@ -106,7 +108,6 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 			}else{
 				alert('Unfortunately there has been an error retrieving this badge information. Please try again');
 			}
-			disableScrolling("personalContainer");
 		}	
 		fetchData();
 	},[]);

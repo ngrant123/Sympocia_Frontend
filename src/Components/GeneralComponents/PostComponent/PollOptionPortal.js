@@ -82,7 +82,8 @@ const ExtendedInputContainer=styled.textarea`
 	resize:none;
 	padding:5px;
 	margin-bottom:2%;
-	width:80%;
+	margin-top:2%;
+	width:100%;
 
 	@media screen and (max-width:700px){
 		width:90%;
@@ -129,7 +130,10 @@ const ExploreButton={
   borderWidth:"2px",
   borderColor:"#3898ec",
   width:"30%",
-  cursor:"pointer"
+  cursor:"pointer",
+  marginRight:"2%",
+  display:"flex",
+  justifyContent:"center"
 }
 
 /*
@@ -246,6 +250,21 @@ const PollOptionPortal=(props)=>{
 	}
 
 
+	const closeIcon=()=>{
+		return(
+			<div id="closeModalButton" 
+				onClick={()=>closeModal()} style={{marginTop:"0%",cursor:"pointer"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
 	return createPortal(
 		<React.Fragment>
 			<ShadowContainer
@@ -256,66 +275,67 @@ const PollOptionPortal=(props)=>{
 					<p>Please wait</p>:
 					<ul style={{padding:"10px"}}>
 						<li style={{listStyle:"none",display:"inline-block",marginLeft:"90%"}}>
-							<HighlightOffIcon
-								style={{fontSize:"30",cursor:"pointer"}}
-								onClick={()=>closeModal()}
-							/>
+							{closeIcon()}
 						</li>
 						
 						{displayCreateComment==true?
 							<ul style={{padding:"0px"}}>
-								<li style={{marginBottom:"2%",...ExploreButton}} onClick={()=>closeModal()}>
-									Back
-								</li>
 								<ExtendedInputContainer
 									placeholder="Write down what you want to say :)"
 									id="extendedInputContainer"
 								/>
-								<li style={{listStyle:"none"}}>
-									{isProcessingSubmittion==true?
-										<p>Please wait...</p>:
-										<li onClick={()=>submitComment({isAccessTokenUpdated:false})} style={ExploreButton}>
+
+								{isProcessingSubmittion==true?
+									<p>Please wait...</p>:
+									<div style={{display:"flex",flexDirection:"row"}}>
+										<div style={ExploreButton} onClick={()=>changeDisplayCreateComment(false)}>
+											Back
+										</div>
+
+										<div style={ExploreButton} onClick={()=>submitComment({isAccessTokenUpdated:false})}>
 											Submit
-										</li>
-									}
-								</li>
+										</div>
+									</div>
+								}
 							</ul>:
 							<React.Fragment>
 								{displayApproveModal==true?
 									<React.Fragment>
+										<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+											<CheckCircleIcon
+												style={{fontSize:"30",color:"#01DF01"}}
+											/> 
+											<p style={{color:"#01DF01",marginLeft:"2%"}}>Approves</p>
+										</div>
+										<hr/>
 										<li style={{listStyle:"none"}}>
 											<InputContainer
 												 placeholder="Click here and tell everyone why you think this post isn't fake news"
-												 style={{width:"80%",marginLeft:"10%"}}
+												 style={{width:"100%"}}
 												 onClick={()=>triggerPollOptionCreation()}
 											/>
-										</li>
-										<hr/>
-
-										<li style={{color:"#01DF01",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-											<CheckCircleIcon
-												style={{fontSize:"30",color:"#01DF01"}}
-											/> Approves																																																																																								
 										</li>
 									</React.Fragment>:
 									<React.Fragment>
+										<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+											<HighlightOffIcon
+												style={{fontSize:"30",color:"#FE2E2E"}}
+											/> 
+											<p style={{color:"#FE2E2E",marginLeft:"2%"}}>Disapproves</p>
+										</div>
+
+										<hr/>
+
 										<li style={{listStyle:"none"}}>
 											<InputContainer
 												 placeholder="Click here and tell everyone why you think this post is fake news"
-												 style={{width:"80%",marginLeft:"10%"}}
+												 style={{width:"100%"}}
 												 onClick={()=>triggerPollOptionCreation()}
 											/>
 										</li>
-										<hr/>
-
-										<li style={{color:"#FE2E2E",listStyle:"none",marginLeft:"10%",marginBottom:"2%"}}>	
-											<HighlightOffIcon
-												style={{fontSize:"30",color:"#FE2E2E"}}
-											/> Disapproves																																																																																								
-										</li>
 									</React.Fragment>
 								}
-								<li id="commentsLI" style={{listStyle:"none"}}>
+								<li id="commentsLI" style={{listStyle:"none",marginTop:"2%"}}>
 									{comments.length==0?
 										<p>No opinions</p>:
 										<ul style={{padding:"0px"}}>

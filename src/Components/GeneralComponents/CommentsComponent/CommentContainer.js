@@ -108,9 +108,10 @@ const ExtendedTextArea=styled.textarea`
 	border-radius:10px;
 	border-style:solid;
 	border-width:1px;
-	border-color:#a2a2a2;
+	border-color:#E1E1E1;
 	margin-bottom:10px;
 	resize:none;
+	padding:10px;
 
 	@media screen and (max-width:1370px){
 		height:50%;
@@ -255,45 +256,42 @@ class CommentsContainer extends Component{
 
 	replyComment=(data,index)=>{
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
-		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-					<ul style={{padding:"0px"}}>
-						<Link to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
-							<li style={{cursor:"pointer",listStyle:"none",display:"inline-block",
-								marginRight:"10px"}}>
-								<img id="replyLIImage" 
-									src={data.ownerObject.profilePicture==null?
-										NoProfilePicture:data.ownerObject.profilePicture}
-								style={ProfilePicture}/>
-							</li>
-						</Link>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<b>{data.ownerObject.owner.firstName}</b>
+		return <React.Fragment>
+					<ul style={{marginBottom:"20px",marginTop:"5%"}}>
+						<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+							<ul style={{padding:"0px"}}>
+								<Link to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
+									<li style={{cursor:"pointer",listStyle:"none",display:"inline-block",
+										marginRight:"10px"}}>
+										<img id="replyLIImage" 
+											src={data.ownerObject.profilePicture==null?
+												NoProfilePicture:data.ownerObject.profilePicture}
+										style={ProfilePicture}/>
+									</li>
+								</Link>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<b>{data.ownerObject.owner.firstName}</b>
+								</li>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<BadgeDisplay
+										profileId={data.ownerObject.owner._id}
+									/>
+								</li>
+							</ul>
 						</li>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<BadgeDisplay
-								profileId={data.ownerObject.owner._id}
-							/>
-						</li>
-					</ul>
-				</li>
-				<CommentText>
-					{data.comment}
-				</CommentText>
+						<CommentText>
+							{data.comment}
+						</CommentText>
 
-				{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
-					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
-					<div onClick={()=>this.triggerDeleteCommentOrReply({
-						isAccessTokenUpdated:false,
-						commentId:data._id,
-						targetIndex:index,
-						isReplyDeletion:true
-					})}>
-						{this.deleteCommentIcon()}
-					</div>
-				)}
-
-			 </ul>
+						{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
+							|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
+							<div>
+								{this.deleteCommentIcon(data._id,index,true)}
+							</div>
+						)}
+					 </ul>
+					 <hr/>
+				</React.Fragment>
 	}
 	handleReplyFetch=async(commentId,index)=>{
 		const replyObject={
@@ -335,9 +333,14 @@ class CommentsContainer extends Component{
 		}
 	}
 
-	deleteCommentIcon=()=>{
+	deleteCommentIcon=(commentId,targetIndex,replyIndicator)=>{
 		return(
-			<svg id="removePostOption" 
+			<svg id="removePostOption" onClick={()=>this.triggerDeleteCommentOrReply({
+														isAccessTokenUpdated:false,
+														commentId,
+														targetIndex,
+														isReplyDeletion:replyIndicator
+													})}
 				 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
 				width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
 				stroke-linecap="round" stroke-linejoin="round" style={ShadowButtonCSS}>
@@ -395,64 +398,63 @@ class CommentsContainer extends Component{
 	commentComponent=(data,index)=>{
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 
-		return <ul style={{marginBottom:"20px",marginTop:"5%"}}>
-				<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
-					<ul style={{padding:"0px"}}>
-						<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
-							<img id="commentOwnerProfilePicture" 
-								src={data.ownerObject.profilePicture==null?
-									NoProfilePicture:data.ownerObject.profilePicture}
-							style={ProfilePicture}/>
-						</OwnerProfilePictureLink>
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<b>{data.ownerObject.owner.firstName}</b>
-						</li>
+		return <React.Fragment>
+				<ul style={{marginBottom:"20px",marginTop:"5%"}}>
+					<li style={{listStyle:"none",display:"inline-block",marginRight:"20px"}}>
+						<ul style={{padding:"0px"}}>
+							<OwnerProfilePictureLink to={{pathname:`/profile/${data.ownerObject.owner._id}`}}>
+								<img id="commentOwnerProfilePicture" 
+									src={data.ownerObject.profilePicture==null?
+										NoProfilePicture:data.ownerObject.profilePicture}
+								style={ProfilePicture}/>
+							</OwnerProfilePictureLink>
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<b>{data.ownerObject.owner.firstName}</b>
+							</li>
 
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<BadgeDisplay
-								profileId={data.ownerObject.owner._id}
-							/>
-						</li>
-					</ul>
-				</li>
-				<CommentText>
-					{data.comment}
-				</CommentText>
-				<li style={{listStyle:"none",marginTop:"5%"}}>
-					<ul style={{padding:"0px"}}>
-						{this.state.isProcessingReplyFetchRequest==true &&
-							index==this.state.selectedFetchRepliesIndex?
-							<p>Please wait...</p>:
-							<>
-								{data.containsReplies==true &&(
+							<li style={{listStyle:"none",display:"inline-block"}}>
+								<BadgeDisplay
+									profileId={data.ownerObject.owner._id}
+								/>
+							</li>
+						</ul>
+					</li>
+					<CommentText>
+						{data.comment}
+					</CommentText>
+					<li style={{listStyle:"none",marginTop:"5%"}}>
+						<ul style={{padding:"0px"}}>
+							{this.state.isProcessingReplyFetchRequest==true &&
+								index==this.state.selectedFetchRepliesIndex?
+								<p>Please wait...</p>:
+								<>
+									{data.containsReplies==true &&(
+										<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+											<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
+												 onClick={()=>this.handleReplyFetch(data._id,index)}>
+
+												<b>View replies </b>
+											</li>
+										</a>
+									)}
 									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li style={{listStyle:"none",display:"inline-block",marginRight:"5%",marginBottom:"5px"}}
-											 onClick={()=>this.handleReplyFetch(data._id,index)}>
-
-											<b>View replies </b>
+										<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
+											Reply
 										</li>
 									</a>
-								)}
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li onClick={()=>this.triggerReply(data,index)} style={{listStyle:"none",display:"inline-block"}}>
-										Reply
-									</li>
-								</a>
-							</>
-						}
-					</ul>
-				</li>
-				{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
-					|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
-					<div onClick={()=>this.triggerDeleteCommentOrReply({
-						isAccessTokenUpdated:false,
-						commentId:data._id,
-						targetIndex:index
-					})}>
-						{this.deleteCommentIcon()}
-					</div>
-				)}
-			</ul>
+								</>
+							}
+						</ul>
+					</li>
+					{(this.props.isOligarch==true || this.props.personalState.id==postOwnerId
+						|| data.ownerObject.owner._id==this.props.personalState.id)==true &&(
+						<div>
+							{this.deleteCommentIcon(data._id,index,false)}
+						</div>
+					)}
+				</ul>
+				<hr/>
+			</React.Fragment>
 	}
 
 	handleCreateComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
@@ -567,20 +569,25 @@ class CommentsContainer extends Component{
 			   </>
 	}
 
+	closeIcon=()=>{
+		return(
+			<div id="closeModalButton" 
+				onClick={()=>this.setState({keyToDisplayRespones:null})} style={{marginTop:"0%",cursor:"pointer"}}>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+				 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+				 stroke-linecap="round" stroke-linejoin="round">
+				  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+				  <circle cx="12" cy="12" r="9" />
+				  <path d="M10 10l4 4m0 -4l-4 4" />
+				</svg>
+			</div>
+		)
+	}
+
 	handleDisplayResponses=(key)=>{
 		if(key==this.state.keyToDisplayRespones){
 			return <ul id="replyDiv" style={{borderStyle:"solid",borderWidth:"1px",borderColor:"#D8D8D8",borderRadius:"5px"}}>
-						<li onClick={()=>this.setState({keyToDisplayRespones:null})} style={{marginRight:"80%",listStyle:"none"}}>
-							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" 
-								  width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#03A9F4" fill="none" 
-								  stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z"/>
-									  <circle cx="12" cy="12" r="9" />
-									  <path d="M10 10l4 4m0 -4l-4 4" />
-								</svg>
-							</a>
-						</li>
+						{this.closeIcon()}
 
 						<li style={{listStyle:"none",marginTop:"5%"}}>
 							<ul style={{padding:"0px"}}>
@@ -600,6 +607,7 @@ class CommentsContainer extends Component{
 
 
 	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken,commentOwnerId})=>{
+		debugger;
 		this.setState({
 			isProcessingReplyInput:true
 		})
