@@ -73,7 +73,6 @@ const SmallImageContainer=({images,displayPostModal,friendsColorNodesMap,PostCon
 								<source src={data.videoDescription} type="video/mp4"/>
 							</video>
 						)}
-
 						{data.audioDescription!=null &&(
 							<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
 						)}

@@ -1,12 +1,15 @@
 import React,{useEffect,memo} from "react";
 import styled from "styled-components";
 import {UserConsumer} from "../../../UserContext.js";
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 import {
 	SmallVideoComponent,
 	SmallVideo,
 	VideoDescriptionContainer,
-	ColorPatchContainer
+	ColorPatchContainer,
+	Container
 } from "./SmallVideosCSS.js";
 
 const IndustryButtonCSS={
@@ -60,55 +63,57 @@ const SmallVideoContainer=({videos,displayPostModal,friendsColorNodesMap})=>{
 	  });
 	}
 
+	const videoElement=(data)=>{
+		const videoElementUUID="videoElement"+uuidv4();
+
+		return(
+			<VideoLoadingPrompt
+				videoElement={
+					<video id={videoElementUUID} key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+						width="100%" height="100%" style={{backgroundColor:"#151515"}}>
+						<source src={data.videoUrl} type="video/mp4"/>
+					</video>
+				}
+				videoId={videoElementUUID}
+			/>	
+		)
+	}
+
 	const video=(data)=>{
 		const colorCode=friendsColorNodesMap.get(data.levelNode);
-		return <SmallVideo>
-				<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
-					<ColorPatchContainer colorCode={colorCode}/>
-					{data.videoDescription==null?null:
-						<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
-							<VideoDescriptionContainer>
-								<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-									width="100%" height="100%">
-									<source src={data.videoDescription} type="video/mp4"/>
-								</video>
-							</VideoDescriptionContainer>
-						</li>
-					}
-					
-					{data.audioDescription==null?null:
-						<li style={{listStyle:"none",display:"inline-block"}}>
-							<audio id="audioLI" key={uuidv4()} style={{width:"100px",height:"30px"}} controls>
-								<source src={data.audioDescription} type="audio/ogg"/>
-								<source src={data.audioDescription} type="audio/mp4"/>
-								Your browser does not support the audio element.
-							</audio>
-						</li>
-					}
-				</ul>
-				<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-					width="100%" height="100%" style={{backgroundColor:"#151515"}}>
-					<source src={data.videoUrl} type="video/mp4"/>
-				</video>
-			</SmallVideo>
+		return 	<SmallVideo id="smallVideoLI" onClick={()=>displayPostModal(data)}>
+					<ul id="videoAndAudioDescriptionLI" style={{position:"absolute",padding:"0px"}}>
+						<ColorPatchContainer colorCode={colorCode}/>
+						{data.videoDescription==null?null:
+							<li style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
+								<VideoDescriptionContainer>
+									<video id="videoDescriptionElement" key={uuidv4()} style={{borderRadius:"50%"}}
+										autoPlay loop autoBuffer muted playsInline 
+										width="100%" height="100%">
+										<source src={data.videoDescription} type="video/mp4"/>
+									</video>
+								</VideoDescriptionContainer>
+							</li>
+						}
+						
+						{data.audioDescription!=null &&(
+							<VolumeUpIcon style={{color:"white",fontSize:"30"}}/>
+						)}
+					</ul>
+					{videoElement(data)}
+				</SmallVideo>
 	}
 
 	let audioId=uuidv4();
 	let videoDescriptionId=uuidv4();
 	return(
-		<li id="smallVideoParentContainer" style={{cursor:"pointer",listStyle:"none",marginTop:"1%"}}>	
-			<ul style={{padding:"0px"}}>
-				{videos.map(data=>
-					<li id="smallVideoLI" onClick={()=>displayPostModal(data)} 
-					style={{width:"20%",listStyle:"none",display:"inline-block",marginRight:"120px"}}>
-						<SmallVideoComponent>
-							{video(data)}
-						</SmallVideoComponent>
-							
-					</li>
-				)}
-			</ul>
-		</li>
+		<Container>
+			{videos.map(data=>
+				<React.Fragment>
+					{video(data)}
+				</React.Fragment>
+			)}
+		</Container>
 	)
 }
 

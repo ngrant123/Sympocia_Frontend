@@ -21,33 +21,12 @@ const Container=styled.div`
 	padding:10px;
 	padding-right:20px;
 
-	@media screen and (min-width:2500px){
-		#smallVideoParentContainer{
-			margin-right:-10% !important;
-			margin-top:5% !important;
-		}
-	}
 	@media screen and (max-width:1370px){
 		width:140%;
-		#smallVideoLI{
-			margin-left:5%;
-			margin-right:15% !important;
-			width:10% !important;
-		}
-		#smallVideoParentContainer{
-			margin-left:-5% !important;
-		}
 	}
+
 	@media screen and (max-width:1030px){
 		width:140%;
-		#smallVideoLI{
-			margin-right:30% !important;
-		}
-	}
-	@media screen and (max-width:740px){
-		#smallVideoLI{
-			width:15% !important;
-		}
 	}
 
 	@media screen and (max-width:650px){
@@ -74,17 +53,10 @@ const Container=styled.div`
 		margin-left:15% !important;
 	}
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-	 	margin-left:10% !important;
-	 	#smallVideoLI{
-			margin-bottom:5% !important;
-		}
     }
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-top:5px;
 		margin-left:0% !important;
-		#smallVideoParentContainer{
-			margin-bottom:-5% !important;
-		}
     }
 	@media screen and (min-width:700px) and (max-width:750px) 
 	    and (min-height:500px) and (max-height:560px){

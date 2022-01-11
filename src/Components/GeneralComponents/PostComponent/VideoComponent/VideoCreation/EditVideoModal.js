@@ -161,6 +161,7 @@ const CrownIconContainer=styled.div`
 	border-color:#C8B0F4;
 	animation: glowing 1300ms infinite;
 	border-radius:50%;
+	cursor:pointer;
 
 
 	@keyframes glowing {
@@ -673,7 +674,7 @@ isArrayEqual=(arr1,arr2)=>{
 	displayVideoElement=()=>{
 		return(
 			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-				<div style={{height:"220px",width:"80%",position:"relative"}}>
+				<div style={{height:"220px",width:"90%",position:"relative"}}>
 					<video  id="video" 
 						style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
 						 position="relative" height="90%" width="100%" borderRadius="50%"

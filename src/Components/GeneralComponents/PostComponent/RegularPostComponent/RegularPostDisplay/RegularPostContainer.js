@@ -26,6 +26,7 @@ import {PostDisplayConsumer} from "../../../../Symposium/ExtendedSymposium/Posts
 import PostBadgeAdditionModal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/BadgePortal/PostBadgeAddition/index.js";
 import BadgeDisplay from "../../../BadgeComponent/index.js"; 
 import {Link} from "react-router-dom";
+import ChatIcon from '@material-ui/icons/Chat';
 
 const Container=styled.div`
 	padding:30px;
@@ -254,7 +255,8 @@ const BackButtonCSS={
 	backgroundColor:"white",
 	borderRadius:"5px",
 	overflow:"scroll",
-	padding:"10px"
+	padding:"10px",
+	width:"10%"
 }
 const ShadowButtonCSS={
 	padding:"10px",
@@ -277,12 +279,13 @@ const ButtonCSS={
   borderColor:"#3898ec",
   marginRight:"2%",
   marginBottom:"2%",
-  cursor:"pointer"
+  cursor:"pointer",
+	width:"10%"
 }
 
 const PollingOptionsCSS={
 	boxShadow:"1px 1px 5px #6e6e6e",
-	padding:"40px",
+	padding:"20px",
 	borderRadius:"5px",
 	cursor:"pointer",
 	marginBottom:"10%"
@@ -291,7 +294,9 @@ const PollingOptionsCSS={
 const HorizontalLineCSS={
 	marginLeft:"0",
 	position:"relative",
-	marginRight:"0"
+	marginRight:"2%",
+	marginTop:"0px",
+	height:"2px"
 }
 
 const VerticalLineCSS={
@@ -299,8 +304,7 @@ const VerticalLineCSS={
 	borderWidth:"1px",
 	borderColor:"#EBEBEB",
 	borderLeft:"2px",
- 	height:"30px",
- 	marginRight:"2%"
+ 	height:"60px"
 }
 
 /*
@@ -589,15 +593,10 @@ const RegularPostContainer=(props)=>{
 													<div onClick={()=>displayCommentsTrigger()} 
 														style={ShadowButtonCSS}
 														id="postOptions">
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
-															icon-tabler-message" width="30" height="30" viewBox="0 0 24 24" 
-															stroke-width="1.5" stroke="#6e6e6e" fill="none" stroke-linecap="round" 
-															stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														  <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-														  <line x1="8" y1="9" x2="16" y2="9" />
-														  <line x1="8" y1="13" x2="14" y2="13" />
-														</svg>
+														<ChatIcon
+															id="postOptions"
+															style={{fontSize:30}}
+														/>
 													</div>
 													<div style={VerticalLineCSS}/>
 													<div style={ShadowButtonCSS} id="postOptions">
@@ -668,18 +667,36 @@ const RegularPostContainer=(props)=>{
 											<div style={{display:"flex",flexDirection:"column"}}>
 												{displayPollingOptions==true?
 													<PollingOptionsContainer>
-														<p onClick={()=>changeDisplayPollingOptions(false)} style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
-														<p>
+
+														<p onClick={()=>changeDisplayPollingOptions(false)}
+															style={ButtonCSS}>
+															Back
+														</p>
+
+														<p style={{fontSize:"18px"}}>
 															Create a comment about why you think this post is authentic or.... tell everyone 
 															why you think this post is fake
 														</p>
-														<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
-															Approve Post
-														</p>
+														<hr style={HorizontalLineCSS}/>
 
-														<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
-															Disapprove Post
-														</p>
+														<div style={{display:"flex",flexDirection:"row"}}>
+															<p onClick={()=>displayApprovePollModalTrigger()} style={PollingOptionsCSS}>
+																Approve Post
+															</p>
+
+															<div style={{...VerticalLineCSS,marginRight:"2%",marginLeft:"2%"}}/>
+
+															<p onClick={()=>displayDisapproveModalTrigger(false)} style={PollingOptionsCSS}>
+																Disapprove Post
+															</p>
+														</div>
+
+
+
+
+
+
+
 													</PollingOptionsContainer>
 													:<React.Fragment>
 														{displayStampEffect==true && (
@@ -688,7 +705,7 @@ const RegularPostContainer=(props)=>{
 															</StampIconEffect>
 														)}
 														{isAudioPost==null || isAudioPost==false?
-															<p>
+															<p style={{fontSize:"18px"}}>
 																{post}
 															</p>:
 															<audio style={{width:"90%"}} controls>

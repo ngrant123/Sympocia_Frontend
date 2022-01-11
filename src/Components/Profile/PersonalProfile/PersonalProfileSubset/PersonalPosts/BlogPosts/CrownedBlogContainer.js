@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
 
 
-const ThumbnailBlogComponent=styled(Link)`
+const ThumbnailBlogComponent=styled.div`
 	position:relative;
 	width:100%;
 	overflow:hidden;

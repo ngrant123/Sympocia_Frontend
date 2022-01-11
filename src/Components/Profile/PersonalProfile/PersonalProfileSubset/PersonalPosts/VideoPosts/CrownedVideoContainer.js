@@ -37,9 +37,8 @@ const ThumbnailVideoComponent=styled.div`
 			display:none !important;
 		}
 	}
-	
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-	 	height:50% !important;
 	 	margin-top:5% !important;
     }
 
@@ -86,6 +85,13 @@ const ThumbnailVideo=styled.div`
 		height:80% !important;
 		margin-right:-5% !important;
 	}
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+	    and (min-height:900px) and (max-height:1050px){
+	    height:250px;
+	    width:100%;
+	} 
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		width:40%;
 		height:80%;

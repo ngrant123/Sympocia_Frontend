@@ -17,16 +17,38 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"4%",
-  cursor:"pointer"
+  cursor:"pointer",
+  width:"10%",
+  marginBottom:"5%"
 }
 
 
 const PollingOptionsCSS={
 	boxShadow:"1px 1px 5px #6e6e6e",
-	padding:"40px",
+	padding:"20px",
 	borderRadius:"5px",
 	cursor:"pointer",
 	marginBottom:"10%"
+}
+
+
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"60px",
+ 	marginRight:"5%",
+ 	marginLeft:"5%"
+}
+
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"100%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
 }
 
 
@@ -71,21 +93,28 @@ const CommentsAndAuthenticReplies=(props)=>{
 						/>:
 						<PollingOptionsContainer>
 							<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)}
-								style={{marginBottom:"10%",...ButtonCSS}}>
+								style={ButtonCSS}>
 								Back
 							</p>
 
-							<p>
+							<p style={{fontSize:"18px"}}>
 								Create a comment about why you think this post is authentic or.... tell everyone 
 								why you think this post is fake
 							</p>
-							<p onClick={()=>displayPollingOptionsTrigger(true)} style={PollingOptionsCSS}>
-								Approve Post
-							</p>
+							<hr style={HorizontalLineCSS}/>
 
-							<p onClick={()=>displayPollingOptionsTrigger(false)} style={PollingOptionsCSS}>
-								Disapprove Post
-							</p>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								<p onClick={()=>displayPollingOptionsTrigger(true)} style={PollingOptionsCSS}>
+									Approve Post
+								</p>
+
+								<div style={VerticalLineCSS}/>
+
+								<p onClick={()=>displayPollingOptionsTrigger(false)} style={PollingOptionsCSS}>
+									Disapprove Post
+								</p>
+							</div>
+
 						</PollingOptionsContainer>
 					}
 				</React.Fragment>

@@ -33,6 +33,35 @@
 		        a.appendChild(r);
 		    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 		</script>
+		<script>
+
+			let xhr = new XMLHttpRequest();
+			xhr.open('get', 'http://localhost:4002/retrieveInitialReticanFile?reticanOverviewId=61d7bd1bb393eb21ed800a36');
+			xhr.send();
+
+			xhr.onload = function() {
+				const app=document.getElementById("App");
+				const test=document.createElement('div');
+				test.innerHTML=xhr.response;
+				test.id="atlesium_div";
+				app.appendChild(test);
+				var tmpScripts = document.getElementsByTagName('script');
+				if (tmpScripts.length > 0) {
+				    var scripts = [];
+				    for (var i = 0; i < tmpScripts.length; i++) {
+				        scripts.push(tmpScripts[i]);
+				    }
+				    for (var i = 0; i < scripts.length; i++) {
+				    	if(scripts[i].id=="atlesium_script"){
+					        var s = document.createElement('script');
+					        s.innerHTML = scripts[i].innerHTML;
+					        scripts[i].parentNode.appendChild(s);
+					        scripts[i].parentNode.removeChild(scripts[i]);
+				    	}
+				    }
+				}
+			};
+		</script>
 	</head>
 	<style>
 		.btn-btn-info-btn-lg{

@@ -8,6 +8,12 @@ const LoadingPromptCSS={
 	color:"white",
 	padding:"20px"
 }
+
+
+/*
+	In the future should converting the reference to the video element as a ref instead of an id?
+	Food for thot
+*/
 const VideoLoadingPrompt=({videoElement,videoId})=>{
 	console.log(videoElement);
 	const [displayVideoElement,changeDisplayVideoElement]=useState(true);
