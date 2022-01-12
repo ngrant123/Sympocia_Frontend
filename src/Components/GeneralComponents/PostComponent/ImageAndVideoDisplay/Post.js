@@ -22,7 +22,8 @@ const Container=styled.div`
 		}
 
 		#audioDescription{
-			width:500px !important;
+			width:250px !important;
+			margin-bottom:5%;
 		}
 		#postOptions{
 			box-shadow:none !important;
@@ -39,12 +40,13 @@ const Container=styled.div`
 		}
 
 		#audioDescription{
+			margin-bottom:10% !important;
 			width:200px !important;
 		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
-   		margin-top:10%;
+   		margin-top:0%;
    		#mobileUserActions{
    			display:none !important;
    		}

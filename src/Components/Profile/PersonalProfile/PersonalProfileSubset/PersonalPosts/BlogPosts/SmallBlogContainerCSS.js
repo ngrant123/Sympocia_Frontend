@@ -8,7 +8,6 @@ export const SmallBlogComponent=styled.div`
 	margin-right:8%;
 	cursor:pointer;
 	margin-bottom:7%;
-
 	@media screen and (min-width:2500px){
 		width:310px !important;
 	}
@@ -16,14 +15,14 @@ export const SmallBlogComponent=styled.div`
 	@media screen and (max-width:1370px){
 		margin-bottom:40%;
 		height:30%;
-		width:220px;
+		width:200px;
 		margin-right:20px !important;
 	}
 
 	@media screen and (max-width:640px){
 		width:250px !important;
-		height:210px !important;
 		margin-right:0px !important;
+		margin-bottom:35px;
 
 		#smallAudio{
 			width:170px !important;
@@ -35,6 +34,21 @@ export const SmallBlogComponent=styled.div`
 	    margin-top:25%;
 	}
 
+	@media screen and (min-width:500px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+	    margin-bottom:0%;
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	   	margin-bottom:10%;
+	   	margin-top:10%;
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:800px) and (max-height:860px){
+	   	margin-bottom:10% !important;
+	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	width:300px !important;
@@ -43,8 +57,10 @@ export const SmallBlogComponent=styled.div`
      @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
-		height:60%;
-		margin-top:15%;
+		height:50%;
+		width:150px !important;
+		margin-top:5%;
+		margin-bottom:5%;
     }
 `;
 
@@ -61,11 +77,11 @@ export const SmallBlog=styled.div`
 		width:310px !important;
 	}
 
-	@media screen and (max-width:840px){
-		width:90% !important;
+	@media screen and (max-width:650px){
+		width:95% !important;
 		height:80% !important;
 		#smallImage{
-			height:100% !important;
+			height:210px !important;
 		}
     }
 
@@ -80,9 +96,15 @@ export const SmallBlog=styled.div`
     @media screen  and (max-width:840px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){
-	  	width:250px !important;
-		height:190px !important;
+	  	width:170px !important;
+		height:130px !important;
 
+    }
+
+    @media screen  and (max-width:840px) and (max-height:340px) 
+	  	and (orientation: landscape) 
+	  	and (-webkit-min-device-pixel-ratio: 1){
+		width:250px !important;
     }
 	@media screen and (min-width:700px) and (max-width:800px)
    		and (min-height:520px) and (max-height:560px){
@@ -111,7 +133,8 @@ export const ColorPatchContainer=styled.div`
 
 export const Container=styled.div`
 	margin-right:5% !important;
-	@media screen and (max-width:650px){
+
+	@media screen and (max-width:1370px){
 		#blogHorizontalLine{
 			display:block !important;
 		}

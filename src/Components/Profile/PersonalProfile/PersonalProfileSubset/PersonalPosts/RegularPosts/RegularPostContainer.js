@@ -42,6 +42,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:650px){
 		width:150% !important;
+		margin-left:5% !important;
 
 		#headerContainerLI{
 			margin-bottom:10% !important;
@@ -62,23 +63,34 @@ const Container=styled.div`
 		margin-left:10% !important;
 	}
 
-	@media screen and (min-width:500px) and (max-width:570px) 
-	    and (min-height:700px) and (max-height:800px){
-	    	margin-left:10% !important;
+	@media screen and (min-width:500px) and (max-width:550px) 
+	    and (min-height:1100px) and (max-height:1200px){
+		margin-left:0% !important;
 	}
 
 
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    	margin-left:0% !important;
+	}
+
+	@media screen and (min-width:550px) and (max-width:700px) 
+	    and (min-height:800px) and (max-height:1100px){
+	   	margin-left:0% !important;
+	}
+
 	@media screen and (min-width:620px) and (max-width:650px) 
 	    and (min-height:1300px) and (max-height:1370px){
-		margin-left:15% !important;
+		margin-left:-2% !important;
 	}
 
   @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#headerContainerLI{
 			width:50% !important;
+			height:60% !important;
 		}
     }
-	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:900px) and (max-height:420px) and (orientation:landscape){
 		#headerContainerLI{
 			width:100% !important;
 		}

@@ -49,7 +49,7 @@ const ThumbnailBlogComponent=styled.div`
 		}
 		#headerImage{
 			height:200px !important;
-			width:250px !important;
+			width:235px !important;
 		}
 
 
@@ -86,6 +86,35 @@ const ThumbnailBlogComponent=styled.div`
 		}
     }
 
+	@media screen and (min-width:500px) and (max-width:700px) 
+	    and (min-height:1100px) and (max-height:1370px){
+	   	#headerImage{
+			height:220px !important;
+			width:250px !important;
+		}
+	}
+
+
+	@media screen and (min-width:650px) and (max-width:700px) 
+	    and (min-height:700px) and (max-height:800px){
+	   	#headerImage{
+			width:230px !important;
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	   	#headerImage{
+			width:230px !important;
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:800px) and (max-height:860px){
+	   	#headerImage{
+			width:230px !important;
+		}
+	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		flex-direction:column;

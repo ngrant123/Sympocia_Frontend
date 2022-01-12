@@ -16,6 +16,10 @@ export const Container=styled.div`
 		margin-left:-5% !important;
 	}
 
+	@media screen and (max-width:650px){
+		margin-left:0% !important;
+	}
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		margin-bottom:-5% !important;
     }

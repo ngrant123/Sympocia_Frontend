@@ -39,9 +39,9 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:600px){
+	@media screen and (max-width:650px){
 		width:200% !important;
-		height:60%;
+		height:100%;
 
 		#postOwnerInformation{
 			display:none !important;
@@ -55,6 +55,12 @@ export const Container=styled.div`
 
 		#commentLI{
 			display:none !important;
+		}
+
+		#smallRegularPostProfilePicture{
+			height:40px !important;
+			width:43px !important;
+			margin-bottom:2% !important;
 		}
 	}
 	@media screen and (min-width:620px) and (max-width:650px) 
@@ -70,6 +76,54 @@ export const Container=styled.div`
 			width:65px !important;
 		}
 	}
+
+	@media screen and (min-width:400px) and (max-width:450px) 
+	    and (min-height:1000px) and (max-height:1030px){
+		#smallRegularPostProfilePicture{
+			height:60px !important;
+			width:65px !important;
+			margin-bottom:10% !important;
+		}
+	}
+
+	@media screen and (min-width:300px) and (max-width:350px) 
+	    and (min-height:700px) and (max-height:850px){
+		#smallRegularPostProfilePicture{
+			height:50px !important;
+			width:55px !important;
+			margin-bottom:10% !important;
+		}
+	}
+
+	@media screen and (min-width:300px) and (max-width:400px) 
+	    and (min-height:1000px) and (max-height:1100px){
+		#smallRegularPostProfilePicture{
+			height:50px !important;
+			width:55px !important;
+			margin-bottom:10% !important;
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:570px) 
+	    and (min-height:700px) and (max-height:800px){
+	    height:90%;
+	    #smallRegularPostProfilePicture{
+			height:50px !important;
+			width:55px !important;
+			margin-bottom:10% !important;
+		}
+	}
+
+	@media screen and (min-width:550px) and (max-width:700px) 
+	    and (min-height:800px) and (max-height:1100px){
+	    height:90%;
+	    #smallRegularPostProfilePicture{
+			height:50px !important;
+			width:55px !important;
+			margin-bottom:10% !important;
+		}
+	}
+
 
 
 

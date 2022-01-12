@@ -31,10 +31,14 @@ export const RegularPostDisplayContainer=styled.div`
     	left:10% !important;
     }
 
+	@media screen and (max-width:1370px){
+		left:5% !important;
+		width:90%;
+	}
 
 	@media screen and (max-width:1030px){
-		left:10% !important;
-		width:80% !important;
+		left:5% !important;
+		width:90% !important;
 	}
 
 	@media screen and (max-width:650px){

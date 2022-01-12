@@ -59,6 +59,10 @@ const Container=styled.div`
 			top:-80px !important;
 		}
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+   		width:80% !important;
+    }
 `;
 
 const InputContainer=styled.textarea`

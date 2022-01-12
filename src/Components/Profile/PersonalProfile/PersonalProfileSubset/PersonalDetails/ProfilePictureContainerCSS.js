@@ -280,7 +280,7 @@ export const ProfilePictureContainer=styled.div`
       }
       #postAndChampionMobileCreationContainer{
         margin-left:-160px !important;
-        margin-top:-200px !important;
+        margin-top:-250px !important;
       }
     }
 

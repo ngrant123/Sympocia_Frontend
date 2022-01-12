@@ -12,7 +12,7 @@ const ShadowContainer= styled.div`
 	position:fixed;
 	width:100%;
 	height:100%;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.7);
 	z-index:45;
 	top:0px;
 	left:0%;
@@ -38,8 +38,11 @@ const Container=styled.div`
 
 
 	@media screen and (max-width:1370px){
-		width:60% !important;
-		left:20% !important;
+		width:80% !important;
+		left:10% !important;
+		overflow:scroll !important;
+		height:50%;
+		top:25%;
     }
     @media screen and (max-width:650px){
 		width:100% !important;

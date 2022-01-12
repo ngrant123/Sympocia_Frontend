@@ -43,8 +43,8 @@ const ThumbnailVideoComponent=styled.div`
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		width:150% !important;
-		margin-top:0% !important;
+		width:100% !important;
+		margin-top:5% !important;
 		height:100% !important;
 		#description{
 			display:none !important;
@@ -93,9 +93,9 @@ const ThumbnailVideo=styled.div`
 	} 
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-		width:40%;
+		width:100%;
 		height:80%;
-		margin-left:10%;
+		margin-left:0%;
     }
 
     @media screen and (max-width:570px) and (max-height:330px) and (orientation: landscape){
