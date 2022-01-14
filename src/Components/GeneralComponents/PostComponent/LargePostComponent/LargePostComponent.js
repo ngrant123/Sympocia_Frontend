@@ -201,7 +201,7 @@ class LargePostComponent extends Component{
 					</PostContainer>
 
 					<PostOptionsContainer>
-						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+						<PostOptionButton isDesktopEnabled={this.props.isDesktopEnabled}
 							onClick={()=>this.setState({displayElement:<RegularPostCreation
 															displayProps={this.displayPostOptions}
 															closeModal={this.props.closeModal}
@@ -212,11 +212,11 @@ class LargePostComponent extends Component{
 							id="postOptionLI">
 							<p>Text/Audio</p>
 						</PostOptionButton>
-						{this.props.isPhoneUIEnabled==true &&(
+						{this.props.isDesktopEnabled==false &&(
 							<hr style={HorizontalLineCSS}/>
 						)}
 
-						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+						<PostOptionButton isDesktopEnabled={this.props.isDesktopEnabled}
 							onClick={()=>this.setState({
 								displayElement:<ImagePostCreation
 												displayProps={this.displayPostOptions}
@@ -228,11 +228,11 @@ class LargePostComponent extends Component{
 							id="postOptionLI">
 							<p>Image</p>
 						</PostOptionButton>
-						{this.props.isPhoneUIEnabled==true &&(
+						{this.props.isDesktopEnabled==false &&(
 							<hr style={HorizontalLineCSS}/>
 						)}
 
-						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+						<PostOptionButton isDesktopEnabled={this.props.isDesktopEnabled}
 							onClick={()=>this.setState({
                                 displayElement:<VideoPostCreation
                                                     displayProps={this.displayPostOptions}
@@ -244,11 +244,11 @@ class LargePostComponent extends Component{
 							id="postOptionLI">
 								Video
 						</PostOptionButton>
-						{this.props.isPhoneUIEnabled==true &&(
+						{this.props.isDesktopEnabled==false &&(
 							<hr style={HorizontalLineCSS}/>
 						)}
 
-						<PostOptionButton isPhoneUIEnabled={this.props.isPhoneUIEnabled}
+						<PostOptionButton isDesktopEnabled={this.props.isDesktopEnabled}
 							id="blogPostOptionLI"
 							onClick={()=>this.routeToBlogCreation()}>
 								Blog

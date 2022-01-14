@@ -613,6 +613,7 @@ const PersonalPostsIndex=(props)=>{
 				postOption={postOption}
 				closeModal={closeModal}
 				isPhoneUIEnabled={props.uiStatus.displayPhoneUI}
+				isDesktopEnabled={props.uiStatus.displayDesktopUI}
 				history={props.history}
 			/>:null;
 	}
@@ -910,6 +911,7 @@ const PersonalPostsIndex=(props)=>{
 						friendsNodes={props.personalInformation.friendsGaugeNodes}
 						friendsColorNodesMap={friendsColorNodesMap}
 						currentRequestedFriendsGaugeNodeId={currentRequestedFriendsGaugeNodeId}
+						isPhoneUIEnabled={props.uiStatus.displayPhoneUI}
 					/>
 				break;
 			}

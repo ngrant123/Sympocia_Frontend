@@ -50,6 +50,10 @@ const Container=styled.div`
    		#mobileUserActions{
    			display:none !important;
    		}
+   		#audioDescription{
+			margin-bottom:0% !important;
+			margin-top:10% !important;
+		}
     }
 `;
 
@@ -250,7 +254,8 @@ const PostDisplayContainer=(props)=>{
 									videoId="extendedPostVideoElement"
 								/>
 							</VideoDesriptionContainer>
-							:<Image onClick={()=>changeZoomedInPostDisplay(true)}>	
+							:<Image onClick={()=>changeZoomedInPostDisplay(true)}
+								containsVideoDescription={containsVideoDescriptionAndIsImage}>	
 								<img id="image" src={postData.imgUrl} style={{width:"100%",height:"100%",borderRadius:"5px"}}/>
 							</Image>
 						}

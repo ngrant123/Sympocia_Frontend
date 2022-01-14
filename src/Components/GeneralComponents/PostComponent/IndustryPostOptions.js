@@ -5,6 +5,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {filterSymposiumUploadOptions} from "../../../Actions/Tasks/FilterSymposiumsUploadOptions.js";
 
 const Container=styled.div`
+	position:relative;
 	width:100%;
 	@media screen and (min-width:2500px){
 		#text{
@@ -13,10 +14,6 @@ const Container=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-
-
-
-
 		#symposiumListDropDownMenu{
 			width:270px !important;
 			height:350px !important;
@@ -26,11 +23,6 @@ const Container=styled.div`
 			width:250px !important;
 			height:150px !important;
 		}
-
-
-
-
-
 	}
 `;
 const InputContainer=styled.textarea`

@@ -69,14 +69,32 @@ export const Image=styled.div`
 	width:260px;
 
 	@media screen and (max-width:1370px){
-
+		${({containsVideoDescription})=>
+			containsVideoDescription==false &&(
+				css`
+					width:290px;
+	    			height:280px;
+				`
+			)}
     }
 
     @media screen and (max-width:650px){
-    	width:90% !important;
-    	height:150px;
+
+		${({containsVideoDescription})=>
+			containsVideoDescription==false?
+			css`
+				width:170px;
+				height:160px;
+			`:
+			css`
+				width:90% !important;
+    			height:150px;
+			`
+		}
+
 		margin-bottom:10% !important;
     }
+
 
     @media screen and (min-width:300px) and (max-width:350px) 
 		and (min-height:700px) and (max-height:900px){
@@ -84,14 +102,53 @@ export const Image=styled.div`
 	}
 
 
-    @media screen and (min-width:500px) and (max-width:520px) 
-		and (min-height:1110px) and (max-height:1120px){
-		height:180px !important;
+    @media screen and (min-width:400px) and (max-width:520px) 
+		and (min-height:900px) and (max-height:1120px){
+
+		${({containsVideoDescription})=>
+			containsVideoDescription==false?
+			css`
+				height:200px !important;
+				width:210px !important;
+			`:
+			css`
+				height:180px !important;
+			`
+		}
+
 	}
-	@media screen and (min-width:600px) and (max-width:650px) 
+
+
+
+	@media screen and (min-width:550px) and (max-width:650px) 
 		and (min-height:1110px) and (max-height:1370px){
-		height:257px !important;
+		
+		${({containsVideoDescription})=>
+			containsVideoDescription==false?
+			css`
+				height:300px !important;
+				width:310px !important;
+			`:
+			css`
+				height:257px !important;
+			`
+		}
 	}
+
+
+
+	@media screen and (min-width:250px) and (max-width:450px) 
+		and (min-height:800px) and (max-height:1100px){
+		
+		${({containsVideoDescription})=>
+			containsVideoDescription==false &&(
+				css`
+					height:200px !important;
+					width:210px !important;
+				`
+			)}
+	}
+
 
 	@media screen and (min-width:500px) and (max-width:600px) 
 		and (min-height:750px) and (max-height:900px){
@@ -104,7 +161,8 @@ export const Image=styled.div`
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	height:400px !important;
+    	height:170px !important;
+    	width:200px !important;
 	}
 `;
 
@@ -212,7 +270,7 @@ export const VideoDesriptionContainer=styled.div`
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	height:400px !important;
+    	height:170px !important;
 	}
 `;
 
@@ -339,7 +397,7 @@ export const Post=styled.div`
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-    	height:400px;
+    	height:300px;
 	}
 `;
 

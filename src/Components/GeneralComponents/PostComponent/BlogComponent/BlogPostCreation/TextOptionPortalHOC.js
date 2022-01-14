@@ -21,7 +21,7 @@ const Container=styled.div`
 	top:15%;
 	border-radius:5px;
 	left:25%;
-	padding:10px;
+	padding:20px;
 	overflow-y:auto;
 	@media screen and (min-width:2500px){
 		height:50%;

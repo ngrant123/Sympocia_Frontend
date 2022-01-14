@@ -19,8 +19,10 @@ import {VerifyBrowserIsChrome} from "./Actions/Tasks/VerifyBrowserIsNotSafari.js
 
 //Starting point for the web application
 const enhancers = compose(
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
 );
+
+
 
 //load previous data into store
 const previousState=loadState();
@@ -82,7 +84,7 @@ const application  = (
 							<Route exact path="/logout" component= {Landing}/>
 							<Route exact path="/signup" component={Signup}/>
 							<Route exact path="/home" component= {ExplorePageScreen}/>
-							<Route exact path="/createBlog" component={BlogPostCreation}/>
+							<Route exact path="/createBlog" render={(props) => <BlogPostCreation {...props}/>}/>
 							<Route exact path="/search/:string/:searchType" component={SearchPage}/>
 							<Route exact path="/symposium/:symposiumName" component={Symposium}/>
 							<Route exact path="/symposiumList" component={SymposiumList}/>	

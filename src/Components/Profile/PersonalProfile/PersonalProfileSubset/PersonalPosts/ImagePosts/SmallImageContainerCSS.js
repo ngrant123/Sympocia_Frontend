@@ -100,6 +100,7 @@ export const ImageContainer=styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
+		
     }
 `;
 

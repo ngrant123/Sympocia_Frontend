@@ -12,6 +12,8 @@ import PollOutlinedIcon from '@material-ui/icons/PollOutlined';
 import DeletePostConfirmationPortal from "../../../../Profile/PersonalProfile/PersonalProfileSet/Modals-Portals/DeletePostConfirmationPortal.js";
 import Comments from "../../../CommentsComponent/index.js";
 import VideoDescriptionMobileDisplayPortal from "../../VideoDescriptionMobileDisplayPortal.js";
+import ChatIcon from '@material-ui/icons/Chat';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 const Container=styled.div`
 	position:fixed;
@@ -113,10 +115,12 @@ const TogglePostInformationButton=styled.div`
 
 const VideoDescriptionContainer=styled.div`
 	position:relative;
-	width:40%;
-	height:50%;
-	border-radius:50%;
+	width:20%;
+	height:30%;
+	border-radius:5px;
 	cursor:pointer;
+	background-color:#151515;
+	margin-right:5%;
 `;
 
 
@@ -138,6 +142,18 @@ const CommentContainer=styled.div`
 	}
 `;
 
+const ShadowButtonCSS={
+	display:"inline-block",
+	listStyle:"none",
+	padding:"10px",
+	backgroundColor:"white",
+	color:"#6e6e6e",
+	borderStyle:"none",
+	marginRight:"2%",
+	marginBottom:"2%",
+	cursor:"pointer"
+}
+
 
 const StampButtonCSS={
 	listStyle:"none",borderColor:"#5298F8",
@@ -151,6 +167,15 @@ const StampButtonCSS={
 	marginBottom:"5%"
 }
 
+
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"40px",
+ 	marginRight:"2%"
+}
 /*
 	The point for this section is to doing multiple things in the future:
 		Offer a tips section,
@@ -264,101 +289,69 @@ const AdditionalInformation=(props)=>{
 							/>
 						</CommentContainer>:
 						<React.Fragment>
-							<li style={{listStyle:"none"}}>
-								<ul style={{padding:"0px"}}>
-									{postType!="Creation" && (
-										<>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>toggleComments()} style={{listStyle:"none",display:"inline-block",
-																								  marginBottom:"3%"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
-															 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1C1C1C" 
-															 fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z"/>
-														  <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-														  <line x1="8" y1="9" x2="16" y2="9" />
-														  <line x1="8" y1="13" x2="14" y2="13" />
-													</svg>
-												</li>
-											</a>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>displayApproveDisapproveModalHandle()}
-												    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-													<PollOutlinedIcon
-														style={{fontSize:"40",color:"black"}}
-													/>
-												</li>
-											</a>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>props.triggerPromoteModal()}
-												    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-														  width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515"
-														  fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  <path stroke="none" d="M0 0h24v24H0z"/>
-														  <circle cx="12" cy="9" r="6" />
-														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-														  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-													</svg>
-												</li>
-											</a>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								<ChatIcon
+									id="postOptions"
+									style={{fontSize:50,...ShadowButtonCSS}}
+									onClick={()=>toggleComments()}
+								/>
 
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li onClick={()=>handleRemoveBlogPost()}
-												    style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler 
-														icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" fill="none" stroke-linecap="round" stroke-linejoin="round">
-													  <path stroke="none" d="M0 0h24v24H0z"/>
-													  <line x1="4" y1="7" x2="20" y2="7" />
-													  <line x1="10" y1="11" x2="10" y2="17" />
-													  <line x1="14" y1="11" x2="14" y2="17" />
-													  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-													  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-													</svg>
-												</li>
-											</a>
-											{blog!=null  &&(
-												<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-													<li onClick={()=>displayEditBlogSubmitModal()} style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-														<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
-															 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#151515" 
-															 fill="none" stroke-linecap="round" stroke-linejoin="round">
-														  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-														  	<path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-														  	<line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-														</svg>
-													</li>
-												</a>	
-											)}
-											<hr/>
-										</>
-									)}
-								</ul>
-							</li>
-							
-							<li style={{listStyle:"none",marginTop:"2%"}}>
-								<ul style={{padding:"0px"}}>
-									{videoDescription!=null &&(
-										<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-											<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-												 <video autoPlay loop autoBuffer muted playsInline 
-													style={{borderRadius:"50%"}} width="100%" height="100%" borderRadius="50%">
-													<source src={videoDescription} type="video/mp4"/>
-												</video>
-											</VideoDescriptionContainer>
-										</li>
-									)}
-									{audioDescription && (
-										<li style={{listStyle:"none",display:"inline-block"}}>
-											<audio controls>
-												<source src={audioDescription} type="audio/ogg"/>
-												<source src={audioDescription} type="audio/mp4"/>
-												Your browser does not support the audio element.
-											</audio>
-										</li>
-									)}
-								</ul>
-							</li>
+								<div style={VerticalLineCSS}/>
+
+								<AssessmentIcon
+									id="postOptions"
+									style={{fontSize:50,...ShadowButtonCSS}}
+									onClick={()=>displayApproveDisapproveModalHandle()}
+								/>
+
+								<div style={VerticalLineCSS}/>
+
+								<div style={ShadowButtonCSS} id="postOptions">
+									<svg id="promotePostOption" onClick={()=>props.triggerPromoteModal()}
+										xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+										  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e"
+										  fill="none" stroke-linecap="round" stroke-linejoin="round">
+										  <path stroke="none" d="M0 0h24v24H0z"/>
+										  <circle cx="12" cy="9" r="6" />
+										  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+										  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+									</svg>
+								</div>
+
+								<div style={VerticalLineCSS}/>
+
+								<div style={ShadowButtonCSS} id="postOptions">
+									<svg id="removePostOption" onClick={()=>handleRemoveBlogPost()}
+										 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+										width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+										stroke-linecap="round" stroke-linejoin="round">
+									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+									  <line x1="4" y1="7" x2="20" y2="7" />
+									  <line x1="10" y1="11" x2="10" y2="17" />
+									  <line x1="14" y1="11" x2="14" y2="17" />
+									  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+									  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+									</svg>
+								</div>
+							</div>
+							<hr/>
+							<div style={{display:"flex",flexDirection:"row"}}>
+								{videoDescription!=null &&(
+									<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+										 <video autoPlay loop autoBuffer muted playsInline 
+											style={{borderRadius:"5px"}} width="100%" height="100%" borderRadius="50%">
+											<source src={videoDescription} type="video/mp4"/>
+										</video>
+									</VideoDescriptionContainer>
+								)}
+								{audioDescription && (
+									<audio controls>
+										<source src={audioDescription} type="audio/ogg"/>
+										<source src={audioDescription} type="audio/mp4"/>
+										Your browser does not support the audio element.
+									</audio>
+								)}
+							</div>
 						</React.Fragment>
 					}
 			</>
@@ -402,37 +395,20 @@ const AdditionalInformation=(props)=>{
 				/>
 			)}
 			<ul style={{padding:"0px"}}>
-				{postType!="Creation" &&(
-					<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={{listStyle:"none"}}>
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{listStyle:"none",display:"inline-block",marginLeft:"5%"}}>
-								<LoyaltyIcon
-									style={{fontSize:"40",color:"black"}}
-								/>
-							</li>
-						</a>
-					</li>
+				{postType!="Creation" && (
+					<TogglePostInformationButton>
+						{displayInformation==false?
+							<ExpandMoreIcon
+								style={{fontSize:30}}
+								onClick={()=>changeDisplayInformation(true)}
+							/>
+							:<ExpandLessIcon
+								style={{fontSize:30}}
+								onClick={()=>changeDisplayInformation(false)}
+							/>
+						}
+					</TogglePostInformationButton>
 				)}
-				{displayStampEffect==false?
-					null:
-					<li style={{listStyle:"none"}}>
-						<StampIconEffect>
-							<img src={StampIcon} style={{width:"100%",height:"100%",borderRadius:"50%"}}/>
-						</StampIconEffect>
-					</li>
-				}
-				<TogglePostInformationButton>
-					{displayInformation==false?
-						<ExpandMoreIcon
-							style={{fontSize:30}}
-							onClick={()=>changeDisplayInformation(true)}
-						/>
-						:<ExpandLessIcon
-							style={{fontSize:30}}
-							onClick={()=>changeDisplayInformation(false)}
-						/>
-					}
-				</TogglePostInformationButton>
 				{/*
 					<li style={{listStyle:"none",fontSize:"30px",marginBottom:"3%"}}>
 						<b>Contributors</b>

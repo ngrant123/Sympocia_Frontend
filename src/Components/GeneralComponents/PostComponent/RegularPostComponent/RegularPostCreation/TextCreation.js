@@ -13,18 +13,28 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:700px){
-		width:120% !important;
-		margin-left:-15% !important;
+	@media screen and (max-width:1370px){
+		width:110% !important;
+	}
+
+
+	@media screen and (max-width:650px){
+		width:135% !important;
+		margin-left:-10%;
 		#submitLI{
-			width:100% !important;
+			width:90% !important;
 		}
 	}
 
-	@media screen and (max-width:330px){
-		width:115% !important;
-		margin-left:-20% !important;
-	}
+   	@media screen and (min-width:500px) and (max-width:750px) 
+        and (min-height:600px) and (max-height:1039px){
+        width:120% !important;
+       margin-left:-5% !important;
+       #submitLI{
+       	width:90% !important;
+       }
+    }
+
     @media screen and (min-width:500px) and (max-width:750px) 
         and (min-height:730px) and (max-height:1039px){
        margin-left:-5% !important;
@@ -91,14 +101,6 @@ const InputContainer=styled.textarea`
 		height:250px;
 	}
 
-	@media screen and (max-width:650px){
-		width:105% !important;
-	}
-
-	@media screen and (max-width:330px){
-		width:120% !important;
-	}
-
 	@media screen and (min-width:500px) and (max-width:750px) 
         and (min-height:730px) and (max-height:1039px){
         width:90% !important;
@@ -149,19 +151,16 @@ const TextCreation=({isSubmittedAndProcessing,isPostCrowned,displayTextOrAudioSc
 			<ul style={{padding:"0px"}}>
 				<li style={{listStyle:"none"}}>
 					<ul style={{padding:"0px"}}>
-
-						<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-							<li style={{listStyle:"none",display:"inline-block"}}>
-								<CrownIconContainer onClick={()=>displayCrownPostModal()}>
-									<Icon 
-										id="crownIcon"
-										icon={crownIcon}
-										style={{borderRadius:"50%",zIndex:"8",backgroundColor:crownPostBackgroundColor,
-										fontSize:"40px",color:crownPostColor}}
-									/>
-								</CrownIconContainer>
-							</li>
-						</a>
+						<li style={{listStyle:"none",display:"inline-block",cursor:"pointer"}}>
+							<CrownIconContainer onClick={()=>displayCrownPostModal()}>
+								<Icon 
+									id="crownIcon"
+									icon={crownIcon}
+									style={{borderRadius:"50%",zIndex:"8",backgroundColor:crownPostBackgroundColor,
+									fontSize:"40px",color:crownPostColor}}
+								/>
+							</CrownIconContainer>
+						</li>
 					</ul>
 				</li>
 			

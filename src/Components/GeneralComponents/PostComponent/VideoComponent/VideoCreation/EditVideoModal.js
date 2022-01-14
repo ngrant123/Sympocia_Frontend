@@ -30,6 +30,7 @@ import {
 	} from "./../../../../../Actions/Redux/Actions/PersonalProfile.js"; 
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import ReplayIcon from '@material-ui/icons/Replay';
+import VideoLoadingPrompt from "../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 
 const Container=styled.div`
@@ -55,16 +56,16 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:80%;
-	}
-	@media screen and (max-width:700px){
-		width:120%;
-		padding:5px;
-		#editContainer{
-			width:100% !important;
-			margin-left:-5% !important;
-		}
+
 		#closeModalButton{
 			display:block !important;
+		}
+	}
+	@media screen and (max-width:700px){
+		padding:5px;
+		width:100%;
+		#editContainer{
+			width:100% !important;
 		}
 
 		#secondaryVideoInformation{
@@ -80,6 +81,9 @@ const Container=styled.div`
 		}
 		#audioOptionsLI{
 			width:100% !important;
+		}
+		#videoOptions{
+			margin-left:5% !important;
 		}
 	}
 
@@ -682,7 +686,7 @@ isArrayEqual=(arr1,arr2)=>{
 						<source src={this.state.videoSrc} type="video/mp4"/>
 					</video>
 				</div>
-				<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+				<div id="videoOptions" style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
 					<CrownIconContainer onClick={()=>this.setState({changeVideoVerification:true})}>
 						<Icon 
 							id="crownIcon"
@@ -824,9 +828,16 @@ isArrayEqual=(arr1,arr2)=>{
 														<ul style={{padding:"0px"}}>
 															<li style={{listStyle:"none",display:"inline-block"}}>
 																<VideoDescriptionContainer>
-																	<video key={this.state.videoDescriptionId} width="100%" height="100%" borderRadius="50%" controls autoplay="true">
-																		<source src={this.state.videoDescription} type="video/mp4"/>
-																	</video>
+																	<VideoLoadingPrompt
+																		videoElement={
+																			<video id="videoCreationDescritption"
+																				key={this.state.videoDescriptionId} width="100%" 
+																				height="100%" borderRadius="50%" controls autoplay="true">
+																				<source src={this.state.videoDescription} type="video/mp4"/>
+																			</video>
+																		}
+																		videoId="videoCreationDescritption"
+																	/>
 																</VideoDescriptionContainer>
 															</li>
 															<li style={{listStyle:"none",display:"inline-block",marginLeft:"2%"}}>

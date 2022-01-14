@@ -88,11 +88,9 @@ const authenticPostButtonCSS={
 class BlogPostCreation extends Component{
 	constructor(props){
 		super(props);
-		var isPersonalProfile;
-		if(this.props.location.state.profileType=="Company")
-			isPersonalProfile=false;
-		else
-			isPersonalProfile=true;
+		var isPersonalProfile=true;
+
+		console.log(props);
 		this.state={
 			userInformation:{},
 			displayEditButtonSubmitModal:false,
@@ -103,10 +101,8 @@ class BlogPostCreation extends Component{
 			displayPollModal:false,
 			pollModal:false,
 			displayApproveDisapproveIndicator:false,
-			approvesPostNumber:this.props.location.state.isPostAuthentic!=null?
-								   this.props.location.state.isPostAuthentic.numOfApprove.length:0,
-			disapprovesPostNumber:this.props.location.state.isPostAuthentic!=null?
-									  this.props.location.state.isPostAuthentic.numOfDisapprove.length:0,
+			approvesPostNumber:0,
+			disapprovesPostNumber:0,
 			displayApproveModal:false,
 			displayPromotePortal:false,
 			displayDesktopUI:false,
@@ -153,6 +149,7 @@ class BlogPostCreation extends Component{
 				isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
 
 			let blogContentState;
+			console.log(this.props.location.state);
 			if(this.props.location.state.postType=="Creation" && isMobile==true){
 				alert('Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue');
 				this.setState({

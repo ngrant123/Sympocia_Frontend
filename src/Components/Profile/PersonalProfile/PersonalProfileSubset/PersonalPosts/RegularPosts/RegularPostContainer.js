@@ -51,6 +51,10 @@ const Container=styled.div`
 		#postContainer{
 			width:150% !important;
 		}
+		#regularPostHorizontalLine{
+			width:60% !important;
+			margin-left:0% !important;
+		}
 	}
 
 	@media screen and (min-width:400px) and (max-width:650px) 

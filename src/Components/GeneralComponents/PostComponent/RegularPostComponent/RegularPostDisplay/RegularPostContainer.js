@@ -244,6 +244,12 @@ const SymposiumContainer=styled.div`
 const PollingOptionsContainer=styled.div`
 	display:flex;
 	flex-direction:column;
+
+	@media screen and (max-width:650px){
+		#backButton{
+			width:30% !important;
+		}
+	}
 `;
 
 
@@ -668,10 +674,10 @@ const RegularPostContainer=(props)=>{
 												{displayPollingOptions==true?
 													<PollingOptionsContainer>
 
-														<p onClick={()=>changeDisplayPollingOptions(false)}
+														<div id="backButton" onClick={()=>changeDisplayPollingOptions(false)}
 															style={ButtonCSS}>
 															Back
-														</p>
+														</div>
 
 														<p style={{fontSize:"18px"}}>
 															Create a comment about why you think this post is authentic or.... tell everyone 

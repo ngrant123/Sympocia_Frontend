@@ -121,6 +121,10 @@ const BlogsPostsContainer=(props)=>{
 	const displayPostModal=(data)=>{
 		debugger;
 		if(UserContextValues.isOwnProfile){
+			const {isPhoneUIEnabled}=props;
+			if(isPhoneUIEnabled){
+				alert('Unfortunately, editing blog posts is not allowed on mobile. You can check out comments and everything now though');
+			}
 			PostContextValues.history.push({
 				pathname:UserContextValues.isOwnProfile==true?`/createBlog`:`/blog/${data._id}`,
 				state:{

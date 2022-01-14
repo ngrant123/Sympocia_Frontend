@@ -83,15 +83,12 @@ export const PostOptionsContainer = styled.div`
 	padding:10px;
 
 
-	@media screen and (max-width:1030px){
- 		top:65% !important;
+	@media screen and (max-width:1370px){
+ 		top:10% !important;
+        height:90%;
+        flex-direction:column;
  	}
 
-	 @media screen and (max-width:650px){
-    	top:10% !important;
-    	height:90%;
-    	flex-direction:column;
-    }
 
 	@media screen and (max-width:740px) and (max-height:420px){
 	 	margin-left:-10% !important;
@@ -147,6 +144,12 @@ export const PostOptionsContainer = styled.div`
             height:20% !important;
         }
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+        flex-direction:column;
+        top:10% !important;
+    }
+
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:30% !important;
     	flex-direction:column;
@@ -180,14 +183,10 @@ export const PostContainer = styled.div`
 	 	display:none !important;
     }
 
- 	@media screen and (max-width:1030px){
- 		height:40% !important;
+ 	@media screen and (max-width:1370px){
+ 		display:none !important;
  	}
 
- 	@media screen and (max-width:420px){
-    	display:none !important;
-    	height:10% !important;
-    }
 
 
     @media screen and (min-width:400px) and (max-width:700px) 
@@ -201,9 +200,8 @@ export const PostContainer = styled.div`
     }
 
 
-
-    @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	display:none;
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+        display:none;
     }
  `;
 
@@ -287,9 +285,9 @@ export const PostOptionButton = styled.div`
     }
  	
 
- 	@media screen and (max-width:740px){
- 		${({isPhoneUIEnabled})=>
- 			isPhoneUIEnabled==true &&(
+ 	@media screen and (max-width:1370px){
+ 		${({isDesktopEnabled})=>
+ 			isDesktopEnabled==false &&(
  				`background-color:white;
  				color:#C8B0F4;`
  			)
@@ -300,8 +298,8 @@ export const PostOptionButton = styled.div`
 
     @media screen and (min-width:470px) and (max-width:810px) 
         and (min-height:750px) and (max-height:1039px){
-        ${({isPhoneUIEnabled})=>
-            isPhoneUIEnabled==true &&(
+        ${({isDesktopEnabled})=>
+            isDesktopEnabled==false &&(
                 `background-color:white;
                 color:#C8B0F4;`
             )
@@ -313,6 +311,13 @@ export const PostOptionButton = styled.div`
         padding:30px !important;
         width:90% !important;
     }
+
+    @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
+            height:70% !important;
+        background-color:white;
+        color:#C8B0F4;
+    }
+
  	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	height:70% !important;
     	background-color:white;
@@ -340,8 +345,8 @@ export const BlogOptionButton=styled(Link)`
  		text-decoration:none;
  	}
  	@media screen and (max-width:740px){
- 		${({isPhoneUIEnabled})=>
- 			isPhoneUIEnabled==true &&(
+ 		${({isDesktopEnabled})=>
+ 			isDesktopEnabled==false &&(
  				`background-color:white;
  				color:#C8B0F4;`
  			)

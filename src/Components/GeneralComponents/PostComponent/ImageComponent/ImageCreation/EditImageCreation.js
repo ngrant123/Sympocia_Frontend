@@ -53,13 +53,13 @@ const Container=styled.div`
     	)}
 
 		left:1% !important; 
-		height:100% !important;
 		width:100%;
 
 		#imageContainerDiv{
 			margin-bottom:10%;
-			height:40% !important;
+			height:10% !important;
 			flex-direction:column !important;
+			margin-right:10% !important;
 		}
 
 		#verticalLineId{
@@ -75,19 +75,19 @@ const Container=styled.div`
 			width:400px !important;
 		}
 		#uploadedImage{
-			width:310px !important;
-			height:290px !important;
+			width:90px !important;
+			height:90px !important;
 		}
     }
 
 	@media screen and (max-width:650px){
 		left:1% !important; 
-		height:100% !important;
 		width:100%;
 
 		#imageContainerDiv{
-			height:30% !important;
+			height:20px !important;
 			margin-right:5% !important;
+			margin-top:0px !important;
 		}
 		#uploadedImage{
 			height:50px !important;
@@ -120,28 +120,42 @@ const Container=styled.div`
 		}
     }
 
+    @media screen and (min-width:400px) and (max-width:700px) 
+        and (min-height:900px) and (max-height:1400px){
+		#imageContainerDiv{
+			height:5% !important;
+		}
+    }
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
     	#uploadedImage{
-			width:300px !important;
-			height:280px !important;
+			width:90px !important;
+			height:90px !important;
 		}
     }
 
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
     	top:5%;
-		overflow-y:scroll;
-		height:90% !important;
 
 		#editImageFlexDiv{
 			align-items:start !important;
 			height:60% !important;
 			padding:10px !important;
 		}
+		#imageContainerDiv{
+			height:60px !important;
+			margin-right:5% !important;
+			margin-top:0px !important;
+		}
     	#imageListContainer{
 			display:block !important;
 			width:100% !important;
 			height:90% !important;
+		}
+		#imageUploadSecondaryInformation{
+			height:100% !important;
+			flex-direction:column-reverse !important;
 		}
 
 		#uploadedImage{
@@ -186,7 +200,7 @@ const ImageTextArea=styled.textarea`
 
 	@media screen and (max-width:650px){
 		width:95% !important;
-		height:60px !important;
+		height:40px !important;
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -224,12 +238,11 @@ const MobileVideoDescriptionContainer=styled.div`
 const CrownIconContainer=styled.div`
 	border-style:solid;
 	border-width:2px;
-	border-color:red;
 	animation: glowing 1300ms infinite;
-	background-color:red;
 	border-radius:50%;
 	cursor:pointer;
-	height:100%;
+	height:25px;
+	width:25px;
 	margin-left:5%;
 
 	@media screen and (max-width:650px){
@@ -889,11 +902,12 @@ class EditImageCreation extends Component{
 				<Container id="editImageContainer" isPhoneUIEnabled={this.props.isPhoneUIEnabled}>
 					<div onClick={()=>this.props.closeModal()}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-						 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-						 stroke-linecap="round" stroke-linejoin="round">
-						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-						  <circle cx="12" cy="12" r="9" />
-						  <path d="M10 10l4 4m0 -4l-4 4" />
+							style={{cursor:"pointer"}}
+						 	width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+						 	stroke-linecap="round" stroke-linejoin="round">
+						  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  	<circle cx="12" cy="12" r="9" />
+						  	<path d="M10 10l4 4m0 -4l-4 4" />
 						</svg>
 					</div>
 					{this.state.displayReplaceImageModal==true &&(
@@ -1048,7 +1062,7 @@ class EditImageCreation extends Component{
 						</div>
 						<div id="verticalLineId" style={VerticalLineCSS}/>
 
-						<div style={{display:"flex",flexDirection:"column",width:"100%"}}>
+						<div style={{marginTop:"0px",display:"flex",flexDirection:"column",width:"100%"}}>
 							<ImageTextArea id="captionTextArea" onClick={()=>this.clearImageCaptionTextArea()}>
 											Writing a caption...
 							</ImageTextArea>

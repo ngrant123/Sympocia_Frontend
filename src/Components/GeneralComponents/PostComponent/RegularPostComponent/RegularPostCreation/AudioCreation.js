@@ -97,32 +97,29 @@ const AudioCreation=({audio,isPreviousDataLoaded,isSubmittedAndProcessing,sendDa
 				/>:
 				<Container>
 					<ul style={{padding:"0px"}}>
-						<li style={{listStyle:"none"}}>
-							<ul style={{padding:"0px"}}>
-								{isPreviousDataLoaded==false &&(
-									<li id="text" onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
-										Back
-									</li>
-
-								)}
-
-								<li id="text" onClick={()=>changeDisplayAudioCreation(false)} style={ButtonCSS}>
-									Redo
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center",marginBottom:"2%"}}>
+							{isPreviousDataLoaded==false &&(
+								<li id="text" onClick={()=>displayTextOrAudioScreen()} style={ButtonCSS}>
+									Back
 								</li>
-								<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-									<li style={{listStyle:"none",display:"inline-block"}}>
-										<CrownIconContainer onClick={()=>displayCrownPostModal()}>
-											<Icon 
-												id="crownIcon"
-												icon={crownIcon}
-												style={{borderRadius:"50%",zIndex:"8",backgroundColor:crownPostBackgroundColor,
-												fontSize:"40px",color:crownPostColor}}
-											/>
-										</CrownIconContainer>
-									</li>
-								</a>
-							</ul>
-						</li>
+							)}
+
+							<li id="text" onClick={()=>changeDisplayAudioCreation(false)} style={ButtonCSS}>
+								Redo
+							</li>
+							<a href="javascript:void(0);" style={{textDecoration:"none"}}>
+								<li style={{listStyle:"none",display:"inline-block"}}>
+									<CrownIconContainer onClick={()=>displayCrownPostModal()}>
+										<Icon 
+											id="crownIcon"
+											icon={crownIcon}
+											style={{borderRadius:"50%",zIndex:"8",backgroundColor:crownPostBackgroundColor,
+											fontSize:"40px",color:crownPostColor}}
+										/>
+									</CrownIconContainer>
+								</li>
+							</a>
+						</div>
 						<li style={{listStyle:"none",display:"inline-block"}}>
 							<audio id="audioLI" key={uuidv4()} controls>
 								<source src={audioDescription} type="audio/ogg"/>

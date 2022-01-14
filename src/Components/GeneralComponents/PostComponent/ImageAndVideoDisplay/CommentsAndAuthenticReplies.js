@@ -4,6 +4,13 @@ import {PollingOptionsContainer} from "./PostContainerCSS.js";
 import Comments from "../../CommentsComponent/index.js";
 import {postCaptionAndDescription} from "./Post.js";
 
+const Container=styled.div`
+	@media screen and (max-width:650px){
+		#backButton{
+			width:30% !important;
+		}
+	}
+`;
 
 
 const ButtonCSS={
@@ -72,11 +79,13 @@ const CommentsAndAuthenticReplies=(props)=>{
 		isOwnProfile
 	}=props;
 	return(
-		<React.Fragment>
+		<Container>
 			{displayPostAdditionalInformation==true?
 				<React.Fragment>
-					<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)} 
-					style={{marginBottom:"10%",...ButtonCSS}}>Back</p>
+					<div id="backButton" onClick={()=>triggerDisplayPostDescriptionAndCaption(false)} 
+						style={{marginBottom:"10%",...ButtonCSS}}>
+						Back
+					</div>
 					{postCaptionAndDescription(headlineText,secondaryText)}
 				</React.Fragment>:
 				<React.Fragment>
@@ -92,7 +101,7 @@ const CommentsAndAuthenticReplies=(props)=>{
 							isOwnProfile={isOwnProfile}
 						/>:
 						<PollingOptionsContainer>
-							<p onClick={()=>triggerDisplayPostDescriptionAndCaption(false)}
+							<p id="backButton" onClick={()=>triggerDisplayPostDescriptionAndCaption(false)}
 								style={ButtonCSS}>
 								Back
 							</p>
@@ -119,7 +128,7 @@ const CommentsAndAuthenticReplies=(props)=>{
 					}
 				</React.Fragment>
 			}
-		</React.Fragment>
+		</Container>
 	)
 }
 

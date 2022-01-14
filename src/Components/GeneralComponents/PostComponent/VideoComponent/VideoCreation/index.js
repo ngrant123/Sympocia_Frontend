@@ -151,7 +151,7 @@ const VideoOptionCSS={
 						 onChange={()=>uploadVideo()}>
 					</input>
 
-					<ul style={{padding:"0px",marginLeft:"20%",paddingTop:"10%",width:"70%"}}>
+					<ul style={{padding:"0px",marginLeft:"15%",paddingTop:"10%",width:"70%"}}>
 						<p id="headerCreationText" style={{fontSize:"25px"}}>
 							<b>Create your own video here with the click of a button</b>
 						</p>

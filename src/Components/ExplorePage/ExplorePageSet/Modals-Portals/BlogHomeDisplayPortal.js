@@ -29,14 +29,14 @@ const Container=styled.div`
 	position:fixed;
 	background-color:red;
 	z-index:40;
-	height:90%;
 	width:70%;
 	border-radius:5px;
 	top:5%;
 	left:20%;
 	background-color:white;
+	height:90%;
 	padding:20px;
-	overflow-y:scroll;
+	overflow:hidden;
 
 	@media screen and (max-width:1370px){
 		left:5%;
@@ -46,14 +46,36 @@ const Container=styled.div`
 		}
 	}
 	@media screen and (max-width:700px){
-		width:100% !important;
-		height:100% !important;
-		margin-right:-10% !important;
-		top:0% !important;
-		margin-left:-5% !important;
+		width:100%;
+		height:100%;
+		margin-right:-10%;
+		top:0%;
+		margin-left:-5%;
+
+		#badgeParentContainer{
+			margin-top:-10% !important;
+		}
+
+		#extendedBlogAudioDescription{
+			width:150px !important;
+		}
 	}
 
 
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#blogContainerDiv{
+			height:80% !important;
+			margin-top:0% !important;
+		}
+    }
+
+	@media screen and (max-width:840px) and (max-height:420px)  and (orientation: landscape){
+		width:100%;
+		height:100%;
+		left:0%;
+		top:0%;
+		margin-left:0%;
+    }
 
 `;
 
@@ -92,8 +114,8 @@ const PosterInformationModal=styled.div`
 		top:12% !important;
 	}
 
-	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
-		top:30% !important;
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		top:10% !important;
     }
 `;
 
@@ -101,6 +123,13 @@ const ProfilePicture=styled(Link)`
 	position:relative;
 	width:80px;
 	height:80px;
+
+	@media screen and (max-width:650px){
+		#smallImagePicture{
+			width:45px !important;
+			height:40px !important;
+		}
+	}
 `;
 
 const keyFrame=keyframes`
@@ -177,10 +206,19 @@ const ShadowContainer = styled.div`
 
 const VideoDescriptionContainer=styled.div`
 	position:relative;
-	width:40%;
-	height:50%;
+	width:80px;
+	height:80px;
 	border-radius:50%;
 	cursor:pointer;
+	background-color:#151515;
+
+
+
+	@media screen and (max-width:650px){
+		width:70px;
+		height:70px;
+	}	
+
 `;
 
 
@@ -548,17 +586,18 @@ const BlogHomeDisplayPortal=(props)=>{
 								triggerVideoInitS3Processing={triggerInitVideoS3Processing}
 							/>
 						)}
-						<div onClick={()=>closeBlogPortal()} style={{cursor:"pointer",marginBottom:"5%"}}>
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
-							 width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
-							 stroke-linecap="round" stroke-linejoin="round">
-							  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-							  <circle cx="12" cy="12" r="9" />
-							  <path d="M10 10l4 4m0 -4l-4 4" />
+						<div style={{cursor:"pointer",marginBottom:"5%"}}>
+							<svg onClick={()=>closeBlogPortal()} 
+								xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
+							 	width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
+							 	stroke-linecap="round" stroke-linejoin="round">
+							  	<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							  	<circle cx="12" cy="12" r="9" />
+							  	<path d="M10 10l4 4m0 -4l-4 4" />
 							</svg>
 						</div>
 						{pollModal()}
-						<div id="blogContainerDiv" style={{marginTop:"2%"}}>
+						<div id="blogContainerDiv" style={{position:"relative",marginTop:"2%",overflow:"hidden",height:"85%"}}>
 							<Editor
 								editorState={blogContentState}
 								toolbarClassName="toolbarClassName"
@@ -608,25 +647,28 @@ const BlogHomeDisplayPortal=(props)=>{
 							
 												<li style={{listStyle:"none",marginBottom:"5%"}}>
 													<div style={{display:"flex",flexDirection:"column"}}>
-														<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-																<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
-																	<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
-																			NoProfilePicture:
-																			postData.selectedBlog.owner.profilePicture
-																		} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
-																</ProfilePicture>
+														<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"flex-end"}}>
+															<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+																<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
+																		NoProfilePicture:
+																		postData.selectedBlog.owner.profilePicture
+																	} style={{width:"55px",height:"50px",borderRadius:"50%"}}/>
+															</ProfilePicture>
 															<p style={{marginLeft:"2%"}}>
 																<b>{postData.selectedBlog.owner.firstName}</b>
 															</p>
-															<BadgeDisplay
-																profileId={postData.selectedBlog.owner._id}
-															/>
+															<div id="badgeParentContainer" style={{marginTop:"-5%"}}>
+																<BadgeDisplay
+																	profileId={postData.selectedBlog.owner._id}
+																/>
+															</div>
 														</div>
 														<p style={{height:"90px",overflowY:"auto"}}>
 															{postData.selectedBlog.title}
 														</p>
 													</div>
 												</li>
+												<hr/>
 												<li style={{listStyle:"none"}}>
 													<ul style={{padding:"0px"}}>
 														<li onClick={()=>createOrRemoveStampEffect({isAccessTokenUpdated:false})} style={ShadowButtonCSS}>
@@ -662,32 +704,28 @@ const BlogHomeDisplayPortal=(props)=>{
 													</ul>
 												</li>
 												<hr/>
-												<li style={{listStyle:"none",marginTop:"2%"}}>
-													<ul style={{padding:"0px"}}>
-														{postData.selectedBlog.audioDescription && (
-															<li style={{listStyle:"none",display:"inline-block"}}>
-																<audio id="extendedBlogAudioDescription" 
-																	controls onPlay={()=>triggerInitAudioS3Processing()}>
-																	<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
-																	<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
-																	Your browser does not support the audio element.
-																</audio>
-															</li>
-														)}
-														{postData.selectedBlog.videoDescription!=null &&(
-															<li style={{marginBottom:"3%",listStyle:"none",display:"inline-block"}}>
-																<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-																	<video id="extendedBlogVideoDescription" 
-																		autoPlay loop autoBuffer muted playsInline
-																		style={{borderRadius:"5px",overflow:"hidden"}} 
-																		width="100%" height="100%" borderRadius="50%">
-																		<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
-																	</video>
-																</VideoDescriptionContainer>
-															</li>
-														)}
-													</ul>
-												</li>
+												<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+													{postData.selectedBlog.videoDescription!=null &&(
+														<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+															<video id="extendedBlogVideoDescription" 
+																autoPlay loop autoBuffer muted playsInline
+																style={{borderRadius:"50%",overflow:"hidden"}} 
+																width="100%" height="100%" borderRadius="50%">
+																<source src={postData.selectedBlog.videoDescription} type="video/mp4"/>
+															</video>
+														</VideoDescriptionContainer>
+													)}
+													{postData.selectedBlog.audioDescription && (
+														<div style={{marginLeft:"10%"}}>
+															<audio id="extendedBlogAudioDescription" 
+																controls onPlay={()=>triggerInitAudioS3Processing()}>
+																<source src={postData.selectedBlog.audioDescription} type="audio/ogg"/>
+																<source src={postData.selectedBlog.audioDescription} type="audio/mp4"/>
+																Your browser does not support the audio element.
+															</audio>
+														</div>
+													)}
+												</div>
 											</ul>
 											}
 										</React.Fragment>

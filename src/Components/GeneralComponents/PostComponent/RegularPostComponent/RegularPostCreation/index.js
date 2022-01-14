@@ -64,6 +64,10 @@ const Container = styled.div`
 	@media screen and (max-width:1370px){
 		left: 10% !important;
     	width: 80% !important;
+
+    	#symposiumPostOptions{
+			margin-left:0% !important;
+		}
 	}
 
 
@@ -73,21 +77,32 @@ const Container = styled.div`
 		height:100%;
 		top:0%;
 
-		#symposiumPostOptions{
-			margin-left:-12% !important;
+		#closeModalButton{
+			margin-left:-10% !important;
 		}
 	}
 
 	@media screen and (min-width:500px) and (max-width:750px) 
-        and (min-height:730px) and (max-height:1039px){
+        and (min-height:600px) and (max-height:1039px){
         
 		#symposiumPostOptions{
 			margin-left:-5% !important;
 		}
+		#closeModalButton{
+			margin-left:0% !important;
+		}
     }
 
+
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
+		left:0% !important;
+		width:100% !important;
+		height:100%;
+		top:0%;
 		#symposiumPostOptions{
+			margin-left:0% !important;
+		}
+		#closeModalButton{
 			margin-left:0% !important;
 		}
     }
@@ -163,7 +178,8 @@ const ButtonCSS={
   borderWidth:"2px",
   borderColor:"#3898ec",
   marginRight:"5%",
-  marginBottom:"5%"
+  marginBottom:"5%",
+  cursor:"pointer"
 }
 
 /*
@@ -575,19 +591,22 @@ const ButtonCSS={
 								<li style={{listStyle:"none",marginTop:"5%"}}>
 									{displayAudioORTextScreen==true?
 										<ul style={{padding:"0px"}}>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li id="postOption" style={ButtonCSS} onClick={()=>diplayRegularPostCreation()}>
-													<BorderColorIcon/> Write Post
-												</li>
-											</a>
+											<p id="headerCreationText" style={{fontSize:"25px"}}>
+												<b>Create your own text or audio post here.</b>
+											</p>
+											<p id="secondaryCreationText" style={{fontSize:"15px",color:"#b3b3b3"}}>
+												Everyone loves to read or listen to stuff. Everything you invent is true to you.
+											</p>
+											<hr style={{marginBottom:"5%"}}/>
+											<li id="postOption" style={ButtonCSS} onClick={()=>diplayRegularPostCreation()}>
+												<BorderColorIcon/> Write Post
+											</li>
 											<li id="postOption" style={{listStyle:"none",display:"inline-block",marginRight:"2%"}}>
 												Or
 											</li>
-											<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-												<li id="postOption" onClick={()=>displayAudioPostCreation()} style={ButtonCSS}>
-													<MicIcon/> Say Post
-												</li>
-											</a>
+											<li id="postOption" onClick={()=>displayAudioPostCreation()} style={ButtonCSS}>
+												<MicIcon/> Say Post
+											</li>
 										</ul>:
 										<React.Fragment>
 											{createRegularPostDescription==true?

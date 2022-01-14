@@ -29,10 +29,9 @@ const Container=styled.div`
 			border-radius:5px;
 			top:20%;
 			left:30%;
-			height:40%;
+			height:50%;
+			overflow:auto;
 			width:45%;
-			display:flex;
-			flex-direction:column;
 
 		`
 	}
@@ -55,8 +54,14 @@ const Container=styled.div`
 		left:0% !important; 
 		height:100% !important;
 
+		#text{
+    		font-size:18px !important;
+    	}
+
+
 		#closeModalButton{
 			marginTop:-80% !important;
+			display:block !important;
 		}
     }
    	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
@@ -145,7 +150,7 @@ class ImageCreation extends Component{
 				{this.state.displayEditImagesScreen==false?
 					<React.Fragment>
 						<div id="closeModalButton" 
-							onClick={()=>this.props.closeModal()} style={{marginTop:"0%"}}>
+							onClick={()=>this.props.closeModal()} style={{display:"none",marginTop:"0%"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
 							 width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" 
 							 stroke-linecap="round" stroke-linejoin="round">
@@ -155,7 +160,7 @@ class ImageCreation extends Component{
 							</svg>
 						</div>
 						{this.state.displayCreateImageScreen==false?
-							<ul style={{marginLeft:"10%",top:"10%",padding:"1px"}}>
+							<ul style={{padding:"0px",marginLeft:"15%",paddingTop:"10%",width:"70%"}}>
 								<p id="text" style={{fontSize:"25px"}}>
 									<b>Create your own image here with the click of a button</b>
 								</p>
