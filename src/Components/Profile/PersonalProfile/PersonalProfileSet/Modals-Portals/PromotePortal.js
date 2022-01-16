@@ -138,23 +138,28 @@ const PromotePortal=({closePromotePortal,nodes,postType,postId,targetDom})=>{
 							<b>Promote Post</b>
 						</p>
 
-						<p>Please selected the level that you want your post to be promoted to </p>
-						<hr/>
-						<ul style={{padding:"0px"}}>
-							{node.map(data=>
-								<li style={{listStyle:"none",marginBottom:"5%"}}>
-									<ul style={{padding:"0px"}}>
-										<p style={{fontSize:"15px"}}>
-											<b> {data.name} </b>
-										 </p>
-										<p> {data.description} </p>
-										<li onClick={()=>confirmSelectedNode(data)} style={ButtonCSS}>
-											Add
+						{node.length==0?
+							<p>No nodes available</p>:
+							<React.Fragment>
+								<p>Please select the level that you want your post to be promoted to </p>
+								<hr/>
+								<ul style={{padding:"0px"}}>
+									{node.map(data=>
+										<li style={{listStyle:"none",marginBottom:"5%"}}>
+											<ul style={{padding:"0px"}}>
+												<p style={{fontSize:"15px"}}>
+													<b> {data.name} </b>
+												 </p>
+												<p> {data.description} </p>
+												<li onClick={()=>confirmSelectedNode(data)} style={ButtonCSS}>
+													Add
+												</li>
+											</ul>
 										</li>
-									</ul>
-								</li>
-							)}
-						</ul>
+									)}
+								</ul>
+							</React.Fragment>
+						}
 					</>:
 					<ul style={{padding:"0px"}}>
 						<p> Are you sure you want to place this post in {nodeSelected.name} ? </p>

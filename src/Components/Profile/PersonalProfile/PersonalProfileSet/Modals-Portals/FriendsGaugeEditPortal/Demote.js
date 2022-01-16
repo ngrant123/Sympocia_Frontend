@@ -126,6 +126,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 	const [nodesNotAssignedToRecruit,changeNodesNotAssignedToRecruit]=useState([]);
 	const [destinationDemoteNode,changeDestinationDemoteNode]=useState();
 	const [isSubmitting,changeIsSubmitting]=useState(false);
+	const [loadingStatus,changeLoadingStatus]=useState(true);
 
 	const [isGeneralNode,changeIsGeneralNode]=useState(false);
 	const dispatch=useDispatch();
@@ -157,6 +158,7 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 					closeModal();
 				}
 			}
+			changeLoadingStatus(false);
 		}
 		fetchData({isAccessTokenUpdated:false});
 	},[]);
@@ -315,25 +317,30 @@ const DemoteRecruit=({nodes,closeModal,id})=>{
 					}
 				</React.Fragment>:
 				<React.Fragment>
-					{recruits.length==0?
-						<p>No recruits to demote :(</p>:
+					{loadingStatus==true?
+						<p style={{padding:"10px"}}>Loading please wait...</p>:
 						<React.Fragment>
-							<p id="title">Here are the recruits you have promoted so far. Click one to demote </p>
-							<hr/>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								{recruits.map(data=>
-									<div onClick={()=>fetchSpecificNodesForRecruit({isAccessTokenUpdated:false,target:data})}
-										 style={RecruitsContainerCSS}>
-										<img id="recruitImage" src={data.recruits.profilePicture==null?
-											NoProfilePicture:data.recruits.profilePicture} style={ImageCSS}
-										/>
-										<p id="recruitFirstName">{data.recruits.firstName}</p>
-										<p id="demoteButton" style={ButtonCSS}>
-											Demote
-										</p>
+							{recruits.length==0?
+								<p>No recruits to demote :(</p>:
+								<React.Fragment>
+									<p id="title">Here are the recruits you have promoted so far. Click one to demote </p>
+									<hr/>
+									<div style={{display:"flex",flexDirection:"row"}}>
+										{recruits.map(data=>
+											<div onClick={()=>fetchSpecificNodesForRecruit({isAccessTokenUpdated:false,target:data})}
+												 style={RecruitsContainerCSS}>
+												<img id="recruitImage" src={data.recruits.profilePicture==null?
+													NoProfilePicture:data.recruits.profilePicture} style={ImageCSS}
+												/>
+												<p id="recruitFirstName">{data.recruits.firstName}</p>
+												<p id="demoteButton" style={ButtonCSS}>
+													Demote
+												</p>
+											</div>
+										)}
 									</div>
-								)}
-							</div>
+								</React.Fragment>
+							}
 						</React.Fragment>
 					}
 				</React.Fragment>

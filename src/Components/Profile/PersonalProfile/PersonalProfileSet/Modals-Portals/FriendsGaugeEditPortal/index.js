@@ -177,7 +177,7 @@ const FriendsGaugeEditPortal=(props)=>{
 		if(data!=null){
 			props.implementAction(data);
 		}
-		changeDisplayClosingScreen(true);
+		closePortal();
 	}
 
 	const closePortal=()=>{

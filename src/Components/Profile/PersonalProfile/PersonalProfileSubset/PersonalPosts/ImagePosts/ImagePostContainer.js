@@ -142,6 +142,7 @@ const ImageLabelCSS={
 }
 
 const ImagePostsContainer=(props)=>{
+	console.log(props);
 	const PostContextValues=useContext(PostContext);
 	const PostDisplay=useContext(PostDisplayContext);
 

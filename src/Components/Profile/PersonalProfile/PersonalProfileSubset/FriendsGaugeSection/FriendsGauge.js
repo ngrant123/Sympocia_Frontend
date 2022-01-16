@@ -305,15 +305,12 @@ class FriendsGauge extends Component {
     })
   }
 //
-  updateNode=({name,description,nodeNumber})=>{
-    
+  updateNode=(updatedNodeInformation)=>{
+      debugger;
+      const {nodeNumber}=updatedNodeInformation;
       var currentNodes=this.state.nodes;
 
-      currentNodes[nodeNumber]={
-        ...currentNodes[nodeNumber],
-        name:name,
-        description:description
-      }
+      currentNodes[nodeNumber]={...updatedNodeInformation}
 
       this.setState({
         nodes:currentNodes

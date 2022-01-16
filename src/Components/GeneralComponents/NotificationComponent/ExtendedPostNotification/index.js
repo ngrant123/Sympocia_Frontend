@@ -160,6 +160,14 @@ const VideoCommentReplyContainer=styled.div`
 	flex-direction:row;
 `;
 
+const HorizontalLineCSS={
+	position:"relative",
+	width:"100%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
+
 const ButtonCSS={
 	borderColor:"#5298F8",
 	borderStyle:"solid",
@@ -446,11 +454,15 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 						Congrats you have been championed by:
 					</p>
 		}else{
-			return <p> 
+			return(
+				<React.Fragment>
+					<p> 
 						The profile below has requested access to node:
 						<b>  {data.nodeName}  </b>. 
-						You have give them access on your profile :)
 					</p>
+					<p>You have give them access on your profile after recruiting them</p>
+				</React.Fragment>
+			)
 		}
 	}
 						
@@ -476,15 +488,15 @@ const ExtendedPostNotificationPortal=({targetDom,closeModal,data,headerUrl,postI
 								|| notificationType=="OligarchWin" || notificationType=="Championed"?
 								<div style={{display:"flex",flexDirection:"column"}}>
 									{nonPostNotificationDescription()}
-									
+									<hr style={HorizontalLineCSS}/>
 									{notificationType!="OligarchWin" &&(
 					   					<Link to={{pathname:`/profile/${notificationOwnerId}`}}>
-						   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}>
+						   					<div style={{display:"flex",flexDirection:"row",cursor:"pointer",alignItems:"center"}}>
 												<img id="notificationRecruitOrPromotionProfilePicture" 
 													src={notification[0].profilePicture==null?
 														NoProfilePicture:notification[0].profilePicture}
-													style={{width:"70px",height:"60px",borderRadius:"50%"}}/>
-												<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden"}}>
+													style={{width:"50px",height:"50px",borderRadius:"50%"}}/>
+												<p style={{maxWidth:"30%",maxHeight:"20px",overflow:"hidden",marginLeft:"5%"}}>
 													<b>{notification[0].firstName}</b>
 												</p>
 											</div>

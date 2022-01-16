@@ -9,6 +9,8 @@ import {
 	updateFriendsGaugeNodeAvatar
 } from "../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {Link} from "react-router-dom";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const ButtonCSS={
   listStyle:"none",
@@ -48,6 +50,8 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 	const [displaySelectedSympociaFriendGaugeAvatar,changeDisplaySelectedFriendsGaugeAvatar]=useState();
 	const [img,changeImgUrl]=useState();
 	const [selectedAvatarKey,changeSelectedAvatarKey]=useState();
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 
 	useEffect(()=>{
@@ -86,21 +90,36 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 		}
 	},[displaySympociaFriendsNodeAvatars]);
 
-	const uploadImage=async()=>{
+	const uploadImage=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const updatedAvatarInformation={
 			userId,
 			nodeId,
 			imgUrl:displaySympociaFriendsNodeAvatars==false?img:null,
 			avatarKey:displaySympociaFriendsNodeAvatars==true?selectedAvatarKey:null,
-			isUserUploaded:!displaySympociaFriendsNodeAvatars
+			isUserUploaded:!displaySympociaFriendsNodeAvatars,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+			personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await updateFriendsGaugeNodeAvatar(updatedAvatarInformation);
+		debugger;
 		if(confirmation=="Success"){
-			alert('Success');
+			alert('Success. Please reload the page');
 			closeEditArea();
 		}else{
-			alert('Unfortunately there has been an error with updating your avatar ')
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						uploadImage,
+						dispatch,
+						{},
+						false
+					);
+			}else{
+				alert('Unfortunately there has been an error with updating your avatar');
+			}
 		}
 	}
 
@@ -145,7 +164,7 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 						style={ButtonCSS}>
 						Back
 					</div>
-					<div style={ButtonCSS} onClick={()=>uploadImage()}>
+					<div style={ButtonCSS} onClick={()=>uploadImage({isAccessTokenUpdated:false})}>
 						Upload
 					</div>
 				</div>

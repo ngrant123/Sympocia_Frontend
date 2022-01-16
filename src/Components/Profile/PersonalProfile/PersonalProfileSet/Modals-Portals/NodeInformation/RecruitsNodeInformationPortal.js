@@ -186,6 +186,23 @@ const DropDownCSS={
 	boxShadow:"1px 1px 5px #dbdddf",
 	cursor:"pointer"
 }
+	/*
+		As of right now not sure if I'm going to be implementing the color scheme feature. Maybe in the future
+
+		<p id="editScreenText" style={{marginBottom:"5%"}}>Select a color scheme:</p>
+		<p id="noColorScheme" style={{cursor:"pointer"}}
+			onClick={()=>changeSelectedColorCodeHandle(null)}
+		>None</p>
+		<ColorChoicesContainer>
+			{colorCodes.map((data,index)=>
+				<div id={`colorCode-${index}`} style={{...ColorBlockCSS,backgroundColor:data}}
+					onClick={()=>changeSelectedColorCodeHandle(data,index)}
+				/>
+			)}
+			
+		</ColorChoicesContainer>
+	*/
+
 
 const NodeInformationPortal=({
 	isOwner,
@@ -233,6 +250,31 @@ const NodeInformationPortal=({
 			changeIsMountedStatus(true);
 		}	
 
+		debugger;
+		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
+		if(nodeVideoDescription==null && containsVideoDescription==true){
+			fetchData();
+		}
+		disableScrolling("personalContainer");
+	},[]);
+
+
+
+	useEffect(()=>{
+		const fetchData=async()=>{
+			changeLoadingVideoDescription(true);
+			const {confirmation,data}=await getVideoUrl(nodeInformation._id);
+			if(confirmation=="Success"){
+				const {message}=data;
+				changeVideoDescription(message);
+			}else{
+				alert('Unfortunately there was an error retrieving this levels video description');
+			}
+			changeLoadingVideoDescription(false);
+			changeIsMountedStatus(true);
+		}	
+
+		debugger;
 		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
 		if(nodeVideoDescription==null && containsVideoDescription==true){
 			fetchData();
@@ -259,7 +301,9 @@ const NodeInformationPortal=({
 				isNodeVideoDescriptionAltered=true;
 			}
 		}
-		const nodeObject={
+
+
+		let nodeObject={
 			_id:userId,
 			name:name,
 			description:description,
@@ -275,9 +319,13 @@ const NodeInformationPortal=({
 			alert('Your video is processing. We wil notify via email and on here when your video description is uploaded :). You can close this screen now');
 		}
 		const {confirmation,data}=await editNodeInformation(nodeObject);
+		debugger;
 		if(confirmation=="Success"){
+
 			updateNode({
 				...nodeObject,
+				_id:nodeInformation._id,
+				containsVideoDescription:isNodeVideoDescriptionAltered==true?(changedVideoDesciption==null?false:true):false,
 				nodeNumber:nodeInformation.nodeCounter
 			});
 			closePortal();;
@@ -603,17 +651,21 @@ const NodeInformationPortal=({
 								<hr/>
 
 								<div style={{height:"50%"}}>
-									{isMountedStatus==true?
-										<VideoLoadingPrompt
-											videoElement={<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
-															controls id="nodeVideoDescription"
-															width="100%" height="100%" style={{backgroundColor:"#151515",borderRadius:"5px"}}>
-															<source src={videoDescription} type="video/mp4"/>
-														</video>}
-											videoId="nodeVideoDescription"
-										/>:
-										<p>Please wait...</p>
-									}
+									{nodeInformation.containsVideoDescription==true &&(
+										<React.Fragment>
+											{isMountedStatus==true?
+												<VideoLoadingPrompt
+													videoElement={<video key={uuidv4()} autoPlay loop autoBuffer muted playsInline 
+																	controls id="nodeVideoDescription"
+																	width="100%" height="100%" style={{backgroundColor:"#151515",borderRadius:"5px"}}>
+																	<source src={videoDescription} type="video/mp4"/>
+																</video>}
+													videoId="nodeVideoDescription"
+												/>:
+												<p>Please wait...</p>
+											}
+										</React.Fragment>
+									)}
 								</div>
 
 								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
@@ -750,25 +802,9 @@ const NodeInformationPortal=({
 											onChange={()=>uploadNodeVideoDescription()}>
 										</input>
 
-
-										<p id="editScreenText" style={{marginBottom:"5%"}}>Select a color scheme:</p>
-										<p id="noColorScheme" style={{cursor:"pointer"}}
-											onClick={()=>changeSelectedColorCodeHandle(null)}
-										>None</p>
-										<ColorChoicesContainer>
-											{colorCodes.map((data,index)=>
-												<div id={`colorCode-${index}`} style={{...ColorBlockCSS,backgroundColor:data}}
-													onClick={()=>changeSelectedColorCodeHandle(data,index)}
-												/>
-											)}
-											
-										</ColorChoicesContainer>
-										<a href="javascript:void(0);" onClick={()=>submitInformation({isAccessTokenUpdated:false})} 
-											style={{textDecoration:"none"}}>
-											<li id="editScreenText" style={ButtonCSS}>
-												Submit
-											</li>
-										</a>
+										<li id="editScreenText" style={ButtonCSS} onClick={()=>submitInformation({isAccessTokenUpdated:false})}>
+											Edit
+										</li>
 									</React.Fragment>:
 									<NodeDesignOptions
 										userId={userId}

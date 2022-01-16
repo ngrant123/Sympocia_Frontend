@@ -118,6 +118,42 @@ export const ProfilePictureContainer=styled.div`
     }
   }
 
+  @media screen and (min-width:300px) and (max-width:560px) 
+    and (min-height:700px) and (max-height:900px){
+    margin-top:210px !important;
+    left:4% !important;
+
+    #profilePicture{
+      margin-top:10%;
+      height:230px !important;
+      width:240px !important;
+    }
+  }
+
+  @media screen and (min-width:300px) and (max-width:350px) 
+    and (min-height:700px) and (max-height:900px){
+    left:10% !important;
+
+    #profilePicture{
+      margin-top:10%;
+      height:250px !important;
+      width:260px !important;
+    }
+  }
+
+  @media screen and (min-width:500px) and (max-width:650px) 
+    and (min-height:800px) and (max-height:900px){
+    margin-top:250px !important;
+    left:5% !important;
+
+    #profilePicture{
+      margin-top:10%;
+      height:230px !important;
+      width:240px !important;
+    }
+  }
+
+
   @media screen and (min-width:400px) and (max-width:430px) 
     and (min-height:900px) and (max-height:950px){
     margin-top:190px !important;
@@ -186,7 +222,7 @@ export const ProfilePictureContainer=styled.div`
 
 
 
-  @media screen and (min-width:240px) and (max-width:430px) 
+  @media screen and (min-width:240px) and (max-width:350px) 
     and (min-height:600px) and (max-height:900px){
 
     #profilePicture{
@@ -213,8 +249,8 @@ export const ProfilePictureContainer=styled.div`
 
     #profilePicture{
       margin-top:-5px;
-      height:260px !important;
-      width:270px !important;
+      height:300px !important;
+      width:310px !important;
       margin-left:15% !important;
     }
     #postAndChampionMobileCreationContainer{

@@ -228,14 +228,18 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const dispatch=useDispatch();
 
 	useEffect(()=>{
+		debugger;
 		let isRecruit=false;
 		const recruits=personalInformation.recruits;
 
-		recruits.forEach((data,index)=>{
-			if(data._id==userId)
+		for(var i=0;i<recruits.length;i++){
+			const {_id}=recruits[i];
+			if(_id==userId){
 				isRecruit=true;
-		})
-		changeIsProfileRecruit(isProfileRecruit);
+				break;
+			}
+		}
+		changeIsProfileRecruit(isRecruit);
 	},[]);
 
 	const recruitProfile=()=>{

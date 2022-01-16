@@ -381,17 +381,18 @@ const PersonalPostsIndex=(props)=>{
 
 			const {confirmation,data}=await getUserImages(postFetchRequest);
 			
+			debugger;
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){
 					if((currentRequestedFriendsGaugeNodeId!=props.currentRequestedFriendsGaugeNodeId) &&
 						props.currentRequestedFriendsGaugeNodeId!=null){
-						const imagePost={
+						const updatedNodeImagePost={
 							...imagePost,
 							crownedImage:null,
-							images:[]
+							images:postCounter>0?imagePost.images:[]
 						}
-						changeImagePost(imagePost);
+						changeImagePost(updatedNodeImagePost);
 					}
 					changeEndOfPostsDBIndicator(true);
 				}else{
@@ -445,7 +446,7 @@ const PersonalPostsIndex=(props)=>{
 						props.currentRequestedFriendsGaugeNodeId!=null){
 						const videoObject={
 							headerVideo:null,
-							videos:[]
+							videos:postCounter>0?videoPost.videos:[]
 						}
 						changeVideoPosts(videoObject);
 					}
@@ -501,7 +502,7 @@ const PersonalPostsIndex=(props)=>{
 						props.currentRequestedFriendsGaugeNodeId!=null){
 						const blogObject={
 							headerBlog:null,
-							blogs:[]
+							blogs:postCounter>0?blogPost.blogs:[]
 						}
 						changeBlogPosts(blogObject);
 					}
@@ -557,7 +558,7 @@ const PersonalPostsIndex=(props)=>{
 						props.currentRequestedFriendsGaugeNodeId!=null){
 						const regularPostObject={
 							headerPost:null,
-							posts:[]
+							posts:postCounter>0?regularPost.posts:[]
 						}
 						changeRegularPost(regularPostObject);
 					}
