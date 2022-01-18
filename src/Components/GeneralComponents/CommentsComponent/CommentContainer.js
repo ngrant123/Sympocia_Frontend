@@ -461,10 +461,11 @@ class CommentsContainer extends Component{
 		this.setState({isCreatingComment:true});
 		const comment=document.getElementById("comment").value;
 		const isPersonalProfileIndicator=this.props.personalState.loggedIn==true?true:false;
+		const profileId=isPersonalProfileIndicator==true?this.props.personalState.id:
+														this.props.companyState.id;
 		const profileObject={
 			isPersonalProfile:isPersonalProfileIndicator,
-			profileId:isPersonalProfileIndicator==true?this.props.personalState.id:
-														this.props.companyState.id
+			profileId
 		}
 		if(comment!=""){
 			let {confirmation,data}=await createComment(
@@ -488,6 +489,7 @@ class CommentsContainer extends Component{
 						...data.ownerObject,
 						owner:{
 							...data.ownerObject.owner,
+							_id:profileId,
 							firstName:this.props.personalState.firstName
 						}
 					}
@@ -729,15 +731,21 @@ class CommentsContainer extends Component{
 					<p>Please wait </p>:
 					<>
 						{this.createCommentUI()}
-						{this.state.comments.map((data,index)=>
-							<li id="commentDIVLI" 
-								 style={{padding:"0px",listStyle:"none",marginBottom:"10px"}}
-								 key={data._id}>
-								{this.commentComponent(data,index)}
-								{this.createReplyComment(data._id,data.ownerObject.owner._id)}
-								{this.handleDisplayResponses(data._id)}
-							</li>
-						)}
+
+						{this.state.comments.length==0?
+							<p style={{marginTop:"5%"}}>No comments</p>:
+							<React.Fragment>
+								{this.state.comments.map((data,index)=>
+									<li id="commentDIVLI" 
+										 style={{padding:"0px",listStyle:"none",marginBottom:"10px"}}
+										 key={data._id}>
+										{this.commentComponent(data,index)}
+										{this.createReplyComment(data._id,data.ownerObject.owner._id)}
+										{this.handleDisplayResponses(data._id)}
+									</li>
+								)}
+							</React.Fragment>
+						}
 					</>
 				}
 			</Container>

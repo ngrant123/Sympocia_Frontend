@@ -206,7 +206,8 @@ class VideoResponseContainer extends Component{
 			isRepliesFetched:false,
 			selectedCommentPoolId:"",
 			isCurrentlyFetchReplies:false,
-			selectedVideoComment:{}
+			selectedVideoComment:{},
+			displayedVideoProcessingAlertStatus:false
 		}
 	}	
 	componentDidUpdate(){
@@ -284,6 +285,8 @@ class VideoResponseContainer extends Component{
 			profileId:isPersonalProfileIndicator==true?this.props.personalState.id:
 														this.props.companyState.id
 		}
+
+		debugger;
 		if(comment!=""){
 			const replyObject={
 				postType:this.props.postType,
@@ -634,6 +637,15 @@ class VideoResponseContainer extends Component{
 		});
 	}
 
+	processingVideoInformationAlert=()=>{
+		if(!this.state.displayedVideoProcessingAlertStatus){
+			alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now');
+			this.setState({
+				displayedVideoProcessingAlertStatus:true
+			})
+		}
+	}
+
 	handleNewVideoResponse=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		this.setState({
 			isProcessingInput:true
@@ -655,9 +667,9 @@ class VideoResponseContainer extends Component{
 			ownerId:this.props.ownerId,
 			isMobile:this.props.displayPhoneUI
 		}
+		this.processingVideoInformationAlert();
 
-		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')
-		
+
 		let {confirmation,data}=await createVideoResponse(videoResponse);
 		if(confirmation=="Success"){
 			data=data.message;
