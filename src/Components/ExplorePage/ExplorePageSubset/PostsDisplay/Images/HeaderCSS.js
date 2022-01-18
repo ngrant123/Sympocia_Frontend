@@ -54,11 +54,41 @@ export const HeaderContainer=styled.div`
 			height:100% !important;
 		}
 	}
+	@media screen and (max-width:330px){
+		height:230px !important;
+	}
+
+
+	@media screen and (min-width:430px) and (max-width:700px) 
+		and (min-height:650px) and (max-height:800px){
+		#smallImageContainer{
+			width:350px !important;
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:750px) 
+		and (min-height:800px) and (max-height:1100px){
+		#smallImageContainer{
+			width:300px !important;
+		}
+	}
+
+
+
+	@media screen and (min-width:600px) and (max-width:710px) 
+		and (min-height:650px) and (max-height:810px){
+		height:300px !important;
+		#smallImageContainer{
+			width:300px !important;
+			height:270px !important;
+		}
+	}
 
 	@media screen and (min-width:400px) and (max-width:430px) 
 		and (min-height:700px) and (max-height:750px){
 		height:300px !important;
 	}
+
 
 	@media screen and (min-width:500px) and (max-width:700px) 
 		and (min-height:1000px) and (max-height:1390px){
@@ -71,15 +101,24 @@ export const HeaderContainer=styled.div`
 		height:350px !important;
 	}
 
+	@media screen and (min-width:250px) and (max-width:400px) 
+		and (min-height:700px) and (max-height:800px){
+		height:250px !important;
+	}
 
 
-	@media screen and (max-width:600px) and (max-height:400px) and (orientation: landscape) {
-    	height:370px !important;
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+    	height:190px !important;
+    	width:200px !important;
+	    #smallImageContainer{
+			width:200px !important;
+			height:170px !important;
+		}
+		#adIndicator{
+			margin-top:5% !important;
+		}
     }
 
-    @media screen and (max-width:600px) and (max-height:400px) and (orientation: landscape) {
-    	height:400px !important;
-    }
 `;
 
 export const SupportingPostsContainer=styled.div`
@@ -98,10 +137,16 @@ export const SupportingPostsContainer=styled.div`
 
 	@media screen and (max-width:1370px){
 		#smallImageContainer{
-			width:170px !important;
-			height:140px !important;
+			width:140px !important;
+			height:120px !important;
 			margin-right:7%;
 			margin-bottom:15px;
+		}
+		#adIndicator{
+			margin-top:5% !important;
+		}
+		#postOwnerInformation{
+			left:67% !important;
 		}
 	}
 
@@ -114,23 +159,76 @@ export const SupportingPostsContainer=styled.div`
 		}
 	}
 
+	@media screen and (max-width:330px){
+		#smallImageContainer{
+			height:110px !important;
+		}
+	}
+
+
+
+	@media screen and (min-width:600px) and (max-width:710px) 
+		and (min-height:650px) and (max-height:810px){
+		height:300px !important;
+		#smallImageContainer{
+			width:140px !important;
+			height:130px !important;
+		}
+	}
+
+
+	@media screen and (min-width:300px) and (max-width:400px) 
+		and (min-height:1000px) and (max-height:1100px){
+		#postOwnerInformation{
+			left:70% !important;
+		}
+	}
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+		and (min-height:700px) and (max-height:800px){
+		#postOwnerInformation{
+			left:70% !important;
+		}
+		#smallImageContainer{
+			height:115px !important;
+		}
+
+	}
+
+
+
 	@media screen and (min-width:500px) and (max-width:700px) 
 		and (min-height:1000px) and (max-height:1390px){
 		#smallImageContainer{
 			height:185px !important;
 		}
 	}
-	@media screen and (min-width:500px) and (max-width:600px) 
-		and (min-height:750px) and (max-height:850px){
+	@media screen and (min-width:430px) and (max-width:700px) 
+		and (min-height:650px) and (max-height:800px){
 		#smallImageContainer{
-			height:185px !important;
+			height:170px !important;
+			width:180px !important;
 		}
 	}
 
+	@media screen and (min-width:500px) and (max-width:660px) 
+		and (min-height:800px) and (max-height:1100px){
+		#smallImageContainer{
+			height:220px !important;
+			width:230px !important;
+		}
+	}
 
-	@media screen and (max-width:600px) and (max-height:400px) and (orientation: landscape) {
+	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		#adIndicator{
+			margin-top:0% !important;
+		}
+    }
+
+
+	@media screen and (max-width:840px) and (max-height:400px) and (orientation: landscape) {
     	#smallImageContainer{
-			width:30% !important;
+			width:130px !important;
 		}
     }
 `;

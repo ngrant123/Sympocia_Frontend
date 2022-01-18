@@ -91,7 +91,7 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 				<img id="image" src={imageInformation.imgUrl} style={{
 					width:"100%",height:"100%",borderRadius:"10px"
 				}}/>
-				<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
+				<div id="postOwnerInformation" style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 					<ProfilePictureLink to={{pathname:`/profile/${imageInformation.owner._id}`}}>
 						<SmallProfilePictureAndVideoDescription
 							postData={imageInformation}
@@ -103,7 +103,7 @@ const SymposiumAndExplorePageDisplay=({imageInformation,targetDom})=>{
 						/>
 					</div>
 
-					<div style={{marginTop:"150%"}}>
+					<div id="adIndicator" style={{marginTop:"150%"}}>
 						<AdIndicator
 							postData={imageInformation}
 						/>

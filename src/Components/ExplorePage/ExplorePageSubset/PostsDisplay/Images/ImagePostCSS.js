@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
+//width:90%;
 export const Container=styled.div`
 	display:flex;
 	top:5%;
-	width:100%;
+	width:90%;
 	flex-direction:row;
 	flex-wrap:wrap;
 
 	@media screen and (max-width:1370px){
+		width:100%;
 		flex-direction:column;
 		#headerImageLI{
 			width:100% !important;

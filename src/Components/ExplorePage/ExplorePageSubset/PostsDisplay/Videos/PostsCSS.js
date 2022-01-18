@@ -19,7 +19,8 @@ export const VideoContainer=styled.div`
 		margin-bottom:15px;
 	}
 
-	@media screen and (max-width:1000px){
+	@media screen and (max-width:1370px){
+		margin-right:15%;
 		#video{
 			width:320px !important;
 		}
@@ -54,7 +55,24 @@ export const VideoContainer=styled.div`
 	}
 
 
+	@media screen and (min-width:600px) and (max-width:800px) 
+		and (min-height:700px) and (max-height:900px){
+		width:230px !important;
+		#video{
+			width:230px !important;
+		}
+		#supportingVideoElement{
+			margin-right:1% !important;
+		}
+	}
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
+		margin-right:15%;
+    }
+
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation:landscape){
+		margin-right:5%;
 		#video{
 			width:350px !important;
 		}
@@ -71,5 +89,8 @@ export const VideoContainer=styled.div`
     	#video{
 			width:90% !important;
 		}	
+		#videoTitle{
+			margin-top:0% !important;
+		}
     }
 `;

@@ -4,7 +4,9 @@ import {Link} from "react-router-dom";
 export const Container=styled.div`
 	display:flex;
 	top:5%;
-	flex-direction:column;
+	flex-direction:row;
+	flex-wrap:wrap;
+	width:90%;
 
 	@media screen and (max-width:1370px){
 		width:100%;
@@ -73,7 +75,7 @@ export const Container=styled.div`
 			height:20% !important;
 		}
 		#image{
-			width:120px !important;
+			width:100px !important;
 			height:90px !important;
 			margin-right:2%;
 		}
@@ -289,10 +291,6 @@ export const SmallPostContainer=styled.div`
 		width:100%;
 		margin-top:15% !important;
 		margin-bottom:5%;
-
-		#smallImageAndOwnerContainer{
-			margin-right:-30px !important;
-		}
 		#smallPostTitleAndDescription{
 			width:50%;
 		}

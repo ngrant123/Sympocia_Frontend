@@ -30,8 +30,15 @@ export const SupportingPostsContainer=styled.div`
 		}
 	}
 
-	@media screen and (min-width:100px) and (max-width:1040px) 
-		and (min-height:1300px) and (max-height:1380px){
+	
+	@media screen and (max-width:330px){
+		#smallImageContainer{
+			height:110px !important;
+		}
+	}
+
+	@media screen and (min-width:850px) and (max-width:1040px) 
+		and (min-height:1000px) and (max-height:1380px){
 		#smallImageContainer{
 			height:170px !important;
 		}
@@ -49,6 +56,17 @@ export const SupportingPostsContainer=styled.div`
 			height:170px !important;
 		}
     }
+
+
+    @media screen and (min-width:600px) and (max-width:710px) 
+		and (min-height:650px) and (max-height:810px){
+		height:300px !important;
+		#smallImageContainer{
+			width:120px !important;
+			height:110px !important;
+			margin-right:12%;
+		}
+	}
 
 	@media screen and (min-width:1000px) and (max-width:1380px) 
 		and (min-height:800px) and (max-height:1100px){
@@ -77,6 +95,23 @@ export const SupportingPostsContainer=styled.div`
 			height:140px !important;
 		}
 	}
+			@media screen and (min-width:430px) and (max-width:700px) 
+		and (min-height:650px) and (max-height:800px){
+		#smallImageContainer{
+			height:170px !important;
+			width:180px !important;
+		}
+	}
+
+	@media screen and (min-width:500px) and (max-width:750px) 
+		and (min-height:800px) and (max-height:1100px){
+		#smallImageContainer{
+			height:220px !important;
+			width:230px !important;
+		}
+	}
+
+
 
 
 

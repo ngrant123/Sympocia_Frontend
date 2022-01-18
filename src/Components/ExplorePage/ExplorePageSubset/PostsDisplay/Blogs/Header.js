@@ -12,6 +12,7 @@ import AdIndicator from "../../../../GeneralComponents/PostComponent/AdIndicator
 const Container=styled.div`
 	display:flex;
 	flex-direction:row;
+	width:100%;
 
 	@media screen and (max-width:1370px){
 		flex-direction:column;
@@ -36,8 +37,8 @@ const HeaderContainer=styled.div`
 	@media screen and (max-width:1370px){
 		flex-direction:column;
 		#headerBlogImage{
-			height:550px !important;
-			width:650px !important;
+			height:290px !important;
+			width:300px !important;
 		}
 
 		#headerTextInformation{
@@ -68,7 +69,7 @@ const HeaderContainer=styled.div`
 	}
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		#headerBlogImage{
-			width:700px !important;
+			width:300px !important;
 		}
     }
 

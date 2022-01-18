@@ -161,12 +161,16 @@ const MobileArenaContainer=styled.div`
   	}
 `;
 
+
 const PostsContainer=styled.div`
 	position:absolute;
 	height:70%;
 	width:100%;
+	display:flex;
+	justify-content:center;
 
 	@media screen and (max-width:1370px){
+		display:block;
 		overflow:visible;
 		#headerTitleLI{
 			display:none !important;
@@ -546,7 +550,7 @@ class SearchExploreContainer extends Component{
 								{this.editExplorePage()}
 								{this.state.isLoading==true?
 									<p>Loading...</p>:
-									<li style={{listStyle:"none",marginTop:"2%"}}>
+									<li style={{listStyle:"none",marginTop:"2%",backgroundColor:"red"}}>
 										<PostsContainer>
 											<PostsMemo
 												posts={this.state.postsInformation}

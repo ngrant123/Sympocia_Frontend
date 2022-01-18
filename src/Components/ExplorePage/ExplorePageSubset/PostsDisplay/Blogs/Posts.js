@@ -14,11 +14,17 @@ const Container=styled.div`
 		#blogContainer{
 			width:95% !important;
 		}
+		#smallImageContainer{
+			width:140px !important;
+		}
 	}
 
 	@media screen and (max-width:650px){
 		#blogContainer{
 			width:90% !important;
+		}
+		#smallImageContainer{
+			width:123px !important;
 		}
 	}
 `;
