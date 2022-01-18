@@ -605,11 +605,15 @@ export const toggleOffAscensionStatusIndicator=async(profileId)=>{
 	}
 }
 
-export const alterAirPlaneEnabledStatus=async(profileId,enableStatus)=>{
+export const alterAirPlaneEnabledStatus=async(profileId,enableStatus,accessToken)=>{
 	try{
 		const alteredAirPlaneEnabledStatusResponse=await axios.post(`${CreateUrl}/alterAirPlaneEnabledStatus`,{
 			profileId,
 			enableStatus
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=alteredAirPlaneEnabledStatusResponse;
 		return data;

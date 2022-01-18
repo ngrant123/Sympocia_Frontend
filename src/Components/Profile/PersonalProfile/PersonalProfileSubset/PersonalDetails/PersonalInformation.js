@@ -370,6 +370,8 @@ const PersonalInformation=(props)=>{
 	const [displayFriendsGaugeBadge,changeFriendsGaugeBadge]=useState(false);
 
 	const userInformation=useContext(UserContext);
+	const personalReduxInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	
 	const handleDonateButton=()=>{
@@ -500,11 +502,27 @@ const PersonalInformation=(props)=>{
 		)
 	}
 
-	const verfiyAdPayment=async()=>{
-		const {confirmation,data}=await adPageVerification(props.personalInformation._id);
+	const verfiyAdPayment=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		debugger;
+		const {confirmation,data}=await adPageVerification(
+											props.personalInformation._id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalReduxInformation.accessToken);
 		if(confirmation=="Success"){
 			const {message}=data;
 			changeAdAvailablityStatus(message);
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalReduxInformation.refreshToken,
+					personalReduxInformation.id,
+ 					verfiyAdPayment,
+					dispatch,
+					{},
+					false
+				);
+			}
 		}
 		changePersonalInformationOptionLoadingStatus(false);
 	}
@@ -547,7 +565,7 @@ const PersonalInformation=(props)=>{
 							<div class="dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
 									style={{backgroundColor:"white",borderStyle:"none",color:"black",marginLeft:"10%"}}
-									onClick={()=>verfiyAdPayment()}>
+									onClick={()=>verfiyAdPayment({isAccessTokenUpdated:false})}>
 									<span style={{color:"#797979"}} class="caret"></span>
 								</button>
 
@@ -699,7 +717,8 @@ const PersonalInformation=(props)=>{
 		)
 	},[
 		props.personalInformation.firstName,
-		props.displayDesktopUI
+		props.displayDesktopUI,
+		loadingPersonalInformationVerification
 	])
 
 

@@ -159,18 +159,33 @@ const AddLevel=({userId,nodeNumber,recruitsInformation,closeModal,isPhoneUITrigg
 	const [isMaxNodesReached,changeIsMaxNodesReached]=useState(nodeNumber==3?true:false);
 
 	useEffect(()=>{
-		const fetchPaymentVerification=async()=>{
-			const {confirmation,data}=await retrieveFriendsGaugeMaxLimitPaymentVerification(userId);
+		const fetchPaymentVerification=async({isAccessTokenUpdated,updatedAccessToken})=>{
+			const {confirmation,data}=await retrieveFriendsGaugeMaxLimitPaymentVerification(
+												userId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken);
 			if(confirmation=="Success"){
 				const {message}=data;
 				if(message==true){
 					changeIsMaxNodesReached(nodeNumber==5?true:false);
 				}
 			}else{
-				alert('Unfortunately there has been an error verifying payment so you will be limited to max 3 nodes. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						fetchPaymentVerification,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately there has been an error verifying payment so you will be limited to max 3 nodes. Please try again');
+				}
 			}
 		}
-		fetchPaymentVerification();
+		fetchPaymentVerification({isAccessTokenUpdated:false});
 	},[]);
 
 	useEffect(()=>{

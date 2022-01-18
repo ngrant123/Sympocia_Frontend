@@ -134,7 +134,10 @@ const EmailReset=({email,triggerEmailConfirmationModal,history})=>{
 										});
 		if(confirmation=="Success"){
 			alert('Password updated. You will be redirected to the landing screen to login again');
-			history.push({pathname:'/'})
+			history.push({
+				pathname:'/logout',
+				state:{isLoggedOut:true}
+			})
 		}else{
 			const {statusCode}=data;
 			if(statusCode==401){

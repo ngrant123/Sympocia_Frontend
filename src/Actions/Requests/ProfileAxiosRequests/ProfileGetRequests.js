@@ -658,11 +658,14 @@ export const retrieveSympociaFriendsGaugeNodeAvatars=async()=>{
 }
 
 
-export const retrieveFriendsGaugeMaxLimitPaymentVerification=async(profileId)=>{
+export const retrieveFriendsGaugeMaxLimitPaymentVerification=async(profileId,accessToken)=>{
 	try{
 		const maxLimitFriendGaugePaymentVerificationResponse=await axios.get(`${SearchUrl}/retrieveFriendsGaugeMaxLimitPaymentVerification`,{
 			params:{
 				profileId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		})
 		const {data}=maxLimitFriendGaugePaymentVerificationResponse;
@@ -688,11 +691,14 @@ export const getProfileAscensionStatus=async(profileId)=>{
 }
 
 
-export const adPageVerification=async(profileId)=>{
+export const adPageVerification=async(profileId,accessToken)=>{
 	try{
 		const adPageVerificationResponse=await axios.get(`${SearchUrl}/adPageVerification`,{
 			params:{
 				profileId
+			},
+			headers:{
+				authorization:accessToken
 			}
 		});
 		const {data}=adPageVerificationResponse;

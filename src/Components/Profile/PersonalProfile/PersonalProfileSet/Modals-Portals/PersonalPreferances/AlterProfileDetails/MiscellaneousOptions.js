@@ -6,7 +6,8 @@ import {
 import {
 	alterAirPlaneEnabledStatus
 } from "../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	position:absolute;
@@ -29,10 +30,12 @@ const BackButton={
 }
 
 const MiscellaneousOptions=({closeModal})=>{
-	const {id}=useSelector(state=>state.personalInformation);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
 	useEffect(()=>{
 		const fetchData=async()=>{
-			const {confirmation,data}=await retrieveAirPlaneEnabledStatus(id);
+			const {confirmation,data}=await retrieveAirPlaneEnabledStatus(personalInformation.id);
 			if(confirmation=="Success"){
 				const {message}=data;
 				document.getElementById("checkBox").checked=message;
@@ -41,14 +44,31 @@ const MiscellaneousOptions=({closeModal})=>{
 		fetchData();
 	},[]);
 
-	const updateEnabledStatus=async()=>{
+	const updateEnabledStatus=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const updatedCheckBoxStatus=document.getElementById("checkBox").checked;
-		const {confirmation,data}=await alterAirPlaneEnabledStatus(id,updatedCheckBoxStatus);
+		const {confirmation,data}=await alterAirPlaneEnabledStatus(
+											personalInformation.id,
+											updatedCheckBoxStatus,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
+
 		if(confirmation=="Success"){
-			alert('AirPlane status updated');
+			alert('Airplane status updated');
 			closeModal();
 		}else{
-			alert('Unfortunately an error has occured when updating airplane status. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					updateEnabledStatus,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately an error has occured when updating airplane status. Please try again');
+			}
 		}
 	}
 	return(
@@ -58,7 +78,7 @@ const MiscellaneousOptions=({closeModal})=>{
 			</div>
 			<div style={{display:"flex",flexDirection:"row",marginTop:"10%",width:"150%"}}>
 				<input id="checkBox" type="checkbox"
-					onChange={()=>updateEnabledStatus()}/>
+					onChange={()=>updateEnabledStatus({isAccessTokenUpdated:false})}/>
 				<p style={{marginLeft:"10%"}}>
 					<b>Enable people to see your airplanes</b>
 				</p>

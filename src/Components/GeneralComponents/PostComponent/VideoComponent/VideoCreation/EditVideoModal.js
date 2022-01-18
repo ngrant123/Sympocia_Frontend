@@ -246,7 +246,8 @@ class EditVideoModal extends Component{
 			isVideoDescriptionDeleted:false,
 			isAudioDescriptionDeleted:false,
 			isSymposiumsAltered:false,
-			symposiumCategoryUpload:null
+			symposiumCategoryUpload:null,
+			displayedVideoProcessingAlertStatus:false
 		}
 	}
 
@@ -266,12 +267,6 @@ class EditVideoModal extends Component{
 			document.getElementById("videoTitle").value=title;
 			document.getElementById("videoDescription").value=description;
 
-			if(isCrownedPost==true){
-				const crownElement=document.getElementById("crownIcon");
-				crownElement.style.backgroundColor="#D6C5F4";
-				crownElement.style.color="white";
-			}
-
 			this.setState({
 				audioDescription:audioDescription,
 				videoDescription:videoDescription,
@@ -281,12 +276,19 @@ class EditVideoModal extends Component{
 		}
 	}
 
-	componentDidUpdate(){
-
+	componentDidUpdate(prevProps,prevState){
 		if(this.state.isPostCrowned==true && this.state.displayRedoPage==false){
 			const crownElement=document.getElementById("crownIcon");
 			crownElement.style.backgroundColor="#D6C5F4";
 			crownElement.style.color="white";
+		}
+
+		if(this.props.previousData!=null){		
+			if(prevState.isPostCrowned!=this.props.previousData.isCrownedPost){
+				const crownElement=document.getElementById("crownIcon");
+				crownElement.style.backgroundColor="#D6C5F4";
+				crownElement.style.color="white";
+			}
 		}
 	}
 
@@ -331,6 +333,16 @@ class EditVideoModal extends Component{
 	    return v.toString(16);
 	  });
 	}
+
+	processingVideoInformationAlert=()=>{
+		if(!this.state.displayedVideoProcessingAlertStatus){
+			alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now');
+			this.setState({
+				displayedVideoProcessingAlertStatus:true
+			})
+		}
+	}
+
 	sendVideoDataToDB=async({videoPostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 
 		this.setState({
@@ -391,9 +403,10 @@ class EditVideoModal extends Component{
 			regularCommentPool:[]
 		}
 
-		alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now')
 
 		if(this.props.previousData==null){
+
+			this.processingVideoInformationAlert();
 			const {confirmation,data}=await createVideoPost(
 												this.props.personalProfile.id,
 												searchVideoResult,
@@ -488,8 +501,7 @@ class EditVideoModal extends Component{
 				this.props.personalProfile.accessToken
 			}
 			if(editedVideo.postS3[2].newUrl!=null || editedVideo.postS3[0].newUrl!=null){
-				alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now.')
-
+				this.processingVideoInformationAlert();
 			}
 
  			const {confirmation,data}=await editPost(editedVideo);

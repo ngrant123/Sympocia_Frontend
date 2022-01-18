@@ -397,7 +397,8 @@ class EditImageCreation extends Component{
 			isVideoDescriptionDeleted:false,
 			isAudioDescriptionDeleted:false,
 			isSymposiumsAltered:false,
-			symposiumCategoryUpload:null
+			symposiumCategoryUpload:null,
+			displayedVideoProcessingAlertStatus:false
 		}
 	}    
 	//If information is coming from image display edit button then populate information with previous data
@@ -420,12 +421,6 @@ class EditImageCreation extends Component{
 
 			document.getElementById("descriptionTextArea").value=description;
 			document.getElementById("captionTextArea").value=caption;
-
-			// if(isCrownedPost==true){
-			// 	const crownElement=document.getElementById("crownIcon");
-			// 	crownElement.style.backgroundColor="#D6C5F4";
-			// 	crownElement.style.color="white";
-			// }
 		}
 
 		this.setState({ 
@@ -479,8 +474,18 @@ class EditImageCreation extends Component{
 		}
 	}
 
+	processingVideoInformationAlert=()=>{
+		if(!this.state.displayedVideoProcessingAlertStatus){
+			alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+			this.setState({
+				displayedVideoProcessingAlertStatus:true
+			})
+		}
+	}
+
 	sendImageDateToDB=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 		
+		debugger;
 		this.setState({
 			isSubmittedAndProcessing:true
 		})
@@ -518,7 +523,7 @@ class EditImageCreation extends Component{
 				//this.pushDummyImageObjectToProfile(companyPostContextConsumer,searchCriteria);
 			}else{
 				if(currentVideoDescription!=null){
-					alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled')
+					this.processingVideoInformationAlert();
 				}
 				const {confirmation,data}=await createImagePost(
 													this.props.personalProfile.id,
@@ -603,8 +608,7 @@ class EditImageCreation extends Component{
 							this.props.personalProfile.accessToken
 			}
 			if(editedImage.postS3[2].newUrl!=null){
-				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
-
+				this.processingVideoInformationAlert();
 			}
 
  			const {confirmation,data}=await editPost(editedImage);
