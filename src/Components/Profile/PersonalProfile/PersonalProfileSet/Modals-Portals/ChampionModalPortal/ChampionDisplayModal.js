@@ -7,7 +7,14 @@ import { Icon, InlineIcon } from '@iconify/react';
 import tiktokIcon from '@iconify/icons-simple-icons/tiktok';
 import DeletePostPortal from "../DeletePostConfirmationPortal.js";
 import {Link} from "react-router-dom";
-import {generateAirPlane} from "../../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
+import {generateAirPlane} from "../../../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js";
+import DescriptionModal from "./DescriptionModal.js";
+
+import {
+	Container,
+	ShadowContainer
+} from "./indexCSS.js";
+
 
 const SponsorExtendedModal=styled.div`
 	position:fixed;
@@ -227,21 +234,57 @@ const ProfileLink=({propsRendered,championData})=>{
 const SponsorDisplayModal=(props)=>{
 	const [displayExtendedSponsorModal,changeExtendedSponsorModal]=useState(props.isMobile==true?true:false);
 	const [displayDeletePortal,changeDisplayDeletePortal]=useState(false);
+	const [displayEditModal,changeDisplayEditModal]=useState(false);
 
 	const closeDeletePortal=()=>{
 		changeDisplayDeletePortal(false);
 	}
 
-	const championData=useMemo(()=>{
+	const closeEditModal=()=>{
+		changeDisplayEditModal(false);
+	}
+
+	const editModal=()=>{
 		return(
 			<React.Fragment>
-				{displayDeletePortal &&(
+				{displayEditModal==true &&(
+					<React.Fragment>
+						<Container>
+							<DescriptionModal
+								imgData={props.championData.imgUrl}
+								selectedSympociaProfile={null}
+								backButton={closeEditModal}
+								closeModal={closeEditModal}
+								previousChampionInformation={props.championData}
+							/>
+						</Container>
+						<ShadowContainer onClick={()=>closeEditModal()}/>
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		)
+	}
+
+	const deleteChampionPortal=()=>{
+		return(
+			<React.Fragment>
+				{displayDeletePortal==true &&(
 					<DeletePostPortal
 						postType="Champion"
 						closeModal={closeDeletePortal}
 						targetDom={"personalContainer"}
 					/>
 				)}
+			</React.Fragment>
+		)
+	}
+
+	const championData=useMemo(()=>{
+		return(
+			<React.Fragment>
+				{editModal()}
+				{deleteChampionPortal()}
+				
 				{displayExtendedSponsorModal==true?
 					<SponsorExtendedModal>
 						{props.isOwnProfile==true &&(
@@ -250,9 +293,11 @@ const SponsorDisplayModal=(props)=>{
 									<div onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
 										Delete
 									</div>
-									<div onClick={()=>changeDisplayDeletePortal(true)} style={DeleteChampionCSS}>
-										Edit
-									</div>
+									{/*
+										<div onClick={()=>changeDisplayEditModal(true)} style={DeleteChampionCSS}>
+											Edit
+										</div>
+									*/}
 								</div>
 								{props.isMobile==false &&(
 									<li style={{listStyle:"none",marginBottom:"5%"}}>
@@ -308,7 +353,8 @@ const SponsorDisplayModal=(props)=>{
 	},[
 		props.championData,
 		displayExtendedSponsorModal,
-		displayDeletePortal
+		displayDeletePortal,
+		displayEditModal
 	]);
 
 	return (

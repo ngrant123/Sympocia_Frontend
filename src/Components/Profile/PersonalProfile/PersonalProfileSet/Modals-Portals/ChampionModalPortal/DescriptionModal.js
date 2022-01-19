@@ -95,6 +95,13 @@ const DescriptionModal=(props)=>{
 		}
 	},[displayChampionExpirationDate]);
 
+	useEffect(()=>{
+		const {previousChampionInformation}=props;
+		if(previousChampionInformation!=null){
+			console.log(previousChampionInformation);
+		}
+	},[]);
+
 	const handleSubmitButton=async(personalInformation,companyInformation)=>{
 		
 		changeIsProcessingSubmittion(true);

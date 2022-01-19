@@ -7,6 +7,8 @@ import {
 	disableScrolling,
 	enableScrolling
 } from "../../../../../../../Actions/Tasks/DisableScrolling.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -82,6 +84,9 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 	const [postBadgeSubmittingStatus,changePostBadgeSubmittingStatus]=useState(false);
 	const [maximumBadgePostsIndicator,changeMaximumBadgePostsIndicator]=useState(false);
 
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
 	useEffect(()=>{
 		const fetchData=async()=>{
 			disableScrolling("personalContainer");
@@ -121,7 +126,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 	}
 
 
-	const addPostToBadgeHandler=async()=>{
+	const addPostToBadgeHandler=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changePostBadgeSubmittingStatus(true);
 		const badgeInformation={
 			badgeId,
@@ -129,12 +134,28 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 			profileId,
 			postType
 		}
-		const {confirmation,data}=await addPostBadge(badgeInformation);
+		const {confirmation,data}=await addPostBadge(
+											badgeInformation,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			alert('Post added to badge');
 			closePortal();
 		}else{
-			alert('Unfortunately there has been an error when adding this post to your badge. Please try again');
+
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					addPostToBadgeHandler,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately there has been an error when adding this post to your badge. Please try again');
+			}
 		}
 		changePostBadgeSubmittingStatus(false);
 	}
@@ -166,7 +187,7 @@ const PostBadgeAddition=({profileId,closeModal,postType,postId})=>{
 										{postBadgeSubmittingStatus==true?
 											<p>Please wait...</p>:
 											<React.Fragment>
-												<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>addPostToBadgeHandler()}>
+												<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>addPostToBadgeHandler({isAccessTokenUpdated:false})}>
 													Yes
 												</div>
 

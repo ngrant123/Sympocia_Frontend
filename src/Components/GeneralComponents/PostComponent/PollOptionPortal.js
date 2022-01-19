@@ -157,8 +157,10 @@ const PollOptionPortal=(props)=>{
 		postType,
 		targetDom,
 		isGuestProfile,
-		ownerId
+		postOwnerId
 	}=props;
+
+	console.log(props);
 
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displayCreateComment,changeDisplayCreateComment]=useState(false);
@@ -190,12 +192,12 @@ const PollOptionPortal=(props)=>{
 			const commentObject={
 				comment:comment,
 				firstName:personalInformation.firstName,
-				_id:personalInformation.id,
+				userId:personalInformation.id,
 				postOption:postType,
 				postId:postId,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 				personalInformation.accessToken,
-				ownerId:ownerId._id==null?ownerId:ownerId._id
+				postOwnerId:postOwnerId._id==null?postOwnerId:postOwnerId._id
 			}
 			
 			let confirmationResponse,dataResponse;
@@ -345,7 +347,7 @@ const PollOptionPortal=(props)=>{
 										<ul style={{padding:"0px"}}>
 											{comments.map(data=>
 												<CommentContainer>
-													<CommentOwnerImage to={{pathname:`/profile/${data.ownerId}`}}>
+													<CommentOwnerImage to={{pathname:`/profile/${data.postOwnerId}`}}>
 														<img src={data.ownerObject.profilePicture==null?
 																NoProfilePicture:data.ownerObject.profilePicture} 
 															style={ProfilePictureCSS}

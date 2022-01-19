@@ -4,6 +4,8 @@ import {
 	editBadgeCaption,
 	removePostFromBadge
 } from "../../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const InputContainer=styled.textarea`
 	position:relative;
@@ -45,6 +47,10 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 	const [currentBadgeType,changeBadgeType]=useState(badgeInformation.badgePostType);
 	const [caption,changeCaption]=useState(badgeInformation.caption);
 	const [submittingEditedCaptionStatus,changeSubmittingEditedCaptionStatus]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
+
+
 
 	useEffect(()=>{
 		if(submittingEditedCaptionStatus==false){
@@ -56,7 +62,7 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 		document.getElementById("badgeCaption").value=caption;
 	}
 
-	const editCaptionHandle=async()=>{
+	const editCaptionHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const updatedCaption=document.getElementById("badgeCaption").value;
 		changeSubmittingEditedCaptionStatus(true);
 		if(updateCaption==caption){
@@ -65,12 +71,26 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 			const {confirmation,data}=await editBadgeCaption(
 												badgeInformation._id,
 												profileId,
-												updatedCaption);
+												updatedCaption,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken);
 			if(confirmation=="Success"){
 				alert('Caption updated');
 				changeCaption(updatedCaption);
 			}else{
-				alert('Unfortunately an error has error when editing the caption. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						editCaptionHandle,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately an error has error when editing the caption. Please try again');
+				}
 			}
 		}
 		changeSubmittingEditedCaptionStatus(false);
@@ -120,14 +140,35 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 			}
 		}
 	}
-	const deletePostHandle=async(postId,deletionRef)=>{
+	const deletePostHandle=async({isAccessTokenUpdated,updatedAccessToken,deletionRef,postId})=>{
 		deletionRef.current.innerHTML="Please wait...";
-		const {confirmation,data}=await removePostFromBadge(badgeInformation._id,postId);
+		const {confirmation,data}=await removePostFromBadge(
+											badgeInformation._id,
+											postId,
+											profileId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
+
 		if(confirmation=="Success"){
 			alert('Post deleted from badge');
 			deletePostFromState(postId);
 		}else{
-			alert('Unfortunately there has been an error deleting this post from the badge. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					deletePostHandle,
+					dispatch,
+					{
+						postId,
+						deletionRef
+					},
+					false
+				);
+			}else{
+				alert('Unfortunately there has been an error deleting this post from the badge. Please try again');
+			}
 		}
 		deletionRef.current.innerHTML="Delete";
 	}
@@ -146,7 +187,11 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 			<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%"}}>
 		 		{postsDecider(data)}
 		 		<p ref={deletionRef} style={{marginTop:"10%",color:"#5298F8",cursor:"pointer"}}
-		 			onClick={()=>deletePostHandle(data._id,deletionRef)}>Delete</p>
+		 			onClick={()=>deletePostHandle({
+		 				isAccessTokenUpdated:false,
+		 				postId:data._id,
+		 				deletionRef
+		 			})}>Delete</p>
 		 	</div>
 		)
 	}
@@ -164,7 +209,7 @@ const BadgeInformation=({badgeInformation,displayAppropriateComponentName,profil
 							<InputContainer id="badgeCaption"
 								placeholder="Enter Badge Caption here"
 							/>
-							<div style={ButtonCSS} onClick={()=>editCaptionHandle()}>
+							<div style={ButtonCSS} onClick={()=>editCaptionHandle({isAccessTokenUpdated:false})}>
 								Edit
 							</div>
 						</React.Fragment>

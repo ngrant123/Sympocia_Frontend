@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {editBadgePostType} from "../../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../../../Actions/Tasks/index.js";
 
 const ButtonCSS={
 	listStyle:"none",
@@ -23,22 +25,49 @@ const BadgePostOptions={
 	listStyle:"none"
 }
 
+const VerticalLineCSS={
+	borderStyle:"solid",
+	borderWidth:"1px",
+	borderColor:"#EBEBEB",
+	borderLeft:"2px",
+ 	height:"30px",
+ 	marginRight:"5%",
+ 	marginLeft:"5%"
+}
+
+
 const PostTypeChange=({displayAppropriateComponentName,closeParentModal,profileId,badgeId})=>{
 	const [selectedPostBadgeType,changeSelectedPostBadgeType]=useState("Images");    
 	const [postTypeChangeVerification,changePostTypeVerification]=useState(false);
 	const [postTypeSubmittingStatus,changePostTypeSubmittingStatus]=useState(false);
+	const dispatch=useDispatch();
+	const personalInformation=useSelector(state=>state.personalInformation);
 
-	const editBadgePostTypeHandle=async()=>{
+	const editBadgePostTypeHandle=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changePostTypeSubmittingStatus(true);
 		const {confirmation,data}=await editBadgePostType(
 											badgeId,
 											selectedPostBadgeType,
-											profileId);
+											profileId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			alert('Badge Post-Type altered');
 			closeParentModal();
 		}else{
-			alert('Unfortunately an error has occured when changing post-type. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					editBadgePostTypeHandle,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately an error has occured when changing post-type. Please try again');
+			}
 		}
 		changePostTypeSubmittingStatus(false);
 	}
@@ -46,11 +75,17 @@ const PostTypeChange=({displayAppropriateComponentName,closeParentModal,profileI
 		<React.Fragment>
 			{postTypeChangeVerification==true?
 				<React.Fragment>
+					<p>
+						<b>Select when type of post you want to change you badge post-type:</b>
+					</p>
 					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" 
-								type="button" data-toggle="dropdown" style={ButtonCSS}>
-							{selectedPostBadgeType}
-							<span class="caret"></span>
+								type="button" data-toggle="dropdown" style={{...ButtonCSS,width:"40%"}}>
+							<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+								<p>Current selected: {selectedPostBadgeType}</p>
+								<div style={VerticalLineCSS}/>
+								<span class="caret"></span>
+							</div>
 						</button>
 						<ul class="dropdown-menu">
 							<li style={BadgePostOptions}
@@ -78,9 +113,10 @@ const PostTypeChange=({displayAppropriateComponentName,closeParentModal,profileI
 							</li>						
 						</ul>
 					</div>
+					<hr/>
 					{postTypeSubmittingStatus==true?
 						<p>Please wait...</p>:
-						<div style={{...ButtonCSS,marginTop:"5%"}} onClick={()=>editBadgePostTypeHandle()}>
+						<div style={{...ButtonCSS,marginTop:"5%"}} onClick={()=>editBadgePostTypeHandle({isAccessTokenUpdated:false})}>
 							Edit post-type
 						</div>
 					}

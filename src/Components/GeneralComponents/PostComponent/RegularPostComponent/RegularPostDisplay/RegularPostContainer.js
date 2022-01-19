@@ -515,7 +515,7 @@ const RegularPostContainer=(props)=>{
 							/>
 						)}
 
-						{displayPollingModal==true?
+						{displayPollingModal==true &&(
 							<PollOptionPortal
 								closeModal={closePollingModal}
 								displayApproveModal={displayApproveModal}
@@ -523,9 +523,9 @@ const RegularPostContainer=(props)=>{
 								postType="RegularPost"
 								targetDom={targetDom}
 								isGuestProfile={isGuestProfile}
-								ownerId={postData.owner._id==null?postData.owner:postData.owner._id}
-							/>:null
-						}
+								postOwnerId={postData.owner._id==null?postData.owner:postData.owner._id}
+							/>
+						)}
 						<Container>
 							{displayEditPostModal==true?
 								<RegularPostCreation 

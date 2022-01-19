@@ -637,10 +637,14 @@ export const createBadge=async(badgeInformation)=>{
 
 
 
-export const addPostBadge=async(addedPostInformation)=>{
+export const addPostBadge=async(addedPostInformation,accessToken)=>{
 	try{
 		const addedPostResponse=await axios.post(`${CreateUrl}/addPostBadge`,{
 			...addedPostInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=addedPostResponse;
 		return data;
@@ -650,12 +654,16 @@ export const addPostBadge=async(addedPostInformation)=>{
 }
 
 
-export const editBadgeCaption=async(badgeId,profileId,updatedCaption)=>{
+export const editBadgeCaption=async(badgeId,profileId,updatedCaption,accessToken)=>{
 	try{
 		const editedBadgeResponse=await axios.post(`${CreateUrl}/editBadgeCaption`,{
 			badgeId,
 			profileId,
 			updatedCaption
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 
 		const {data}=editedBadgeResponse;
@@ -666,12 +674,16 @@ export const editBadgeCaption=async(badgeId,profileId,updatedCaption)=>{
 }
 
 
-
-export const removePostFromBadge=async(badgeId,postId)=>{
+export const removePostFromBadge=async(badgeId,postId,profileId,accessToken)=>{
 	try{
 		const removedPostResponse=await axios.post(`${CreateUrl}/removePostFromBadge`,{
 			badgeId,
-			postId
+			postId,
+			profileId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 		const {data}=removedPostResponse;
 		return data;
@@ -682,11 +694,15 @@ export const removePostFromBadge=async(badgeId,postId)=>{
 
 
 
-export const removeBadge=async(badgeId,profileId)=>{
+export const removeBadge=async(badgeId,profileId,accessToken)=>{
 	try{
 		const removeBadgeResponse=await axios.post(`${CreateUrl}/removeBadge`,{
 			badgeId,
 			profileId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=removeBadgeResponse;
 		return data;
@@ -695,12 +711,16 @@ export const removeBadge=async(badgeId,profileId)=>{
 	}
 }
 
-export const editBadgePostType=async(badgeId,requestedPostType,profileId)=>{
+export const editBadgePostType=async(badgeId,requestedPostType,profileId,accessToken)=>{
 	try{
 		const editedBadgePostTypeResponse=await axios.post(`${CreateUrl}/editBadgePostType`,{
 			badgeId,
 			requestedPostType,
 			profileId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=editedBadgePostTypeResponse;
 		return data;

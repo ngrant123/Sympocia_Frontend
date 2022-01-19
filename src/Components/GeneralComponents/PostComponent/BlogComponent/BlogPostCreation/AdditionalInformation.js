@@ -176,6 +176,42 @@ const VerticalLineCSS={
  	height:"40px",
  	marginRight:"2%"
 }
+
+const PollingOptionsCSS={
+	boxShadow:"1px 1px 5px #6e6e6e",
+	padding:"20px",
+	borderRadius:"5px",
+	cursor:"pointer",
+	marginBottom:"10%"
+}
+
+
+const HorizontalLineCSS={
+	position:"relative",
+	width:"100%",
+	height:"2px",
+	borderRadius:"5px",
+	borderRadius:"5px"
+}
+
+const ButtonCSS={
+  listStyle:"none",
+  display:"inline-block",
+  backgroundColor:"white",
+  borderRadius:"5px",
+  padding:"10px",
+  color:"#3898ec",
+  borderStyle:"solid",
+  borderWidth:"2px",
+  borderColor:"#3898ec",
+  marginRight:"4%",
+  cursor:"pointer",
+  width:"10%",
+  marginBottom:"5%"
+}
+
+
+
 /*
 	The point for this section is to doing multiple things in the future:
 		Offer a tips section,
@@ -187,7 +223,8 @@ const AdditionalInformation=(props)=>{
 		displayEditBlogSubmitModal,
 		blogState,
 		postType,
-		displayApproveDisapproveModalHandle,
+		triggerDisplayApproveModal,
+		triggerDisplayUnApproveModal,
 		profileId,
 		history,
 		targetDom,
@@ -209,6 +246,8 @@ const AdditionalInformation=(props)=>{
 	const [displayDeleteConfirmation,changeDisplayDeleteConfirmation]=useState(false);
 	const [displayComments,changeDisplayComments]=useState(false);
 	const [displayVideoDescriptionDisplay,changeVideoDescriptionDisplay]=useState(false);
+	const [currentAdditionalInformationType,changeCurrentAdditionalInformationType]=useState("UserOptions");
+
 
 	const createOrRemoveStampEffect=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		var isPersonalProfile=props.profileType=="personalProfile"?true:false;
@@ -270,91 +309,130 @@ const AdditionalInformation=(props)=>{
 		changeDisplayDeleteConfirmation(false);
 	}
 
-	const toggleComments=()=>{
-		changeDisplayComments(!displayComments);
+	const hideComments=()=>{
+		changeCurrentAdditionalInformationType("UserOptions");
 	}
 
-	const userOptions=()=>{
-		return	<>
-					{displayComments==true ?
-						<CommentContainer>
-							<Comments
-								postId={postId}
-								postType={"Blogs"}
-								hideComments={toggleComments}
-								targetDom={"blogPostContainer"}
-								ownerId={props.ownerId}
-								selectedCommentPools={props.selectedCommentPools}
-								isOwnProfile={props.ownerId==personalInformation.id?true:false}
-							/>
-						</CommentContainer>:
-						<React.Fragment>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								<ChatIcon
-									id="postOptions"
-									style={{fontSize:50,...ShadowButtonCSS}}
-									onClick={()=>toggleComments()}
-								/>
+	const AdditionalInformationInitialDisplayModal=({children})=>{
+		console.log(children);
+		return children.filter(data=>data.props.selectedComponentType==currentAdditionalInformationType);
+	}
 
-								<div style={VerticalLineCSS}/>
 
-								<AssessmentIcon
-									id="postOptions"
-									style={{fontSize:50,...ShadowButtonCSS}}
-									onClick={()=>displayApproveDisapproveModalHandle()}
-								/>
+	const CommentsInitialModal=()=>{
+		return(
+			<CommentContainer>
+				<Comments
+					postId={postId}
+					postType={"Blogs"}
+					hideComments={hideComments}
+					targetDom={"blogPostContainer"}
+					ownerId={props.ownerId}
+					selectedCommentPools={props.selectedCommentPools}
+					isOwnProfile={props.ownerId==personalInformation.id?true:false}
+				/>
+			</CommentContainer>
+		)
+	}
 
-								<div style={VerticalLineCSS}/>
+	const AuthenticCommentsInitialModal=()=>{
+		return(
+			<div style={{display:"flex",flexDirection:"column"}}>
+				<p id="backButton" onClick={()=>changeCurrentAdditionalInformationType("UserOptions")}
+					style={ButtonCSS}>
+					Back
+				</p>
 
-								<div style={ShadowButtonCSS} id="postOptions">
-									<svg id="promotePostOption" onClick={()=>props.triggerPromoteModal()}
-										xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
-										  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e"
-										  fill="none" stroke-linecap="round" stroke-linejoin="round">
-										  <path stroke="none" d="M0 0h24v24H0z"/>
-										  <circle cx="12" cy="9" r="6" />
-										  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
-										  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
-									</svg>
-								</div>
+				<p style={{fontSize:"18px"}}>
+					Create a comment about why you think this post is authentic or.... tell everyone 
+					why you think this post is fake
+				</p>
+				<hr style={HorizontalLineCSS}/>
 
-								<div style={VerticalLineCSS}/>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<p onClick={()=>triggerDisplayApproveModal()} style={PollingOptionsCSS}>
+						Approve Post
+					</p>
 
-								<div style={ShadowButtonCSS} id="postOptions">
-									<svg id="removePostOption" onClick={()=>handleRemoveBlogPost()}
-										 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-										width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
-										stroke-linecap="round" stroke-linejoin="round">
-									  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-									  <line x1="4" y1="7" x2="20" y2="7" />
-									  <line x1="10" y1="11" x2="10" y2="17" />
-									  <line x1="14" y1="11" x2="14" y2="17" />
-									  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-									  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-									</svg>
-								</div>
-							</div>
-							<hr/>
-							<div style={{display:"flex",flexDirection:"row"}}>
-								{videoDescription!=null &&(
-									<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
-										 <video autoPlay loop autoBuffer muted playsInline 
-											style={{borderRadius:"5px"}} width="100%" height="100%" borderRadius="50%">
-											<source src={videoDescription} type="video/mp4"/>
-										</video>
-									</VideoDescriptionContainer>
-								)}
-								{audioDescription && (
-									<audio controls>
-										<source src={audioDescription} type="audio/ogg"/>
-										<source src={audioDescription} type="audio/mp4"/>
-										Your browser does not support the audio element.
-									</audio>
-								)}
-							</div>
-						</React.Fragment>
-					}
-			</>
+					<div style={VerticalLineCSS}/>
+
+					<p onClick={()=>triggerDisplayUnApproveModal()} style={PollingOptionsCSS}>
+						Disapprove Post
+					</p>
+				</div>
+
+			</div>
+		)
+	}
+
+	const UserOptions=()=>{
+		return	(
+			<React.Fragment>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					<ChatIcon
+						id="postOptions"
+						style={{fontSize:50,...ShadowButtonCSS}}
+						onClick={()=>changeCurrentAdditionalInformationType("Comments")}
+					/>
+
+					<div style={VerticalLineCSS}/>
+
+					<AssessmentIcon
+						id="postOptions"
+						style={{fontSize:50,...ShadowButtonCSS}}
+						onClick={()=>changeCurrentAdditionalInformationType("AuthenticInitialModal")}
+					/>
+
+					<div style={VerticalLineCSS}/>
+
+					<div style={ShadowButtonCSS} id="postOptions">
+						<svg id="promotePostOption" onClick={()=>props.triggerPromoteModal()}
+							xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" 
+							  width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e"
+							  fill="none" stroke-linecap="round" stroke-linejoin="round">
+							  <path stroke="none" d="M0 0h24v24H0z"/>
+							  <circle cx="12" cy="9" r="6" />
+							  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)" />
+							  <polyline points="9 14.2 9 21 12 19 15 21 15 14.2" transform="rotate(30 12 9)" />
+						</svg>
+					</div>
+
+					<div style={VerticalLineCSS}/>
+
+					<div style={ShadowButtonCSS} id="postOptions">
+						<svg id="removePostOption" onClick={()=>handleRemoveBlogPost()}
+							 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+							width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
+							stroke-linecap="round" stroke-linejoin="round">
+						  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+						  <line x1="4" y1="7" x2="20" y2="7" />
+						  <line x1="10" y1="11" x2="10" y2="17" />
+						  <line x1="14" y1="11" x2="14" y2="17" />
+						  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+						  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+						</svg>
+					</div>
+				</div>
+				<hr/>
+				<div style={{display:"flex",flexDirection:"row"}}>
+					{videoDescription!=null &&(
+						<VideoDescriptionContainer onClick={()=>displayVideoDescriptionTrigger()}>
+							 <video autoPlay loop autoBuffer muted playsInline 
+								style={{borderRadius:"5px"}} width="100%" height="100%" borderRadius="50%">
+								<source src={videoDescription} type="video/mp4"/>
+							</video>
+						</VideoDescriptionContainer>
+					)}
+					{audioDescription && (
+						<audio controls>
+							<source src={audioDescription} type="audio/ogg"/>
+							<source src={audioDescription} type="audio/mp4"/>
+							Your browser does not support the audio element.
+						</audio>
+					)}
+				</div>
+			</React.Fragment>
+		)
 	}
 
 	const closeTextOptions=()=>{
@@ -368,7 +446,15 @@ const AdditionalInformation=(props)=>{
 	const closeVideoDescriptionDisplayModal=()=>{
 		changeVideoDescriptionDisplay(false);
 	}
-
+	const options=()=>{
+		return(
+			<AdditionalInformationInitialDisplayModal>
+				<AuthenticCommentsInitialModal selectedComponentType={"AuthenticInitialModal"}/>
+				<UserOptions selectedComponentType={"UserOptions"}/>
+				<CommentsInitialModal selectedComponentType={"Comments"}/>
+			</AdditionalInformationInitialDisplayModal>
+		)
+	}
 	return(
 		<Container>
 			{displayVideoDescriptionDisplay==true &&(
@@ -390,7 +476,7 @@ const AdditionalInformation=(props)=>{
 			)}
 			{displayInformation==true &&(
 				<TextOptionsHOC
-					optionsElement={userOptions}
+					optionsElement={options}
 					closeModal={closeTextOptions}
 				/>
 			)}

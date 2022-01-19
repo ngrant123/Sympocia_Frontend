@@ -234,43 +234,22 @@ class BlogPostCreation extends Component{
 		})
 	}
 
-	displayApproveDisapproveModal=()=>{
-		return <React.Fragment>
-					{this.state.displayApproveDisapproveIndicator && (
-						<>
-							<ShadowContainer
-								onClick={()=>this.setState({displayApproveDisapproveIndicator:false})}
-							/>
-							<ApproveDisapproveContainer>
-								<ul style={{padding:"20px"}}>
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.setState({
-															displayApproveModal:true,
-															displayPollModal:true
-														})} style={authenticPostButtonCSS}>
-
-											<p style={{color:"#01DF01"}}>{this.state.approvesPostNumber}</p> 
-												approves post
-
-										</li>
-									</a>
-
-									<a href="javascript:void(0);" style={{textDecoration:"none"}}>
-										<li onClick={()=>this.setState({
-															displayApproveModal:false,
-															displayPollModal:true
-														})} style={authenticPostButtonCSS}>
-
-												<p style={{color:"#FE2E2E"}}>{this.state.disapprovesPostNumber}</p> 
-												disapproves post
-										</li>
-									</a>
-								</ul>
-							</ApproveDisapproveContainer>
-						</>
-					)}
-			   </React.Fragment>
+	triggerDisplayUnApproveModal=()=>{
+		this.setState({
+			displayApproveModal:false,
+			displayPollModal:true
+		})
 	}
+
+
+
+	triggerDisplayApproveModal=()=>{
+		this.setState({
+			displayApproveModal:true,
+			displayPollModal:true
+		})
+	}
+
 
 	pollModal=()=>{
 		return <React.Fragment>
@@ -281,7 +260,7 @@ class BlogPostCreation extends Component{
 							postId={this.props.location.state._id}
 							postType="Blogs"
 							targetDom={"blogPostContainer"}
-							ownerId={this.props.location.state.owner}
+							postOwnerId={this.props.location.state.owner}
 						/>
 					)}
 				</React.Fragment>
@@ -336,7 +315,6 @@ class BlogPostCreation extends Component{
 							<p>Please wait </p>:
 							<>
 								{this.pollModal()}
-								{this.displayApproveDisapproveModal()}
 								<AdditionalInformation
 									postType={this.props.location.state.postType}
 									profileId={this.props.personalInformation.id}
@@ -356,6 +334,8 @@ class BlogPostCreation extends Component{
 										regularCommentPool:this.props.location.state.regularCommentPool,
 										videoCommentPool:this.props.location.state.videoCommentPool
 									}}
+									triggerDisplayUnApproveModal={this.triggerDisplayUnApproveModal}
+									triggerDisplayApproveModal={this.triggerDisplayApproveModal}
 								/>
 
 								<TextOptions

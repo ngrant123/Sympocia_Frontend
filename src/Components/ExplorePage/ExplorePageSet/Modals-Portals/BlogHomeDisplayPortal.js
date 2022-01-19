@@ -38,6 +38,11 @@ const Container=styled.div`
 	padding:20px;
 	overflow:hidden;
 
+
+	#dropDownMenu{
+		margin-left:-370px !important;
+	}
+
 	@media screen and (max-width:1370px){
 		left:5%;
 		width:90%;
@@ -303,6 +308,7 @@ const PollingOptionsCSS={
 
 
 const BlogHomeDisplayPortal=(props)=>{
+	console.log(props);
 	const [postData,changePostData]=useState(props);
 	const blog=postData.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
@@ -419,15 +425,17 @@ const BlogHomeDisplayPortal=(props)=>{
 			var isPersonalProfile=postData.profileType=="personalProfile"?true:false;
 			let confirmationResponse;
 			let dataResponse;
+			debugger;
 			if(isGuestProfile==true){
 				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}else{
+
 				if(displayStampEffect==false){
 					const {confirmation,data}=await addStampPost(
 														postData.selectedBlog._id,
 														"personal",
 														"Blogs",
-														postData.personalId,
+														postData.personalId==null?personalInformation.id:postData.personalId,
 														isAccessTokenUpdated==true?updatedAccessToken:
 														personalInformation.accessToken
 													);
@@ -438,7 +446,7 @@ const BlogHomeDisplayPortal=(props)=>{
 														postData.selectedBlog._id,
 														"personal",
 														"Blogs",
-														postData.personalId,
+														postData.personalId==null?personalInformation.id:postData.personalId,
 														isAccessTokenUpdated==true?updatedAccessToken:
 														personalInformation.accessToken
 													);
@@ -499,7 +507,7 @@ const BlogHomeDisplayPortal=(props)=>{
 							postType="Blogs"
 							targetDom={postData.targetDom}
 							isGuestProfile={isGuestProfile}
-							ownerId={postData.selectedBlog.owner._id}
+							postOwnerId={postData.selectedBlog.owner._id==null?postData.selectedBlog.owner:postData.selectedBlog.owner._id}
 						/>
 					)}
 				</React.Fragment>
@@ -517,7 +525,7 @@ const BlogHomeDisplayPortal=(props)=>{
 				hideComments={hideComments}
 				targetDom={postData.targetDom}
 				isGuestProfile={isGuestProfile}
-				ownerId={postData.selectedBlog.owner._id}
+				ownerId={postData.selectedBlog.owner._id==null?postData.selectedBlog.owner:postData.selectedBlog.owner._id}
 				selectedCommentPools={{
 					regularCommentPool:postData.selectedBlog.regularCommentPool,
 					videoCommentPool:postData.selectedBlog.videoCommentPool
@@ -648,7 +656,7 @@ const BlogHomeDisplayPortal=(props)=>{
 												<li style={{listStyle:"none",marginBottom:"5%"}}>
 													<div style={{display:"flex",flexDirection:"column"}}>
 														<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"flex-end"}}>
-															<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id}`}}>
+															<ProfilePicture to={{pathname:`/profile/${postData.selectedBlog.owner._id==null?postData.selectedBlog.owner:postData.selectedBlog.owner._id}`}}>
 																<img id="smallImagePicture" src={postData.selectedBlog.owner.profilePicture==null?
 																		NoProfilePicture:
 																		postData.selectedBlog.owner.profilePicture
@@ -659,7 +667,7 @@ const BlogHomeDisplayPortal=(props)=>{
 															</p>
 															<div id="badgeParentContainer" style={{marginTop:"-5%"}}>
 																<BadgeDisplay
-																	profileId={postData.selectedBlog.owner._id}
+																	profileId={postData.selectedBlog.owner._id==null?postData.selectedBlog.owner:postData.selectedBlog.owner._id}
 																/>
 															</div>
 														</div>

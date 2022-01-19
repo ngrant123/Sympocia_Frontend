@@ -153,17 +153,15 @@ export const updateCrownedImage=async(_id,updatedStatus,imageId,accessToken)=>{
 	}
 }
 
-export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken,ownerId})=>{
+export const markPostAsAuthentic=async(information)=>{
 	try{
+		const {
+			accessToken,
+			...authenticPostCommentInteraction
+		}=information;
 		
 		const approvePostResponse=await axios.post(`${CreateURl}/markPostAsAuthentic`,{
-			_id:_id,
-			firstName:firstName,
-			postOption:postOption,
-			postId:postId,
-			comment:comment,
-			isOwnPost,
-			ownerId
+			...authenticPostCommentInteraction
 		},{
 				headers:{
 					authorization:accessToken
@@ -178,16 +176,15 @@ export const markPostAsAuthentic=async({_id,firstName,postOption,postId,comment,
 	}
 }
 
-export const markPostAsFakeNews=async({_id,firstName,postOption,postId,comment,isOwnPost,accessToken})=>{
+export const markPostAsFakeNews=async(information)=>{
 	try{
+		const {
+			accessToken,
+			...fakeNewsPostCommentInteraction
+		}=information;
 		
 		const fakeNewsPostResponse=await axios.post(`${CreateURl}/markPostAsFakeNews`,{
-			_id:_id,
-			firstName:firstName,
-			postOption:postOption,
-			postId:postId,
-			comment:comment,
-			isOwnPost
+			...fakeNewsPostCommentInteraction
 		},{
 				headers:{
 					authorization:accessToken

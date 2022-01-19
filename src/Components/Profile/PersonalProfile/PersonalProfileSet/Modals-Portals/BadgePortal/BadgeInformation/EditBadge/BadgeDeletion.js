@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {removeBadge} from "../../../../../../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const ButtonCSS={
 	listStyle:"none",
@@ -18,16 +20,34 @@ const ButtonCSS={
 
 
 const BadgeDeletion=({displayAppropriateComponentName,badgeId,profileId,closeParentModal})=>{
-	const [deletionStatus,changeDeletionStatus]=useState(false);
+	const [deletionStatus,changeDeletionStatus]=useState(false);	
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
-	const badgeDeletionHandler=async()=>{
+	const badgeDeletionHandler=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeDeletionStatus(true);
-		const {confirmation,data}=await removeBadge(badgeId,profileId);
+		const {confirmation,data}=await removeBadge(
+											badgeId,
+											profileId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			alert('Badge deleted');
 			closeParentModal();
 		}else{
-			alert('Unfortunatley an error has occured when deleting this badge. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					badgeDeletionHandler,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunatley an error has occured when deleting this badge. Please try again');
+			}
 		}
 		changeDeletionStatus(false);
 	}
@@ -40,7 +60,7 @@ const BadgeDeletion=({displayAppropriateComponentName,badgeId,profileId,closePar
 				{deletionStatus==true?
 					<p>Please wait...</p>:
 					<>
-						<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>badgeDeletionHandler()}>
+						<div style={{...ButtonCSS,marginLeft:"0%"}} onClick={()=>badgeDeletionHandler({isAccessTokenUpdated:false})}>
 							Yes
 						</div>
 

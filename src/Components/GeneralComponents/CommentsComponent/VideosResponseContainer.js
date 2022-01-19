@@ -295,10 +295,12 @@ class VideoResponseContainer extends Component{
 				profileObject:profileObject,
 				postId:this.props.postId,
 				userId:this.props.personalState.id,
-				commentOwnerId:this.state.selectedVideoComment.ownerObject.owner._id,
+				commentOwnerId:this.state.videoResponses[this.state.indicatorPosition].ownerObject.owner._id,
 				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
 							this.props.personalState.accessToken
 			}
+
+			console.log(this.state.videoResponses[this.state.indicatorPosition]);
 
 			const {confirmation,data}=await createVideoCommentReply(replyObject);
 			
@@ -460,6 +462,7 @@ class VideoResponseContainer extends Component{
 	}
 
 	triggerDeleteVideoCommentOrReply=async({isAccessTokenUpdated,updatedAccessToken,commentId,isReplyDeletion,targetIndex})=>{
+		debugger;
 		const {confirmation,data}=await deleteVideoCommentOrReply(
 											commentId,
 											this.props.personalState.id,
@@ -504,6 +507,7 @@ class VideoResponseContainer extends Component{
 
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
+		console.log(videoData);
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <>
 			{this.state.isProcessingInput==true?
@@ -678,7 +682,9 @@ class VideoResponseContainer extends Component{
 				ownerObject:{
 					owner:{
 						firstName:isPersonalProfileIndicator==true?this.props.personalState.firstName:
-						this.props.companyState.companyName
+						this.props.companyState.companyName,
+						_id:isPersonalProfileIndicator==true?this.props.personalState.id:
+														this.props.companyState.id
 					},
 					profilePicture:data.profilePicture
 				},
