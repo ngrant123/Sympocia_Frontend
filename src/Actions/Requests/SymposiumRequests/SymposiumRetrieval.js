@@ -489,10 +489,18 @@ export const getOwnerTags=async(ownerId,symposiumId)=>{
 	}
 }
 
-export const getBeaconsTargetIdInteractedWith=async(beaconInteractionParams)=>{
+export const getBeaconsTargetIdInteractedWith=async(beaconInteractionRetrievalParams)=>{
 	try{
+		const{
+			accessToken,
+			...beaconInteractionParams
+		}=beaconInteractionRetrievalParams;
+
 		const beaconOwnerInteractedWithResponse=await axios.get(`${SearchUrl}/getBeaconsTargetIdInteractedWith`,{
-			params:{...beaconInteractionParams}
+			params:{...beaconInteractionParams},
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=beaconOwnerInteractedWithResponse;
 		return data;
@@ -502,10 +510,17 @@ export const getBeaconsTargetIdInteractedWith=async(beaconInteractionParams)=>{
 }
 
 
-export const getTargetIdAcceptedBeacons=async(targetOwnerIdBeaconParams)=>{
+export const getTargetIdAcceptedBeacons=async(targetOwnerIdBeaconRetrievalParams)=>{
 	try{
+		const {
+			accessToken,
+			...targetOwnerIdBeaconParams
+		}=targetOwnerIdBeaconRetrievalParams;
 		const ownerBeaconsAccepted=await axios.get(`${SearchUrl}/getTargetIdAcceptedBeacons`,{
-			params:{...targetOwnerIdBeaconParams}
+			params:{...targetOwnerIdBeaconParams},
+			headers:{
+				authorization:accessToken
+			}
 		})
 
 		const {data}=ownerBeaconsAccepted;

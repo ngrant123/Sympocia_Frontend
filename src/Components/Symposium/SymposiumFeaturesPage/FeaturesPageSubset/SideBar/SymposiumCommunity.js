@@ -203,6 +203,10 @@ const SymposiumCommunity=()=>{
 		)
 	}
 
+	const closeExtendedSubmissionModal=()=>{
+		changeSelectedSubmission(false);
+	}
+
 	const extendedSubmissionModal=()=>{
 		return(
 			<React.Fragment>
@@ -214,6 +218,7 @@ const SymposiumCommunity=()=>{
 								submissionData={selectedSubmissionQuestion}
 								currentSymposiumId={currentSymposiumId}
 								isGuestProfile={isGuestProfile}
+								closeModal={closeExtendedSubmissionModal}
 							/>
 						}
 					/>

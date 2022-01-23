@@ -44,6 +44,10 @@ const Container=styled.div`
 		top:20%;
 		width:65%;
 		left:15%;
+
+		#secondaryText{
+			display:none !important;
+		}
 	}
 `;
 
@@ -55,6 +59,12 @@ const TitleAndCreationHeader=styled.div`
 const BeaconContent=styled.div`
 	display:flex;
 	flex-direction:column;
+
+	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		#beaconTypeOptions{
+			height:40px !important;
+		}
+	}
 `;
 
 const PostTypes=styled.div`
@@ -238,18 +248,18 @@ const Beacon=({closeModal,symposiumId,isGuestProfile,isDesktop,isOligarch})=>{
 							/>
 						</CreatePostButton>
 					</TitleAndCreationHeader>
-					<p>Ask and you shall recieve </p>
+					<p id="secondaryText">Ask and you shall recieve </p>
 					<hr style={HorizontalLineCSS}/>
 					<BeaconContent>
 						<PostTypes>
-							<div onClick={()=>triggerAlterPosts("Images")} style={ButtonCSS}>
+							<div id="beaconTypeOptions" onClick={()=>triggerAlterPosts("Images")} style={ButtonCSS}>
 								Images
 							</div>
-							<div onClick={()=>triggerAlterPosts("Videos")} style={ButtonCSS}>
+							<div id="beaconTypeOptions" onClick={()=>triggerAlterPosts("Videos")} style={ButtonCSS}>
 								Videos
 							</div>
-							<div onClick={()=>triggerAlterPosts("Regular")} style={ButtonCSS}>
-								Regular Posts
+							<div id="beaconTypeOptions" onClick={()=>triggerAlterPosts("Regular")} style={ButtonCSS}>
+								Text/Audios
 							</div>
 						</PostTypes>
 						{isLoading==true?

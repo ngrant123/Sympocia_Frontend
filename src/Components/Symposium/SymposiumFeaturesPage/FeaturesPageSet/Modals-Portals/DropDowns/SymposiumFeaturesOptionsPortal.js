@@ -35,7 +35,7 @@ const Container=styled.div`
 
 	@media screen and (max-width:1370px){
 		width:40%;
-		top:35%;
+		top:30%;
 		left:10%;
 	}
 
@@ -44,7 +44,7 @@ const Container=styled.div`
 		overflow-y:scroll;
 		left:5%;
 		width:90%;
-		top:55%;
+		top:50%;
 	}
 `;
 

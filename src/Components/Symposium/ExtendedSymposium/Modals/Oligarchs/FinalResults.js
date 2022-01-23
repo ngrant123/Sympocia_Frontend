@@ -50,6 +50,7 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 	}
 
 	const [newOligarchs,changeOligarchs]=useState([]);
+
 	useEffect(()=>{
 		const fetchOligarchsResults=async()=>{
 			const {confirmation,data}=await getOligarchPerSymposium(symposiumId);
@@ -58,14 +59,22 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 				if(message.length==0){
 					closeModal();
 				}else{
-					changeOligarchs(message);
+					const test=[];
+					for(var i=0;i<10;i++){
+						test.push(message[0]);
+					}
+					changeOligarchs(test);
 				}
 			}else{
 				alert('Unfortunately there has been an error retrieving oligarchs for this symposiums. Please try again');
 			}
 		}
 		fetchOligarchsResults();
+		return ()=>{
+			addProfileIdToOligarchFinalResultViewed();
+		}
 	},[]);
+
 	const oligarchs=(oligarchData)=>{
 		return(
 			<OligarchsContainer to={{pathname:`/profile/${oligarchData.profileId}`}}>
@@ -86,6 +95,7 @@ const FinalResults=({closeModal,selectedSymposiumTitle,symposiumId})=>{
 			</OligarchsContainer>
 		)
 	}
+
 	return(
 		<Container>
 			<div>

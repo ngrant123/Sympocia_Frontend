@@ -182,14 +182,14 @@ export const markPostAsFakeNews=async(information)=>{
 			accessToken,
 			...fakeNewsPostCommentInteraction
 		}=information;
-		
+
 		const fakeNewsPostResponse=await axios.post(`${CreateURl}/markPostAsFakeNews`,{
 			...fakeNewsPostCommentInteraction
 		},{
-				headers:{
-					authorization:accessToken
-				}
-			});
+			headers:{
+				authorization:accessToken
+			}
+		});
 		const {data}=fakeNewsPostResponse;
 		return data;
 
@@ -533,8 +533,17 @@ export const createSymposiumUniversityAnswer=async(symposiumUniversityPostParams
 
 export const createSymposiumCommunityAnswer=async(symposiumCommunityPostParams)=>{
 	try{
+		const {
+			accessToken,
+			...symposiumCommunityInformation
+		}=symposiumCommunityPostParams;
+
 		const communityPostResponse=await axios.post(`${CreateURl}/createSymposiumCommunityAnswer`,{
-			...symposiumCommunityPostParams
+			...symposiumCommunityInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=communityPostResponse;
 		return data;
@@ -810,27 +819,25 @@ export const deleteBeaconReply=async({
 
 
 
-export const deleteCommentToPopularQuestions=async({
+export const deleteSymposiumCommunityAnswer=async({
+			symposiumId,
 			questionId,
-            targetDeletionResponseId,
-            symposiumId,
-            userId,
-            accessToken,
-            postType
+			responseId,
+			ownerId,
+			accessToken
 	})=>{
 	try{
-		const deleteCommentToPopularPostResponse=await axios.post(`${CreateURl}/deleteCommentToPopularPost`,{
+		const deletedSymposiumCommunityResponse=await axios.post(`${CreateURl}/deleteSymposiumCommunityAnswer`,{
+				symposiumId,
 				questionId,
-	            targetDeletionResponseId,
-	            symposiumId,
-	            userId,
-	            postType
+				responseId,
+				ownerId
 		},{
 			headers:{
 				authorization:accessToken
 			}
 		})
-		const {data}=deleteCommentToPopularPostResponse;
+		const {data}=deletedSymposiumCommunityResponse;
 		return data;
 	}catch(err){
 		throw err;

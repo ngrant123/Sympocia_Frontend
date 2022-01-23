@@ -5,9 +5,10 @@ import {
 	getBeaconsTargetIdInteractedWith,
     getTargetIdAcceptedBeacons
 } from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
-import {useSelector} from "react-redux";
 import {Posts} from "../../../FeaturesPageSubset/Posts/Beacons.js";
 import {FeaturesContext} from "../../../FeaturesPageSet/FeaturesPageContext.js";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	width:100%;
@@ -54,6 +55,7 @@ const ProgressBarBeaconsExtended=({
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isLoading,changeIsLoading]=useState(false);
 	const featuresPageConsumer=useContext(FeaturesContext);
+	const dispatch=useDispatch();
 
 	const {
 		featuresPageSecondaryInformation,
@@ -69,12 +71,14 @@ const ProgressBarBeaconsExtended=({
 	  });
 	}
 
-	const fetchBeaconsInteracted=async(postType,currentPostTokenManagement)=>{
+	const fetchBeaconsInteracted=async({postType,currentPostTokenManagement,isAccessTokenUpdated,updatedAccessToken})=>{
 		const {confirmation,data}=await getBeaconsTargetIdInteractedWith({
 			ownerId:personalInformation.id,
             symposiumId:currentSymposiumId,
             beaconType:postType,
-            currentPostSessionManagment:currentPostTokenManagement
+            currentPostSessionManagment:currentPostTokenManagement,
+            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		});
 
 		if(confirmation=="Success"){
@@ -86,55 +90,84 @@ const ProgressBarBeaconsExtended=({
 				changePosts([...posts]);
 			}
 		}else{
-			alert('Unfortunately there was an error when retrieving the answered beacons');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					fetchBeaconsInteracted,
+					dispatch,
+					{
+						postType,
+						currentPostTokenManagement
+					},
+					false
+				);
+			}else{
+				alert('Unfortunately there was an error when retrieving the answered beacons');
+			}
 		}
 		return;
 	}
 
 
-	const fetchBeaconsAccepted=async(postType,currentPostTokenManagement)=>{
+	const fetchBeaconsAccepted=async({postType,currentPostTokenManagement,isAccessTokenUpdated,updatedAccessToken})=>{
 		
 		const {confirmation,data}=await getTargetIdAcceptedBeacons({
 			ownerId:personalInformation.id,
             symposiumId:currentSymposiumId,
             beaconType:postType,
-            currentPostSessionManagment:currentPostTokenManagement
+            currentPostSessionManagment:currentPostTokenManagement,
+            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		});
 
+		debugger;
 
 		if(confirmation=="Success"){
 			const {message}=data;
-			if(posts.length==0){
-				changePosts([...message]);
-			}else{
-				posts.concat(message);
-				changePosts([...posts]);
-			}
+			changePosts([...message]);
 		}else{
-			alert('Unfortunately there was an error when retrieving the accepted beacons');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					fetchBeaconsAccepted,
+					dispatch,
+					{
+						postType,
+						currentPostTokenManagement
+					},
+					false
+				);
+			}else{
+				alert('Unfortunately there was an error when retrieving the accepted beacons');
+			}
 		}
 		return;
 	}
 
 	const triggerDisplayPosts=async(retrievalType,postType)=>{
-		
+		debugger;
 		let currentPostToken=currentPostTokenManagement;
 		if(postType!=selectedPostType){
 			currentPostToken=uuidv4();
 			changePostTokenManagement(currentPostToken);
-			changePosts([]);
 			changeSelectedPostType(postType);
 		}
 		changeDisplayBeaconPosts(true);
 		changeIsLoading(true);
+		const beaconsRetrievalInformation={
+			postType,
+			currentPostTokenManagement:currentPostToken,
+			isAccessTokenUpdated:false
+		}
+
 		if(retrievalType=="accepted"){
-			await fetchBeaconsAccepted(
-				postType,
-				currentPostToken);
+			await fetchBeaconsAccepted(beaconsRetrievalInformation);
 		}else{
-			await fetchBeaconsInteracted(
-				postType,
-				currentPostToken);
+			await fetchBeaconsInteracted(beaconsRetrievalInformation);
 		}
 		changeIsLoading(false);
 	}
@@ -161,7 +194,7 @@ const ProgressBarBeaconsExtended=({
 
 					<li style={{listStyle:"none",cursor:"pointer"}}
 						onClick={()=>triggerDisplayPosts(beaconReviewType,"Text")}>
-						Regular Posts
+						Text/Audio
 					</li>
 					<hr/>
 				</ul>
@@ -218,7 +251,7 @@ const ProgressBarBeaconsExtended=({
 						<p>
 							<b>Beacons accepted:</b>
 						</p>
-						<p style={{marginLeft:"5%",color:"#43D351"}}>{answeredBeacons}</p>
+						<p style={{marginLeft:"5%",color:"#43D351"}}>{acceptedBeacons}</p>
 						{triggerViewPosts("accepted")}
 					</div>
 				</React.Fragment>

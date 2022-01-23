@@ -17,8 +17,6 @@ const Container=styled.div`
 	padding:20px;
 	display:flex;
 	flex-direction:column;
-	overflow-y:scroll;
-
 	@media screen and (max-width:1370px){
 		#currentOligarchsDropDown{
 			margin-left:-200px !important;
@@ -38,6 +36,10 @@ const Container=styled.div`
 
 		#desktopCreationIcon{
 			display:none !important;
+		}
+
+		#backButton{
+			width:30% !important;
 		}
 
 		#mobileDropDown{

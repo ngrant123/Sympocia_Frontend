@@ -15,6 +15,7 @@ import {
 } from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
 import AcceptedBeaconIcon from "../../../../../../designs/img/StampIcon.png";
 import UnAcceptedBeaconIcon from "../../../../../../designs/img/UnStampIcon.png";
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const SelectedPostContainer=styled.div`
 	position:relative; 
@@ -179,12 +180,18 @@ const SelectedPost=({
 					<div style={{display:"flex",flexDirection:"column"}}>
 						{isLoadingUnCompressedPost==false?
 							<React.Fragment>
-								<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
-									style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-									width="100%" height="20%" 
-								 	key={selectedPostUrl}  autoPlay loop autoBuffer muted playsInline>
-									<source src={selectedPostUrl} type="video/mp4"/>
-								</video>
+								<VideoLoadingPrompt
+									videoElement={
+										<video id="uploadVideoUrl" onClick={()=>displayZoomedPost()}
+											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+											width="100%" height="20%" 
+										 	key={selectedPostUrl}  autoPlay loop autoBuffer muted playsInline>
+											<source src={selectedPostUrl} type="video/mp4"/>
+										</video>
+									}
+									videoId={"uploadVideoUrl"}
+								/>
+
 								<p style={{marginTop:"5%"}}>{post.title}</p>
 							</React.Fragment>:
 							<p>Loading...</p>

@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
+import VideoLoadingPrompt from "../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const PopularVideosListCSS={
 	marginRight:"20px",
@@ -41,15 +42,19 @@ const PopularVideosModal=({popularVideos,changeState})=>{
 			)}
 			<hr/>
 			<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
-				{popularVideos.map(data=>
+				{popularVideos.map((data,index)=>
 					<>
 						{data!=null &&(
 							<div onClick={()=>displayVideo(data)} style={PopularVideosListCSS}>
-								<video id="smallVideo" key={uuidv4()} borderRadius="5px"
-								 	position="relative" height="150px" width="250px"
-								 	autoPlay loop autoBuffer muted playsInline>
-									<source src={data.videoUrl} type="video/mp4"/>
-								</video>
+								<VideoLoadingPrompt
+									videoElement={
+										<video id={"popularVideo"+index} key={uuidv4()} borderRadius="5px"
+									 	position="relative" height="150px" width="250px"
+									 	autoPlay loop autoBuffer muted playsInline>
+										<source src={data.videoUrl} type="video/mp4"/>
+									</video>}
+									videoId={"popularVideo"+index}
+								/>
 							</div>
 						)}
 					</>

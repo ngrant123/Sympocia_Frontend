@@ -7,6 +7,7 @@ import {getSymposiumUniversityPostsApi} from "../../../../../../Actions/Requests
 import {useSelector,useDispatch} from "react-redux";
 import VideoPostDisplayPortal from "../../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	padding:20px;
@@ -315,10 +316,15 @@ const VideoPostUpload=({
 						</li>
 					</a>:
 					<FinalSubmittionContainer>
-						<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="300px" 
-							borderRadius="5px" controls autoplay style={{backgroundColor:"#151515",borderRadius:"5px"}}>
-							<source src={videoUrl} type="video/mp4"/>
-						</video>
+						<VideoLoadingPrompt
+							videoElement={
+								<video id="uploadVideoUrl" key={uuidv4()} width="80%" height="300px" 
+									borderRadius="5px" controls autoplay style={{backgroundColor:"#151515",borderRadius:"5px"}}>
+									<source src={videoUrl} type="video/mp4"/>
+								</video>
+							}
+							videoId="uploadVideoUrl"
+						/>
 						
 						<DescriptionInputContainer id="videoDescription" placeholder="Write down a description here"/>
 						
@@ -495,11 +501,16 @@ const VideoPostModal=(props)=>{
 								<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap"}}>
 									{posts.map((data,index)=>
 										<div style={{display:"flex",flexDirection:"column",marginRight:"5%",marginBottom:"5%",cursor:"pointer"}}>
-											<video onClick={()=>displaySelectedPost(data)} 
-												id="symposiumFeatureVideo" key={data._id} autoPlay loop autoBuffer muted playsInline 
-												style={{borderRadius:"5px",height:"200px",width:"200px"}}>
-												<source src={data.videoUrl} type="video/mp4"/>
-											</video>	
+											<VideoLoadingPrompt
+												videoElement={
+													<video onClick={()=>displaySelectedPost(data)} 
+														id={"symposiumFeatureVideo"+index} key={data._id} autoPlay loop autoBuffer muted playsInline 
+														style={{borderRadius:"5px",height:"200px",width:"200px"}}>
+														<source src={data.videoUrl} type="video/mp4"/>
+													</video>
+												}
+												videoId={"symposiumFeatureVideo"+index}
+											/>	
 											{deleteSymposiumAnswerIcon(data,index)}
 										</div>
 									)}

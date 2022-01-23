@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../../../../designs/img/NoProfilePicture.png";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -7,13 +7,17 @@ import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
 import {
 	createCommunityQuestionStandingComment,
 	upvoteCommunityQuestion,
-	removeVoteFromCommunityQuestion
+	removeVoteFromCommunityQuestion,
+	removeCommunityQuestion
 } from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
 import {
 	getSpecificQuestionStandingComments,
 	hasProfileInteractedWithQuestionStanding
 } from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {FeaturesContext} from "../../../FeaturesPageContext.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
+
 
 const Container=styled.div`
 	width:100%;
@@ -26,7 +30,7 @@ const Container=styled.div`
 const SubmissionOptionContainer=styled.div`
 	position:fixed;
 	left:53%;
-	top:30%;
+	top:35%;
 	height:20%;
 	width:15%;
 	background-color:white;
@@ -124,7 +128,9 @@ const ButtonCSS={
 	width:"30%",
 	marginTop:"5%"
 }
-const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestProfile})=>{
+const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestProfile,removeCommunityQuestionFromList})=>{
+	console.log(submissionData);
+	const featuresPageConsumer=useContext(FeaturesContext);
 
 	const [isSubmissionVotedOn,changeSubmissionVoteStatus]=useState(false);
 	const [displaySubmissionOptions,changeDisplayOptionsModal]=useState(false);
@@ -132,7 +138,10 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 	const [displayCommentCreation,changeDisplayCommentCreation]=useState(false);
 	const [submissionComments,changeSubmissionComments]=useState([]);
 	const [submittingComment,changeSubmittingComment]=useState(false);
+	const [displayDeletionChoiceModal,changeDisplayDeletionChoiceModal]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
+
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		const fetchData=async()=>{
@@ -147,33 +156,62 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 		fetchData();
 	},[]);
 
-	const upvoteQuestion=async()=>{
+	const upvoteQuestion=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const upvoteInformation={
 			symposiumId:currentSymposiumId,
 			communityQuestionId:submissionData._id,
 			voterProfileId:personalInformation.id,
-			voterFirstName:personalInformation.firstName
+			voterFirstName:personalInformation.firstName,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 		const {confirmation,data}=await upvoteCommunityQuestion(upvoteInformation);
 		if(confirmation=="Success"){
 			changeSubmissionVoteStatus(!isSubmissionVotedOn);
 		}else{
-			alert('Unfortunately there has been an error upvoting this question. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					upvoteQuestion,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately there has been an error upvoting this question. Please try again');
+			}
 		}
 	}
 
-	const unvoteQuestion=async()=>{
+
+	const unvoteQuestion=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const unvoteInformation={
 			voterProfileId:personalInformation.id,
 			questionId:submissionData._id,
-			symposiumId:currentSymposiumId
+			symposiumId:currentSymposiumId,
+			accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+						personalInformation.accessToken
 		}
 
 		const {confirmation,data}=await removeVoteFromCommunityQuestion(unvoteInformation);
 		if(confirmation=="Success"){
 			changeSubmissionVoteStatus(!isSubmissionVotedOn);
 		}else{
-			alert('Unfortunately there has been an error unvoting this question. Please try again');
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					unvoteQuestion,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately there has been an error unvoting this question. Please try again');
+			}
 		}
 	}
 
@@ -182,9 +220,9 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 			alert('Unfortunately this feature is not available for guests. Please create a profile :) Its free');
 		}else{
 			if(isSubmissionVotedOn==false){
-				upvoteQuestion();
+				upvoteQuestion({isAccessTokenUpdated:false});
 			}else{
-				unvoteQuestion();
+				unvoteQuestion({isAccessTokenUpdated:false});
 			}
 		}
 	}
@@ -200,7 +238,7 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 		}
 	}
 
-	const createComment=async()=>{
+	const createComment=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeSubmittingComment(true);
 		const commentValue=document.getElementById("commentValue").value;
 		if(commentValue==""){
@@ -211,7 +249,9 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 				comment:commentValue,
 				ownerId:personalInformation.id,
 				ownerFirstName:personalInformation.firstName,
-				symposiumId:currentSymposiumId
+				symposiumId:currentSymposiumId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			})
 
 			if(confirmation=="Success"){
@@ -231,7 +271,19 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 				changeSubmissionComments([...currentCommments]);
 				changeDisplayCommentCreation(false);
 			}else{
-				alert('Unfortunately there has been an error creating this comment. Please try again')
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createComment,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately there has been an error creating this comment. Please try again');
+				}
 			}
 		}
 		changeSubmittingComment(false);
@@ -248,6 +300,12 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 								Comments
 							</li>
 							<hr/>
+							{submissionData.owner.profileId==personalInformation.id &&(
+								<li style={{listStyle:"none",cursor:"pointer"}} 
+									onClick={()=>changeDisplayDeletionChoiceModal(true)}>
+									Delete
+								</li>
+							)}
 						</ul>
 					</SubmissionOptionContainer>
 				)}
@@ -255,90 +313,164 @@ const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestP
 		)
 	}
 
+	const triggerRemoveCommunityQuestion=async({isAccessTokenUpdated,updatedAccessToken})=>{
+		const {confirmation,data}=await removeCommunityQuestion(
+											submissionData._id,
+											currentSymposiumId,
+											personalInformation.id,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
+
+		if(confirmation=="Success"){
+			const{
+				updateSecondaryInformation,
+				featuresPageSecondaryInformation
+			}=featuresPageConsumer;
+			const {currentQuestionsStandings}=featuresPageSecondaryInformation;
+			for(var i=0;i<currentQuestionsStandings.length;i++){
+				if(currentQuestionsStandings[i]._id==submissionData._id){
+					currentQuestionsStandings.splice(i,1);
+				}
+			}
+			updateSecondaryInformation({
+				...featuresPageSecondaryInformation,
+				currentQuestionsStandings
+			});
+
+			if(removeCommunityQuestionFromList==null){
+				closeModal();
+			}else{
+				removeCommunityQuestionFromList(submissionData._id);
+			}
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					triggerRemoveCommunityQuestion,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately an has occured when creating this beacon tag. Please try again');
+			}
+		}
+	}
+
 	return(
 		<Container>
-			{displayComments==true?
-				<div>
-					{displayCommentCreation==true?
-						<React.Fragment>
-							<div style={ButtonCSS} onClick={()=>changeDisplayCommentCreation(false)}>
-								Back
-							</div>
-							<ExtendedInputContainer	
-								id="commentValue"
-								placeholder="Create a comment"
-							/>
-							{submittingComment==true?
-								<p>Please wait...</p>:
-								<div style={ButtonCSS} onClick={()=>createComment()}>
-									Submit
-								</div>
+			{displayDeletionChoiceModal==true?
+				<React.Fragment>
+					<div style={{...ButtonCSS,width:"15%"}} onClick={()=>changeDisplayDeletionChoiceModal(false)}>
+						Back
+					</div>
+					<hr style={HorizontalLineCSS}/>
+					<p>
+						<b>Are you sure you want to delete this submission?</b>
+					</p>
+
+					<div style={{display:"flex",flexDirection:"row"}}>
+						<div style={{...ButtonCSS,width:"15%",marginRight:"5%"}} onClick={()=>triggerRemoveCommunityQuestion({
+																								isAccessTokenUpdated:false
+																							})}>
+							Yes
+						</div>
+
+						<div style={{...ButtonCSS,width:"15%"}} onClick={()=>changeDisplayDeletionChoiceModal(false)}>
+							No
+						</div>
+					</div>
+				</React.Fragment>:
+				<React.Fragment>
+					{displayComments==true?
+						<div>
+							{displayCommentCreation==true?
+								<React.Fragment>
+									<div style={ButtonCSS} onClick={()=>changeDisplayCommentCreation(false)}>
+										Back
+									</div>
+									<ExtendedInputContainer	
+										id="commentValue"
+										placeholder="Create a comment"
+									/>
+									{submittingComment==true?
+										<p>Please wait...</p>:
+										<div style={ButtonCSS} onClick={()=>createComment({isAccessTokenUpdated:false})}>
+											Submit
+										</div>
+									}
+								</React.Fragment>:
+								<React.Fragment>
+									<div style={ButtonCSS} onClick={()=>changeDisplayComments(false)}>
+										Back
+									</div>
+									<hr/>
+									<SimplifiedInputContainer
+										placeholder="Create a comment"
+										onClick={()=>changeDisplayCommentCreation(true)}
+									/>
+									{submissionComments.map(data=>
+										<div style={{display:"flex",flexDirection:"row",marginBottom:"5%"}}>
+											<img src={data.profilePicture==null?
+														NoProfilePicture:data.profilePicture}
+												style={{height:"40px",width:"46px",borderRadius:"50%"}}
+											/>
+											<div style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
+												<p>
+													<b>{data.owner.firstName}</b>
+												</p>
+												<p>{data.comment}</p>
+											</div>
+										</div>
+									)}
+								</React.Fragment>
 							}
-						</React.Fragment>:
+						</div>:
 						<React.Fragment>
-							<div style={ButtonCSS} onClick={()=>changeDisplayComments(false)}>
+							<div style={{...ButtonCSS,marginBottom:"5%"}} onClick={()=>closeModal()}>
 								Back
 							</div>
-							<hr/>
-							<SimplifiedInputContainer
-								placeholder="Create a comment"
-								onClick={()=>changeDisplayCommentCreation(true)}
-							/>
-							{submissionComments.map(data=>
-								<div style={{display:"flex",flexDirection:"row",marginBottom:"5%"}}>
-									<img src={data.profilePicture==null?
-												NoProfilePicture:data.profilePicture}
+							{dropDownOptions()}
+							<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+								<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+									<img src={submissionData.profilePicture==null?
+												NoProfilePicture:submissionData.profilePicture}
 										style={{height:"40px",width:"46px",borderRadius:"50%"}}
 									/>
-									<div style={{display:"flex",flexDirection:"column",marginLeft:"5%"}}>
-										<p>
-											<b>{data.owner.firstName}</b>
-										</p>
-										<p>{data.comment}</p>
-									</div>
+									<p style={{marginLeft:"10%",fontSize:"18px"}}>
+										<b>{submissionData.owner.firstName}</b>
+									</p>
 								</div>
-							)}
+								<div style={DropDownCSS}>
+									{displaySubmissionOptions==false ?
+										<ExpandMoreIcon onClick={()=>changeDisplayOptionsModal(true)}
+											style={{fontSize:"24"}}
+										/>:
+										<ExpandLessIcon onClick={()=>changeDisplayOptionsModal(false)}
+											style={{fontSize:"24"}}
+										/>
+									}
+								</div>
+							</div>
+							<hr style={HorizontalLineCSS}/>
+							
+							<p style={{marginTop:"5%"}}>{submissionData.question}</p>
+
+							<hr style={HorizontalLineCSS}/>
+							<div style={VoteButtonCSS} onClick={()=>voteSubmittedQuestion()}>
+								<OfflineBoltIcon
+									style={{color:"white",fontSize:"25"}}
+								/>
+								{isSubmissionVotedOn==false?
+									<p style={{marginTop:"10%",marginLeft:"5%"}}>Vote</p>:
+									<p style={{marginTop:"10%",marginLeft:"5%"}}>Un-Vote</p>
+								}
+								
+							</div>
 						</React.Fragment>
 					}
-				</div>:
-				<React.Fragment>
-					{dropDownOptions()}
-					<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-							<img src={submissionData.profilePicture==null?
-										NoProfilePicture:submissionData.profilePicture}
-								style={{height:"40px",width:"46px",borderRadius:"50%"}}
-							/>
-							<p style={{marginLeft:"10%",fontSize:"18px"}}>
-								<b>{submissionData.owner.firstName}</b>
-							</p>
-						</div>
-						<div style={DropDownCSS}>
-							{displaySubmissionOptions==false ?
-								<ExpandMoreIcon onClick={()=>changeDisplayOptionsModal(true)}
-									style={{fontSize:"24"}}
-								/>:
-								<ExpandLessIcon onClick={()=>changeDisplayOptionsModal(false)}
-									style={{fontSize:"24"}}
-								/>
-							}
-						</div>
-					</div>
-					<hr style={HorizontalLineCSS}/>
-					
-					<p style={{marginTop:"5%"}}>{submissionData.question}</p>
-
-					<hr style={HorizontalLineCSS}/>
-					<div style={VoteButtonCSS} onClick={()=>voteSubmittedQuestion()}>
-						<OfflineBoltIcon
-							style={{color:"white",fontSize:"25"}}
-						/>
-						{isSubmissionVotedOn==false?
-							<p style={{marginTop:"10%",marginLeft:"5%"}}>Vote</p>:
-							<p style={{marginTop:"10%",marginLeft:"5%"}}>Un-Vote</p>
-						}
-						
-					</div>
 				</React.Fragment>
 			}
 		</Container>

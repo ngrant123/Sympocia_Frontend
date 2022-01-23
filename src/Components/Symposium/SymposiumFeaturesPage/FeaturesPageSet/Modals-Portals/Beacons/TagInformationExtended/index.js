@@ -197,9 +197,14 @@ const TagInformationExtendedDisplay=({closeModal,symposiumId,ownerId})=>{
 					{loading==true?
 						<p>Loading</p>:
 						<React.Fragment>
-							{tags.map(data=>
-								<>{tagsConstruction(data)}</>
-							)}
+							{tags.length==0?
+								<p>No tags</p>:
+								<React.Fragment>
+									{tags.map(data=>
+										<>{tagsConstruction(data)}</>
+									)}
+								</React.Fragment>
+							}
 						</React.Fragment>
 					}
 				</div>

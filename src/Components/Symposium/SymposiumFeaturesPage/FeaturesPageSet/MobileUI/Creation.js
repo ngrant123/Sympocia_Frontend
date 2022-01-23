@@ -36,13 +36,15 @@ const CreatePostButton=styled.div`
 			margin-top:15%;
 		}
   	}
-  	@media screen and (max-width:1200px){
+  	@media screen and (max-width:1370px){
   		display:block;
 		width:60px !important;
 		height:60px !important;
 		margin-left:85%;
 		margin-top:120%;
     }
+
+
     @media screen and (max-width:1080px){
 			width:50px !important;
 			height:50px !important;
@@ -77,23 +79,27 @@ const CreatePostButton=styled.div`
 		margin-top:190%;
 	}
 
+
+
 	@media screen and (min-width:400px) and (max-width:700px) 
-		and (min-height:1000px) and (max-height:1370px){
+		and (min-height:900px) and (max-height:1370px){
 		margin-top:190%;
 	}
+
+
 
 	@media screen and (min-width:300px) and (max-width:390px) 
 		and (min-height:700px) and (max-height:1100px){
 		margin-top:120%;
 	}
 
-	@media screen and (min-width:450px) and (max-width:700px) 
+	@media screen and (min-width:450px) and (max-width:650px) 
 		and (min-height:700px) and (max-height:1100px){
 		margin-top:130%;
 	}
 
-	@media screen and (min-width:300px) and (max-width:400px) 
-		and (min-height:1000px) and (max-height:1370px){
+	@media screen and (min-width:200px) and (max-width:400px) 
+		and (min-height:800px) and (max-height:1370px){
 		margin-top:290%;
 	}
 

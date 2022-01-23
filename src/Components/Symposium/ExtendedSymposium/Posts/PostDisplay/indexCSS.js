@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const PostContainer=styled.div`
 	position:relative;
 	padding-left:40px;
@@ -31,23 +32,81 @@ export const PostContainer=styled.div`
     	position:absolute;
 		width:90%;
 		height:150% !important;
-		padding-top:50% !important;
-    	top:58% !important;
     	margin-left:-7% !important;
 
     	#postLoadingText{
-    		margin-top:20%;
+    		margin-top:30%;
     	}	
     }
 
-    @media screen and (max-width:600px){
-    	top:-20% !important;
+    @media screen and (max-width:650px){
     	${({isScrollEnabled})=>
-			isScrollEnabled==true &&(
-				`top:10% !important;`
-			)
+			isScrollEnabled?
+			`
+				top:50% !important;
+			`:
+			`
+				top:8% !important; 
+			`
 		}
     }
+
+
+	@media screen and (min-width:400px) and (max-width:600px) 
+		and (min-height:640px) and (max-height:1100px){
+    	${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:50% !important;
+			`:
+			`
+				top:8% !important; 
+			`
+		}
+	}
+
+
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+		and (min-height:800px) and (max-height:1400px){
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:30% !important;
+			`:
+			`
+				top:8% !important; 
+			`
+		}
+	}
+
+
+	@media screen and (min-width:500px) and (max-width:600px) 
+		and (min-height:1100px) and (max-height:1370px){
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:50% !important;
+			`:
+			`
+				top:8% !important; 
+			`
+		}
+	}
+	@media screen and (min-width:200px) and (max-width:350px) 
+		and (min-height:600px) and (max-height:900px){
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:40% !important;
+			`:
+			`
+				top:8% !important; 
+			`
+		}
+	}
+
+
     @media screen  and (max-width:850px) and (max-height:420px) 
 	  and (orientation: landscape) 
 	  and (-webkit-min-device-pixel-ratio: 1){

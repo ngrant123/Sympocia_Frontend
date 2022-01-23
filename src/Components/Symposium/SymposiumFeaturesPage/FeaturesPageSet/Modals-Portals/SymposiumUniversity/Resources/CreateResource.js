@@ -1,8 +1,9 @@
 import React,{useState,useContext} from "react";
 import styled from "styled-components";
 import {addSymposiumResources} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
-import {useSelector} from "react-redux";
 import {FeaturesContext} from "../../../../FeaturesPageSet/FeaturesPageContext.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 
 const Container=styled.div``;
@@ -52,11 +53,14 @@ const SubmitButtonCSS={
 const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 	const [submittingStatus,changeSubmittingStatus]=useState(false);
 	const personalInformation=useSelector(state=>state.personalInformation);
-	const featuresPageConsumer=useContext(FeaturesContext);
+	const featuresPageConsumer=useContext(FeaturesContext);	
+	const dispatch=useDispatch();
+
 	const {
 		updateSecondaryInformation,
 		featuresPageSecondaryInformation
 	}=featuresPageConsumer;
+
 
 	const triggerUpdateSecondaryInformation=(resource)=>{
 		let symposiumUniversitySecondaryInformation=featuresPageSecondaryInformation;
@@ -70,7 +74,7 @@ const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 		updateSecondaryInformation(symposiumUniversitySecondaryInformation);
 	}
 
-	const createSymposiumResource=async()=>{
+	const createSymposiumResource=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const userSubmittedResource=document.getElementById("resource").value;
 		changeSubmittingStatus(true);
 		if(userSubmittedResource!=""){
@@ -78,7 +82,9 @@ const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 				firstName:personalInformation.firstName,
 				profileId:personalInformation.id,
 				symposiumId,
-				resourcePost:userSubmittedResource
+				resourcePost:userSubmittedResource,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 
 			const {confirmation,data}=await addSymposiumResources(resource);
@@ -92,7 +98,19 @@ const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 				triggerAddSymposiumResource(resource);
 
 			}else{
-				alert('Unfortunately there has been an error when creating this symposium resource.Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createSymposiumResource,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately there has been an error when creating this symposium resource.Please try again');
+				}
 			}
 		}else{
 			alert('Please enter a resource');
@@ -112,7 +130,7 @@ const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 			/>
 			{submittingStatus==true?
 				<p>Please wait...</p>:
-				<div style={SubmitButtonCSS} onClick={()=>createSymposiumResource()}>
+				<div style={SubmitButtonCSS} onClick={()=>createSymposiumResource({isAccessTokenUpdated:false})}>
 					Submit
 				</div>
 			}

@@ -11,6 +11,7 @@ const PostCreation=({featurePageType,creationButtonClick})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const {
 		featuresPagePrimaryInformation,
+		featuresPageSecondaryInformation,
 		updatePrimaryPosts,
 		currentSymposiumId,
 		isDesktop
@@ -21,6 +22,7 @@ const PostCreation=({featurePageType,creationButtonClick})=>{
 			case "Beacons":{
 				return <BeaconsCreation
 							featuresPagePrimaryInformation={featuresPagePrimaryInformation}
+							featuresPageSecondaryInformation={featuresPageSecondaryInformation}
 							updatePrimaryPosts={updatePrimaryPosts}
 							currentSymposiumId={currentSymposiumId}
 							isDesktop={isDesktop}

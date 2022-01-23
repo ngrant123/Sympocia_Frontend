@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useMemo} from "react";
 import styled,{keyframes,css} from "styled-components";
 import {createPortal} from "react-dom";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
@@ -224,6 +224,32 @@ const TokenDisplay=({targetDom})=>{
 		)
 	}
 
+	const tokenDisplayMemoizedContents=useMemo(()=>{
+		return(
+			<React.Fragment>
+				<CloseTokenDisplay onClick={()=>changeDisplayMinifiedToken(true)}>
+					<ClearIcon/>
+				</CloseTokenDisplay>
+
+				<Bubbles/>
+				<div style={InnerTokenCSS} onClick={()=>changeDisplayTokenLevelDetailsModal(true)}>
+					<img src={profilePicture==null?NoProfilePicture:profilePicture} 
+						style={{width:"90%",height:"90%",borderRadius:"50%"}}
+					/>
+					{isLoading==false &&(
+						<Waves
+							tokenScore={tokenScore}
+							maxTokenScore={maxTokenScore}
+						/>
+					)}
+				</div>
+			</React.Fragment>
+		)
+	},[
+		tokenScore,
+		maxTokenScore
+	])
+
 	return createPortal(
 		<React.Fragment>
 			{guestProfileStatus==false &&(
@@ -237,22 +263,7 @@ const TokenDisplay=({targetDom})=>{
 							/>
 						</MinifiedTokenDisplay>:
 						<Container>
-							<CloseTokenDisplay onClick={()=>changeDisplayMinifiedToken(true)}>
-								<ClearIcon/>
-							</CloseTokenDisplay>
-
-							<Bubbles/>
-							<div style={InnerTokenCSS} onClick={()=>changeDisplayTokenLevelDetailsModal(true)}>
-								<img src={profilePicture==null?NoProfilePicture:profilePicture} 
-									style={{width:"90%",height:"90%",borderRadius:"50%"}}
-								/>
-								{isLoading==false &&(
-									<Waves
-										tokenScore={tokenScore}
-										maxTokenScore={maxTokenScore}
-									/>
-								)}
-							</div>
+							{tokenDisplayMemoizedContents}
 						</Container>
 					}
 				</React.Fragment>

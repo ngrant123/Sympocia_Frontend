@@ -18,13 +18,17 @@ export const addProfileToViewedOligarchNotification=async(symposiumId,profileId)
 	}
 }
 
-export const addTag=async(symposiumId,tagName,ownerId)=>{
+export const addTag=async(symposiumId,tagName,ownerId,accessToken)=>{
 	try{
 
 		const addedTagResponse=await axios.post(`${CreateUrl}/addTag`,{
 			symposiumId,
             tagName,
             ownerId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=addedTagResponse;
 		return data;
@@ -45,12 +49,16 @@ export const updateBeaconsAcceptedAnswerStatus=async(updatedBeaconInformation)=>
 	}
 }
 
-export const removeTag=async(tagId,symposiumId,ownerId)=>{
+export const removeTag=async(tagId,symposiumId,ownerId,accessToken)=>{
 	try{
 		const removedTagResponse=await axios.post(`${CreateUrl}/removeTag`,{
 			tagId,
 			symposiumId,
 			ownerId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=removedTagResponse;
 		return data;
@@ -61,8 +69,17 @@ export const removeTag=async(tagId,symposiumId,ownerId)=>{
 
 export const addSymposiumSpecialist=async(symposiumSpecialist)=>{
 	try{
+		const {
+			accessToken,
+			...symposiumSpecialistInformation
+		}=symposiumSpecialist;
+
 		const addedSpecialistResponses=await axios.post(`${CreateUrl}/addSymposiumSpecialist`,{
-			...symposiumSpecialist
+			...symposiumSpecialistInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=addedSpecialistResponses;
 		return data;
@@ -139,10 +156,19 @@ export const decrementSymposiumSpecialistRanking=async(specialistId,updateOwnerI
 }
 
 
-export const createCommunityQuestion=async(communityQuestionCreationInformation)=>{
+export const createCommunityQuestion=async(communityQuestionCreationInformationParams)=>{
 	try{
+		const{
+			accessToken,
+			...communityQuestionCreationInformation
+		}=communityQuestionCreationInformationParams;
+
 		const createdCommunityQuestionResponse=await axios.post(`${CreateUrl}/createCommunityQuestion`,{
 			...communityQuestionCreationInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=createdCommunityQuestionResponse;
 		return data;
@@ -151,11 +177,21 @@ export const createCommunityQuestion=async(communityQuestionCreationInformation)
 	}
 }
 
-export const upvoteCommunityQuestion=async(upVotedCommunityQuestionInformation)=>{
+export const upvoteCommunityQuestion=async(upVotedCommunityQuestionInformationParams)=>{
 	try{
+		const {
+			accessToken,
+			...upVotedCommunityQuestionInformation
+		}=upVotedCommunityQuestionInformationParams;
+
 		const updatedQuestionResponse=await axios.post(`${CreateUrl}/upvoteCommunityQuestion`,{
 			...upVotedCommunityQuestionInformation
-		})
+		},{
+			headers:{
+				authorization:accessToken
+			}
+		});
+
 		const {data}=updatedQuestionResponse;
 		return data;
 	}catch(err){
@@ -163,12 +199,16 @@ export const upvoteCommunityQuestion=async(upVotedCommunityQuestionInformation)=
 	}
 }
 
-export const removeCommunityQuestion=async(communityQuestionId,symposiumId,profileId)=>{
+export const removeCommunityQuestion=async(communityQuestionId,symposiumId,profileId,accessToken)=>{
 	try{
 		const removedCommunityQuestionResponse=await axios.post(`${CreateUrl}/removeCommunityQuestion`,{
 			communityQuestionId,
 			symposiumId,
 			profileId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=removedCommunityQuestionResponse;
 		return data;
@@ -178,13 +218,18 @@ export const removeCommunityQuestion=async(communityQuestionId,symposiumId,profi
 	}
 }
 
-export const removeVoteFromCommunityQuestion=async({voterProfileId,questionId,symposiumId})=>{
+export const removeVoteFromCommunityQuestion=async({voterProfileId,questionId,symposiumId,accessToken})=>{
 	try{
 		const removedCommunityQuestionVoteResponse=await axios.post(`${CreateUrl}/removeVoteFromCommunityQuestion`,{
 			voterProfileId,
 			questionId,
 			symposiumId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
+
 		const {data}=removedCommunityQuestionVoteResponse;
 		return data;
 	}catch(err){
@@ -193,12 +238,17 @@ export const removeVoteFromCommunityQuestion=async({voterProfileId,questionId,sy
 }
 
 
-export const editTag=async(tagId,tagName,symposiumId)=>{
+export const editTag=async(tagId,tagName,symposiumId,ownerId,accessToken)=>{
 	try{
 		const editedTagResponse=await axios.post(`${CreateUrl}/editTag`,{
 			tagId,
 			tagName,
-			symposiumId
+			symposiumId,
+			ownerId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		}) 
 		const {data}=editedTagResponse;
 		return data;
@@ -208,10 +258,19 @@ export const editTag=async(tagId,tagName,symposiumId)=>{
 	}
 }
 
-export const createCommunityQuestionStandingComment=async(questionCommentInformation)=>{
+export const createCommunityQuestionStandingComment=async(questionCommentInformationParams)=>{
 	try{
+		const {
+			accessToken,
+			...questionCommentInformation
+		}=questionCommentInformationParams;
+
 		const questionCommentResponse=await axios.post(`${CreateUrl}/createQuestionStandingComment`,{
 			...questionCommentInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=questionCommentResponse;
 		return data;

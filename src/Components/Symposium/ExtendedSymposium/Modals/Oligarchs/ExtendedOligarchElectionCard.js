@@ -280,7 +280,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 		<React.Fragment>
 			{displayCommentCreation==true?
 				<React.Fragment>
-					<div onClick={()=>changeDisplayCommentCreation(false)} style={ButtonCSS}>
+					<div onClick={()=>changeDisplayCommentCreation(false)} style={{...ButtonCSS,width:"15%"}}>
 						Back
 					</div>
 					<InputContainer id="oligarchComment" placeholder="Enter comment here"/>
@@ -292,7 +292,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 					}
 				</React.Fragment>:
 				<React.Fragment>
-					<div onClick={()=>closeOligarchCardModal()} style={ButtonCSS}>
+					<div id="backButton" onClick={()=>closeOligarchCardModal()} style={{...ButtonCSS,width:"15%"}}>
 						Back
 					</div>
 					<div>
@@ -314,7 +314,7 @@ const ExtendedOligarichElectionCard=({closeOligarchCardModal,electionCardInforma
 								{isSponsored==true?
 									<div onClick={()=>unSponsoreUser({isAccessTokenUpdated:false})} 
 										style={ShadowButtonCSS}>
-										UnSponsor
+										Unsponsor
 									</div> 
 									:<div onClick={()=>sponsorUser({isAccessTokenUpdated:false})}
 										style={ShadowButtonCSS}>

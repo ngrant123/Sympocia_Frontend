@@ -6,6 +6,7 @@ import {BeaconPostCreation} from "../../../FeaturesPageSubset/SideBar/Beacons.js
 
 const BeaconCreation=({
 	featuresPagePrimaryInformation,
+	featuresPageSecondaryInformation,
 	updatePrimaryPosts,
 	currentSymposiumId,
 	isDesktop,
@@ -34,6 +35,7 @@ const BeaconCreation=({
 			{displayBeaconCreation==true &&(
 				<BeaconPostCreation
 					featuresPagePrimaryInformation={featuresPagePrimaryInformation}
+					featuresPageSecondaryInformation={featuresPageSecondaryInformation}
 					updatePrimaryPosts={updatePrimaryPosts}
 					closeFeaturesPageCreationModal={closeFeaturesPageCreationModal}
 					selectedPostType={selectedPostType}

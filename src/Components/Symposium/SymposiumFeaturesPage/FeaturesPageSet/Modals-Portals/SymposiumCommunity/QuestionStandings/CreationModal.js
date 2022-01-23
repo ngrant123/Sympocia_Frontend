@@ -3,7 +3,8 @@ import styled from "styled-components";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {createCommunityQuestion} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	width:100%;
@@ -70,8 +71,9 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 	const [selectedPostType,changeSelectedPostType]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isSubmitting,changeSubmittingStatus]=useState(false);
+	const dispatch=useDispatch();
 
-	const createSymposiumCommunityQuestion=async()=>{
+	const createSymposiumCommunityQuestion=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeSubmittingStatus(true);
 		const question=document.getElementById("symposiumQuestion").value;
 		if(question!="" && selectedPostType!=null){
@@ -80,7 +82,9 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 	            firstName:personalInformation.firstName,
 	            profileId:personalInformation.id,
 	            question,
-	            postType:selectedPostType
+	            postType:selectedPostType,
+	            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 
 			const {confirmation,data}=await createCommunityQuestion(communityQuestion);
@@ -96,7 +100,8 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 					postType:selectedPostType,
 					profilePicture,
 					owner:{
-						firstName:personalInformation.firstName
+						firstName:personalInformation.firstName,
+						profileId:personalInformation.id
 					},
 					votes:[],
 					_id:questionId
@@ -104,7 +109,19 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 				updateStandings(userSubmittedQuestion);
 				closeModal();
 			}else{
-				alert('Unfortunately there has been an error when creating community question. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createSymposiumCommunityQuestion,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately there has been an error when creating community question. Please try again');
+				}
 			}
 		}else{
 			alert("Please enter a question and a post-type");
@@ -163,7 +180,7 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 			</div>
 			{isSubmitting==true?
 				<p>Please wait...</p>:
-				<div style={CreationButtonCSS} onClick={()=>createSymposiumCommunityQuestion()}>
+				<div style={CreationButtonCSS} onClick={()=>createSymposiumCommunityQuestion({isAccessTokenUpdated:false})}>
 					Create
 				</div>
 			}

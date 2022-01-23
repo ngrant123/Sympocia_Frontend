@@ -14,6 +14,7 @@ import BeaconPostExtended from "../../../../Symposium/ExtendedSymposium/Symposiu
 import {useSelector} from "react-redux";
 import PortalHoc from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import {BeaconProgressBar} from "../SideBar/Beacons.js";
+import NextButton from "./NextButton.js";
 
 const Container=styled.div`
 	display:flex;
@@ -314,7 +315,7 @@ const BeaconPosts=({featuresType,isLoading})=>{
 
 							<li style={{listStyle:"none",cursor:"pointer"}}
 								onClick={()=>displaySpecificBeaconPostType("Regular")}>
-								Regular Posts
+								Text/Audio
 							</li>
 							<hr/>
 						</ul>
@@ -341,16 +342,14 @@ const BeaconPosts=({featuresType,isLoading})=>{
 							updateSecondaryInformation={updateSecondaryInformation}
 							featuresPageSecondaryInformation={featuresPageSecondaryInformation}
 						/>
-						{endOfPostIndicator==false &&(
-							<React.Fragment>
-								{isLoading==true?
-									<p>Loading...</p>:
-									<div onClick={()=>triggerFetchNextPosts()} style={NextButtonCSS}>
-										Next
-									</div>
-								}
-							</React.Fragment>
-						)}
+
+						<NextButton
+							isLoading={isLoading}
+							endOfPostIndicator={endOfPostIndicator}
+							fetchNextPosts={triggerFetchNextPosts}
+							postsLength={posts.length}
+						/>
+
 					</React.Fragment>
 				}
 			</PostsContainer>

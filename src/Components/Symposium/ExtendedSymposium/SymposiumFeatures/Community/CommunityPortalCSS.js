@@ -32,7 +32,8 @@ export const Container=styled.div`
 			margin-right:5% !important;
 		}
 		#creationImage{
-			width:50% !important;
+			width:130px !important;
+			height:135px !important;
 			margin-bottom:50px !important;
 		}
 
@@ -48,6 +49,9 @@ export const Container=styled.div`
 		left:0% !important;
 		height:100% !important;
 
+		#imageCommunityResponses{
+			margin-bottom:10% !important;
+		}
 		#videoLI{
 			width:80% !important;
 			height:30% !important;
@@ -83,8 +87,8 @@ export const Container=styled.div`
 			margin-left:-20% !important;
 		}
 		#imgUrl{
-			width:200px !important;
-			height:180px !important;
+			width:130px !important;
+			height:125px !important;
 		}
 		#regularPostQuestionLI{
 			font-size:15px !important;
@@ -103,10 +107,6 @@ export const Container=styled.div`
 		#videoLI{
 			height:400px !important;
 		}
-
-		#creationImage{
-			height:60% !important;
-		}
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
@@ -116,17 +116,16 @@ export const Container=styled.div`
 		}
 		#imagePicture{
 			width:50px !important;
-			height:40px !important;
+			height:45px !important;
 		}
 		#imgUrl{
-			height:200px !important;
+			height:185px !important;
 		}
 		#videoLI{
 			height:250px !important;
 		}
-		#creationImage{
-			height:150px !important;
-			width:30% !important;
+		#imageCommunityResponses{
+			margin-bottom:25% !important;
 		}
     }
 `;
@@ -154,7 +153,8 @@ export const UploadContainer=styled.div`
 		}
 
 		#creationImage{
-			height:60% !important;
+			height:150px !important;
+			width:155px !important;
 		}
     }
 
@@ -165,7 +165,7 @@ export const UploadContainer=styled.div`
 		}
 		#imagePicture{
 			width:50px !important;
-			height:40px !important;
+			height:45px !important;
 		}
 		#imgUrl{
 			height:200px !important;
@@ -175,7 +175,7 @@ export const UploadContainer=styled.div`
 		}
 		#creationImage{
 			height:150px !important;
-			width:30% !important;
+			width:155px !important;
 		}
     }
 `;

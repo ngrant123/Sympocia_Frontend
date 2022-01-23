@@ -44,6 +44,7 @@ const BackButtonCSS={
 
 const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=>{
 	const [selectedSubmission,changeSelectedSubmission]=useState();
+	const [communityQuestions,changeCommunityQuestions]=useState(currentQuestions);
 
 	const mobileCloseIcon=()=>{
 		return(
@@ -59,17 +60,30 @@ const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=
 		)
 	}
 
+	const closeExtendedSubmission=()=>{
+		changeSelectedSubmission(null);
+	}
+
+	const removeCommunityQuestionFromList=(communityQuestionId)=>{
+		for(var i=0;i<communityQuestions.length;i++){
+			if(communityQuestions[i]._id==communityQuestionId){
+				communityQuestions.splice(i,1);
+			}
+		}
+		changeCommunityQuestions([...communityQuestions]);
+		closeExtendedSubmission();
+	}
+
 	return (
 		<Container>
 			{selectedSubmission!=null?
 				<React.Fragment>
-					<div style={BackButtonCSS} onClick={()=>changeSelectedSubmission(null)}>
-						Back
-					</div>
 					<ExtendedSubmission
 						submissionData={selectedSubmission}
 						currentSymposiumId={currentSymposiumId}
 						isGuestProfile={isGuestProfile}
+						removeCommunityQuestionFromList={removeCommunityQuestionFromList}
+						closeModal={closeExtendedSubmission}
 					/>
 				</React.Fragment>:
 				<React.Fragment>

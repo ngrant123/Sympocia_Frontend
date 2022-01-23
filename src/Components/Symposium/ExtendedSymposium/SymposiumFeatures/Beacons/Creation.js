@@ -11,6 +11,7 @@ import {getSymposiumTags} from "../../../../../Actions/Requests/SymposiumRequest
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useDispatch} from "react-redux";
+import VideoLoadingPrompt from "../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	position:relative;
@@ -158,6 +159,16 @@ const Creation=({
 	const [loadingTags,changeLoadingTagsStatus]=useState(false);
 	const [selectedTags,changeSelectedTags]=useState([]);
 	const dispatch=useDispatch();
+	const [displayedVideoProcessingAlertStatus,changeDisplayedVideoProcessingAlertStatus]=useState(false);
+
+
+	const processingVideoInformationAlert=()=>{
+		if(!displayedVideoProcessingAlertStatus){
+			alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+			changeDisplayedVideoProcessingAlertStatus(true);
+		}
+	}
+
 
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -221,7 +232,7 @@ const Creation=({
 										beaconResponseDesignatedPostType;
 
 			if(currentSubmittedPostType=="Videos"){
-				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+				processingVideoInformationAlert();
 			}
 			
 			if(beaconResponseDesignatedPostType!=null){
@@ -267,6 +278,7 @@ const Creation=({
 					...message,
 					owner:{
 						...message.owner,
+						_id:userInformation.id,
 						firstName:userInformation.firstName
 					}
 				};
@@ -378,11 +390,20 @@ const Creation=({
 			}
 			case "Videos":{
 				return(
-					<video id="uploadVideoUrl" key={uuidv4()} width="100%" height="40%" 
-						style={{backgroundColor:"#151515",borderRadius:"5px"}}
-						borderRadius="5px" controls autoplay>
-						<source src={selectedPostUrl} type="video/mp4"/>
-					</video>
+					<React.Fragment>
+						{selectedPostUrl!=null &&(
+							<VideoLoadingPrompt
+								videoElement={
+									<video id="uploadVideoUrl" key={uuidv4()} width="100%" height="40%" 
+										style={{backgroundColor:"#151515",borderRadius:"5px"}}
+										borderRadius="5px" controls autoplay>
+										<source src={selectedPostUrl} type="video/mp4"/>
+									</video>
+								}
+								videoId="uploadVideoUrl"
+							/>
+						)}
+					</React.Fragment>
 				)
 			}
 		}

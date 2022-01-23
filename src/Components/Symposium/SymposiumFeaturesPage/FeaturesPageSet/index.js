@@ -59,7 +59,7 @@ const FeaturesContainer=styled.div`
 	}
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		top:20%;
+		top:25px;
 	}
 
 	@media screen and (max-width:600px) and (max-height:350px) and (orientation: landscape) {
@@ -144,7 +144,7 @@ const SymposiumFeatures=(props)=>{
 	const [loadingNewPostsIndicator,changeLoadingNewPostsIndicator]=useState(false);
 	const [endOfPostIndicator,changeEndOfPostsIndicator]=useState(false);
 	const [currentTagsSelection,changeCurrentTagSelection]=useState([]);
-	const [currentBeaconSelectedPostType,changeBeaconSelectedPostType]=useState();
+	const [currentBeaconSelectedPostType,changeBeaconSelectedPostType]=useState("Images");
 	const [componentMountedStatus,changeComponentMountedStatus]=useState(false);
 
 
@@ -280,6 +280,7 @@ const SymposiumFeatures=(props)=>{
 	const retrieveSymposiumCommunity=async(featuresPageGetParams)=>{
 		const {confirmation,data}=await getCommunityFeaturesPage(featuresPageGetParams);
 		if(confirmation=="Success"){
+			debugger;
 			const {message}=data;
 			const {
 				competitionEndDate,
@@ -288,6 +289,8 @@ const SymposiumFeatures=(props)=>{
 				questionStandings,
 				submissionCount
 			}=message
+
+			console.log(message);
 
 			const symposiumCommunityPrimaryInformation={
 				headerQuestions:questions,
@@ -359,19 +362,24 @@ const SymposiumFeatures=(props)=>{
 		
 	}
 
+	const resetEndOfPostEvaluation=(isNextPostsRequest,postType)=>{
+		debugger;
+		let token=currentPostManagmentToken;
+		if(isNextPostsRequest==false){
+			token=postFeedTokenGenerator();
+			changePostManagmentToken(token);
+		}
+		if(currentPostType!=postType){
+			changeEndOfPostsIndicator(false);
+		}
+		return token;
+	}
+
 	const fetchBeaconPosts=async({postType,tags,isNextPostsRequest})=>{
 		const {id}=personalInformation;
 		changeBeaconSelectedPostType(postType);
 		
-		let token=currentPostManagmentToken;
-		if(currentPostType!=postType || isNextPostsRequest==false){
-			token=postFeedTokenGenerator();
-			changePostManagmentToken(token);
-			if(currentPostType!=postType){
-				changeEndOfPostsIndicator(false);
-			}
-		}
-
+		let token=resetEndOfPostEvaluation(isNextPostsRequest,postType);
 
 		const featuresPageGetParams={
 			symposiumId:currentSymposiumId,
@@ -414,22 +422,19 @@ const SymposiumFeatures=(props)=>{
 
 	const fetchCommunityPosts=async({currentQuestionId,postType,isNextPostsRequest})=>{
 		
-		let token=currentPostManagmentToken;
-		if(isNextPostsRequest==false){
-			token=postFeedTokenGenerator();
-			changePostManagmentToken(token);
-		}
+		let token=resetEndOfPostEvaluation(isNextPostsRequest,postType);
 
 		const communityGetParams={
 			symposiumId:currentSymposiumId,
             parentQuestionId:currentQuestionId,
             ownerId:personalInformation.id,
-            currentPostManagmentToken,
+            currentPostManagmentToken:token,
             postType
 		}
 
 		const {confirmation,data}=await retrieveCommunityPosts(communityGetParams);
 		if(confirmation=="Success"){
+			debugger;
 			const {message}=data;
 			if(message.length==0){
 				if(isNextPostsRequest==false){
@@ -540,16 +545,6 @@ const SymposiumFeatures=(props)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
 	const insertTagIntoQueue=(newlyCreatedTag)=>{
 		let secondaryInformation=featuresPageSecondaryInformation;
 		const currentTagList=secondaryInformation.tags.symposiumTags;
@@ -559,10 +554,10 @@ const SymposiumFeatures=(props)=>{
 			...secondaryInformation,
 			tags:{
 				...secondaryInformation.tags,
-				symposiumTags:currentTagList
+				symposiumTags:currentTagList,
+				ownerCreationTagStatus:true
 			}
 		}
-
 		changeSecondaryInformation(secondaryInformation);
 	}
 
@@ -608,14 +603,6 @@ const SymposiumFeatures=(props)=>{
 
 		changeSecondaryInformation(secondaryInformation);
 	}
-
-
-
-
-
-
-
-
 
 
 

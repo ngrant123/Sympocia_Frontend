@@ -12,15 +12,24 @@ const Container=styled.div`
 	@media screen and (max-width:1370px){
 		margin-top:5%;
 		#image{
-			width:290px !important;
-			height:270px !important;
+			width:260px !important;
+			height:250px !important;
 		}
 	}
 
+	@media screen and (max-width:800px){
+		margin-top:5%;
+		#image{
+			width:230px !important;
+			height:220px !important;
+		}
+	}
+
+
 	@media screen and (max-width:650px){
 		#image{
-			width:120px !important;
-			height:110px !important;
+			width:110px !important;
+			height:100px !important;
 		}
 		#beaconInformation{
 			display:none !important;
@@ -44,11 +53,74 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (min-width:300px) and (max-width:330px) 
-		and (min-height:1000px) and (max-height:1200px){
+	@media screen and (max-width:325px){
 		#image{
-			width:100px !important;
-			height:90px !important;
+			width:90px !important;
+			height:80px !important;
+		}
+	}
+
+
+	@media screen and (min-width:200px) and (max-width:300px) 
+		and (min-height:800px) and (max-height:1100px){
+		#image{
+			width:80px !important;
+			height:70px !important;
+		}
+	}
+
+
+	@media screen and (min-width:200px) and (max-width:400px) 
+		and (min-height:800px) and (max-height:1100px){
+		#image{
+			width:110px !important;
+			height:100px !important;
+		}
+	}
+
+
+	@media screen and (min-width:200px) and (max-width:330px) 
+		and (min-height:600px) and (max-height:800px){
+		#image{
+			width:90px !important;
+			height:80px !important;
+		}
+	}
+
+
+
+	@media screen and (min-width:400px) and (max-width:700px) 
+		and (min-height:900px) and (max-height:1370px){
+		#image{
+			width:140px !important;
+			height:130px !important;
+		}
+	}
+
+	@media screen and (min-width:450px) and (max-width:700px) 
+		and (min-height:1100px) and (max-height:1370px){
+		#image{
+			width:180px !important;
+			height:170px !important;
+		}
+	}
+
+
+
+
+	@media screen and (min-width:300px) and (max-width:450px) 
+		and (min-height:1100px) and (max-height:1400px){
+		#image{
+			width:110px !important;
+			height:100px !important;
+		}
+	}
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+		and (min-height:830px) and (max-height:1200px){
+		#image{
+			width:90px !important;
+			height:80px !important;
 		}
 	}
 
@@ -61,16 +133,8 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (min-width:650px) and (max-width:720px) 
+	@media screen and (min-width:650px) and (max-width:70px) 
 		and (min-height:850px) and (max-height:900px){
-		#image{
-			width:100px !important;
-			height:90px !important;
-		}
-	}
-
-
-	@media screen and (max-width:350px) and (max-height:900px){
 		#image{
 			width:100px !important;
 			height:90px !important;

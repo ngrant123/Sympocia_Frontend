@@ -5,6 +5,7 @@ import {SmallProfilePictureAndVideoDescription} from "../../../ExplorePage/Explo
 import {Link} from "react-router-dom";
 import VideoPostDisplayPortal from "../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import AdIndicator from "../AdIndicator.js";
+import VideoLoadingPrompt from "../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 
 const ProfilePictureLink=styled(Link)`
@@ -76,12 +77,17 @@ const SymposiumAndExplorePageDisplay=({videoInformation,targetDom})=>{
 			)}
 			<div id="video" style={{height:"185px",width:"263px",position:"relative"}}>
 				<Container swimmingStatus={swimmingStatus} style={{height:"90%"}}>
-					<video onClick={()=>displayVideoModal(videoInformation)} 
-						style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
-						 position="relative" height="90%" width="100%" borderRadius="50%"
-					 	key={videoInformation.videoUrl} autoPlay loop autoBuffer muted playsInline>
-						<source src={videoInformation.videoUrl} type="video/mp4"/>
-					</video>
+					<VideoLoadingPrompt
+						videoElement={
+							<video key={videoInformation._id} id={videoInformation._id} onClick={()=>displayVideoModal(videoInformation)} 
+								style={{borderRadius:"5px",backgroundColor:"#151515",position:"absolute",cursor:"pointer"}}
+								 position="relative" height="90%" width="100%" borderRadius="50%"
+							 	key={videoInformation.videoUrl} autoPlay loop autoBuffer muted playsInline>
+								<source src={videoInformation.videoUrl} type="video/mp4"/>
+							</video>
+						}
+						videoId={videoInformation._id}
+					/>
 				</Container>
 				<div style={{position:"absolute",display:"flex",flexDirection:"column",top:"5%",left:"75%"}}>
 					<ProfilePictureLink to={{pathname:`/profile/${videoInformation.owner._id}`}}>

@@ -12,6 +12,7 @@ import {PostDisplayProvider} from "./PostDisplayContext.js";
 import OligarchPostSettings from "../../Modals/Oligarchs/OligarchPostAbilities/OligarchDeleteOrMovePost.js";
 import {SymposiumContext} from "../../SymposiumContext.js";
 import {useSelector} from "react-redux";
+import ArrowForwardIosIcon from '@material-ui/icons/KeyboardArrowDown';
 
 // margin-top:5%;
 const Container=styled.div`
@@ -136,6 +137,21 @@ const CreateIconCSS={
 	cursor:"pointer"
 }
 
+const NextButtonCSS={
+	display:"flex",
+	cursor:"pointer",
+	flexDirection:"row",
+	alignItems:"center",
+	color:"#303030",
+	justifyContent:"center"
+}
+const PostsHorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
+
 const PostCategory=(props)=>{
 	const {
 		headers,
@@ -158,15 +174,22 @@ const PostCategory=(props)=>{
 
 	const [postCategoryPosts,changePostCategoryPosts]=useState([]);
 	const loadingIndicatorRef=useRef();
+	const arrowDisplayRef=useRef();
+
 	const [displayCategoryUpload,changeDisplayCategoryUpload]=useState(false);
 	const [displayOligarchPostSettings,changeOligarchPostSettingsDisplay]=useState(false);
 	const [selectedpostId,changeSelectedpostId]=useState();
 	const [selectedSymposiumCategory,changeSelectedSymposiumCategory]=useState();
 	const personalInformation=useSelector(state=>state.personalInformation);
+	const [displayPostLoadingIndicator,changeDisplayPostLoadingIndicator]=useState(false);
 
 	useEffect(()=>{
 		changePostCategoryPosts([...props.posts])
 	},[posts]);
+
+	useEffect(()=>{
+
+	},[loadingIndicatorRef]);
 
 	const postsDisplay=(data)=>{
 		switch(postType){
@@ -314,21 +337,39 @@ const PostCategory=(props)=>{
 					</div>
 					<p>{headers.secondaryTitle}</p>
 				</div>
-				{displayDesktopUI==false &&(
-					<hr style={HorizontalLineCSS}/>
-				)}
+				<hr style={HorizontalLineCSS}/>
 				<div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
 					{postCategoryPosts.length==0?
 						<p>No posts</p>:
 						<React.Fragment>
 							{memoizedPostsDisplay}
-							<p ref={loadingIndicatorRef} onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef)}
-								style={{color:"#5298F8",cursor:"pointer",marginTop:"15%"}}>
-								Next Posts
-							</p>
 						</React.Fragment>
 					}
 				</div>
+
+				<div style={{width:"100%"}}>
+					<hr style={PostsHorizontalLineCSS}/>
+					{postCategoryPosts.length!=0 &&(
+	            		<div style={NextButtonCSS}>
+	            			{displayPostLoadingIndicator==true?
+	            				<p>Loading...</p>:
+	            				<React.Fragment>
+									<p id="nextButton" 
+										onClick={()=>triggerReloadingPostsHandle(headers.title,loadingIndicatorRef,arrowDisplayRef)} 
+											style={{fontSize:"18px"}}>
+										<b ref={loadingIndicatorRef}>Next</b>
+									</p>
+									<div ref={arrowDisplayRef}>
+				            			<ArrowForwardIosIcon
+				            				style={{fontSize:24,marginTop:"-10px"}}
+				            			/>
+									</div>
+	            				</React.Fragment>
+	            			}
+	            		</div>
+	            	)}
+				</div>
+
 			</Container>
 		</PostDisplayProvider>
 	)	

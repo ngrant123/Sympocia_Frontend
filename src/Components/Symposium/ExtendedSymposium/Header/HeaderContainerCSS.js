@@ -35,7 +35,6 @@ export const HeaderContainerDiv=styled.div`
 export const SymposiumHeaderAnimation=styled.div`
 	position:sticky;
 	top:0%;
-	background-color:red;
 	width:400px;
 	height:40%;
 	paddding-left:5px;
@@ -164,7 +163,6 @@ export const ActiveProfilePictures=styled(Link)`
 	width:50px;
 	height:25%;
 	border-radius:50%;
-	background-color:red;
 	cursor:pointer;
 	margin-right:2%;
 	margin-bottom:2%;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NoProfilePicture from "../../../../../../designs/img/NoProfilePicture.png";
+import VideoLoadingPrompt from "../../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	display:flex;
@@ -58,6 +59,7 @@ const VideosContainerCSS={
 	marginRight:"8%",
 	marginBottom:"5%",
 	width:"310px",
+	height:"300px",
 	position:"relative"
 }
 
@@ -90,12 +92,17 @@ const Videos=({posts,triggerDisplaySelectedPost,featurePageType})=>{
 									/>
 								</div>
 							</div>
-							<video
-								style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-								 position="relative" height="90%" width="100%" borderRadius="50%"
-							 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-								<source src={data.videoUrl} type="video/mp4"/>
-							</video>
+							<VideoLoadingPrompt
+								videoElement={
+									<video id={"symposiumFeaturesPageVideoElement"+index}
+										style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+										 position="relative" height="90%" width="100%" borderRadius="50%"
+									 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+										<source src={data.videoUrl} type="video/mp4"/>
+									</video>
+								}
+								videoId={"symposiumFeaturesPageVideoElement"+index}
+							/>
 						</div>
 						<div style={{display:"flex",flexDirection:"row",marginTop:"1%"}}>
 							<img src={data.owner.profilePicture==null?

@@ -15,6 +15,10 @@ const Container=styled.div`
 	border-color:#EFEFEF;
 	overflow:hidden;
 
+	#smallImageContainer{
+		width:150px !important;
+	}
+
 	@media screen and (max-width:1370px){	
 		margin-bottom:5%;
 	}
@@ -41,6 +45,11 @@ const Container=styled.div`
 			height:100px !important;
 			width:110px !important;
 		}
+	}
+
+	@media screen and (min-width:250px) and (max-width:370px) 
+		and (min-height:800px) and (max-height:1400px){
+		flex-direction:column;
 	}
 `;
 

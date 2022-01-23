@@ -1,5 +1,5 @@
 
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 import SearchOptions from "./PostFilterOptions/index.js";
 import Posts from "./PostDisplay/index.js"
 import {suggestedSymposiumsRecursive} from "./PostDisplay/SuggestedSymposiums.js"
@@ -30,7 +30,7 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
     }
 
 
-    const  changePostOption=async(symposiumCategoryType,newPostOption,isNewPostOption,postCount,loadingNewPostsRef)=>{
+    const  changePostOption=async(symposiumCategoryType,newPostOption,isNewPostOption,postCount,loadingNewPostsRef,arrowDisplayRef)=>{
         
         if(postCount>0){
             changeIsLoadingReloadedPosts(true);
@@ -65,10 +65,11 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 if(loadingNewPostsRef!=null)
                     loadingNewPostsRef.current.innerHTML="";
 
+                arrowDisplayRef.current.innerHTML="";
                 changeEndOfPostIndicator(true);
             }else{
                 if(loadingNewPostsRef!=null)
-                    loadingNewPostsRef.current.innerHTML="Next Posts";
+                    loadingNewPostsRef.current.innerHTML="Next";
                 
                 const currentPosts=posts;
                 let nextPosts;
@@ -127,14 +128,15 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         return nextPosts;
     }
 
-    const triggerReloadingPostsHandle=(symposiumCategoryType,ref)=>{
+    const triggerReloadingPostsHandle=(symposiumCategoryType,ref,arrowDisplayRef)=>{
         ref.current.innerHTML="Loading...";
         changePostOption(
             symposiumCategoryType,
             postOption,
             false,
             postCount+1,
-            ref);
+            ref,
+            arrowDisplayRef);
     }
 
     const fetchPosts=(newPostOption,resetSearchResults)=>{
@@ -279,40 +281,8 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
         }   
     }
 
-
-    return(
-        <PostProvider
-            value={{
-                pushDummyPlaceholderPostToStack:(dummyData)=>{
-                   triggerPushPlaceholder(dummyData);
-                },
-                removePostFromStack:(postId,postCategoryType)=>{
-                    triggerRemovePostFromStack(postId,postCategoryType);
-                },swapPostFromStack:(
-                        postId,
-                        currentPostCategoryType,
-                        targetPostCategoryType,
-                        symposiumName)=>{
-                    triggerSwapPostFromStack(postId,currentPostCategoryType,targetPostCategoryType,symposiumName);
-                },
-                postOption
-            }}>
-            <SearchOptions
-                state={{
-                    headerAnimation:state.headerAnimation,
-                    displayPhoneUI:state.displayPhoneUI,
-                    selectedSymposiumTitle:state.selectedSymposiumTitle,
-                    displayDesktopUI:state.displayDesktopUI,
-                    symposiumId:state.symposiumId,
-                    backgroundColor:state.backgroundColor
-                }}
-                updatePosts={fetchPosts}
-                posts={posts}
-                postType={postOption}
-                searchFilterPosts={searchFilterPosts}
-                displayBeacon={displayBeacon}
-            />
-            <hr/>
+    const memoizedPosts=useMemo(()=>{
+        return(
             <Posts
                 state={{
                     posts,
@@ -332,6 +302,63 @@ const PostsAndFilterOptions=({state,displaySymposium,displayRecruitConfetti,prof
                 displayRecruitConfetti={displayRecruitConfetti}
                 profileId={profileId}
             />
+        )
+    },[
+        posts,
+        isLoadingReloadedPosts,
+        endOfPostsDBIndicator,
+        isLoadingNewPosts,
+        state.displayPhoneUI,
+        state.displayDesktopUI,
+        state.headerAnimation
+    ])
+
+    const searchOptions=useMemo(()=>{
+        return(
+            <SearchOptions
+                state={{
+                    headerAnimation:state.headerAnimation,
+                    displayPhoneUI:state.displayPhoneUI,
+                    selectedSymposiumTitle:state.selectedSymposiumTitle,
+                    displayDesktopUI:state.displayDesktopUI,
+                    symposiumId:state.symposiumId,
+                    backgroundColor:state.backgroundColor
+                }}
+                updatePosts={fetchPosts}
+                posts={posts}
+                postType={postOption}
+                searchFilterPosts={searchFilterPosts}
+                displayBeacon={displayBeacon}
+            />
+        )
+    },[
+        state.headerAnimation,
+        state.displayPhoneUI,
+        state.displayDesktopUI,
+        posts,
+        postOption
+    ])
+
+    return(
+        <PostProvider
+            value={{
+                pushDummyPlaceholderPostToStack:(dummyData)=>{
+                   triggerPushPlaceholder(dummyData);
+                },
+                removePostFromStack:(postId,postCategoryType)=>{
+                    triggerRemovePostFromStack(postId,postCategoryType);
+                },swapPostFromStack:(
+                        postId,
+                        currentPostCategoryType,
+                        targetPostCategoryType,
+                        symposiumName)=>{
+                    triggerSwapPostFromStack(postId,currentPostCategoryType,targetPostCategoryType,symposiumName);
+                },
+                postOption
+            }}>
+            {searchOptions}
+            <hr/>
+           {memoizedPosts}
         </PostProvider>
     )
 }

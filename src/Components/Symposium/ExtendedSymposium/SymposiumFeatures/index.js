@@ -1,4 +1,4 @@
-import React,{useState,useContext,useEffect} from "react";
+import React,{useState,useContext,useEffect,useMemo} from "react";
 import {SymposiumContext} from "../SymposiumContext.js";
 import styled from "styled-components";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -14,6 +14,7 @@ import {
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import SymposiumUniversityPortalDisplay from "./University/UniversityIndex/FeaturePostsMiddleMan.js";
 import {useSelector} from "react-redux";
+import VideoLoadingPrompt from "../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 
 
@@ -74,10 +75,6 @@ const SymposiumFeatureContainer=styled.div`
 		#postLI{
 			width:40% !important;
 		}
-		#videoQuestionAnswers{
-			width:200px !important;
-			height:218px !important;
-		}
 
 		#imageHighlightedQuestion{
 			width:80% !important;
@@ -99,13 +96,9 @@ const SymposiumFeatureContainer=styled.div`
 		#postLI{
 			width:40% !important;
 		}
-		#videoQuestionAnswers{
-			height:150px !important;
-			width:110% !important;
-		}
 		#imageHighlightedQuestion{
 			height:95px !important;
-			width:85% !important;
+			width:95px !important;
 		}
 
 		#answerButton{
@@ -115,6 +108,9 @@ const SymposiumFeatureContainer=styled.div`
 			width:30% !important;
 		}
 	}
+
+
+
 	@media screen and (min-width:500px) and (max-width:600px) 
 		and (min-height:750px) and (max-height:850px){
 		#imageHighlightedQuestion{
@@ -126,8 +122,42 @@ const SymposiumFeatureContainer=styled.div`
 		#imageHighlightedQuestion{
 			height:280px !important;
 		}
-		#videoQuestionAnswers{
-			width:400px !important;
+	}
+
+
+
+
+	@media screen and (min-width:400px) and (max-width:600px) 
+		and (min-height:900px) and (max-height:1200px){
+		#imageHighlightedQuestion{
+			height:130px !important;
+			width:140px !important;
+		}
+	}
+
+
+	@media screen and (min-width:550px) and (max-width:700px) 
+		and (min-height:550px) and (max-height:800px){
+		#imageHighlightedQuestion{
+			height:130px !important;
+			width:140px !important;
+		}
+	}
+
+
+	@media screen and (min-width:400px) and (max-width:700px) 
+		and (min-height:650px) and (max-height:1150px){
+		#imageHighlightedQuestion{
+			height:160px !important;
+			width:170px !important;
+		}
+	}
+
+	@media screen and (min-width:400px) and (max-width:700px) 
+		and (min-height:1000px) and (max-height:1300px){
+		#imageHighlightedQuestion{
+			height:160px !important;
+			width:170px !important;
 		}
 	}
 
@@ -141,10 +171,6 @@ const SymposiumFeatureContainer=styled.div`
 		#answerButton{
 			top:90% !important;
 		}
-		#videoQuestionAnswers{
-			height:300px !important;
-			width:400px !important;
-		}
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
@@ -156,14 +182,42 @@ const SymposiumFeatureContainer=styled.div`
 		#answerButton{
 			top:80% !important;
 		}
-
-		#videoQuestionAnswers{
-			height:210px !important;
-			width:200px !important;
-		}
 	}
 
 `;
+
+const VideoQuestionContainer=styled.div`
+	position:relative;
+	width:120px;
+	height:60px;
+
+
+	@media screen and (max-width:1370px){
+		width:200px !important;
+		height:218px !important;
+	}
+
+	@media screen and (max-width:650px){
+		height:150px !important;
+		width:110% !important;
+	}
+
+	@media screen and (min-width:1110px) and (max-width:1380px) and (min-height:800px) and (max-height:1100px){
+		width:400px !important;
+	}
+
+	@media screen and (max-width:1370px) and (max-height:800px) and (orientation: landscape) {
+		height:300px !important;
+		width:400px !important;
+    }
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		height:210px !important;
+		width:200px !important;
+	}
+
+`;
+
 
 
 
@@ -327,7 +381,7 @@ const SymposiumFeatures=(props)=>{
 	  });
 	}
 
-	const constructResponses=(question)=>{
+	const constructResponses=useMemo(()=>{
 		var element;
 		if(responses.length==0){
 			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
@@ -344,15 +398,22 @@ const SymposiumFeatures=(props)=>{
 						</div>;
 			}else if(questions[counter].questionType=="Video"){
 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
-							{responses.map(data=>
+							{responses.map((data,index)=>
 								<div id="postLI" onClick={()=>setVideoPost(data)} 
-									style={{marginRight:"10%",marginBottom:"5%",width:"30%"}}>
-									<video id="videoQuestionAnswers"
-										style={{borderRadius:"5px",cursor:"pointer"}}
-										 position="relative" width="120" height="60"
-									 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-										<source src={data.videoUrl} type="video/mp4"/>
-									</video>
+									style={{marginRight:"10%",marginBottom:"5%"}}>
+									<VideoQuestionContainer>
+										<VideoLoadingPrompt
+											videoElement={
+												<video id={"videoQuestionAnswers"+index}
+													style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+													 position="relative" width="100%" height="100%"
+												 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											}
+											videoId={"videoQuestionAnswers"+index}
+										/>
+									</VideoQuestionContainer>
 								</div>
 							)}
 						</div>;
@@ -369,7 +430,7 @@ const SymposiumFeatures=(props)=>{
 						</div>;
 			}
 		}
-	}
+	})
 
 	const expandQuestion=()=>{
 		if(props.isGuestProfile==true){
@@ -555,7 +616,7 @@ const SymposiumFeatures=(props)=>{
 							)}
 						</div>
 						<hr style={HorizontalLineCSS}/>
-						{constructResponses(responses)}
+						{constructResponses}
 						<div id="answerButton" style={AnswerButtonCSS}
 							onClick={()=>expandQuestion()}>
 							Answer

@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useContext} from "react";
+import React,{useState,useEffect,useContext,useMemo} from "react";
 import styled from "styled-components";
 import NoProfilePicture from "../../../../designs/img/NoProfilePicture.png";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import ShadowOverlay from "./ShadowOverlay.js";
 import {SymposiumContext} from "../SymposiumContext.js"
+import VideoLoadingPrompt from "../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 import {
 	SymposiumHeaderAnimation,
@@ -340,7 +341,7 @@ const HeaderContainer=(props)=>{
 		)
 	}
 
-	const popularVideoConstruct=()=>{
+	const popularVideoConstruct=useMemo(()=>{
 		const videos=[];
 		for(var i=0;i<popularVideos.length;i++){
 			let component;
@@ -351,20 +352,30 @@ const HeaderContainer=(props)=>{
 									View All
 								</div>
 								<div style={{zIndex:5}}>
-									<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
-										position="relative" height="60px" width="70px"
-										style={{borderRadius:"5px"}}>
-										<source src={popularVideos[i].videoUrl} type="video/mp4"/>
-									</video>
+									<VideoLoadingPrompt
+										videoElement={
+											<video id={"smallVideo"+i} key={uuidv4()} borderRadius="5px" 
+												position="relative" height="60px" width="70px"
+												style={{borderRadius:"5px"}}>
+												<source src={popularVideos[i].videoUrl} type="video/mp4"/>
+											</video>
+										}
+										videoId={"smallVideo"+i}
+									/>
 								</div>
 							</div>
 			}else{
 				component=<div style={PopularVideosCSS}>
-								<video id="smallVideo" key={uuidv4()} borderRadius="5px" 
-									position="relative" height="60px" width="70px"
-									style={{borderRadius:"5px"}}>
-									<source src={popularVideos[i].videoUrl} type="video/mp4"/>
-								</video>
+								<VideoLoadingPrompt
+									videoElement={
+										<video id={"smallVideo"+i} key={uuidv4()} borderRadius="5px" 
+											position="relative" height="60px" width="70px"
+											style={{borderRadius:"5px"}}>
+											<source src={popularVideos[i].videoUrl} type="video/mp4"/>
+										</video>
+									}
+									videoId={"smallVideo"+i}
+								/>
 							</div>
 			}
 			videos.push(component)
@@ -378,7 +389,7 @@ const HeaderContainer=(props)=>{
 				)}
 			</div>
 		)
-	}
+	},[popularVideos]);
 
 
 
@@ -425,101 +436,118 @@ const HeaderContainer=(props)=>{
 		)
 	}
 
+	const symposiumNameAndOligarchContentContainer=()=>{
+		return(
+			<HeaderContainerDiv id="firstHeaderContentsContainer"  style={{background:backgroundColor}}>
+				<div id="firstHeaderContentsDiv" 
+					style={{padding:"30px",position:"absolute",marginTop:"22%",width:"90%",height:"100%",zIndex:10,marginLeft:"5%"}}>
+					<div style={{marginBottom:"22%"}}>
+						<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+							<p style={{color:"white",fontSize:"30px",fontFamily:"'Poppins'"}}>
+								<b>{selectedSymposiumTitle}</b>
+							</p>
+							{oligarchIcon()}
+							{symposiumFeaturesEntrance()}
+						</div>
+						<p style={{color:"white",opacity:0.7}}>{miscellaneousSymposiumInformation.symposiumIntroductionTitle}</p>
+					</div>
+					<div style={{display:"flex",flexDirection:"column"}}>
+						<p style={{color:"white",opacity:0.7}}>Popular Videos</p>
+						{popularVideoConstruct}
+					</div>
+				</div>
+				{shadowOverlay()}
+			</HeaderContainerDiv>
+		)
+	}
+
+
+	const symposiumFollowButtonAndContentsContainer=useMemo(()=>{
+		return(
+			<HeaderContainerDiv style={{background:backgroundColor,marginRight:"0%"}}>
+				<div id="headerContentsDiv" style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
+					<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
+						style={{...ButtonCSS,backgroundColor:"white",color:"#252525",marginBottom:"17%",boxShadow:"1px 1px 5px #6e6e6e"}}>
+						<b>
+						 	{followSymposiumButtonClick==false?
+						 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
+						 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
+						 	}
+						</b>
+					</div>
+					<div style={{display:"flex",flexDirection:"column"}}>
+						<p style={{color:"white",opacity:0.7}}>Active Users</p>
+						<div style={{display:"flex",flexDirection:"row",marginBottom:"1%"}}>
+			 				{activePeople.map(data=>
+	 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
+	 								<img src={data.profilePicture!=null?
+	 											data.profilePicture:
+	 											NoProfilePicture} 
+	 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
+	 							</ActiveProfilePictures>
+		 					)}
+			 			</div>
+			 			<p style={{color:"white",opacity:0.7}}>{activePeople.length} members</p>
+					</div>
+				</div>
+				{shadowOverlay()}
+			</HeaderContainerDiv>
+		)
+	},[followSymposiumButtonClick,posts])
+
+	const sympoiumFeaturesSimplifiedContentContainer=()=>{
+		return(
+			<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
+				<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px",height:"72%"}}>
+					<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+						<p id="communityHeaderButton" style={displaySymposiumCommunityModal==true?
+							SymposiumCommunitySelectedOptionCSS:
+							NonSelectedSymposiumCommunityOptionCSS}
+							onClick={()=>triggerDisplaySymposiumCommunityModal("communityHeaderButton")}>
+							Symposium Community
+						</p>
+						
+						{(selectedSymposiumTitle=="General"||
+							selectedSymposiumTitle=="Religion"||
+							selectedSymposiumTitle=="Gaming"||
+							selectedSymposiumTitle=="Philosophy")==false &&(
+							<p id="universityHeaderButton" 
+								style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
+								NonSelectedSymposiumOptionCSS}
+								onClick={()=>triggerDisplaySymposiumUniversityModal("universityHeaderButton")}>
+								Symposium University
+							</p>
+						)}
+
+
+						<p id="beaconsHeaderButton"
+						 	style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
+							{...NonSelectedSymposiumOptionCSS,marginLeft:"5%"}}
+							onClick={()=>triggerDisplaySymposiumBeaconsModal("beaconsHeaderButton")}>
+							Beacons
+						</p>
+					</div>
+
+					<div style={{width:"100%",height:"100%",borderRadius:"5px"}}>
+						{SymposiumConsumer.specificSymposiumFeaturesComponent(
+							selectedSymposiumFeature,
+							false)}
+					</div>
+				</div>
+				{shadowOverlay()}
+			</HeaderContainerDiv>
+		)
+	}
+
 	return(
 		<React.Fragment>
 			{headerAnimation==false ?
 				<Container id="headerContents">
 					{props.isLoading==false &&(
 						<>
-							<HeaderContainerDiv id="firstHeaderContentsContainer"  style={{background:backgroundColor}}>
-								<div id="firstHeaderContentsDiv" 
-									style={{padding:"30px",position:"absolute",marginTop:"22%",width:"90%",height:"100%",zIndex:10,marginLeft:"5%"}}>
-									<div style={{marginBottom:"22%"}}>
-										<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-											<p style={{color:"white",fontSize:"30px",fontFamily:"'Poppins'"}}>
-												<b>{selectedSymposiumTitle}</b>
-											</p>
-											{oligarchIcon()}
-											{symposiumFeaturesEntrance()}
-										</div>
-										<p style={{color:"white",opacity:0.7}}>{miscellaneousSymposiumInformation.symposiumIntroductionTitle}</p>
-									</div>
-									<div style={{display:"flex",flexDirection:"column"}}>
-										<p style={{color:"white",opacity:0.7}}>Popular Videos</p>
-										{popularVideoConstruct()}
-									</div>
-								</div>
-								{shadowOverlay()}
-							</HeaderContainerDiv>
-
-							<HeaderContainerDiv style={{background:backgroundColor,width:"50%"}}>
-								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"12%",width:"100%",zIndex:10,padding:"30px",height:"72%"}}>
-									<div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-										<p id="communityHeaderButton" style={displaySymposiumCommunityModal==true?
-											SymposiumCommunitySelectedOptionCSS:
-											NonSelectedSymposiumCommunityOptionCSS}
-											onClick={()=>triggerDisplaySymposiumCommunityModal("communityHeaderButton")}>
-											Symposium Community
-										</p>
-										
-										{(selectedSymposiumTitle=="General"||
-											selectedSymposiumTitle=="Religion"||
-											selectedSymposiumTitle=="Gaming"||
-											selectedSymposiumTitle=="Philosophy")==false &&(
-											<p id="universityHeaderButton" 
-												style={displayUniversityModal==true?SelectedSymposiumOptionCSS:
-												NonSelectedSymposiumOptionCSS}
-												onClick={()=>triggerDisplaySymposiumUniversityModal("universityHeaderButton")}>
-												Symposium University
-											</p>
-										)}
-
-
-										<p id="beaconsHeaderButton"
-										 	style={displayBeaconModal==true?SelectedSymposiumOptionCSS:
-											{...NonSelectedSymposiumOptionCSS,marginLeft:"5%"}}
-											onClick={()=>triggerDisplaySymposiumBeaconsModal("beaconsHeaderButton")}>
-											Beacons
-										</p>
-									</div>
-
-									<div style={{backgroundColor:"red",width:"100%",height:"100%",borderRadius:"5px"}}>
-										{SymposiumConsumer.specificSymposiumFeaturesComponent(
-											selectedSymposiumFeature,
-											false)}
-									</div>
-								</div>
-								{shadowOverlay()}
-							</HeaderContainerDiv>
-
-							<HeaderContainerDiv style={{background:backgroundColor,marginRight:"0%"}}>
-								<div id="headerContentsDiv" style={{position:"absolute",marginTop:"30%",width:"100%",zIndex:10,marginLeft:"30%"}}>
-									<div onClick={()=>handleFollowSymposium({isAccessTokenUpdated:false})}
-										style={{...ButtonCSS,backgroundColor:"white",color:"#252525",marginBottom:"17%",boxShadow:"1px 1px 5px #6e6e6e"}}>
-										<b>
-										 	{followSymposiumButtonClick==false?
-										 		<p>Follow {selectedSymposiumTitle} Symposium</p>:
-										 		<p>Unfollow {selectedSymposiumTitle} Symposium</p>
-										 	}
-										</b>
-									</div>
-									<div style={{display:"flex",flexDirection:"column"}}>
-										<p style={{color:"white",opacity:0.7}}>Active Users</p>
-										<div style={{display:"flex",flexDirection:"row",marginBottom:"1%"}}>
-							 				{activePeople.map(data=>
-					 							<ActiveProfilePictures to={{pathname:`/profile/${data._id}`}}>
-					 								<img src={data.profilePicture!=null?
-					 											data.profilePicture:
-					 											NoProfilePicture} 
-					 								style={{backgroundColor:"red", width:"50px",height:"50px",borderRadius:"50%"}}/>
-					 							</ActiveProfilePictures>
-						 					)}
-							 			</div>
-							 			<p style={{color:"white",opacity:0.7}}>{activePeople.length} members</p>
-									</div>
-								</div>
-								{shadowOverlay()}
-							</HeaderContainerDiv>
+							{symposiumNameAndOligarchContentContainer()}
+							{sympoiumFeaturesSimplifiedContentContainer()}
+							{symposiumFollowButtonAndContentsContainer}
 						</>
 					)}
 				</Container>:

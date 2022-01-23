@@ -111,6 +111,7 @@ const CreateButtonCSS={
 
 const BeaconPostCreation=({
 	featuresPagePrimaryInformation,
+	featuresPageSecondaryInformation,
 	updatePrimaryPosts,
 	closeFeaturesPageCreationModal,
 	selectedPostType,
@@ -118,15 +119,48 @@ const BeaconPostCreation=({
 	personalInformation,
 	isDesktop})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
-	const {currentBeaconSelectedPostType}=featuresPageConsumer;
+	const {
+		currentBeaconSelectedPostType,
+		updateSecondaryInformation
+	}=featuresPageConsumer;
 
+	const updateTagPostCount=(beaconTagName)=>{
+		const{
+			tags:{
+				symposiumTags
+			}
+		}=featuresPageSecondaryInformation;
+
+		for(var i=0;symposiumTags.length;i++){
+			if(symposiumTags[i].name==beaconTagName){
+				let symposiumTagPostCount=symposiumTags[i].postCountUsingTag;
+				symposiumTagPostCount++;
+				symposiumTags[i]={
+					...symposiumTags[i],
+					postCountUsingTag:symposiumTagPostCount
+				}
+				break;
+			}
+		}
+		updateSecondaryInformation({
+			...featuresPageSecondaryInformation,
+			tags:{
+				...featuresPageSecondaryInformation.tags,
+				symposiumTags
+			}
+		})
+	}	
 
 	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
+		debugger;
+		console.log(featuresPageConsumer);
 		if(beaconPostType==currentBeaconSelectedPostType){
 			let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
 			const {posts}=currentBeaconPrimaryInformation;
 			posts.splice(0,0,beacon);
-			updatePrimaryPosts(posts,false)
+			updatePrimaryPosts(posts,false);
+			debugger;
+			updateTagPostCount(beacon.tags[0].name);
 		}
 		closeFeaturesPageCreationModal();
 	}
@@ -168,7 +202,7 @@ const BeaconProgressBar=({
 	const beaconInteractedWith=answeredBeacons+acceptedBeacons;
 
 	useState(()=>{
-		
+		debugger;
 		let progressBarCompletion;
 		let completedBeaconsAnsweredPercentage=(beaconInteractedWith)/totalBeacon;
 		if(completedBeaconsAnsweredPercentage==1)
@@ -272,13 +306,7 @@ const BeaconProgressBar=({
 const BeaconSideBar=()=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const {
-		featuresPageSecondaryInformation:{
-			progressBarInformation,
-			tags:{
-				symposiumTags,
-				ownerCreationTagStatus
-			}
-		},
+		featuresPageSecondaryInformation,
 		featuresPagePrimaryInformation,
 		updatePrimaryPosts,
 		fetchPosts,
@@ -289,6 +317,14 @@ const BeaconSideBar=()=>{
 		isDesktop,
 		triggerGenerateAirPlane
 	}=featuresPageConsumer;
+
+	const {
+		progressBarInformation,
+		tags:{
+			symposiumTags,
+			ownerCreationTagStatus
+		}
+	}=featuresPageSecondaryInformation;
 
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [selectedTags,changeSelectedTags]=useState([]);
@@ -400,6 +436,7 @@ const BeaconSideBar=()=>{
 			{displayBeaconCreation==true &&(
 				<BeaconPostCreation
 					featuresPagePrimaryInformation={featuresPagePrimaryInformation}
+					featuresPageSecondaryInformation={featuresPageSecondaryInformation}
 					updatePrimaryPosts={updatePrimaryPosts}
 					closeFeaturesPageCreationModal={closeFeaturesPageCreationModal}
 					selectedPostType={selectedPostType}

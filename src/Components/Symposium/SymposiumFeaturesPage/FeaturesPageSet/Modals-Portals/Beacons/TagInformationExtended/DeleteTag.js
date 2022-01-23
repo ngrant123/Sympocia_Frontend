@@ -1,6 +1,8 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import {removeTag} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
+import {useSelector,useDispatch} from "react-redux";
 
 const Container=styled.div`
 	width:100%;
@@ -26,15 +28,34 @@ const ButtonCSS={
 
 const DeleteTag=({closeModal,symposiumId,ownerId,tagId,deleteTag})=>{
 	const [deletingTagStatus,changeDeletingTagStatus]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
-	const triggerRemoveTag=async()=>{
+	const triggerRemoveTag=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeDeletingTagStatus(true);
-		const {confirmation,data}=await removeTag(tagId,symposiumId,ownerId);
+		const {confirmation,data}=await removeTag(
+											tagId,
+											symposiumId,
+											ownerId,
+											isAccessTokenUpdated==true?updatedAccessToken:
+											personalInformation.accessToken);
 		if(confirmation=="Success"){
 			deleteTag(tagId);
 			closeModal();
-		}else{	
-			alert('Unfortunately an has occured when deleting this beacon tag. Please try again');
+		}else{
+			const {statusCode}=data;
+			if(statusCode==401){
+				await refreshTokenApiCallHandle(
+					personalInformation.refreshToken,
+					personalInformation.id,
+					triggerRemoveTag,
+					dispatch,
+					{},
+					false
+				);
+			}else{
+				alert('Unfortunately an has occured when deleting this beacon tag. Please try again');
+			}
 		}
 		changeDeletingTagStatus(false);
 	}
@@ -53,7 +74,7 @@ const DeleteTag=({closeModal,symposiumId,ownerId,tagId,deleteTag})=>{
 			{deletingTagStatus==true?
 				<p>Please wait...</p>:
 				<div style={{display:"flex",flexDirection:"row"}}>
-					<div onClick={()=>triggerRemoveTag()} style={ButtonCSS}>
+					<div onClick={()=>triggerRemoveTag({isAccessTokenUpdated:false})} style={ButtonCSS}>
 						Yes
 					</div>
 

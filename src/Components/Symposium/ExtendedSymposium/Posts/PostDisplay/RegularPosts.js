@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import SymposiumRegularPostDisplay from "../../../../GeneralComponents/PostComponent/RegularPostComponent/SymposiumAndExplorePageRegularPost.js";
 
+// postUserInformation
+
 const Container=styled.div`
 	display:flex;
 	flex-direction:column;
@@ -15,6 +17,14 @@ const Container=styled.div`
 	border-radius:5px;
 	margin-right:2%;
 	margin-bottom:2%;
+
+	#headerPostTextOrAudioContainerLI{
+		top:0px !important;
+		margin-left:0% !important;
+	}
+	margin-bottom:15%;
+
+
 	@media screen and (max-width:1370px){
 		width:90%;
 		margin-top:5%;
@@ -40,6 +50,23 @@ const Container=styled.div`
 			width:190px;
 		}
 	}
+
+	@media screen and (min-width:250px) and (max-width:400px) 
+		and (min-height:800px) and (max-height:1400px){
+		#headerOwnerNameLI{
+			margin-left:15% !important;
+		}
+	}
+
+
+	@media screen and (min-width:200px) and (max-width:350px)
+		and (min-height:600px) and (max-height:900px){
+		#headerOwnerNameLI{
+			margin-left:25% !important;
+		}
+	}
+
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation: landscape) {
     	margin-top:45px !important;
     }

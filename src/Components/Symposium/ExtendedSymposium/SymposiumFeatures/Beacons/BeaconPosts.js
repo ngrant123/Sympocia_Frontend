@@ -5,6 +5,7 @@ import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {deleteBeaconReply} from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import {refreshTokenApiCallHandle} from "../../../../../Actions/Tasks/index.js";
 import {useSelector,useDispatch} from "react-redux";
+import VideoLoadingPrompt from "../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 
 const Container=styled.div`
 	margin-top:5%;
@@ -52,12 +53,13 @@ const ImageContainer=styled.div`
 	}
 
 	@media screen and (max-width:650px){
-		width:100% !important;
+		width:95px !important;
 		height:90px !important;
 	}	
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
-		height:150px !important;
+		height:130px !important;
+		width:135px !important;
 	}
 `;
 
@@ -273,12 +275,17 @@ const BeaconPosts=({
 								<div onClick={()=>displayExtendedPostModal(data,index)} 
 									style={{cursor:"pointer"}}>
 									<VideoContainer acceptedAnswerStatus={data.acceptedAnswerStatus}>
-										<video id="videoElement"
-											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-											 position="relative" width="100%" height="100%"
-										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-											<source src={data.videoUrl} type="video/mp4"/>
-										</video>
+										<VideoLoadingPrompt
+											videoElement={
+												<video id={"videoElement"+index}
+													style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+													 position="relative" width="100%" height="100%"
+												 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											}
+											videoId={"videoElement"+index}
+										/>
 									</VideoContainer>
 									<div id="postOwnerInformation">
 										<ProfileInformation>

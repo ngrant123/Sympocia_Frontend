@@ -76,6 +76,7 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,clo
 	const dispatch=useDispatch();
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [isProcessing,changeIsProcessing]=useState(false);
+	const [displayedVideoProcessingAlertStatus,changeDisplayedVideoProcessingAlertStatus]=useState(false);
 
 	const handeUploadVideo=()=>{
 		const reader=new FileReader();
@@ -93,6 +94,14 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,clo
 			}
 		}
 	}
+
+	const processingVideoInformationAlert=()=>{
+		if(displayedVideoProcessingAlertStatus){
+			alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now');
+			changeDisplayedVideoProcessingAlertStatus(true);
+		}
+	}
+
 	const uuidv4=()=>{
 	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -106,7 +115,8 @@ const VideoPostUpload=({selectedCategoryType,currentSymposiumName,isMobileUi,clo
 		if(videoUrl==null){
 			alert('Please enter a video url');
 		}else{
-			alert('Your video is processing. We wil notify via email and on here when your post is uploaded :). You can close this screen now');
+			processingVideoInformationAlert();
+			
 			changeIsProcessing(true);
 			let searchVideoResult={
 				title:currentVideoTitle,

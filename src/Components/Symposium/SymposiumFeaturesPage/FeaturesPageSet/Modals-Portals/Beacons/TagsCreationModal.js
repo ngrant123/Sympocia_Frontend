@@ -4,6 +4,8 @@ import {
 	addTag,
 	editTag
 } from "../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js"
+import {useSelector,useDispatch} from "react-redux";
+import {refreshTokenApiCallHandle} from "../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div`
 	width:100%;
@@ -47,6 +49,8 @@ const SubmitButtonCSS={
                                                             
 const TagsCreationModal=({symposiumId,ownerId,insertTagIntoQueue,closeModal,editedTagInformation,updateTag})=>{
 	const [submittingState,changeSubmittingStatus]=useState(false);
+	const personalInformation=useSelector(state=>state.personalInformation);
+	const dispatch=useDispatch();
 
 	useEffect(()=>{
 		if(editedTagInformation!=null){
@@ -54,13 +58,18 @@ const TagsCreationModal=({symposiumId,ownerId,insertTagIntoQueue,closeModal,edit
 		}
 	},[]);
 
-	const createTag=async()=>{
+	const createTag=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeSubmittingStatus(true);
 		const userSubmittedTagName=document.getElementById("tagName").value;
 		if(userSubmittedTagName==""){
 			alert('Please add a tag name');
 		}else{
-			const {confirmation,data}=await addTag(symposiumId,userSubmittedTagName,ownerId);
+			const {confirmation,data}=await addTag(
+												symposiumId,
+												userSubmittedTagName,
+												ownerId,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken);
 			if(confirmation=="Success"){
 				const{
 					message
@@ -69,19 +78,39 @@ const TagsCreationModal=({symposiumId,ownerId,insertTagIntoQueue,closeModal,edit
 				insertTagIntoQueue(tag);
 				closeModal();
 			}else{
-				alert('Unfortunately an has occured when creating this beacon tag. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createTag,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately an has occured when creating this beacon tag. Please try again');
+				}
+
+				changeSubmittingStatus(false);
 			}
 		}
 		changeSubmittingStatus(false);
 	}
 
-	const triggerEditTag=async()=>{
+	const triggerEditTag=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		changeSubmittingStatus(true);
 		const userSubmittedTagName=document.getElementById("tagName").value;
 		if(userSubmittedTagName==""){
 			alert('Please add a tag name');
 		}else{
-			const {confirmation,data}=await editTag(editedTagInformation._id,userSubmittedTagName,symposiumId);
+			const {confirmation,data}=await editTag(
+												editedTagInformation._id,
+												userSubmittedTagName,
+												symposiumId,
+												personalInformation.id,
+												isAccessTokenUpdated==true?updatedAccessToken:
+												personalInformation.accessToken);
 			if(confirmation=="Success"){
 				editedTagInformation={
 					...editedTagInformation,
@@ -90,10 +119,21 @@ const TagsCreationModal=({symposiumId,ownerId,insertTagIntoQueue,closeModal,edit
 				updateTag(editedTagInformation);
 				closeModal();
 			}else{
-				alert('Unfortunately an has occured when editing this beacon tag. Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						triggerEditTag,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately an has occured when editing this beacon tag. Please try again');
+				}
 			}
 		}
-
 		changeSubmittingStatus(false);
 	}
 
@@ -111,10 +151,10 @@ const TagsCreationModal=({symposiumId,ownerId,insertTagIntoQueue,closeModal,edit
 				<p>Loading...</p>:
 				<React.Fragment>
 					{editedTagInformation==null?
-						<div style={SubmitButtonCSS} onClick={()=>createTag()}>
+						<div style={SubmitButtonCSS} onClick={()=>createTag({isAccessTokenUpdated:false})}>
 							Submit
 						</div>:
-						<div style={SubmitButtonCSS} onClick={()=>triggerEditTag()}>
+						<div style={SubmitButtonCSS} onClick={()=>triggerEditTag({isAccessTokenUpdated:false})}>
 							Edit
 						</div>
 					}

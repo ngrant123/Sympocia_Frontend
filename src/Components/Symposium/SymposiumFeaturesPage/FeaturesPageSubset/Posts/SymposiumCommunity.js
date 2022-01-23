@@ -15,6 +15,7 @@ import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
+import NextButton from "./NextButton.js";
 
 const Container=styled.div`
 	display:flex;
@@ -80,10 +81,12 @@ const NextButtonCSS={
 
 
 const SymposiumCommunity=({featuresType,isLoading})=>{
+	debugger;
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
 	const [displayCommunityPostCreation,changeDisplayCommunityPostCreation]=useState(false);
 	const [displaySelectedPostPortal,changeDisplaySelectedPostPortal]=useState(false);
+	const [firstInitializationCompleted,changeFirstInitializationCompleted]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState();
 
 	const {
@@ -102,9 +105,16 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 		competitionEndDate,
 		responses
 	}=featuresPagePrimaryInformation;
+	console.log(featuresPagePrimaryInformation);
 
 	useEffect(()=>{
-		triggerFetchNextPosts(currentQuestionIndex,false);
+		debugger;
+		if(currentQuestionIndex>0 || firstInitializationCompleted==true){
+			triggerFetchNextPosts(currentQuestionIndex,false);
+		}else{
+			changeFirstInitializationCompleted(true);
+		}
+
 	},[currentQuestionIndex])
 
 	const updateCurrentIndexPrimaryInformation=(currentIndex)=>{
@@ -145,6 +155,7 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 			isBeaconParentComponent:false,
 			featurePageType:"Community"
 		}
+		console.log(postProps);
 		switch(questionType){
 			case "Image":{
 				return <Images {...postProps}/>
@@ -327,16 +338,16 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 					<p>Loading...</p>:
 					<>
 						{postsDisplayFunctionality(headerQuestions[currentQuestionIndex])}
-						{endOfPostIndicator==false &&(
-							<React.Fragment>
-								{isLoading==true?
-									<p>Loading...</p>:
-									<div onClick={()=>triggerFetchNextPosts(null,true)} style={NextButtonCSS}>
-										Next
-									</div>
-								}
-							</React.Fragment>
-						)}
+						<NextButton
+							isLoading={isLoading}
+							endOfPostIndicator={endOfPostIndicator}
+							fetchNextPosts={triggerFetchNextPosts}
+							postsLength={responses.length}
+							nextPostsParams={{
+								index:null,
+								isNextPostsRequest:true
+							}}
+						/>
 					</>
 				}
 			</PostsContainer>

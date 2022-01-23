@@ -18,8 +18,9 @@ const PortalHOCContainer=styled.div`
 	overflow-y:scroll;
 
 	@media screen and (max-width:1370px){
-		width:80% !important;
-		left:10% !important;
+		width:90%;
+		left:5%;
+		height:60%;
     }
 
     @media screen and (max-width:650px){

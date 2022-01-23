@@ -2,13 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import SymposiumImageDisplay from "../../../../GeneralComponents/PostComponent/ImageComponent/SymposiumAndExplorePageImage.js"; 
 
-
 const SmallPostContainer=styled.div`
 	margin-bottom:15%;
-	width:150px;
+	width:145px;
 	height:110px;
 	cursor:pointer;
-	margin-right:5%;
+	margin-right:7%;
 	#smallImageContainer{
 		height:110% !important;
 	}
@@ -51,8 +50,8 @@ const SmallPostContainer=styled.div`
 			margin-left:-10% !important;
 		}
 		#smallImageContainer{
-			width:110% !important;
-			height:120px !important;
+			width:90px !important;
+			height:95px !important;
 		}
 		#videoDescriptionContainer{
 			height:30px !important;
@@ -66,18 +65,37 @@ const SmallPostContainer=styled.div`
 			height:170px !important;
 		}
 	}
-
-	@media screen and (min-width:950px) and (max-width:1000px) 
-		and (min-height:1000px) and (max-height:1040px){
+	@media screen and (min-width:350px) and (max-width:900px) 
+		and (min-height:640px) and (max-height:800px){
+		
 		#smallImageContainer{
-			height:250px !important;
+			height:130px !important;
+			width:135px !important;
+		}
+	}
+	@media screen and (min-width:380px) and (max-width:900px) 
+		and (min-height:640px) and (max-height:800px){
+		
+		#smallImageContainer{
+			height:150px !important;
+			width:155px !important;
 		}
 	}
 
-	@media screen and (min-width:650px) and (max-width:900px) 
-		and (min-height:740px) and (max-height:1040px){
+
+
+	@media screen and (min-width:800px) and (max-width:1100px) 
+		and (min-height:850px) and (max-height:1100px){
 		#smallImageContainer{
-			height:210px !important;
+			height:270px !important;
+			width:260px !important;
+		}
+	}
+
+
+	@media screen and (min-width:250px) and (max-width:400px) and (min-height:800px) and (max-height:1400px){
+		#smallImageContainer{
+			height:105px !important;
 		}
 	}
 
@@ -95,34 +113,33 @@ const SmallPostContainer=styled.div`
 	}
 
 
-	@media screen and (min-width:400px) and (max-width:500px) and (min-height:1000px) and (max-height:1030px){
-		#smallImageContainer{
+	@media screen and (min-width:350px) and (max-width:500px) and (min-height:800px) and (max-height:1030px){
+		#smallImageContainer{		
 			height:140px !important;
+			width:145px !important;
 		}
 	}
 
-	@media screen and (min-width:300px) and (max-width:350px) and (min-height:700px) and (max-height:900px){
+	@media screen and (min-width:200px) and (max-width:350px) and (min-height:600px) and (max-height:900px){
 		#smallImageContainer{
-			height:90px !important;
+			height:110px !important;
 		}
 	}
 
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation:landscape){
 		margin-bottom:200px;
     	#smallImageContainer{
-			height:370px !important;
+			height:300px !important;
+			width:310px !important;
 		}
     }
 
-    @media screen and (max-width:1100px) and (max-height:800px) and (orientation:landscape){
-    	#smallImageContainer{
-			height:320px !important;
-		}
-    }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+		margin-bottom:90px;
     	#smallImageContainer{
-			height:170px !important;
+			height:130px !important;
+			width:130px !important;
 		}
     }
 `;

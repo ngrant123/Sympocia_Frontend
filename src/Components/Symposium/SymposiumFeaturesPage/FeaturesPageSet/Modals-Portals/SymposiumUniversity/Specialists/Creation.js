@@ -68,7 +68,7 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 	}
 
 
-	const createSymposiumSpecialist=async()=>{
+	const createSymposiumSpecialist=async({isAccessTokenUpdated,updatedAccessToken})=>{
 		const introduction=document.getElementById("introduction").value;
 		if(introduction==""){
 			alert('Please enter an introduction');
@@ -78,7 +78,9 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 				introduction,
 				profileId:personalInformation.id,
 				firstName:personalInformation.firstName,
-				symposiumId
+				symposiumId,
+				accessToken:isAccessTokenUpdated==true?updatedAccessToken:
+							personalInformation.accessToken
 			}
 			const {confirmation,data}=await addSymposiumSpecialist(specialist);
 			if(confirmation=="Success"){
@@ -92,7 +94,21 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 				triggerUpdateSecondaryInformation(specialist);
 
 			}else{
-				alert('Unfortunately there has been an error when creating your symposium specialist.Please try again');
+				const {statusCode}=data;
+				if(statusCode==401){
+					await refreshTokenApiCallHandle(
+						personalInformation.refreshToken,
+						personalInformation.id,
+						createSymposiumSpecialist,
+						dispatch,
+						{},
+						false
+					);
+				}else{
+					alert('Unfortunately there has been an error when creating your symposium specialist.Please try again');
+				}
+
+				changeSubmittingStatus(false);
 			}
 			changeSubmittingStatus(false);
 		}
@@ -110,7 +126,7 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 			/>
 			{submittingStatus==true?
 				<p>Please wait...</p>:
-				<div style={SubmitButtonCSS} onClick={()=>createSymposiumSpecialist()}>
+				<div style={SubmitButtonCSS} onClick={()=>createSymposiumSpecialist({isAccessTokenUpdated:false})}>
 					Submit
 				</div>
 			}

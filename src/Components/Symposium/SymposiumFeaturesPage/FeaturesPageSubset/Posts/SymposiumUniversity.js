@@ -18,6 +18,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/ImageHomeDisplayPortal.js";
 import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
+import NextButton from "./NextButton.js";
 
 
 const Container=styled.div`
@@ -162,7 +163,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	useEffect(()=>{
 		if(isFirstAccess==false){
 			changeDisplayHideButton(false);
-			fetchSymposiumUniversityPost(false);
+			fetchSymposiumUniversityPost(null,false);
 		}else{
 			changeFirstAccessStatus(false);
 		}
@@ -176,14 +177,19 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	}
 
 
-	const fetchSymposiumUniversityPost=async(isNextPostsRequest)=>{
+	const fetchSymposiumUniversityPost=async(index,isNextPostsRequest)=>{
 		
 		changeIsLoadingText(true);
-		let postToken=currentPostToken;
-		if(isNextPostsRequest==false){
+
+		let postToken=currentPostManagmentToken;
+		if(headerQuestions[currentQuestionIndex].questionType!=headerQuestions[index].questionType || isNextPostsRequest==false){
 			postToken=postFeedTokenGenerator();
-			changePostToken(postToken)
+			changePostToken(postToken);
+			if(headerQuestions[currentQuestionIndex].questionType!=headerQuestions[index].questionType){
+				changeDisplayHideButton(false);
+			}
 		}
+
 		const symposiumFetchParams={
 			questionId:headerQuestions[currentQuestionIndex].questionId,
             questionType:headerQuestions[currentQuestionIndex].questionType,
@@ -483,18 +489,16 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 					<>
 						{postsDisplayFunctionality()}
 
-						<React.Fragment>
-							{hideNextButton==false &&(
-								<React.Fragment>
-									{isLoadingText==true?
-										<p>Loading...</p>:
-										<div onClick={()=>fetchSymposiumUniversityPost(true)} style={NextButtonCSS}>
-											Next
-										</div>
-									}
-								</React.Fragment>
-							)}
-						</React.Fragment>
+						<NextButton
+							isLoading={isLoading}
+							endOfPostIndicator={hideNextButton}
+							fetchNextPosts={fetchSymposiumUniversityPost}
+							postsLength={currentPostQuestionReplies.length}
+							nextPostsParams={{
+								index:null,
+								isNextPostsRequest:true
+							}}
+						/>
 					</>
 				}
 			</PostsContainer>

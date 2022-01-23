@@ -4,7 +4,7 @@ import {createPortal} from "react-dom";
 import CameraIcon from '@material-ui/icons/Camera';
 import {
 	createSymposiumCommunityAnswer,
-	deleteCommentToPopularQuestions
+	deleteSymposiumCommunityAnswer
 } from "../../../../../Actions/Requests/PostAxiosRequests/PostPageSetRequests.js";
 import NoProfilePicture from "../../../../../designs/img/NoProfilePicture.png";
 import {useSelector,useDispatch} from "react-redux";
@@ -14,6 +14,8 @@ import ImagePostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modal
 import VideoPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/VideoHomeDisplayPortal.js";
 import RegularPostDisplayPortal from "../../../../ExplorePage/ExplorePageSet/Modals-Portals/RegularPostHomeDisplayPortal.js";
 import {SymposiumContext} from "../../SymposiumContext.js";
+
+import VideoLoadingPrompt from "../../../../GeneralComponents/PostComponent/VideoLoadingPrompt.js";
 import {
 	Container,
 	UploadContainer,
@@ -36,7 +38,8 @@ const SendButtonCSS={
     marginRight:"2%",
     marginTop:"2%",
     cursor:"pointer",
-    marginTop:"10%"
+    marginTop:"10%",
+    width:"20%"
 }
 
 const UploadButtonCSS={
@@ -77,9 +80,7 @@ const RegularPostContainer=styled.div`
 	flex-direction:row;
 	flex-wrap:wrap;
 	width:100%;
-	&:hover{
-		box-shadow: 1px 1px 1px 1px #d5d5d5;
-	}
+
 	@media screen and (max-width:600px){
 		flex-direction:column;
 	}
@@ -117,9 +118,20 @@ const QuestionUploadOption=({
 	const [isCommentProcessing,changeIsCommentProcessing]=useState(false);
 	const [selectedPost,changeSelectedPost]=useState();
 	const [displayUploadScreen,changeDisplayUploadScreen]=useState(true);
+	const [displayedVideoProcessingAlertStatus,changeDisplayedVideoProcessingAlertStatus]=useState(false);
+
+
+	const processingVideoInformationAlert=()=>{
+		if(!displayedVideoProcessingAlertStatus){
+			alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+			changeDisplayedVideoProcessingAlertStatus(true);
+		}
+	}
+
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
+		debugger;
 		changeIsCommentProcessing(true);
 		let description;
 		let continueUploadProcess=true;
@@ -136,7 +148,7 @@ const QuestionUploadOption=({
 
 		if(continueUploadProcess!=false){
 			if(currentQuestionType=="Video"){
-				alert('We are processing your post and we wil notify you via email and on here when your post is uploaded. In the meantime you can close this screen everything is being handled');
+				processingVideoInformationAlert();
 			}
 			const postInformation={
 				symposiumCommunityPostUrl:postData,
@@ -164,6 +176,7 @@ const QuestionUploadOption=({
 					...message,
 					owner:{
 						...message.owner,
+						_id:userId,
 						firstName:personalInformation.firstName
 					}
 				};
@@ -270,9 +283,11 @@ const QuestionUploadOption=({
 								</p>
 								<hr/>
 								<li style={{listStyle:"none"}}>
-									<img id="creationImage" src={selectedPost} style={{borderRadius:"5px",width:"27%",height:"30%",marginBottom:"10px"}}/>
+									<img id="creationImage" src={selectedPost} 
+										style={{borderRadius:"5px",width:"20%",height:"20%",marginBottom:"10px"}}
+									/>
 								</li>
-								<InputContainer id="imageDescription" style={{width:"70%",marginRight:"2%"}} placeholder="Describe your image here"/>
+								<InputContainer id="imageDescription" style={{marginRight:"2%"}} placeholder="Describe your image here"/>
 								<hr/>
 								{isCommentProcessing==false?
 									<li onClick={()=>sendData({postData:selectedPost,isAccessTokenUpdated:false})} style={SendButtonCSS}>
@@ -321,11 +336,18 @@ const QuestionUploadOption=({
 								</p>
 								<hr/>
 								<li style={{listStyle:"none",marginBottom:"20px"}}>
-									<video style={{backgroundColor:"#151515",borderRadius:"5px"}}
-										id="videoLI" width="45%" height="50%" controls autoplay>
-										<source src={selectedPost} type="video/mp4"/>
-									</video>
+									<VideoLoadingPrompt
+										videoElement={
+											<video style={{backgroundColor:"#151515",borderRadius:"5px"}}
+												id="videoLI" width="45%" height="50%" controls autoplay>
+												<source src={selectedPost} type="video/mp4"/>
+											</video>
+										}
+										videoId="videoLI"
+									/>
 								</li>
+
+
 								<InputContainer id="videoDescription" style={{width:"100%",marginRight:"2%"}} placeholder="Describe your video here"/>
 								<hr/>
 								{isCommentProcessing==false?
@@ -441,16 +463,15 @@ const QuestionsPortal=(props)=>{
 	}
 
 
-	const deleteHighlightedPost=async({selectedData,index,isAccessTokenUpdated,updatedAccessToken})=>{
-		const {confirmation,data}=await deleteCommentToPopularQuestions({
-											questionId:questions[counter]._id,
-							           		targetDeletionResponseId:selectedData._id,
+	const deleteSymposiumCommunityPost=async({selectedData,index,isAccessTokenUpdated,updatedAccessToken})=>{
+		const {confirmation,data}=await deleteSymposiumCommunityAnswer({
+											questionId:selectedData._id,
+							           		responseId:questions[counter]._id,
 								            symposiumId:symposiumInformation.symposiumId,
-								            userId,
+								            ownerId:userId,
 								            accessToken:isAccessTokenUpdated==true?updatedAccessToken:
-											personalInformation.accessToken,
-											postType:currentQuestionType
-										})
+											personalInformation.accessToken
+										});
 		if(confirmation=="Success"){
 			const currentResponses=currentReplies;
 			currentResponses.splice(index,1);
@@ -461,7 +482,7 @@ const QuestionsPortal=(props)=>{
 				await refreshTokenApiCallHandle(
 						personalInformation.refreshToken,
 						personalInformation.id,
-						deleteHighlightedPost,
+						deleteSymposiumCommunityPost,
 						dispatch,
 						{
 							selectedData,
@@ -475,11 +496,11 @@ const QuestionsPortal=(props)=>{
 		}
 	}
 
-	const deleteHighLightedQuestionIcon=(data,index)=>{
+	const deleteSymposiumCommunityQuestionIcon=(data,index)=>{
 		return(
 			<React.Fragment>
 				{(isOligarch==true || data.owner._id==personalInformation.id)==true &&(
-					<div onClick={()=>deleteHighlightedPost({selectedData:data,index,isAccessTokenUpdated:false})}>
+					<div onClick={()=>deleteSymposiumCommunityPost({selectedData:data,index,isAccessTokenUpdated:false})}>
 						<svg id="removePostOption" 
 							 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
 							width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6e6e6e" fill="none"
@@ -507,11 +528,12 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 								{replies.map((data,index)=>
 									<>
-										<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%",width:"25%"}}>
+										<div id="imageCommunityResponses" 
+											style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"5%"}}>
 											<img id="imgUrl" src={data.imgUrl} onClick={()=>displayAppropriatePostModal(data,"Images")} 
-												style={{borderRadius:"5px",height:"140px"}}
+												style={{borderRadius:"5px",height:"130px",width:"135px"}}
 											/>
-											{deleteHighLightedQuestionIcon(data,index)}
+											{deleteSymposiumCommunityQuestionIcon(data,index)}
 										</div>
 									</>
 								)}
@@ -520,18 +542,24 @@ const QuestionsPortal=(props)=>{
 					return <React.Fragment>
 								{replies.map((data,index)=>
 									<div style={{display:"flex",flexDirection:"column",marginRight:"2%",marginBottom:"2%"}}>
-										<video id="videoPost" onClick={()=>displayAppropriatePostModal(data,"Videos")} 
-											style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
-											 position="relative" width="150" height="150"
-										 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
-											<source src={data.videoUrl} type="video/mp4"/>
-										</video>
-										{deleteHighLightedQuestionIcon(data,index)}
+										<VideoLoadingPrompt
+											videoElement={
+												<video id={"videoPost"+index} onClick={()=>displayAppropriatePostModal(data,"Videos")} 
+													style={{borderRadius:"5px",backgroundColor:"#151515",cursor:"pointer"}}
+													 position="relative" width="170" height="150"
+												 	key={data.videoUrl} autoPlay loop autoBuffer muted playsInline>
+													<source src={data.videoUrl} type="video/mp4"/>
+												</video>
+											}
+											videoId={"videoPost"+index} 
+										/>
+										{deleteSymposiumCommunityQuestionIcon(data,index)}
+										<hr/>
 									</div>
 								)}
 							</React.Fragment>;
 				}else{
-					return <React.Fragment>
+					return <div style={{display:"flex",flexDirection:"column"}}>
 								{replies.map((data,index)=>
 									<div id="regularReplyContainer">
 										<RegularPostContainer onClick={()=>displayAppropriatePostModal(data,"RegularPosts")}>
@@ -544,14 +572,15 @@ const QuestionsPortal=(props)=>{
 													<b>{data.owner.firstName}</b>
 												</p>
 											</RegularPostUserInformation>
-											<p style={{marginLeft:"1%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
+											<p style={{marginLeft:"5%",maxHeight:"90px",maxWidth:"80%",overflow:"hidden"}}>
 												{data.post}	
 											</p>
 										</RegularPostContainer>
-										{deleteHighLightedQuestionIcon(data,index)}
+										{deleteSymposiumCommunityQuestionIcon(data,index)}
+										<hr/>
 									</div>
 								)}
-							</React.Fragment>;
+							</div>;
 			}
 		}
 	}

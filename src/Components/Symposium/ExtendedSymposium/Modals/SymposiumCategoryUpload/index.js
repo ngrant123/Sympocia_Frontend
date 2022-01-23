@@ -17,7 +17,7 @@ const Container=styled.div`
 	width:45%;
 	height:60%;
 	border-radius:5px; 
-	z-index:41;
+	z-index:50;
 	left:30%;
 	top:20%;
 	padding:20px;
@@ -30,8 +30,8 @@ const Container=styled.div`
 		height:90%;
 
 		#imageDiv{
-			height:150px !important;
-			width:30% !important;
+			height:135px !important;
+			width:140px !important;
 		}
 
 		#simpleUploadWrapperDiv{
@@ -74,16 +74,49 @@ const Container=styled.div`
 			width:210px !important;
 		}
 	}
+
+
+
+	@media screen and (min-width:400px) and (max-width:600px) 
+		and (min-height:900px) and (max-height:1200px){
+		#imageDiv{
+			height:130px !important;
+			width:140px !important;
+		}
+	}
+
+
+	@media screen and (min-width:550px) and (max-width:700px) 
+		and (min-height:550px) and (max-height:800px){
+		#imageDiv{
+			height:130px !important;
+			width:140px !important;
+		}
+	}
+
+
+	@media screen and (min-width:400px) and (max-width:700px) 
+		and (min-height:650px) and (max-height:1100px){
+		#imageDiv{
+			height:130px !important;
+			width:140px !important;
+		}
+	}
+
+
+
+
 	@media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#imageDiv{
-			width:20% !important;
+			height:135px !important;
+			width:140px !important;
 		}
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
 		#imageDiv{
-			width:40% !important;
-			height:150px !important;
+			width:140px !important;
+			height:135px !important;
 		}
 	}
 `;
