@@ -16,7 +16,7 @@ export const Container=styled.div`
 		margin-left:-5% !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		margin-left:0% !important;
 	}
 

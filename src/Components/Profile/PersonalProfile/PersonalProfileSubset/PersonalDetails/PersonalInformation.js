@@ -56,9 +56,20 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#mobileUserInformation{
 			justify-content:space-between;
+		}
+	}
+
+	@media screen and (max-width:700px) and (max-height:420px) and (orientation:landscape){
+		#mobileUserInformation{
+	   		margin-top:-160px !important;
+		}
+	}
+	@media screen and (max-width:570px) and (max-height:420px) and (orientation:landscape){
+		#mobileUserInformation{
+	   		margin-top:0px !important;
 		}
 	}
 `;
@@ -117,7 +128,7 @@ const RecruitButtonContainer=styled.div`
 		width:120px;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:100px !important;
 		margin-bottom:0%;
 	}

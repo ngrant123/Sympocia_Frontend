@@ -77,7 +77,7 @@ export const SmallBlog=styled.div`
 		width:310px !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:95% !important;
 		height:80% !important;
 		#smallImage{
@@ -126,7 +126,7 @@ export const ColorPatchContainer=styled.div`
 			`background-color:${colorCode};`
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
     }
 `;
 

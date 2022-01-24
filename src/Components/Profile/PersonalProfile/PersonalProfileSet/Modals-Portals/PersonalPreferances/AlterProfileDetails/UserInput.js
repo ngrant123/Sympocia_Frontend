@@ -32,7 +32,7 @@ const InputContainer=styled.textarea`
 		font-size:30px !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:90% !important;
 		height:150px !important;
 	}

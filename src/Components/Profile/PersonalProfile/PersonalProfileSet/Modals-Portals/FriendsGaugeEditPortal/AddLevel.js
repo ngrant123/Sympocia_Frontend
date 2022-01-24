@@ -49,7 +49,7 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#recruitImage{
 			width:45px !important;
 			height:40px !important;

@@ -37,7 +37,7 @@ const SponsorModal=styled.div`
 	}
 
 
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
     	padding:5%;
 	    #sponsoreModalUL{
 	    	margin-left:-20% !important;
@@ -85,7 +85,7 @@ const UploadPicture=styled.div`
 		margin-left:-5% !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		margin-left:0% !important;
 	}
 

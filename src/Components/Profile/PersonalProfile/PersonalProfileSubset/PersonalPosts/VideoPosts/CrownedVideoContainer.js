@@ -80,7 +80,7 @@ const ThumbnailVideo=styled.div`
 		height:300px;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:100% !important;
 		height:80% !important;
 		margin-right:-5% !important;
@@ -159,7 +159,7 @@ const ColorPatchContainer=styled.div`
 	@media screen and (max-width:1370px){
 		top:70%;
 	}
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		left:80%;
     }
 `;

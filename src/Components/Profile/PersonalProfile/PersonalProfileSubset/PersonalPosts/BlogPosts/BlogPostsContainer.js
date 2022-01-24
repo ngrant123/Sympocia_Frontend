@@ -33,7 +33,7 @@ const Container=styled.div`
 		width:130% !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		margin-left:15% !important;
 		#smallPostsContainer{
 			flex-direction:column !important;

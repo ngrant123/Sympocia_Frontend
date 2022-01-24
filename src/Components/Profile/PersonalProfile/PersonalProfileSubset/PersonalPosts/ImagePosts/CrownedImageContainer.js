@@ -28,7 +28,7 @@ const Container=styled.div`
 		margin-bottom:15px;
   	}
 
-  	@media screen and (max-width:650px){
+  	@media screen and (max-width:550px){
   		#postInformationLI{
   			display:none !important;
   		}
@@ -54,7 +54,7 @@ const Image=styled.div`
 		margin-bottom:60px;
 		height:200px;
 	}
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		height:290px !important;
 		width:100% !important;
     }
@@ -89,6 +89,11 @@ const Image=styled.div`
 	   	height:350px !important;
 	}
 
+	@media screen and (min-width:350px) and (max-width:560px) 
+    	and (min-height:700px) and (max-height:1100px){
+		height:200px !important;
+	}
+
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape){
 		height:180px !important;
@@ -118,7 +123,7 @@ const ColorPatchContainer=styled.div`
 			`background-color:${colorCode};`
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		height:20px !important;
     	width:30px;
     	left:80%;

@@ -63,6 +63,13 @@ const Container=styled.div`
 	    width:110% !important;
 	}
 
+
+	@media screen and (min-width:400px) and (max-width:560px) 
+	    and (min-height:600px) and (max-height:800px){
+	   	margin-top:5%;
+	    width:105%;
+	}
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#parentLISmallPostContainer{
 			width:190% !important;

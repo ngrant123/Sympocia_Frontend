@@ -184,7 +184,7 @@ const ColorPatchContainer=styled.div`
 			`background-color:${colorCode};`
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		left:85%;
     }
 `;

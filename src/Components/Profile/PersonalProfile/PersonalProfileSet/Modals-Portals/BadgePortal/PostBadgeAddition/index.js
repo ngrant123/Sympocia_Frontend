@@ -46,7 +46,7 @@ const Container=styled.div`
 		height:50%;
 		top:25%;
     }
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
 		width:100% !important;
 		left:0% !important;
 		top:0% !important;

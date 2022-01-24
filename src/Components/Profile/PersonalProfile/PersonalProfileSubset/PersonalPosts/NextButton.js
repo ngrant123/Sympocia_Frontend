@@ -7,7 +7,7 @@ import Typed from "react-typed";
 const Container=styled.div`
 	width:100%;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#nextButton{
 			margin-left:0% !important;
 		}

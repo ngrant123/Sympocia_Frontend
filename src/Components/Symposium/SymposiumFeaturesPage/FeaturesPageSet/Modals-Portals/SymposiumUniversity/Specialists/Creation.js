@@ -1,8 +1,9 @@
 import React,{useState,useContext} from "react";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {addSymposiumSpecialist} from "../../../../../../../Actions/Requests/SymposiumRequests/SymposiumAdapter.js";
 import {FeaturesContext} from "../../../../FeaturesPageSet/FeaturesPageContext.js";
+import {refreshTokenApiCallHandle} from "../../../../../../../Actions/Tasks/index.js";
 
 const Container=styled.div``;
 const InputContainer=styled.textarea`
@@ -50,6 +51,8 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [submittingStatus,changeSubmittingStatus]=useState(false);
 	const featuresPageConsumer=useContext(FeaturesContext);
+	const dispatch=useDispatch();
+
 	const {
 		updateSecondaryInformation,
 		featuresPageSecondaryInformation

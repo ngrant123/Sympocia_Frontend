@@ -45,7 +45,7 @@ const PersonalInformationContainer=styled.div`
 	top:20%;
 	overflow-y:scroll;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:90% !important;
 		left:5% !important;
     }
@@ -108,7 +108,7 @@ const SponsorExtendedModal=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		top:15%;
 		padding:20px;
 		height:70%; 
@@ -124,27 +124,6 @@ const SponsorExtendedModal=styled.div`
 `;
 
 const MobileChampionContainer=styled.div`
-	top: 5% !important;
-    position: absolute !important;
-    left: 10px !important;
-    margin-left: 0px !important;
-    z-index: 22;
-		
-	@media screen and (max-width:1370px){
-		${({isOwner})=>
-			isOwner==true?
-			`top:90px !important`:
-			`top:20px !important`
-		}
-    }
-
-    @media screen and (max-width:650px){
-		${({isOwner})=>
-			isOwner==true?
-			`top:110px !important`:
-			`top:20px !important`
-		}
-    }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
 		display:none !important;

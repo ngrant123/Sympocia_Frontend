@@ -27,7 +27,7 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		position:relative;
 		justify-content:center !important;
 		align-items:center !important;
@@ -111,7 +111,7 @@ export const Image=styled.div`
 	border-radius:5px;
 	overflow:hidden;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		height:140px;
 	}
 `;
@@ -145,7 +145,7 @@ export const ColorPatchContainer=styled.div`
 			`background-color:${colorCode};`
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		height:17px !important;
     	width:20px !important;
     	margin-left:2%;

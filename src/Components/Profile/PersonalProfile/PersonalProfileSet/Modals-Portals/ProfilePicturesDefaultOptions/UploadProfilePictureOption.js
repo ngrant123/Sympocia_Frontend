@@ -15,7 +15,7 @@ const Container=styled.div`
 	    }
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#backButton{
 			width:100% !important;
 		}

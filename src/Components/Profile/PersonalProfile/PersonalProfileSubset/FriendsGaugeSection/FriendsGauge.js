@@ -31,7 +31,7 @@ const Container=styled.div`
     margin-bottom:0px;
     margin-left:5%;
   }
-  @media screen and (max-width:650px){
+  @media screen and (max-width:550px){
     margin-left:10%;
     margin-right:5%;
   }

@@ -41,7 +41,7 @@ export const Container=styled.div`
 		}
     }
 
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
     	top:0%;
     	left:0% !important;
     	width:100% !important;

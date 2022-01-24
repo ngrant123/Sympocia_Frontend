@@ -40,7 +40,7 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:150% !important;
 		margin-left:5% !important;
 

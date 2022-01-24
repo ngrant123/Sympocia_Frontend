@@ -33,7 +33,7 @@ const Container=styled.div`
 		overflow:scroll !important;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:100% !important;
 		height:100%;
 		top:0%;

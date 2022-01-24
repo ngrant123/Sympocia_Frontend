@@ -25,7 +25,7 @@ export const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:100% !important;
 		#userPictureAndNameLI{
 			width:90% !important;
@@ -161,7 +161,7 @@ export const SubmitButton=styled.div`
 		margin-bottom:10px;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:35%;
 	}
 `;

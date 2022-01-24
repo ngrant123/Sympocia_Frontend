@@ -13,11 +13,13 @@ import {Link} from "react-router-dom";
 
 const Container=styled.div`
 	margin-top:2%;
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#sympociaNoPostsLogo{
 			display:none !important;
 		}
 	}
+
+
 	@media screen and (max-width:740px) and (max-height:420px) and (orientation:landscape){
 		margin-left:10% !important;
     }
@@ -31,7 +33,7 @@ const SympociaStampIconContainer=styled.div`
 	margin-left:20%;
 	margin-bottom:2%;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		height:100px;
 		width:105px;
 	}

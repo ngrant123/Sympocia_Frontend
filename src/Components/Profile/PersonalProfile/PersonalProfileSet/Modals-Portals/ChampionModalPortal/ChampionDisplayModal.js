@@ -58,7 +58,7 @@ const SponsorExtendedModal=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		top:15%;
 		padding:20px;
 		height:70%; 
@@ -107,7 +107,7 @@ const ExtendedChampionInformation=styled.div`
 	margin-bottom:5%;
 	align-items:center;
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		#championImageLI{
 			width:50px !important;
 			height:50px !important;

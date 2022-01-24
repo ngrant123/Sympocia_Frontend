@@ -100,12 +100,16 @@ export const addSymposiumResources=async(addedSymposiumResourceInformation)=>{
 	}
 }
 
-export const deleteSymposiumSpecialist=async(symposiumId,specialistId,profileId)=>{
+export const deleteSymposiumSpecialist=async(symposiumId,specialistId,profileId,accessToken)=>{
 	try{
 		const deletedSymposiumSpecialistResponse=await axios.post(`${CreateUrl}/deleteSymposiumSpecialist`,{
 			symposiumId,
 			specialistId,
 			profileId
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		})
 
 		const {data}=deletedSymposiumSpecialistResponse;
@@ -115,10 +119,19 @@ export const deleteSymposiumSpecialist=async(symposiumId,specialistId,profileId)
 	}
 }
 
-export const deleteSymposiumResource=async(deletedSymposiumResourceInformation)=>{
+export const deleteSymposiumResource=async(deletedSymposiumResourceInformationParams)=>{
 	try{
+		const {
+			accessToken,
+			...deletedSymposiumResourceInformation
+		}=deletedSymposiumResourceInformationParams;
+		
 		const deletedSymposiumResponse=await axios.post(`${CreateUrl}/deleteSymposiumResource`,{
 			...deletedSymposiumResourceInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=deletedSymposiumResponse;
 		return data;

@@ -12,11 +12,7 @@ export const Container=styled.div`
 			margin-top:10% !important;
 		}
 		#createPostIcon{
-			top:5% !important;
-			position:absolute !important;
-			left:10px !important;
 			margin-left:0px !important;
-			z-index:22;
 		}
     }
 
@@ -27,7 +23,7 @@ export const Container=styled.div`
     }
 
 
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
     	#postsDivider{
     		display:none !important;
     	}
@@ -131,10 +127,10 @@ export const Container=styled.div`
 	}
 
 
-	@media screen and (min-width:500px) and (max-width:570px) 
-	    and (min-height:700px) and (max-height:860px){
+	@media screen and (min-width:400px) and (max-width:570px) 
+	    and (min-height:600px) and (max-height:860px){
 	    #postSelectionAndRecruitDiv{
-			margin-left:70px !important;
+			margin-left:10px !important;
 		}	
 
 		#postCollectionContainer{
@@ -176,6 +172,15 @@ export const Container=styled.div`
 	}
 
 
+	@media screen and (min-width:350px) and (max-width:560px) 
+    	and (min-height:700px) and (max-height:1100px){
+		#postsContainer{
+			margin-left:-83%;
+		}
+	}
+
+
+
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
 		#postsContainer{
 			margin-top:10% !important;
@@ -193,7 +198,7 @@ export const Container=styled.div`
     }
 
 
-    @media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
+    @media screen and (max-width:550px) and (max-height:420px) and (orientation:landscape){
     	#postsContainer{
 			margin-top:120% !important;
 		}
@@ -226,7 +231,7 @@ export const MobilePersonalInformationContainer=styled.div`
 			display:block !important;
 		}
 	}
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:90% !important;
 		left:5% !important;
 		height:75% !important;
@@ -274,7 +279,7 @@ export const ProfileContainer=styled.div`
 		height:30%;
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		flex-direction: column-reverse;
 		position:absolute;
 		margin-left:2% !important;
@@ -287,7 +292,7 @@ export const ProfileContainer=styled.div`
     	
     }
 
-	@media screen and (max-width:650px) and (max-height:420px) and (orientation:landscape){
+	@media screen and (max-width:550px) and (max-height:420px) and (orientation:landscape){
 		top:0%;
 		margin-top:0% !important;
 		height:90% !important;
@@ -322,7 +327,7 @@ export const PersonalProfileInformationContainer= styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		top:-20% !important;
 		#mobileUserInformation{
 			margin-left:2% !important;
@@ -343,7 +348,7 @@ export const PersonalProfileInformationContainer= styled.div`
     }
 
 	@media screen and (max-width:840px) and (max-height:420px) and (orientation:landscape){
-    	top:40px !important;
+    	top:20px !important;
    	}
 
    	@media screen and (max-width:570px) and (max-height:340px) and (orientation:landscape){
@@ -447,7 +452,7 @@ export const PostInformationContainer=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		top:35% !important;
 	}
 	@media screen and (max-width:670px) and (max-height:340px){
@@ -459,7 +464,7 @@ export const PostInformationContainer=styled.div`
 
   	@media screen and (min-width:350px) and (max-width:560px) 
     	and (min-height:700px) and (max-height:1100px){
-		top:290px !important;
+		top:15% !important;
 	}
 
 	@media screen and (min-width:230px) and (max-width:560px) 
@@ -477,7 +482,7 @@ export const PostInformationContainer=styled.div`
 		top:20%;
     }
 
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
     	top:25%;
     }
 `;
@@ -525,7 +530,7 @@ export const ImagePopupContainer=styled.div`
     	border-radius:5px !important;
     }
 
-    @media screen and (max-width:650px){
+    @media screen and (max-width:550px){
     	margin-top:0% !important;
     	height:100% !important;
     	top:0% !important;
@@ -618,6 +623,9 @@ export const ChampionMobileUIButton=styled.div`
 	padding:15px;
 	border-width:5px;
 	animation: glowing 1300ms infinite;
+	display:flex;
+	justify-content:center;
+	align-items:center;
 
 
 	@keyframes glowing {
@@ -641,6 +649,11 @@ export const ChampionMobileUIButton=styled.div`
      @media screen and (max-width:1080px){
 			width:70px !important;
 			height:70px !important;
+    }
+
+    @media screen and (max-width:550px){
+    	width:60px !important;
+    	height:60px !important;
     }
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	display:none !important;

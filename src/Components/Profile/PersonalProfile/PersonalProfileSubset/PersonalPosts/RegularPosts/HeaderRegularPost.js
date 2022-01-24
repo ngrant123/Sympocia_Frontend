@@ -35,7 +35,7 @@ const Container=styled.div`
 		}
 	}
 
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:100%;
 		flex-direction:column;
 	}
@@ -199,7 +199,7 @@ const PostSecondSection=styled.div`
 			max-height:100% !important;
 		}
 	}
-	@media screen and (max-width:650px){
+	@media screen and (max-width:550px){
 		width:130% !important;
 		#headerPost{
 			max-height:90px !important;
