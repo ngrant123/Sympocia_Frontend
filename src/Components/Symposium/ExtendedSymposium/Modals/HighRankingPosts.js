@@ -24,7 +24,7 @@ const PostOptionCSS={
 	backgroundColor:"white"
 }
 
-const SwimmingPosts=({symposiumId,postType})=>{
+const HighRankingPosts=({symposiumId,postType})=>{
 	const [highRankingPosts,changeHighRankingPosts]=useState([]);
 	const [loadingStatus,changeIsLoading]=useState(true);
 
@@ -38,7 +38,7 @@ const SwimmingPosts=({symposiumId,postType})=>{
 			const {message}=data;
 			changeHighRankingPosts([...message]);
 		}else{
-			alert('Unfortunately there has been an error retrieving these symposiums swimming posts. Please try again');
+			alert('Unfortunately there has been an error retrieving these symposiums high-ranking posts. Please try again');
 		}
 		changeIsLoading(false);
 	}	
@@ -151,6 +151,6 @@ const SwimmingPosts=({symposiumId,postType})=>{
 }
 
 
-export default SwimmingPosts;
+export default HighRankingPosts;
 
 

@@ -25,11 +25,13 @@ const PostOptionCSS={
 const SwimmingPosts=({symposiumName,postType})=>{
 	const [swimmingPosts,changeSwimmingPosts]=useState([]);
 	const [loadingStatus,changeIsLoading]=useState(true);
+	const [currentPostType,changeCurrentPostType]=useState(postType);
 
 	useEffect(()=>{
-		fetchData(postType);
+		fetchData(currentPostType);
 	},[]);
 	const fetchData=async(retrievalPostType)=>{
+		changeCurrentPostType(retrievalPostType);
 		changeIsLoading(true);
 		const {confirmation,data}=await retrieveSwimmingPostsPerSymposium(symposiumName,retrievalPostType);
 		if(confirmation=="Success"){
@@ -45,7 +47,7 @@ const SwimmingPosts=({symposiumName,postType})=>{
 			<div class="dropdown" id="mobileOligarchOptionsDropDown">
 				<button class="btn btn-primary dropdown-toggle" 
 					type="button" data-toggle="dropdown" style={PostOptionCSS}>
-					{postType}
+					{currentPostType}
 					<span class="caret"></span>
 				</button>
 
@@ -82,7 +84,7 @@ const SwimmingPosts=({symposiumName,postType})=>{
 	}
 
 	const postDisplay=(data)=>{
-		switch(postType){
+		switch(currentPostType){
 			case "Image":{
 				return(
 					<Images

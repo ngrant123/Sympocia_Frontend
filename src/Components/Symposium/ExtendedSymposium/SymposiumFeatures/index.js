@@ -258,6 +258,7 @@ const AnswerButtonCSS={
 }
 
 const SymposiumFeatures=(props)=>{
+	console.log(props);
 	const {
 		selectedSymposiumFeature,
 		isPortalHocComponent
@@ -269,6 +270,7 @@ const SymposiumFeatures=(props)=>{
 		symposiumUniversityQuestions,
 		communityQuestions
 	}=symposiumConsumers;
+	console.log(communityQuestions);
 
 	const {id}=useSelector(state=>state.personalInformation);
 	const [questions,changeQuestions]=useState(props.questionInformation.questions);
@@ -384,7 +386,7 @@ const SymposiumFeatures=(props)=>{
 	const constructResponses=useMemo(()=>{
 		var element;
 		if(responses.length==0){
-			return <p> No responses yet :(. Click on the question and click the pencil icon to make a post </p>
+			return <p> No responses yet :(. Click on the question to make a post </p>
 		}else{
 			if(questions[counter].questionType=="Image"){
 				return <div style={{display:"flex",flexDirection:"row",width:"100%",flexWrap:"wrap"}}>
@@ -485,12 +487,13 @@ const SymposiumFeatures=(props)=>{
 
 	const triggerRetrieveCommunityPosts=async(currentCounter)=>{
 		alterIsLoading(true);
+		debugger;
 		const communityGetParams={
 			symposiumId:props.symposiumId,
-            parentQuestionId:questions[currentCounter]._id,
+            parentQuestionId:communityQuestions.questions[currentCounter]._id,
             ownerId:props.ownerId,
             currentPostManagmentToken:uuidv4(),
-            postType:questions[currentCounter].questionType
+            postType:communityQuestions.questions[currentCounter].questionType
 		}
 
 		const {confirmation,data}=await retrieveCommunityPosts(communityGetParams);

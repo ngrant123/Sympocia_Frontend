@@ -284,7 +284,7 @@ const QuestionUploadOption=({
 								<hr/>
 								<li style={{listStyle:"none"}}>
 									<img id="creationImage" src={selectedPost} 
-										style={{borderRadius:"5px",width:"20%",height:"20%",marginBottom:"10px"}}
+										style={{borderRadius:"5px",width:"90px",height:"90px",marginBottom:"10px"}}
 									/>
 								</li>
 								<InputContainer id="imageDescription" style={{marginRight:"2%"}} placeholder="Describe your image here"/>
@@ -522,7 +522,7 @@ const QuestionsPortal=(props)=>{
 	const constructResponses=(replies)=>{
 			var element;
 			if(replies.length==0){
-				return <p> No replies yet :(. Click on the question and click the pencil icon to make a post </p>
+				return <p> No replies yet :(. Click on the question to make a post </p>
 			}else{
 				if(currentQuestionType=="Image"){
 					return <React.Fragment>
@@ -593,6 +593,10 @@ const QuestionsPortal=(props)=>{
 
 	const updatePosts=(recentlyAddedPost)=>{
 		changeDisplayPost(false);
+		var replies=currentReplies;
+		replies.splice(0,0,recentlyAddedPost);
+		changeCurrentReplies([...replies]);
+
 		closeModalAndDisplayData({
 			data:recentlyAddedPost,
 			currentQuestionType
@@ -679,7 +683,7 @@ const QuestionsPortal=(props)=>{
 										<hr/>
 										<li style={{listStyle:"none",cursor:"pointer"}}>
 											<PostsContainer>
-												{responses.length==0?
+												{currentReplies.length==0?
 													<p>No replies yet :( </p>:
 													<React.Fragment>
 														{constructResponses(currentReplies)}

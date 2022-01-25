@@ -481,12 +481,13 @@ import styled from "styled-components";
 export const ProfilePictureContainer=styled.div`
 	position:relative;
 	width:90%;
-	height:350px;
+	height:300px;
 	left:2%;
 	border-style:solid;
 	border-color:white;
 	border-width:7px;
 	border-radius:5px;
+  padding:20px;
 	z-index:3;
 	box-shadow: 1px 1px 10px #d5d5d5;
 	display:flex;
@@ -505,6 +506,8 @@ export const ProfilePictureContainer=styled.div`
 
 
 	@media screen and (max-width:1370px){
+
+    padding:0px;
 	 	box-shadow:none !important;
 	 	height:60%;
 		width:100%;
