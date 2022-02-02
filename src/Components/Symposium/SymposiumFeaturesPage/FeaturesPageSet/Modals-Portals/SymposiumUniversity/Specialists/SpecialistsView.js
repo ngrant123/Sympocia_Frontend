@@ -37,7 +37,7 @@ const SpecialistsView=({specialists,triggerCreationModal,displayHighLightedSpeci
 	return(
 		<Container>
 			<p style={{fontSize:"25px"}}>
-				<b>Photography Specialists</b>
+				<b>Specialists</b>
 			</p>
 			<hr/>
 			{/*

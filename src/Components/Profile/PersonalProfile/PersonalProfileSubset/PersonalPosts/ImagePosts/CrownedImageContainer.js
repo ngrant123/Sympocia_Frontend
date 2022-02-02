@@ -91,7 +91,7 @@ const Image=styled.div`
 
 	@media screen and (min-width:350px) and (max-width:560px) 
     	and (min-height:700px) and (max-height:1100px){
-		height:200px !important;
+		height:250px !important;
 	}
 
 

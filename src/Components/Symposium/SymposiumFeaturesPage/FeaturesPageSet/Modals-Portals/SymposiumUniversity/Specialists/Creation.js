@@ -65,7 +65,11 @@ const Creation=({closeModal,triggerAddSymposiumSpecialist,symposiumId})=>{
 
 		symposiumUniversitySecondaryInformation={
 			...symposiumUniversitySecondaryInformation,
-			specialists
+			specialists:[...specialists],
+			uploadStatuses:{
+				...symposiumUniversitySecondaryInformation.uploadStatuses,
+				specialistUploadStatus:true
+			}
 		}
 		updateSecondaryInformation(symposiumUniversitySecondaryInformation);
 	}

@@ -464,7 +464,7 @@ export const PostInformationContainer=styled.div`
 
   	@media screen and (min-width:350px) and (max-width:560px) 
     	and (min-height:700px) and (max-height:1100px){
-		top:15% !important;
+		top:40% !important;
 	}
 
 	@media screen and (min-width:230px) and (max-width:560px) 

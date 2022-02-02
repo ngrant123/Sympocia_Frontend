@@ -1146,6 +1146,7 @@ const PersonalPostsIndex=(props)=>{
 					isLoadingReloadedPosts,
 					endOfPostsDBIndicator,
 					history:props.history,
+					highRankingOrSwimmingPostsTriggered,
 					updatePostComponent:(postOption)=>{
 						changePostOption(postOption);
 						changeDisplayCreationPost(true);

@@ -53,12 +53,14 @@ const ShadowContainer=styled.div`
 `;
 
 
-const CommunityOptions=({closeModal,displaySubmission,currentSymposiumId})=>{
+const CommunityOptions=({closeModal,displaySubmission,displayEditSubmissionsModal,currentSymposiumId})=>{
 	const featuresPageConsumer=useContext(FeaturesContext);
 	let {
 		featuresPageSecondaryInformation,
 		updateSecondaryInformation
 	}=featuresPageConsumer;
+
+	const {ownerQuestionCreationStatus}=featuresPageSecondaryInformation;
 
 	const retrievePopularQuestionSubmissions=async()=>{
 		const {confirmation,data}=await retrieveMostPopularQuestionStandingSubmission(currentSymposiumId);
@@ -101,6 +103,14 @@ const CommunityOptions=({closeModal,displaySubmission,currentSymposiumId})=>{
 					View all
 				</li>
 				<hr/>
+				{ownerQuestionCreationStatus==true &&(
+					<React.Fragment>
+						<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>displayEditSubmissionsModal()}>
+							Edit
+						</li>
+						<hr/>
+					</React.Fragment>
+				)}
 				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrievePopularQuestionSubmissions()}>
 					Popular
 				</li>

@@ -480,7 +480,7 @@ import styled from "styled-components";
 
 export const ProfilePictureContainer=styled.div`
 	position:relative;
-	width:90%;
+	width:80%;
 	height:300px;
 	left:2%;
 	border-style:solid;
@@ -578,8 +578,8 @@ export const ProfilePictureContainer=styled.div`
 
    @media screen and (min-width:250px) and (max-width:400px) 
       and (min-height:650px) and (max-height:800px){
-      height:25%;
-      margin-top:60%;
+      height:230px;
+      margin-top:45%;
   }
 
 
@@ -602,7 +602,7 @@ export const ProfilePictureContainer=styled.div`
 
   @media screen and (min-width:350px) and (max-width:560px) 
       and (min-height:700px) and (max-height:1100px){
-      height:50% !important;
+      height:27% !important;
   }
 
 
@@ -610,10 +610,10 @@ export const ProfilePictureContainer=styled.div`
 
   @media screen and (min-width:400px) and (max-width:560px) 
       and (min-height:600px) and (max-height:800px){
-      height:200px !important;
-      width:270px;
-      left:20%;
-      margin-top:170px !important;
+      height:250px !important;
+      width:310px;
+      left:35px;
+      margin-top:190px !important;
   }
 
 

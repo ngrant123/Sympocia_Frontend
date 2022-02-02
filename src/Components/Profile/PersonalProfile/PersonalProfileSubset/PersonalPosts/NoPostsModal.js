@@ -200,7 +200,7 @@ const NoPostsModal=(props)=>{
 
 	return(
 			<Container>
-				{profileContext.isOwnProfile==false?
+				{profileContext.isOwnProfile==false || postContext.highRankingOrSwimmingPostsTriggered==true?
 					<p>Currently there are no posts available here</p>:
 					<React.Fragment>
 						{props.currentRequestedFriendsGaugeNodeId==null?

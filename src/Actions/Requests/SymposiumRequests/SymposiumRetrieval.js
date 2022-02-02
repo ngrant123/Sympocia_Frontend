@@ -727,6 +727,51 @@ export const getHighRankingPostPerSymposium=async(symposiumId,postType)=>{
 }
 
 
+export const retrieveOwnerSpecificSubmittedQuestions=async(ownerId,symposiumId)=>{
+	try{
+		const ownerSubmittedQuestions=await axios.get(`${SearchUrl}/retrieveOwnerSpecificSubmittedQuestions`,{
+			params:{
+				ownerId,
+				symposiumId
+			}
+		})
+		const {data}=ownerSubmittedQuestions;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+
+export const retrieveOwnerSpecificSubmittedSpecialist=async(symposiumId,ownerId)=>{
+	try{
+		const ownerSubmittedSpecialist=await axios.get(`${SearchUrl}/retrieveOwnerSpecificSpecialist`,{
+			params:{
+				ownerId,
+				symposiumId
+			}
+		});
+		const {data}=ownerSubmittedSpecialist;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
+export const retrieveOwnerSpecificResources=async(symposiumId,ownerId)=>{
+	try{
+		const ownerSubmittedResources=await axios.get(`${SearchUrl}/retrieveOwnerSpecificResources`,{
+			params:{
+				ownerId,
+				symposiumId
+			}
+		});
+		const {data}=ownerSubmittedResources;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
 
 
 

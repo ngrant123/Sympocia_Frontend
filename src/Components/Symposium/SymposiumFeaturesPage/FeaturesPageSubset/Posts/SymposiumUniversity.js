@@ -37,9 +37,16 @@ const Container=styled.div`
 			width:200px !important;
 		}
 
-		#textOptions{
-			display:none !important;
+		#universityResponseOptions{
+			flex-direction:column !important;
+			align-items:start !important;
 		}
+
+		#textOptions{
+			margin-top:5% !important;
+			margin-left:0% !important;
+		}
+
 
 		#headerText{
 			font-size:15px !important;
@@ -140,7 +147,6 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 		currentSymposiumId,
 		updatePrimaryPosts,
 		endOfPostIndicator,
-		loadingNewPostsIndicator,
 		currentPostManagmentToken,
 		isGuestProfile
 	}=featuresPageConsumer;
@@ -155,10 +161,13 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 	const [currentPostToken,changePostToken]=useState(currentPostManagmentToken);
 	const [hideNextButton,changeDisplayHideButton]=useState(endOfPostIndicator);
 	const [isLoadingText,changeIsLoadingText]=useState(isLoading);
+	const [loadingNewPostsIndicator,changeNewPostsIndicator]=useState(false);
+
 	const {
 		headerQuestions,
 		currentPostQuestionReplies
 	}=featuresPagePrimaryInformation;
+	console.log(featuresPagePrimaryInformation);
 	
 	useEffect(()=>{
 		if(isFirstAccess==false){
@@ -167,7 +176,10 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 		}else{
 			changeFirstAccessStatus(false);
 		}
-	},[currentQuestionIndex,selectedTextKnowledgeLevel]);
+	},[
+		currentQuestionIndex,
+		selectedTextKnowledgeLevel
+	]);
 
 	const postFeedTokenGenerator=()=>{
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -178,16 +190,15 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 
 
 	const fetchSymposiumUniversityPost=async(index,isNextPostsRequest)=>{
-		
-		changeIsLoadingText(true);
-
-		let postToken=currentPostManagmentToken;
-		if(headerQuestions[currentQuestionIndex].questionType!=headerQuestions[index].questionType || isNextPostsRequest==false){
+		debugger;
+		let postToken=currentPostToken;
+		if(index==null){
 			postToken=postFeedTokenGenerator();
+			changeNewPostsIndicator(true);
 			changePostToken(postToken);
-			if(headerQuestions[currentQuestionIndex].questionType!=headerQuestions[index].questionType){
-				changeDisplayHideButton(false);
-			}
+			changeDisplayHideButton(false);
+		}else{
+			changeIsLoadingText(true);
 		}
 
 		const symposiumFetchParams={
@@ -214,7 +225,10 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 			alert('Unfortunately there has been an error when retrieving these symposium posts. Please try again');
 		}
 		changeIsLoadingText(false);
+		changeNewPostsIndicator(false);
 	}
+
+
 	const updateCurrentIndexPrimaryInformation=(currentIndex)=>{
 		let universityPrimaryInformation=featuresPagePrimaryInformation;
 		universityPrimaryInformation={
@@ -291,7 +305,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 
 	const universityResponse=()=>{
 		return(
-			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+			<div id="universityResponseOptions" style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
 				<div id="universityResponsesDiv" style={ResponsesCSS} onClick={()=>triggerUploadPostDisplay()}>
 					<div style={{backgroundColor:"#C8B0F4",display:"flex",alignItems:"center",padding:"10px"}}>
 						<p>{totalPostCount} Responses</p>
@@ -495,7 +509,7 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 							fetchNextPosts={fetchSymposiumUniversityPost}
 							postsLength={currentPostQuestionReplies.length}
 							nextPostsParams={{
-								index:null,
+								index:currentQuestionIndex,
 								isNextPostsRequest:true
 							}}
 						/>

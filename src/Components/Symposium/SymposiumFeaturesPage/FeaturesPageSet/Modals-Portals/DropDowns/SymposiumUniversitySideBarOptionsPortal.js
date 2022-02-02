@@ -86,7 +86,14 @@ const ShadowContainer=styled.div`
 	top:0px;
 `;
 
-const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpecialists,currentSymposiumId})=>{
+const SymposiumUniversitySpecialistsDropDown=(props)=>{
+	const {
+		retrieveOwnerSubmittedSpecialists,
+		closeModal,
+		retrieveSymposiumSpecialists,
+		currentSymposiumId,
+		specialistUploadStatus
+	}=props;
 
 	const featuresPageConsumer=useContext(FeaturesContext);
 	let {
@@ -113,9 +120,10 @@ const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpeci
 		const {confirmation,data}=await getMostPopularSymposiumSpecialists(currentSymposiumId);
 		if(confirmation=="Success"){
 			const {message}=data;
+			debugger;
 			featuresPageSecondaryInformation={
 				...featuresPageSecondaryInformation,
-				specialists:message
+				specialists:[...message]
 			}
 			updateSecondaryInformation(featuresPageSecondaryInformation);
 		}else{
@@ -133,6 +141,16 @@ const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpeci
 					View all
 				</li>
 				<hr/>
+
+				{specialistUploadStatus==true &&(
+					<React.Fragment>
+						<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrieveOwnerSubmittedSpecialists()}> 
+							Edit Specialist
+						</li>
+						<hr/>
+					</React.Fragment>
+				)}
+
 				<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrieveMostPopularSpecialists()}>
 					Most Popular
 				</li>
@@ -147,7 +165,15 @@ const SymposiumUniversitySpecialistsDropDown=({closeModal,retrieveSymposiumSpeci
 
 
 
-const SymposiumUniversityResourcesDropDown=({closeModal,retrieveSymposiumResources})=>{
+const SymposiumUniversityResourcesDropDown=(props)=>{
+	const {
+		closeModal,
+		retrieveSymposiumResources,
+		resourceUploadStatus,
+		currentSymposiumId,
+		retrieveOwnerSubmittedResources
+	}=props;
+
 	return(
 		<React.Fragment>
 			<ShadowContainer
@@ -158,11 +184,14 @@ const SymposiumUniversityResourcesDropDown=({closeModal,retrieveSymposiumResourc
 					View all
 				</li>
 				<hr/>
-				{/*
-					<li style={{listStyle:"none",cursor:"pointer"}}>
-						Recent
-					</li>
-				*/}
+				{resourceUploadStatus==true &&(
+					<React.Fragment>
+						<li style={{listStyle:"none",cursor:"pointer"}} onClick={()=>retrieveOwnerSubmittedResources()}>
+							Edit Resource
+						</li>
+						<hr/>
+					</React.Fragment>
+				)}
 			</ResourcesContainer>
 		</React.Fragment>
 	)

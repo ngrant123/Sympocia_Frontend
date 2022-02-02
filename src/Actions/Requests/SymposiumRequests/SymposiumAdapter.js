@@ -88,10 +88,19 @@ export const addSymposiumSpecialist=async(symposiumSpecialist)=>{
 	}
 }
 
-export const addSymposiumResources=async(addedSymposiumResourceInformation)=>{
+export const addSymposiumResources=async(addedSymposiumResource)=>{
 	try{
+		const {
+			accessToken,
+			...addedSymposiumResourceInformation
+		}=addedSymposiumResource;
+
 		const addedSymposiumResourceResponse=await axios.post(`${CreateUrl}/addSymposiumResources`,{
 			...addedSymposiumResourceInformation
+		},{
+			headers:{
+				authorization:accessToken
+			}
 		});
 		const {data}=addedSymposiumResourceResponse;
 		return data;

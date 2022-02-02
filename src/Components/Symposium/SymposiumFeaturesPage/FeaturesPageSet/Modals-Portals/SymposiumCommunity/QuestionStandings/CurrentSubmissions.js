@@ -46,6 +46,8 @@ const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=
 	const [selectedSubmission,changeSelectedSubmission]=useState();
 	const [communityQuestions,changeCommunityQuestions]=useState(currentQuestions);
 
+	console.log(currentQuestions);
+
 	const mobileCloseIcon=()=>{
 		return(
 			<div id="mobileCloseModalIcon" style={{cursor:"pointer",display:"none"}} >
@@ -91,28 +93,32 @@ const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=
 						<b>Submissions</b>
 					</p>
 					<hr style={HorizontalLineCSS}/>
-
-					{currentQuestions.map(data=>
+					{currentQuestions.length==0?
+						<p>No submissions</p>:
 						<React.Fragment>
-							<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}
-								onClick={()=>changeSelectedSubmission(data)}>
-								<img src={data.profilePicture==null?
-											NoProfilePicture:data.profilePicture}
-									style={{height:"40px",width:"46px",borderRadius:"50%"}}
-								/>
-								<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",width:"70%"}}>
-									<p>
-										<b>{data.owner.firstName}</b>
-									</p>
-									<p>{data.question}</p>
-									<div style={VotesCSS}>
-										{data.votes.length} votes
+							{currentQuestions.map(data=>
+								<React.Fragment>
+									<div style={{display:"flex",flexDirection:"row",cursor:"pointer"}}
+										onClick={()=>changeSelectedSubmission(data)}>
+										<img src={data.profilePicture==null?
+													NoProfilePicture:data.profilePicture}
+											style={{height:"40px",width:"46px",borderRadius:"50%"}}
+										/>
+										<div style={{display:"flex",flexDirection:"column",marginLeft:"5%",width:"70%"}}>
+											<p>
+												<b>{data.owner.firstName}</b>
+											</p>
+											<p>{data.question}</p>
+											<div style={VotesCSS}>
+												{data.votes.length} votes
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-							<hr style={HorizontalLineCSS}/>
+									<hr style={HorizontalLineCSS}/>
+								</React.Fragment>
+							)}
 						</React.Fragment>
-					)}
+					}
 				</React.Fragment>
 			}
 		</Container>

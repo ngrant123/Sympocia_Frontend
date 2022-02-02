@@ -1,4 +1,4 @@
-import React,{useState,useContext} from "react";
+import React,{useState,useContext,useEffect} from "react";
 import styled from "styled-components";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
@@ -11,6 +11,7 @@ import {
 import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import SymposiumSpecialist from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Specialists/index.js";
 import SymposiumResources from "../../FeaturesPageSet/Modals-Portals/SymposiumUniversity/Resources/index.js";
+import {useSelector} from "react-redux";
 
 const SymposiumSpecilistsCSS={
 	boxShadow:"1px 1px 5px #dbdddf",
@@ -54,14 +55,34 @@ const SymposiumUniversity=()=>{
 	const [selectedResource,changeSelectedResource]=useState()
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const {
-		featuresPageSecondaryInformation:{
-			specialists,
-			resources
-		},
+		featuresPageSecondaryInformation,
 		currentSymposiumId,
 		isGuestProfile,
 		triggerGenerateAirPlane
 	}=featuresPageConsumer;
+
+	const {
+		uploadStatuses:{
+			resourceUploadStatus,
+			specialistUploadStatus
+		}
+	}=featuresPageSecondaryInformation
+	console.log(featuresPageSecondaryInformation);
+
+	console.log(featuresPageSecondaryInformation.specialists);
+	const [specialists,changeSpecialist]=useState(featuresPageSecondaryInformation.specialists);
+	const [resources,changeResources]=useState(featuresPageSecondaryInformation.resources);
+	const [profileSpecificSpecialistRequest,changeProfileSpecificSpecialistRequest]=useState(false);
+	const [profileSpecificResourcesRequest,changeProfileSpecificResourcesRequest]=useState(false);
+	const ownerId=useSelector(state=>state.personalInformation.id);
+
+	useEffect(()=>{
+		changeSpecialist([...featuresPageSecondaryInformation.specialists]);
+		changeResources([...featuresPageSecondaryInformation.resources]);
+	},[
+		featuresPageSecondaryInformation.specialists,
+		featuresPageSecondaryInformation.resources
+	])
 
 	const triggerDisplaySelectedSpecialist=(specialistData)=>{
 		changeSelectedSymposiumSpecialist(specialistData);
@@ -111,7 +132,7 @@ const SymposiumUniversity=()=>{
 						{resources.map(data=>
 							<React.Fragment>
 
-								<div style={{padding:"10px",display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}}
+								<div style={{padding:"10px",display:"flex",flexDirection:"row",alignItems:"center",cursor:"pointer"}}
 									onClick={()=>triggerDisplaySelectedResources(data)}>
 									<img src={data.profilePicture==null?NoProfilePicture:data.profilePicture}
 										style={{height:"40px",width:"46px",borderRadius:"50%"}}
@@ -144,6 +165,11 @@ const SymposiumUniversity=()=>{
 		closeDropDowns();
 	}
 
+	const retrieveOwnerSubmittedSpecialists=()=>{
+		changeProfileSpecificSpecialistRequest(true);
+		changeSpecialistExtendedModalDisplay(true);
+	}
+
 	const specialistDropDown=()=>{
 		return(
 			<React.Fragment>
@@ -152,6 +178,8 @@ const SymposiumUniversity=()=>{
 						closeModal={closeDropDowns}
 						retrieveSymposiumSpecialists={retrieveSymposiumSpecialists}
 						currentSymposiumId={currentSymposiumId}
+						specialistUploadStatus={specialistUploadStatus}
+						retrieveOwnerSubmittedSpecialists={retrieveOwnerSubmittedSpecialists}
 					/>
 				)}
 			</React.Fragment> 
@@ -163,6 +191,11 @@ const SymposiumUniversity=()=>{
 		closeDropDowns();
 	}
 
+	const retrieveOwnerSubmittedResources=()=>{
+		changeProfileSpecificResourcesRequest(true);
+		changeDisplayResourcesModal(true);
+	}
+
 	const resourcesDropDown=()=>{
 		return(
 			<React.Fragment>
@@ -171,6 +204,8 @@ const SymposiumUniversity=()=>{
 						closeModal={closeDropDowns}
 						currentSymposiumId={currentSymposiumId}
 						retrieveSymposiumResources={retrieveSymposiumResources}
+						resourceUploadStatus={resourceUploadStatus}
+						retrieveOwnerSubmittedResources={retrieveOwnerSubmittedResources}
 					/>
 				)}
 			</React.Fragment>
@@ -182,7 +217,8 @@ const SymposiumUniversity=()=>{
 		changeSelectedSymposiumSpecialist(null);
 		changeSelectedResource(null);
 		changeDisplayResourcesModal(false);
-
+		changeProfileSpecificResourcesRequest(false);
+		changeProfileSpecificSpecialistRequest(false);
 	}
 
 	const SymposiumSpecialistsExtendedModal=()=>{
@@ -197,6 +233,8 @@ const SymposiumUniversity=()=>{
 								selectedSymposiumSpecialist={selectedSymposiumSpecialist}
 								currentSymposiumId={currentSymposiumId}
 								isGuestProfile={isGuestProfile}
+								profileSpecificSpecialistRequest={profileSpecificSpecialistRequest}
+								ownerId={ownerId}
 							/>
 						}
 					/>
@@ -217,6 +255,8 @@ const SymposiumUniversity=()=>{
 								symposiumId={currentSymposiumId}
 								selectedResource={selectedResource}
 								isGuestProfile={isGuestProfile}
+								profileSpecificResourcesRequest={profileSpecificResourcesRequest}
+								ownerId={ownerId}
 							/>
 						}
 					/>

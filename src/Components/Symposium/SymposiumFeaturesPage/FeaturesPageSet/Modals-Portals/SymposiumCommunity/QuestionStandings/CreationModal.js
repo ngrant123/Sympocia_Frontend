@@ -126,7 +126,7 @@ const SymposiumCommunityCreation=({closeModal,updateStandings,symposiumId})=>{
 		}else{
 			alert("Please enter a question and a post-type");
 		}
-		changeSubmittingStatus(true);
+		changeSubmittingStatus(false);
 	}
 
 	return (

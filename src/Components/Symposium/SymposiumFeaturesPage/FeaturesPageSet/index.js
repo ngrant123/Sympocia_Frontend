@@ -243,7 +243,8 @@ const SymposiumFeatures=(props)=>{
 			const {
 				specialists,
 				resources,
-				posts
+				posts,
+				uploadStatuses
 			}=message;
 
 			if(posts==null){
@@ -266,7 +267,8 @@ const SymposiumFeatures=(props)=>{
 				const symposiumUniversitySecondaryInformation={
 					specialists,
 					resources,
-					totalPostCount
+					totalPostCount,
+					uploadStatuses
 				}
 				changeSecondaryInformation(symposiumUniversitySecondaryInformation);
 			}
@@ -287,7 +289,8 @@ const SymposiumFeatures=(props)=>{
 				questions,
 				responses,
 				questionStandings,
-				submissionCount
+				submissionCount,
+				ownerQuestionCreationStatus
 			}=message
 
 			console.log(message);
@@ -302,7 +305,8 @@ const SymposiumFeatures=(props)=>{
 
 			const symposiumCommunitySecondaryInformation={
 				submissionCount,
-				currentQuestionsStandings:questionStandings
+				currentQuestionsStandings:questionStandings,
+				ownerQuestionCreationStatus
 			}
 			changeSecondaryInformation(symposiumCommunitySecondaryInformation);
 

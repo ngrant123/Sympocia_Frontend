@@ -92,7 +92,9 @@ const RegularPosts=({posts,triggerDisplaySelectedPost,isBeaconParentComponent})=
 									)}
 								</div>
 							</div>
-							<hr style={HorizontalLineCSS}/>
+							{index!=posts.length-1 &&(
+								<hr style={HorizontalLineCSS}/>
+							)}
 						</React.Fragment>
 					)}
 				</React.Fragment>

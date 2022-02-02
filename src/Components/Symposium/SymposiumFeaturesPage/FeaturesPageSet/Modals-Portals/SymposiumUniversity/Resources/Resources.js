@@ -25,7 +25,7 @@ const Resources=({resources,displayCreateResource,displayHighLightedResource})=>
 	return(
 		<Container>
 			<p style={{fontSize:"25px"}}>
-				<b>Photography Resources</b>
+				<b>Resources</b>
 			</p>
 			<hr/>
 			<div style={{...ButtonCSS,marginTop:"2%",marginBottom:"5%"}} onClick={()=>displayCreateResource()}>

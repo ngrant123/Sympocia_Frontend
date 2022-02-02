@@ -8,6 +8,11 @@ import PortalsHOC from "../../FeaturesPageSet/Modals-Portals/PortalsHOC.js";
 import SymposiumCommunityQuestionStandingDropDown from "../../FeaturesPageSet/Modals-Portals/DropDowns/SymposiumCommunityQuestionStandingOptions.js";
 import CompetitionEndModal from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/CompetitionEnd.js";
 import SymposiumCommunityCreationPortal from "../../FeaturesPageSet/Modals-Portals/SymposiumCommunity/QuestionStandings/CreationModal.js";
+import {useSelector} from "react-redux";
+import {
+	retrieveOwnerSpecificSubmittedQuestions
+} from "../../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
+
 
 const SubmissionsCSS={
 	padding:"15px",
@@ -126,6 +131,7 @@ const SymposiumCommunity=()=>{
 	const [displayCommunityOptionsDropDown,changeCommunityOptionsDropDownDisplay]=useState(false);
 	const [displayCompetitionEndModal,changeDisplayCompetitionEndModal]=useState(false);
 	const [displaySymposiumQuestionCreationModal,changeSymposiumQuestionCreationModal]=useState(false);
+	const userId=useSelector(state=>state.personalInformation.id);
 
 	const{
 		featuresPageSecondaryInformation,
@@ -142,11 +148,25 @@ const SymposiumCommunity=()=>{
 		submissionCount,
 		currentQuestionsStandings
 	}=featuresPageSecondaryInformation;
+
+	const [questionStandings,changeQuestionStandings]=useState(currentQuestionsStandings);
 	
 	var date = new Date(competitionEndDate);
 	var options = {
         year: 'numeric', month: 'numeric', day: 'numeric',
     };
+
+
+	const triggerDisplayEditSubmission=async()=>{
+		const {confirmation,data}=await retrieveOwnerSpecificSubmittedQuestions(userId,currentSymposiumId);
+		if(confirmation=="Success"){
+			const {message}=data;
+			changeQuestionStandings([...message]);
+			triggerDisplaySubmission();
+		}else{
+			alert('Unfortunately, there has been an error when retrieving your submissions. Please try again');
+		}
+	}
 
 	var competitionEndDateText = date.toLocaleDateString('en', options);
 
@@ -158,10 +178,10 @@ const SymposiumCommunity=()=>{
 	const constructQuestionStandings=()=>{
 		return(
 			<React.Fragment>
-				{currentQuestionsStandings.length==0?
-					<p>No posts</p>:
+				{questionStandings.length==0?
+					<p>No questions</p>:
 					<React.Fragment>
-						{currentQuestionsStandings.map(data=>
+						{questionStandings.map(data=>
 							<div style={{display:"flex",flexDirection:"column",cursor:"pointer"}} 
 								onClick={()=>triggerSelectedSubmissionDisplay(data)}>
 								<p>{data.question}</p>
@@ -182,6 +202,7 @@ const SymposiumCommunity=()=>{
 		changeSelectedSubmission(false);
 		changeCommunityOptionsDropDownDisplay(false);
 		changeDisplayCompetitionEndModal(false);
+		changeQuestionStandings([...currentQuestionsStandings])
 	}
 
 	const currentSubmissionsModal=()=>{
@@ -192,7 +213,7 @@ const SymposiumCommunity=()=>{
 						closeModal={changeCurrentSubmissionsDisplay}
 						component={
 							<CurrentSubmissions
-								currentQuestions={currentQuestionsStandings}
+								currentQuestions={questionStandings}
 								currentSymposiumId={currentSymposiumId}
 								isGuestProfile={isGuestProfile}
 							/>
@@ -239,6 +260,7 @@ const SymposiumCommunity=()=>{
 						closeModal={changeCurrentSubmissionsDisplay}
 						displaySubmission={triggerDisplaySubmission}
 						currentSymposiumId={currentSymposiumId}
+						displayEditSubmissionsModal={triggerDisplayEditSubmission}
 					/>
 				)}
 			</React.Fragment>
@@ -271,17 +293,18 @@ const SymposiumCommunity=()=>{
 	const updateSymposiumCommunityQuestionStandings=(userSubmittedQuestion)=>{
 		let communitySecondaryInformation=featuresPageSecondaryInformation;
 		let {
-			currentQuestionsStandings,
+			questionStandings,
 			submissionCount
 		}=communitySecondaryInformation;
 
-		currentQuestionsStandings.splice(0,0,userSubmittedQuestion);
+		questionStandings.splice(0,0,userSubmittedQuestion);
 		submissionCount+=1;
 
 		communitySecondaryInformation={
 			...communitySecondaryInformation,
-			currentQuestionsStandings,
-			submissionCount
+			questionStandings,
+			submissionCount,
+			ownerQuestionCreationStatus:true
 		}
 		updateSecondaryInformation(communitySecondaryInformation);
 		changeSymposiumQuestionCreationModal(false);
