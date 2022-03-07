@@ -792,6 +792,7 @@ class Symposium extends Component{
 						return this.symposiumFeaturesSimplifiedModal()
 					},
 					specificSymposiumFeaturesComponent:(selectedSymposiumFeatureType,isPortalHocComponent)=>{
+						debugger;
 						let requestedComponent;
 						if(selectedSymposiumFeatureType=="Chat"){
 							requestedComponent=<Chat

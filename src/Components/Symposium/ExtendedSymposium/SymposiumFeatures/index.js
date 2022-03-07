@@ -301,7 +301,7 @@ const SymposiumFeatures=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			
+			debugger;
 			changeIsLoading(true);
 			if(selectedSymposiumFeature=="University"){
 				await retrieveUniversityPosts(0);

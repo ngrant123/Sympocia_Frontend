@@ -1,10 +1,11 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import {
     SympociaOptionsContainer,
     SearchOptionContainer,
     MinifiedSymposiumInformation,
     SearchContainer,
-    SearchTextArea
+    SearchTextArea,
+    QuickAccessSymposiumOptions
 } from "./indexCSS.js";
 import {PostConsumer} from "../PostsContext.js"
 import SymposiumOptions from "../../Modals/SymposiumOptions.js";
@@ -16,6 +17,9 @@ import {searchPostsFilter} from "../../../../../Actions/Tasks/Search/SearchPosts
 import PostsOptionsPortal from "../../Modals/PostOptionsPortal.js";
 import {Link} from "react-router-dom";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import {SymposiumContext} from "../../SymposiumContext.js";
+
+import PortalHOC from "../../Modals/PortalHOC.js";
 
 const MobilePostOptionsButton={
      backgroundColor:"white",
@@ -65,6 +69,9 @@ const SearchOptions=(props)=>{
 
     const [displayPostOptionsPortal,changePostOptionsDisplayPortal]=useState(false);
     const [currentPostType,changeCurrentPostType]=useState("Images");
+    const symposiumConsumer=useContext(SymposiumContext);
+    const [displayPortalHOC,changeDisplayPortalHOC]=useState(false);
+    const [quickAccessComponent,changeQuickAccessComponent]=useState();
 
     const searchPromptTrigger=async()=>{
         const textAreaValue=document.getElementById("symposiumSearchPostTextArea").value;
@@ -102,11 +109,13 @@ const SearchOptions=(props)=>{
 
                     <div id="symposiumPostOptionsId"
                         onClick={()=>changePostOptionsDisplayPortal(true)} 
-                        style={{...ButtonCSS,background:state.backgroundColor}}>
-                        <div style={{display:"flex",padding:"5px",textAlign:"center",alignItems:"center",justifyContent:"center"}}>
-                            {currentPostType}
+                        style={{...ButtonCSS,background:state.backgroundColor,paddingLeft:"2px"}}>
+                        <div style={{padding:"5%",backgroundColor:"white",width:"100%",borderRadius:"5px 0px 0px 5px"}}>
+                            <div style={{color:"black",display:"flex",padding:"5px",textAlign:"center",alignItems:"center",justifyContent:"center"}}>
+                                <b>{currentPostType}</b>
+                            </div>
                         </div>
-                        <div style={{width:"30%",height:"100%",background:"rgba(0, 0, 0, 0.2)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                        <div style={{width:"30%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                             <KeyboardArrowDownIcon/>
                         </div>
                     </div>
@@ -128,28 +137,86 @@ const SearchOptions=(props)=>{
         )
     }
 
+    const triggerSymposiumQuickAccess=(featuresComponentType)=>{
+        let component=symposiumConsumer.specificSymposiumFeaturesComponent(featuresComponentType,true);
+        changeQuickAccessComponent(component);
+        changeDisplayPortalHOC(true);
+    }
+
+
+    const mobileQuickAccessSymposiumOptions=()=>{
+        const quickAccessCSS={
+            display:"flex",
+            flexDirection:"column"
+        }
+        return(
+            <QuickAccessSymposiumOptions>
+                <div style={quickAccessCSS} 
+                    onClick={()=>triggerSymposiumQuickAccess("Community")}>
+                    <p style={{color:"#2C2C2C"}}>Community</p>
+                    <div style={{width:"100%",height:"5px",background:state.backgroundColor,borderRadius:"5px"}}/>
+                </div>
+
+                <div style={quickAccessCSS}
+                    onClick={()=>symposiumConsumer.triggerDisplayOligarchsModal()}>
+                    <p style={{color:"#2C2C2C"}}>Oligarchs</p>
+                    <div style={{width:"100%",height:"5px",background:state.backgroundColor,borderRadius:"5px"}}/>
+                </div>
+
+                <div style={quickAccessCSS}
+                    onClick={()=>triggerSymposiumQuickAccess("Beacon",true)}>
+                    <p style={{color:"#2C2C2C"}}>Beacons</p>
+                    <div style={{width:"100%",height:"5px",background:state.backgroundColor,borderRadius:"5px"}}/>
+                </div>
+            </QuickAccessSymposiumOptions>
+        )
+    }
+
+
+    const closePortalModal=()=>{
+        changeDisplayPortalHOC(false);
+    }
+
+    const quickAccessSympoisumPortalHOC=()=>{
+        return(
+            <React.Fragment>
+                {displayPortalHOC==true &&(
+                    <PortalHOC
+                        component={quickAccessComponent}
+                        closeModal={closePortalModal}
+                    />
+                )}
+            </React.Fragment>
+        )
+    }
+
     return(
-        <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
-            <SearchContainer>
-                <SearchTextArea
-                    id="symposiumSearchPostTextArea"
-                    placeholder="Search"
-                />
-                <SearchIcon
-                    style={{fontSize:30,cursor:"pointer"}}
-                    onClick={()=>searchPromptTrigger()}
-                />
-            </SearchContainer>
-            <div style={{display:"flex",flexDirection:"row"}}>
-                <SymposiumOptions
-                    headerAnimation={state.headerAnimation}
-                    displayPhoneUI={state.displayPhoneUI}
-                    backgroundColor={state.backgroundColor}
-                    selectedSymposiumTitle={state.selectedSymposiumTitle}
-                />
-                {postOptionsMobileOrDesktop()}
-            </div>
-        </SympociaOptionsContainer>
+        <React.Fragment>
+            {quickAccessSympoisumPortalHOC()}
+
+            <SympociaOptionsContainer isScrollEnabled={state.headerAnimation}>	
+                <SearchContainer>
+                    <SearchTextArea
+                        id="symposiumSearchPostTextArea"
+                        placeholder="Search"
+                    />
+                    <SearchIcon
+                        style={{fontSize:30,cursor:"pointer"}}
+                        onClick={()=>searchPromptTrigger()}
+                    />
+                </SearchContainer>
+                <div style={{display:"flex",flexDirection:"row"}}>
+                    <SymposiumOptions
+                        headerAnimation={state.headerAnimation}
+                        displayPhoneUI={state.displayPhoneUI}
+                        backgroundColor={state.backgroundColor}
+                        selectedSymposiumTitle={state.selectedSymposiumTitle}
+                    />
+                    {postOptionsMobileOrDesktop()}
+                </div>
+                {mobileQuickAccessSymposiumOptions()}
+            </SympociaOptionsContainer>
+        </React.Fragment>
     )
 }
 

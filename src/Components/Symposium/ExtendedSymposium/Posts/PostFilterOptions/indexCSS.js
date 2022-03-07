@@ -32,6 +32,7 @@ export const SympociaOptionsContainer=styled.div`
 		}
 	}
 	@media screen and (max-width:650px){
+		flex-direction:column;
 		#symposiumPostOptionsId{
 			width:150px !important;
 			height:40px !important;
@@ -76,7 +77,7 @@ export const SympociaOptionsContainer=styled.div`
 
 	@media screen and (max-width:350px){
 		#symposiumPostOptionsId{
-			width:90px !important;
+			width:150px !important;
 			height:40px !important;
 		}
 	}
@@ -143,8 +144,10 @@ export const SearchContainer=styled.div`
     }
 
     @media screen and (max-width:650px){
-    	display:none !important;
+    	margin-bottom:5%;
+    	width:100%;
     }
+
 
     @media screen and (max-width:730px) and (max-height:420px){
     	height:35% !important;
@@ -166,6 +169,19 @@ export const SearchContainer=styled.div`
 	}
 `;
 
+
+export const QuickAccessSymposiumOptions=styled.div`
+	display:flex;
+	flex-direction:row;
+	width:100%;
+	display:none;
+
+	@media screen and (max-width:650px){
+		margin-top:10%;
+		display:flex;
+		justify-content:space-between;
+	}
+`;
 
 export const SearchTextArea=styled.textarea`
 	position:relative;

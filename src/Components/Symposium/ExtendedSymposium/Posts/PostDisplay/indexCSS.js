@@ -36,46 +36,84 @@ export const PostContainer=styled.div`
 
     	#postLoadingText{
     		margin-top:30%;
-    	}	
-    }
+    	}
 
-    @media screen and (max-width:650px){
     	${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				top:50% !important;
+				top:90% !important;
 			`:
 			`
-				top:8% !important; 
+				top:60% !important; 
 			`
-		}
+		}	
     }
 
-
-	@media screen and (min-width:400px) and (max-width:600px) 
-		and (min-height:640px) and (max-height:1100px){
+    @media screen and (min-width:300px) and (max-width:400px) 
+		and (min-height:800px) and (max-height:900px){
     	${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				top:50% !important;
+				top:70% !important;
 			`:
 			`
-				top:8% !important; 
+				top:50% !important; 
 			`
 		}
 	}
 
 
 
+	@media screen and (min-width:440px) and (max-width:600px) 
+		and (min-height:640px) and (max-height:1100px){
+    	${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:95% !important;
+			`:
+			`
+				top:50% !important; 
+			`
+		}
+	}
+
+	@media screen and (min-width:420px) and (max-width:439px) 
+		and (min-height:640px) and (max-height:1100px){
+    	${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:60% !important;
+			`:
+			`
+				top:50% !important; 
+			`
+		}
+	}
+	@media screen and (min-width:400px) and (max-width:419px) 
+		and (min-height:640px) and (max-height:1100px){
+    	${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:80% !important;
+			`:
+			`
+				top:50% !important; 
+			`
+		}
+	}
+
+
+
+
 	@media screen and (min-width:250px) and (max-width:400px) 
-		and (min-height:800px) and (max-height:1400px){
+		and (min-height:900px) and (max-height:1400px){
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				top:30% !important;
+				top:50% !important;
 			`:
 			`
-				top:8% !important; 
+				top:50% !important; 
 			`
 		}
 	}
@@ -86,22 +124,38 @@ export const PostContainer=styled.div`
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				top:50% !important;
+				top:70% !important;
 			`:
 			`
-				top:8% !important; 
+				top:40% !important; 
 			`
 		}
 	}
+
+
+	@media screen and (min-width:600px) and (max-width:700px) 
+		and (min-height:1200px) and (max-height:1370px){
+		${({isScrollEnabled})=>
+			isScrollEnabled?
+			`
+				top:115% !important;
+			`:
+			`
+				top:120% !important; 
+			`
+		}
+	}
+
+
 	@media screen and (min-width:200px) and (max-width:350px) 
 		and (min-height:600px) and (max-height:900px){
 		${({isScrollEnabled})=>
 			isScrollEnabled?
 			`
-				top:40% !important;
+				top:70% !important;
 			`:
 			`
-				top:8% !important; 
+				top:50% !important; 
 			`
 		}
 	}
