@@ -2,14 +2,12 @@ import React,{useState,useEffect} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 
-import SymposiumFeatures from "../../designs/img/SymposiumFeaturesQuickAccessButton.png";
-import SymposiumPostOptions from "../../designs/img/SymposiumPostOptions.png";
-import OligarchAccessButton from "../../designs/img/OligarchAccessButton.png";
-import SympociaCategoryPostSection from "../../designs/img/SymposiumCategorySection.png";
-import SymposiumFeaturesPageButton from "../../designs/img/SymposiumFeaturesPageButton.png";
-import Beacons from "../../designs/img/Beacons.png";
+import BeaconFeaturePageOnboarding from "../../designs/img/BeaconFeaturePageOnboarding.png";
+import SymposiumCommunityFeaturePageOnboarding from "../../designs/img/SymposiumCommunityFeaturePageOnboarding.png";
+import UniversitySpecialistsOnboarding from "../../designs/img/UniversitySpecialistsOnboarding.png";
+import UniversityResourcesOnboarding from "../../designs/img/UniversityResourcesOnboarding.png";
 
-import {completeOnboardingSymposiumPage} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
+import {completeOnboardingSymposiumFeaturesPage} from "../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import {useSelector} from "react-redux";
 
 const Container=styled.div`
@@ -28,56 +26,61 @@ const Container=styled.div`
 		left:5% !important;
 		height:70% !important;
 		 #beaconsImage{
-    		width:40% !important;
-    	}
-    	#firstOnboardingImage{
-    		height:40% !important;
-    		width:100% !important;
-    		margin-left:0% !important;
+    		width:60% !important;
+    		height:20% !important;
     	}
 
 		#closeOptionIconLI{
 			display:none !important;
+		}
+
+		#firstOnboardingImage{
+			height:20% !important;
 		}
     }
 
     @media screen and (max-width:650px){
     	top:10%;
     	height:75% !important;
-
-    	  #firstOnboardingImage{
+    	#firstOnboardingImage{
     		height:30% !important;
+    		width:90% !important;
+    		margin-left:0% !important;
     	}
-
     	#beaconsImage{
     		height:20% !important;
-    		width:60% !important;
+    		width:100% !important;
     		margin-left:0% !important;
     	}
 
-    	#oligarchsOnboarding{
-    		width:20% !important;
+    	#onboardingResources{
+    		width:100% !important;
     	}
 
-    	#symposiumFeaturesPageEntrance{
-    		width:20% !important;
+    	#onboardingSpecialists{
+    		width:100% !important;
     	}
     }
 
     @media screen and (max-width:1370px) and (max-height:1030px) and (orientation: landscape) {
     	#firstOnboardingImage{
-    		height:80% !important;
+    		height:30% !important;
     	}
+
+    	#beaconsImage{
+    		height:25% !important;
+    	}
+
     }
 
     @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
       #firstOnboardingImage{
-    		height:120% !important;
+    		height:70% !important;
     	}
 
     	#beaconsImage{
-    		height:50% !important;
-    		width:40% !important;
+    		height:70% !important;
+    		width:100% !important;
     		margin-left:0% !important;
     	}
     }
@@ -105,7 +108,7 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
-const SymposiumFeaturesPageOnboarding=({closeModal})=>{
+const SymposiumPageOnboarding=({closeModal})=>{
 	const personalInformationId=useSelector(state=>state.personalInformation.id);
 	const [displayFirstPage,changeFirstDisplayPage]=useState(true);
 	const [displaySecondPage,changeSecondDisplayPage]=useState(false);
@@ -154,7 +157,7 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 	}
 
 	const onBoardingCloseModal=async()=>{
-		const {confirmation,data}=await completeOnboardingSymposiumPage(personalInformationId);
+		const {confirmation,data}=await completeOnboardingSymposiumFeaturesPage(personalInformationId);
 		if(confirmation=="Success")
 			closeModal();
 		else
@@ -174,7 +177,7 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 							<ul style={{padding:"0px"}}>
 								<li style={{listStyle:"none",display:"inline-block"}}>
 									<p style={{fontSize:"30px"}}>
-										The bread and butter of Sympocia. Welcome to the <b>Symposium</b>
+										Welcome to the <b>Symposium Feature Page</b>
 									</p>
 								</li>
 								{/*
@@ -195,13 +198,13 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 						</li>
 						<hr/>
 						<p style={{fontSize:"15px"}}> 
-							What is a symposium? We envisioned it as a place where you can join and be welcomed by a group of people 
-							immediately. There are numerous symposiums but the goal is for you to join a select few and get the most out of it. 
-							Learn something new and most importantly
-							connect with everyone there. 
+							The symposium feature page is a child of the symposium page. Here we took the features of 
+							beacons,community questions,and unversity questions and made them into their own separate 
+							"pages". 
 						</p>
 						<br/>
-						<p>Now we know its hard to connect with randoms so we've added a few features to help out</p>
+						<p>In the next screens we will dissect what each of those things are.</p>
+
 						<hr/>
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
@@ -238,28 +241,23 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
-								<p style={{color:"#585858",fontSize:"24px",marginBottom:"7%"}}>
-									<b>How are symposiums different?</b>
+								<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
+									<b>Beacons:</b>
 								</p>
-								<p >
-									We'll be transparent with you right now. You have facebook groups, subreddits, and god 
-									knows how many platform groups there are. So how are we different? 
-									We believe that people bond the most when they are working towards their goals. 
-									Leading through examples. Motivating people. Not just showing their accomplishments.
+								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
+									Have you ever wished that there was a way for you to request a specific type of post? 
+									For example lets say you're working out a math problem and you want a specific video to help you or maybe an 
+									image?
+									<br/>
+									<br/>
+									Thats why we introduced beacons and thats what they accomplish. Simply upload a post explaining
+									what you want and people will respond back in that specific post type. Your progress is 
+									recorded and the more your answer questions and the more you posts get accepted as the 
+									answer the higher your progress increases.
 								</p>
-
-								<hr/>
-								<p style={{marginTop:"5%",color:"#585858",fontSize:"18px",marginBottom:"7%"}}>
-									<b>The Big Three</b>
-								</p>
-
-								<p >
-									Introducing the big three. Choose either the grind, progress,
-									or accomplishments and help people grow and lead through example. Or have fun and for once
-									actually meet authentic people.
-								</p>
-								<img src={SympociaCategoryPostSection} style={{width:"90%"}}/>
-
+								<img id="beaconsImage" 
+									src={BeaconFeaturePageOnboarding} style={{width:"40%",height:"20%"}}
+								/>
 								<hr/>
 								<li style={{listStyle:"none"}}>
 									<ul style={{padding:"0px"}}>
@@ -278,6 +276,8 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 										</a>
 									</ul>
 								</li>
+
+
 							</ul>
 						</li>
 					</ul>
@@ -287,16 +287,17 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 				{displayThirdPage && (
 					<ul style={{padding:"30px"}}>
 						<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-							<b>Symposium Quick Access Features:</b>
+							<b>Symposium Community:</b>
 						</p>
 						<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-							Other sites post cookie cutter templates for all of their "communities". Not us. Each symposium has different 
-							features that allows you to express yourself in different ways. Here's an example of a the gaming symposium 
-							features
+							The symposium community is exactly what it says it is. We wanted a section that truly felt like 
+							a community and not just a place you visited. A section where you can influence what actually happens 
+							in it. Here you can vote on monthly questions that you want to see up or you can even create 
+							your own question and have it voted for. Your voice makes an impact here.
 						</p>
 
 						<img id="firstOnboardingImage" 
-							src={SymposiumFeatures} style={{width:"60%",height:"35%",marginLeft:"15%"}}
+							src={SymposiumCommunityFeaturePageOnboarding} style={{width:"60%",height:"25%"}}
 						/>
 
 						<hr/>
@@ -326,37 +327,43 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 						<li style={{listStyle:"none"}}>
 							<ul style={{padding:"0px"}}>
 								<p style={{color:"#585858",fontSize:"20px",marginBottom:"7%"}}>
-									<b>Addition Features:</b>
+									<b>Symposium University:</b>
 								</p>
 
+								<p>
+									You can think of the symposium university section like an actual school. 
+									Here people can upload any resources that they find and truly learn from 
+									each other.
+								</p>
 								<p style={{color:"#585858",fontSize:"24px",marginBottom:"7%"}}>
-									<b>Oligarchs</b>
+									<b>Specialists</b>
 								</p>
 
 
 								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-									Click here to learn more about what oligarchs are and how they impact the symposium. 
-									In short, they are fellow users who are voted into this position that gives them special 
-									abilities.
+									Specialists are people who are skilled in the symposium topic. If you believe
+									that you are a specialist, you can even create your own and have people
+									check you out here.
 								</p>
-								<img id="oligarchsOnboarding" 
-									src={OligarchAccessButton} style={{width:"20%",borderRadius:"5px"}}
+								<img id="onboardingSpecialists" src={UniversitySpecialistsOnboarding} 
+									style={{width:"50%",borderRadius:"5px"}}
 								/>
 						
 								<hr/>
 
 								<p style={{color:"#585858",fontSize:"24px",marginBottom:"7%"}}>
-									<b>Symposium Features Page Entrance</b>
+									<b>Resources</b>
 								</p>
 
 
 								<p style={{marginBottom:"5%",fontSize:"15px"}}> 
-									By clicking on this icon you access another page called the symposium features. 
-									This page focuses on beacons (question-based posts), community questions, and 
-									different resources for each symposium. 
+									Resources are information (could be articles/links/anything) that 
+									people in the symposium have collected. You can find
+									anything here but the main idea of this section is for it to be a bank
+									of information.
 								</p>
-								<img id="symposiumFeaturesPageEntrance"
-									src={SymposiumFeaturesPageButton} style={{width:"20%",borderRadius:"5px"}}
+								<img id="onboardingResources" src={UniversityResourcesOnboarding} 
+									style={{width:"50%",borderRadius:"5px"}}
 								/>
 								<hr/>
 								<li style={{listStyle:"none"}}>
@@ -382,9 +389,7 @@ const SymposiumFeaturesPageOnboarding=({closeModal})=>{
 				)}
 			</Container>
 		</>
-	,document.getElementById("extendedSymposiumContainer"));
+	,document.getElementById("symposiumFeaturesPage"));
 }
 
-export default SymposiumFeaturesPageOnboarding;
-
-
+export default SymposiumPageOnboarding;

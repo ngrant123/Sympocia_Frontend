@@ -4,10 +4,11 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import GoldStampIcon from "../../../../../designs/img/GoldStampIcon.png";
 import SilverStampIcon from "../../../../../designs/img/SilverStampIcon.png";
 import BronzeStampIcon from "../../../../../designs/img/BronzeStampIcon.png";
-
 import "react-step-progress-bar/styles.css";
 import ArrowDropDownCircleOutlinedIcon from '@material-ui/icons/ArrowDropDownCircleOutlined';
 import {retrieveUnlockedUserTokenBreakDown} from "../../../../../Actions/Requests/ProfileAxiosRequests/ProfileGetRequests.js";
+import TokenOnboardingModal from "../../../../OnBoarding/TokenOnboarding.js";
+import {useSelector} from "react-redux";
 
 const Container=styled.div`
 	position:fixed;
@@ -92,6 +93,8 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	const [bronzeUnlockedUsers,changeBronzeUnlockedUsers]=useState(0);
 	const [silverUnlockedUsers,changeSilverUnlockedUsers]=useState(0);
 	const [goldUnlockedUSers,changeGoldUnlockedUsers]=useState(0);
+	const [displayOnboardingModal,changeDisplayOnboardingModal]=useState(false);
+	const userId=useSelector(state=>state.personalInformation.id);
 
 	console.log(tokenLevel);
 
@@ -101,14 +104,20 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	},[]);
 
 	const retrieveUsersUnlocked=async()=>{
-		const {confirmation,data}=await retrieveUnlockedUserTokenBreakDown();
+		const {confirmation,data}=await retrieveUnlockedUserTokenBreakDown(userId);
 		if(confirmation=="Success"){
-			const {message}=data;
+			const {message:{
+				onboadingViewedStatus,
+				tokenInformation
+			}}=data;
+
+			changeDisplayOnboardingModal(!onboadingViewedStatus);
 			const {
 				Bronze,
 				Silver,
 				Gold
-			}=message;
+			}=tokenInformation;
+
 			changeBronzeUnlockedUsers(Bronze==null?0:Bronze);
 			changeSilverUnlockedUsers(Silver==null?0:Silver);
 			changeGoldUnlockedUsers(Gold==null?0:Gold);
@@ -189,40 +198,60 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 			</div>
 		)
 	}
+
+	const closeOnboardingModal=()=>{
+		changeDisplayOnboardingModal(false);
+	}
+
+	const onboardingModal=()=>{
+		return(
+			<React.Fragment>
+				{displayOnboardingModal==true &&(
+					<TokenOnboardingModal
+						closeModal={closeOnboardingModal}
+						profileId={userId}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
 	return(
-		<Container>
-			{mobileCloseIcon()}
-			<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-				<p>
-					<b>Progress Bar</b>
-				</p>
-				<div style={TokenLevelDisplayCSS}>
-					{tokenLevel==""?
-						<p>Unranked</p>:
-						<p>{tokenLevel}</p>
-					}
+		<React.Fragment>
+			{onboardingModal()}
+			<Container>
+				{mobileCloseIcon()}
+				<div style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
+					<p>
+						<b>Progress Bar</b>
+					</p>
+					<div style={TokenLevelDisplayCSS}>
+						{tokenLevel==""?
+							<p>Unranked</p>:
+							<p>{tokenLevel}</p>
+						}
+					</div>
 				</div>
-			</div>
-			<hr style={HorizontalLineCSS}/>
-			<div id="progressBarDiv" style={{position:"relative",width:"100%",borderRadius:"5px"}}>
-				<ProgressBar
-				    percent={currentPercentage}
-				    height={30}
-					filledBackground="linear-gradient(to right, #F6F4FA, #C8B0F4)"
-				>
-					{constructNodeElements()}
-				</ProgressBar>
-			</div>
-			<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5%"}}>
-				{unlockedUsers(bronzeUnlockedUsers)}
-				<div style={VerticalLineCSS}/>
+				<hr style={HorizontalLineCSS}/>
+				<div id="progressBarDiv" style={{position:"relative",width:"100%",borderRadius:"5px"}}>
+					<ProgressBar
+					    percent={currentPercentage}
+					    height={30}
+						filledBackground="linear-gradient(to right, #F6F4FA, #C8B0F4)"
+					>
+						{constructNodeElements()}
+					</ProgressBar>
+				</div>
+				<div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5%"}}>
+					{unlockedUsers(bronzeUnlockedUsers)}
+					<div style={VerticalLineCSS}/>
 
-				{unlockedUsers(silverUnlockedUsers)}
-				<div style={VerticalLineCSS}/>
+					{unlockedUsers(silverUnlockedUsers)}
+					<div style={VerticalLineCSS}/>
 
-				{unlockedUsers(goldUnlockedUSers)}
-			</div>
-		</Container>
+					{unlockedUsers(goldUnlockedUSers)}
+				</div>
+			</Container>
+		</React.Fragment>
 	)
 }
 

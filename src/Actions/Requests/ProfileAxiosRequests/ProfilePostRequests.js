@@ -368,6 +368,32 @@ export const completeOnboardingArenaPage=async(id)=>{
 	}
 }
 
+export const completeOnboardingTokenInformationPage=async(id)=>{
+	try{
+		const onBoardingTokenInformationPageResponse=await axios.post(`${CreateUrl}/onBoardingCompeteTokenInformation`,{
+			_id:id
+		});
+		const {data}=onBoardingTokenInformationPageResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
+export const completeOnboardingSymposiumFeaturesPage=async(id)=>{
+	try{
+		const onBoardingSymposiumFeaturePageResponse=await axios.post(`${CreateUrl}/onBoardingCompeteSymposiumFeaturesPage`,{
+			_id:id
+		});
+		const {data}=onBoardingSymposiumFeaturePageResponse;
+		return data;
+	}catch(err){
+		return err;
+	}
+}
+
+
 export const editSocialMediaUrls=async({instagramUrl,tikTokUrl,profileId})=>{
 	try{
 		const socialMediaResponse=await axios.post(`${CreateUrl}/editSocialMediaUrls`,{

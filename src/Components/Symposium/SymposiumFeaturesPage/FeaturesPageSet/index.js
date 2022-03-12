@@ -14,17 +14,18 @@ import BeaconsTagsCreationModal from "./Modals-Portals/Beacons/TagsCreationModal
 import TagExtendedInformationModal from "./Modals-Portals/Beacons/TagInformationExtended/index.js";
 import {signUpGuestUser} from "../../../../Actions/Redux/Actions/PersonalProfile.js";
 import{
-	getSymposiumName,
 	isOligarch,
 	getBeaconsFeaturePage,
 	getBeacons,
 	getSymposiumUniversityPage,
 	getCommunityFeaturesPage,
-	retrieveCommunityPosts
+	retrieveCommunityPosts,
+	getSymposiumFeaturesPageInitialInformation
 } from "../../../../Actions/Requests/SymposiumRequests/SymposiumRetrieval.js";
 import MobileCreationButton from "./MobileUI/Creation.js";
 import {useDispatch} from "react-redux";
 import {generateAirPlane} from "../../../../Actions/Requests/AirPlaneRequests/AirPlanePostRequest.js"
+import SymposiumFeaturesPageOnboarding from "../../../OnBoarding/SymposiumFeaturePageOnboarding.js";
 
 const Container=styled.div`
 	width:100%;
@@ -146,7 +147,7 @@ const SymposiumFeatures=(props)=>{
 	const [currentTagsSelection,changeCurrentTagSelection]=useState([]);
 	const [currentBeaconSelectedPostType,changeBeaconSelectedPostType]=useState("Images");
 	const [componentMountedStatus,changeComponentMountedStatus]=useState(false);
-
+	const [displayOnboardingModal,changeDisplayOnboardingModal]=useState(false);
 
 	const [currentSymposiumName,changeSymposiumName]=useState();
 	const [currentSymposiumId,changeSymposiumId]=useState(props.match.params.symposiumId);
@@ -180,14 +181,21 @@ const SymposiumFeatures=(props)=>{
 			if(personalInformation.id=="0"){
 				dispatch(signUpGuestUser());
 			}
-			const {confirmation,data}=await getSymposiumName(currentSymposiumId);
+			const {confirmation,data}=await getSymposiumFeaturesPageInitialInformation(
+												currentSymposiumId,
+												personalInformation.id);
 			if(confirmation=="Success"){
-				const {message}=data;
-				changeSymposiumName(message);
+				const {message:{
+					symposiumName,
+					onboardingViewedStatus
+				}}=data;
+
+				changeDisplayOnboardingModal(!onboardingViewedStatus);
+				changeSymposiumName(symposiumName);
 				changeLoadingStatus(true);
 
 				fetchData("Beacons")
-				retrieveOligarchStatus({symposiumName:message});
+				retrieveOligarchStatus({symposiumName});
 				changeComponentMountedStatus(true);
 				triggerUIChange();
 
@@ -720,6 +728,23 @@ const SymposiumFeatures=(props)=>{
 		}
 	}
 
+	const closeOnboardingModal=()=>{
+		changeDisplayOnboardingModal(false);
+	}
+
+	const onboardingModal=()=>{
+		return(
+			<React.Fragment>
+				{displayOnboardingModal==true &&(
+					<SymposiumFeaturesPageOnboarding
+						closeModal={closeOnboardingModal}
+						profileId={personalInformation.id}
+					/>
+				)}
+			</React.Fragment>
+		)
+	}
+
 	return(
 		<FeaturesProvider
 			value={{
@@ -775,6 +800,7 @@ const SymposiumFeatures=(props)=>{
 			}}
 		>
 			<Container id="symposiumFeaturesPage">
+				{onboardingModal()}
 				{mobileCreationPostButton()}
 				{beaconsTagCreationModal()}
 				{tagExtendedInformationModal()}

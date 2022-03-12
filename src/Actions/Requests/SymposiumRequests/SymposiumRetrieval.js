@@ -773,6 +773,21 @@ export const retrieveOwnerSpecificResources=async(symposiumId,ownerId)=>{
 	}
 }
 
+export const getSymposiumFeaturesPageInitialInformation=async(symposiumId,profileId)=>{
+	try{
+		const symposiumFeaturesPageIntialResponse=await axios.get(`${SearchUrl}/getSymposiumFeaturesPageInitialInformation`,{
+			params:{
+				symposiumId,
+				profileId
+			}
+		});
+		const {data}=symposiumFeaturesPageIntialResponse;
+		return data;
+	}catch(err){
+		throw err;
+	}
+}
+
 
 
 

@@ -605,9 +605,13 @@ export const retrieveProfileTokenInformation=async(profileId)=>{
 }
 
 
-export const retrieveUnlockedUserTokenBreakDown=async()=>{
+export const retrieveUnlockedUserTokenBreakDown=async(profileId)=>{
 	try{
-		const unlockedUsersTokenBreakDown=await axios.get(`${SearchUrl}/retrieveUnlockedUserTokenBreakDown`);
+		const unlockedUsersTokenBreakDown=await axios.get(`${SearchUrl}/retrieveUnlockedUserTokenBreakDown`,{
+			params:{
+				profileId
+			}
+		});
 		const {data}=unlockedUsersTokenBreakDown;
 		return data;
 	}catch(err){

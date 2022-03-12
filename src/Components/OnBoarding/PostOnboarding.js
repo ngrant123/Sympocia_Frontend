@@ -4,6 +4,7 @@ import AuthenticPostButton from "../../designs/img/AuthenticPostButton.png";
 import MoreInformationButton from "../../designs/img/MoreInformationButton.png";
 import StampButton from "../../designs/img/StampButton.png";
 import CommentsButton from "../../designs/img/CommentsButton.png";
+import FriendsGaugeBadge from "../../designs/img/FriendsGaugeBadge.png";
 
 const ShadowContainer=styled.div`
 	position:fixed;
@@ -24,7 +25,8 @@ const Container=styled.div`
 	z-index:45;
 	left:30%;
 	top:20%;
-	overflow-y:scroll;
+	overflow-y:auto;
+	overflow-x:hidden;
 
 	@media screen  and (max-width:1370px){
 		width:90% !important;
@@ -32,6 +34,11 @@ const Container=styled.div`
 		height:70% !important;
     }
 
+
+    @media screen and (max-width:840px) and (max-height:420px) and (orientation: landscape) {
+      left:10% !important;
+      width:80% !important;
+    }
 `;
 const IconContainer=styled.div`
 	display:flex;
@@ -61,6 +68,12 @@ const ButtonCSS={
   marginRight:"2%"
 }
 
+const HorizontalLineCSS={
+	marginLeft:"0",
+	marginRight:"0",
+	width:"100%"
+}
+
 const IconsInformationCSS={
 	marginBottom:"5%",
 	display:"flex",
@@ -86,23 +99,23 @@ const PostOnboarding=({closeModal})=>{
 					</p>
 					<IconContainer>
 						<div id="iconInformation" style={IconsInformationCSS}>
-							<img src={StampButton} style={{width:"80px",height:"70px"}}/>
+							<img src={StampButton} style={{width:"60px",height:"50px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								The stamps are intergral to posts. If you like a post then just click
 								this button to show appreciation and a little stamp button will show up
 							</p>
 						</div>
-
+						<hr style={HorizontalLineCSS}/>
 						<div id="iconInformation" style={IconsInformationCSS}>
-							<img id="iconInformation" src={AuthenticPostButton} style={{width:"80px",height:"70px"}}/>
+							<img id="iconInformation" src={AuthenticPostButton} style={{width:"60px",height:"50px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								We value authenticity so if you see a post that looks fake or if you 
 								love it click on this button. Explain why you feel the way you feel and submit your opinion about that post
 							</p>
-						</div>
-
+						</div>	
+						<hr style={HorizontalLineCSS}/>
 						<div id="iconInformation" style={IconsInformationCSS}>
-							<img src={CommentsButton} style={{width:"80px",height:"70px"}}/>
+							<img src={CommentsButton} style={{width:"60px",height:"50px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
 								Hard to believe but this is the comments button. Crazy right?
 								Just click on the button and get started.
@@ -110,7 +123,15 @@ const PostOnboarding=({closeModal})=>{
 								the creator of the post made. 
 							</p>
 						</div>
-
+						<hr style={HorizontalLineCSS}/>
+						<div id="iconInformation" style={IconsInformationCSS}>
+							<img src={FriendsGaugeBadge} style={{width:"60px",height:"50px"}}/>
+							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
+								The friends gauge badge icon allows you to get a sneak peek into someone's profile.
+								Clicking this badge displays hand selected posts by the user.
+							</p>
+						</div>
+						<hr style={HorizontalLineCSS}/>
 						<div id="iconInformation" style={IconsInformationCSS}>
 							<img src={MoreInformationButton} style={{width:"80px",height:"70px"}}/>
 							<p id="text" style={{width:"40%",marginLeft:"10%"}}>
@@ -119,7 +140,9 @@ const PostOnboarding=({closeModal})=>{
 							</p>
 						</div>
 
+
 					</IconContainer>
+					<hr/>
 					<p style={{marginBottom:"5%"}}>Finally if you're looking at an image or a video you can click on it to isolate it and view it </p>
 
 					<p style={{color:"#C8B0F4"}}>

@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import ArenaEnter from "../../designs/img/ArenaEnter.png";
-import ExplorePagePostOptions from "../../designs/img/ExplorePagePostOptions.png";
+import ExplorePagePostFeedEditOptions from "../../designs/img/ExplorePageFeedEditOptions.png";
 import MobileHomeButton from "../../designs/img/MobileHomeButton.png";
 import SymposiumListButton from "../../designs/img/SymposiumListButton.png";
 import ExplorePageButton from "../../designs/img/ExplorePageButton.png";
@@ -19,7 +19,7 @@ const Container=styled.div`
 	z-index:40;
 	left:30%;
 	top:20%;
-	overflow-y:scroll;
+	overflow-y:auto;
 
 
 
@@ -54,6 +54,10 @@ const Container=styled.div`
     	}
     	#text{
     		width:90% !important;
+    	}
+
+    	#explorePageOnboarding{
+    		width:100% !important;
     	}
     }
 
@@ -184,12 +188,15 @@ const ExplorePageOnboarding=({closeModal})=>{
 										you to refresh you current explore page posts
 									</p>
 								</div>
-								<div id="specificImageOptionsDiv" style={{display:"flex",flexDirection:"row"}}>
-									<img src={SymposiumListButton} style={{width:"70px",height:"70px"}}/>
-									<p id="text" style={{width:"40%",marginLeft:"10%"}}>
-										Shows you a list of you’re followed symposiums and also ones you haven’t followed yet
-									</p>
-								</div>
+
+								{/*
+									<div id="specificImageOptionsDiv" style={{display:"flex",flexDirection:"row"}}>
+										<img src={SymposiumListButton} style={{width:"70px",height:"70px"}}/>
+										<p id="text" style={{width:"40%",marginLeft:"10%"}}>
+											Shows you a list of you’re followed symposiums and also ones you haven’t followed yet
+										</p>
+									</div>
+								*/}
 							</div>
 						</div>
 
@@ -247,10 +254,10 @@ const ExplorePageOnboarding=({closeModal})=>{
 								</p>
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px"}}>
 									We only curate items that we think you would like to see not what we want you to see. 
-									The post option button allows you to switch between different kinds of posts. Pretty self explanatory right?
+									The folder icon allows you to edit your feed and personally curate it so that it is more tailored for you.
 								</p>
 
-								<img src={ExplorePagePostOptions} style={{width:"90%"}}/>
+								<img id="explorePageOnboarding" src={ExplorePagePostFeedEditOptions} style={{width:"40%"}}/>
 
 								<p style={{color:"#848484",marginBottom:"5%",fontSize:"17px",marginTop:"5%"}}> 
 									And there you have it. Finished :)

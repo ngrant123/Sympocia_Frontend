@@ -56,6 +56,16 @@ const ButtonCSS={
     boxShadow:"1px 1px 5px #6e6e6e"
 }
 
+const VerticalLineCSS={
+    borderStyle:"solid",
+    borderWidth:"1px",
+    borderColor:"#EBEBEB",
+    borderLeft:"2px",
+    height:"50px",
+    marginLeft:"3%"
+}
+
+
 const SearchOptions=(props)=>{
     const {
         state,
@@ -157,11 +167,15 @@ const SearchOptions=(props)=>{
                     <div style={{width:"100%",height:"5px",background:state.backgroundColor,borderRadius:"5px"}}/>
                 </div>
 
+                <div style={VerticalLineCSS}/>
+
                 <div style={quickAccessCSS}
                     onClick={()=>symposiumConsumer.triggerDisplayOligarchsModal()}>
                     <p style={{color:"#2C2C2C"}}>Oligarchs</p>
                     <div style={{width:"100%",height:"5px",background:state.backgroundColor,borderRadius:"5px"}}/>
                 </div>
+
+                 <div style={VerticalLineCSS}/>
 
                 <div style={quickAccessCSS}
                     onClick={()=>triggerSymposiumQuickAccess("Beacon",true)}>

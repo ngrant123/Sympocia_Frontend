@@ -60,7 +60,7 @@ const ProfilePicture=({
 					<div id="postAndChampionMobileCreationContainer">
 						{diplayMobileChampionTrigger()}
 					</div>
-					<div style={{height:"100%",width:"80%"}}>
+					<div style={{height:"90%",width:"80%"}}>
 							<img src={state.profilePicture==null?
 										NoProfilePicture:
 										state.profilePicture
