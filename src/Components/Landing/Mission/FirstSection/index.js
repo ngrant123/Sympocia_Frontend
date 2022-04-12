@@ -41,17 +41,17 @@ const FirstSection=({history})=>{
 			container.style.opacity="1";
 		},200);
 
-		// const getInterestedApi=async()=>{
-		// 	const {confirmation,data}=await getInterestedProfiles(1);
-		// 	const {
-		// 		numberOfPeopleInterested,
-		// 		responses
-		// 	}=data;
+		const getInterestedApi=async()=>{
+			const {confirmation,data}=await getInterestedProfiles(1);
+			const {
+				numberOfPeopleInterested,
+				responses
+			}=data;
 
-		// 	changeTotalAmountInterested(numberOfPeopleInterested);
-		// 	changeUsersInterested([...responses]);
-		// }
-		// getInterestedApi();
+			changeTotalAmountInterested(numberOfPeopleInterested);
+			changeUsersInterested([...responses]);
+		}
+		getInterestedApi();
 
 	},[]);
 
