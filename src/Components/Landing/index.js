@@ -80,7 +80,7 @@ const LandingPage=(props)=>{
 		changePageCounter(selectedPage);
 	}
 	return(
-		<Container>
+		<Container id="landingPage">
 			<NavBar
 				history={props.history}
 				isMissionPage={true}

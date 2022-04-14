@@ -5,10 +5,10 @@ export const SupportingPostsContainer=styled.div`
 	flex-direction:row;
 	flex-wrap:wrap;
 	width:100%;
-
+	
 	#smallImageContainer{
-		width:250px !important;
-		height:200px !important;
+		width:220px !important;
+		height:190px !important;
 		margin-right:7%;
 		margin-bottom:15px;
 	}
