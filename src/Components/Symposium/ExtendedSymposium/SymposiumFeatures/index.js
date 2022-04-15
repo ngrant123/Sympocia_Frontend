@@ -258,7 +258,6 @@ const AnswerButtonCSS={
 }
 
 const SymposiumFeatures=(props)=>{
-	console.log(props);
 	const {
 		selectedSymposiumFeature,
 		isPortalHocComponent
@@ -270,7 +269,6 @@ const SymposiumFeatures=(props)=>{
 		symposiumUniversityQuestions,
 		communityQuestions
 	}=symposiumConsumers;
-	console.log(communityQuestions);
 
 	const {id}=useSelector(state=>state.personalInformation);
 	const [questions,changeQuestions]=useState(props.questionInformation.questions);
@@ -301,7 +299,6 @@ const SymposiumFeatures=(props)=>{
 
 	useEffect(()=>{
 		const fetchData=async()=>{
-			debugger;
 			changeIsLoading(true);
 			if(selectedSymposiumFeature=="University"){
 				await retrieveUniversityPosts(0);
@@ -487,7 +484,6 @@ const SymposiumFeatures=(props)=>{
 
 	const triggerRetrieveCommunityPosts=async(currentCounter)=>{
 		alterIsLoading(true);
-		debugger;
 		const communityGetParams={
 			symposiumId:props.symposiumId,
             parentQuestionId:communityQuestions.questions[currentCounter]._id,

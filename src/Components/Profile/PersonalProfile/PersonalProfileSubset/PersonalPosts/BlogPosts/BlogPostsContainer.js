@@ -116,10 +116,8 @@ const BlogsPostsContainer=(props)=>{
 	const UserContextValues=useContext(UserContext);
 	const PostDisplay=useContext(PostDisplayContext);
 
-	console.log(PostContextValues);
 
 	const displayPostModal=(data)=>{
-		debugger;
 		if(UserContextValues.isOwnProfile){
 			const {isPhoneUIEnabled}=props;
 			if(isPhoneUIEnabled){

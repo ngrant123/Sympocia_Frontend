@@ -308,7 +308,6 @@ const PollingOptionsCSS={
 
 
 const BlogHomeDisplayPortal=(props)=>{
-	console.log(props);
 	const [postData,changePostData]=useState(props);
 	const blog=postData.selectedBlog.blog;
 	var DBEditorState = convertFromRaw(JSON.parse(blog));
@@ -425,7 +424,6 @@ const BlogHomeDisplayPortal=(props)=>{
 			var isPersonalProfile=postData.profileType=="personalProfile"?true:false;
 			let confirmationResponse;
 			let dataResponse;
-			debugger;
 			if(isGuestProfile==true){
 				alert('Unfortunately there has been an error with stamping/unstamping this post. Please try again');
 			}else{
@@ -567,7 +565,6 @@ const BlogHomeDisplayPortal=(props)=>{
 
 	const closeBlogPortal=()=>{
 		if(postData.closeModal==null){
-			console.log(props);
 			props.closePostModal();
 		}else{
 			postData.closeModal();

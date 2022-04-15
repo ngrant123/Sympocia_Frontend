@@ -408,7 +408,6 @@ class EditImageCreation extends Component{
 		and altering it there? Maybe...maybe not who knows
 	*/
 	componentDidMount(){
-		debugger;
 		const {previousData}=this.props;
 		if(previousData!=null){
 			var {
@@ -484,8 +483,6 @@ class EditImageCreation extends Component{
 	}
 
 	sendImageDateToDB=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
-		
-		debugger;
 		this.setState({
 			isSubmittedAndProcessing:true
 		})

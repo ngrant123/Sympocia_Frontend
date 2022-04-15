@@ -120,7 +120,6 @@ const SymposiumUniversitySpecialistsDropDown=(props)=>{
 		const {confirmation,data}=await getMostPopularSymposiumSpecialists(currentSymposiumId);
 		if(confirmation=="Success"){
 			const {message}=data;
-			debugger;
 			featuresPageSecondaryInformation={
 				...featuresPageSecondaryInformation,
 				specialists:[...message]

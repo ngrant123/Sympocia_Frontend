@@ -131,16 +131,13 @@ class LProfile extends Component{
 	}
 
 	triggerUIChange=()=>{
-		debugger;
 		if(window.innerWidth<550){
-			console.log("Phone ui registered");
 			this.setState({
 				displayPhoneUI:true,
 				displayIpadUI:false,
 				displayDesktopUI:false
 			})
 		}else if(window.innerWidth<1400){
-			console.log("Ipad ui registered");
 			this.setState({
 				displayPhoneUI:false,
 				displayIpadUI:true,

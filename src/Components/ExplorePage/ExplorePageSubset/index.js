@@ -325,7 +325,6 @@ class SearchExploreContainer extends Component{
 		if(confirmation=="Success"){
 			
 			const {message}=data;
-			debugger;
 			if(identicalPostsIndicator(this.state.postsInformation,message)){
 				this.setState({
 					endOfPostsDBIndicator:true,

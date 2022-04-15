@@ -103,8 +103,6 @@ class FriendsGauge extends Component {
       }
     }
 
-    console.log(props.mobileUIStatus);
-
     this.state={
       currentPercentage:0,
       numberOfNodes:numberNodes,
@@ -306,7 +304,6 @@ class FriendsGauge extends Component {
   }
 //
   updateNode=(updatedNodeInformation)=>{
-      debugger;
       const {nodeNumber}=updatedNodeInformation;
       var currentNodes=this.state.nodes;
 

@@ -250,7 +250,6 @@ const NodeInformationPortal=({
 			changeIsMountedStatus(true);
 		}	
 
-		debugger;
 		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
 		if(nodeVideoDescription==null && containsVideoDescription==true){
 			fetchData();
@@ -274,7 +273,6 @@ const NodeInformationPortal=({
 			changeIsMountedStatus(true);
 		}	
 
-		debugger;
 		const {containsVideoDescription,nodeVideoDescription}=nodeInformation;
 		if(nodeVideoDescription==null && containsVideoDescription==true){
 			fetchData();
@@ -319,7 +317,6 @@ const NodeInformationPortal=({
 			alert('Your video is processing. We wil notify via email and on here when your video description is uploaded :). You can close this screen now');
 		}
 		const {confirmation,data}=await editNodeInformation(nodeObject);
-		debugger;
 		if(confirmation=="Success"){
 
 			updateNode({

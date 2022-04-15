@@ -167,7 +167,6 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 		headerQuestions,
 		currentPostQuestionReplies
 	}=featuresPagePrimaryInformation;
-	console.log(featuresPagePrimaryInformation);
 	
 	useEffect(()=>{
 		if(isFirstAccess==false){
@@ -190,7 +189,6 @@ const SymposiumUniversity=({featuresType,isLoading,firstAccessStatus})=>{
 
 
 	const fetchSymposiumUniversityPost=async(index,isNextPostsRequest)=>{
-		debugger;
 		let postToken=currentPostToken;
 		if(index==null){
 			postToken=postFeedTokenGenerator();

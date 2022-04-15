@@ -160,8 +160,6 @@ const PollOptionPortal=(props)=>{
 		postOwnerId
 	}=props;
 
-	console.log(props);
-
 	const personalInformation=useSelector(state=>state.personalInformation);
 	const [displayCreateComment,changeDisplayCreateComment]=useState(false);
 	const [comments,changeComments]=useState([]);

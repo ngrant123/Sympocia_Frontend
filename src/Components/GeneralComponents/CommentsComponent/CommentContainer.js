@@ -609,7 +609,6 @@ class CommentsContainer extends Component{
 
 
 	handleCreateReply=async({isAccessTokenUpdated,updatedAccessToken,commentOwnerId})=>{
-		debugger;
 		this.setState({
 			isProcessingReplyInput:true
 		})

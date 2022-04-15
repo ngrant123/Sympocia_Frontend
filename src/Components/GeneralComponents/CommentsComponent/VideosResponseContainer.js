@@ -286,7 +286,6 @@ class VideoResponseContainer extends Component{
 														this.props.companyState.id
 		}
 
-		debugger;
 		if(comment!=""){
 			const replyObject={
 				postType:this.props.postType,
@@ -300,7 +299,6 @@ class VideoResponseContainer extends Component{
 							this.props.personalState.accessToken
 			}
 
-			console.log(this.state.videoResponses[this.state.indicatorPosition]);
 
 			const {confirmation,data}=await createVideoCommentReply(replyObject);
 			
@@ -462,7 +460,6 @@ class VideoResponseContainer extends Component{
 	}
 
 	triggerDeleteVideoCommentOrReply=async({isAccessTokenUpdated,updatedAccessToken,commentId,isReplyDeletion,targetIndex})=>{
-		debugger;
 		const {confirmation,data}=await deleteVideoCommentOrReply(
 											commentId,
 											this.props.personalState.id,
@@ -507,7 +504,6 @@ class VideoResponseContainer extends Component{
 
 	VideoComponent=()=>{ 
 		const videoData=this.state.videoResponses[this.state.indicatorPosition];
-		console.log(videoData);
 		const postOwnerId=this.props.ownerId==null?this.props.ownerId._id:this.props.ownerId
 		return <>
 			{this.state.isProcessingInput==true?

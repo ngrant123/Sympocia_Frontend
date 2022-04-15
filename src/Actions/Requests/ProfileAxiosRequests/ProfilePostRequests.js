@@ -601,7 +601,6 @@ export const requestAccessToNode=async({nodeName,targetId,requestOwnerId,request
 
 export const updateFriendsGaugeNodeAvatar=async({accessToken,...avatarInformation})=>{
 	try{
-		debugger;
 
 		const updatedFriendsGaugeNodeResponse=await axios.post(`${CreateUrl}/updateFriendsGaugeNodeAvatar`,{
 			...avatarInformation

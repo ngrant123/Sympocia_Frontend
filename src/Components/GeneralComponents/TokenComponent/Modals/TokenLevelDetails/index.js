@@ -96,7 +96,6 @@ const TokenLevelDetails=({tokenScore,tokenLevel,closeModal})=>{
 	const [displayOnboardingModal,changeDisplayOnboardingModal]=useState(false);
 	const userId=useSelector(state=>state.personalInformation.id);
 
-	console.log(tokenLevel);
 
 	useEffect(()=>{
 		retrieveUsersUnlocked();

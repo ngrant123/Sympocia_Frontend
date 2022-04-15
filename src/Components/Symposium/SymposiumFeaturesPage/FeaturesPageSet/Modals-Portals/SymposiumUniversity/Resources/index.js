@@ -37,8 +37,7 @@ const SymposiumResources=(props)=>{
 		profileSpecificResourcesRequest,
 		ownerId
 	}=props;
-	console.log("Test");
-debugger;
+	
 	const [resources,changeResources]=useState([]);
 	const [createResources,changeCreateResourceDisplay]=useState(false);
 	const [highLightedResource,changeHighLightedResource]=useState(selectedResource);

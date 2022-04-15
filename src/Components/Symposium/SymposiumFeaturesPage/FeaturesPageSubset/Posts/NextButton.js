@@ -22,8 +22,6 @@ const NextButton=(props)=>{
 		postsLength,
 		nextPostsParams
 	}=props;
-
-	console.log(props);
 	
 	const triggerNextPostRequest=()=>{
 		if(nextPostsParams!=null){

@@ -98,7 +98,6 @@ const DescriptionModal=(props)=>{
 	useEffect(()=>{
 		const {previousChampionInformation}=props;
 		if(previousChampionInformation!=null){
-			console.log(previousChampionInformation);
 		}
 	},[]);
 

@@ -129,7 +129,6 @@ const ButtonCSS={
 	marginTop:"5%"
 }
 const ExtendedSubmission=({submissionData,closeModal,currentSymposiumId,isGuestProfile,removeCommunityQuestionFromList})=>{
-	console.log(submissionData);
 	const featuresPageConsumer=useContext(FeaturesContext);
 
 	const [isSubmissionVotedOn,changeSubmissionVoteStatus]=useState(false);

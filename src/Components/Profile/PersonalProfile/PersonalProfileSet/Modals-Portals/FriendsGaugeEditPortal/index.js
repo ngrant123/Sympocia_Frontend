@@ -154,7 +154,6 @@ const FriendsGaugeEditPortal=(props)=>{
 			const {confirmation,data}=await getRecruits(props.userInformation);
 			if(confirmation=="Success"){
 				const {message}=data;
-				console.log(message);
 				const {
 					recruits,
 					recruitsFollowing

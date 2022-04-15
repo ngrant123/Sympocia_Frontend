@@ -374,7 +374,6 @@ class PersonalSignUp extends Component{
 	}
 
 	triggerChangePassWordVisibility=()=>{
-		debugger;
 		var passwordTextArea = document.getElementById('password');
 		var style = window.getComputedStyle(passwordTextArea);
 		if(this.state.enableWebTextSecurity){

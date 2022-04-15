@@ -131,7 +131,6 @@ const QuestionUploadOption=({
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
 		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
-		debugger;
 		changeIsCommentProcessing(true);
 		let description;
 		let continueUploadProcess=true;

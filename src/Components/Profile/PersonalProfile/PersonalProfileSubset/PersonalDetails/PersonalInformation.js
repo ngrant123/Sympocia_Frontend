@@ -239,7 +239,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 	const dispatch=useDispatch();
 
 	useEffect(()=>{
-		debugger;
 		let isRecruit=false;
 		const recruits=personalInformation.recruits;
 
@@ -369,7 +368,6 @@ const RecruitButton=({personalInformation,displayConfettiHandle,userId})=>{
 
 
 const PersonalInformation=(props)=>{
-	console.log(props);
 	const [displayDonationModal,changeDisplayForDonationModal]=useState(false);
 	const [displayChampionModal,changeDisplayChampionModal]=useState(false);
 	const [displayFriendsPortal,changeDisplayFriendsPortal]=useState(false);
@@ -514,7 +512,6 @@ const PersonalInformation=(props)=>{
 	}
 
 	const verfiyAdPayment=async({isAccessTokenUpdated,updatedAccessToken})=>{
-		debugger;
 		const {confirmation,data}=await adPageVerification(
 											props.personalInformation._id,
 											isAccessTokenUpdated==true?updatedAccessToken:

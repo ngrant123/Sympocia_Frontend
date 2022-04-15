@@ -81,8 +81,6 @@ const SymposiumSpecialistsExtended=(props)=>{
 		removeSpecialist
 	}=props;
 
-	console.log(selectedSymposiumSpecialist);
-
 	const [highlightedSpecialist,changeHighLightedSpecialist]=useState(selectedSymposiumSpecialist);
 	const [hasProfilePreviouslyInteractedWithSpecialist,changeInteractionStatus]=useState(false);
 	const [submitting,changeSubmittingStatus]=useState(false);

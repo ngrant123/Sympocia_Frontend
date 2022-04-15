@@ -46,7 +46,6 @@ const CurrentSubmissions=({currentQuestions,currentSymposiumId,isGuestProfile})=
 	const [selectedSubmission,changeSelectedSubmission]=useState();
 	const [communityQuestions,changeCommunityQuestions]=useState(currentQuestions);
 
-	console.log(currentQuestions);
 
 	const mobileCloseIcon=()=>{
 		return(

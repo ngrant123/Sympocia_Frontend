@@ -67,9 +67,6 @@ const SymposiumUniversity=()=>{
 			specialistUploadStatus
 		}
 	}=featuresPageSecondaryInformation
-	console.log(featuresPageSecondaryInformation);
-
-	console.log(featuresPageSecondaryInformation.specialists);
 	const [specialists,changeSpecialist]=useState(featuresPageSecondaryInformation.specialists);
 	const [resources,changeResources]=useState(featuresPageSecondaryInformation.resources);
 	const [profileSpecificSpecialistRequest,changeProfileSpecificSpecialistRequest]=useState(false);

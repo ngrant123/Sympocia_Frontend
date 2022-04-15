@@ -183,7 +183,6 @@ const PromoteSomeone=({recruitsInformationProp,nodes,closeModal,id})=>{
 	}
 
 	const pushSelectedPersonToArray=(data)=>{
-		console.log(data);
 		selectedRecruits.push(data);
 		const newSelectedRecruitsArray=selectedRecruits;
 		changeSelectedRecruits([...newSelectedRecruitsArray]);

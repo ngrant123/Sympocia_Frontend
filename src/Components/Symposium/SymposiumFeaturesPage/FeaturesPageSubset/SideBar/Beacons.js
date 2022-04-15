@@ -152,14 +152,11 @@ const BeaconPostCreation=({
 	}	
 
 	const updateCurrentBeaconPosts=(beaconPostType,beacon)=>{
-		debugger;
-		console.log(featuresPageConsumer);
 		if(beaconPostType==currentBeaconSelectedPostType){
 			let currentBeaconPrimaryInformation=featuresPagePrimaryInformation;
 			const {posts}=currentBeaconPrimaryInformation;
 			posts.splice(0,0,beacon);
 			updatePrimaryPosts(posts,false);
-			debugger;
 			updateTagPostCount(beacon.tags[0].name);
 		}
 		closeFeaturesPageCreationModal();
@@ -202,7 +199,6 @@ const BeaconProgressBar=({
 	const beaconInteractedWith=answeredBeacons+acceptedBeacons;
 
 	useState(()=>{
-		debugger;
 		let progressBarCompletion;
 		let completedBeaconsAnsweredPercentage=(beaconInteractedWith)/totalBeacon;
 		if(completedBeaconsAnsweredPercentage==1)

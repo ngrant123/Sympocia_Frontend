@@ -90,7 +90,6 @@ class BlogPostCreation extends Component{
 		super(props);
 		var isPersonalProfile=true;
 
-		console.log(props);
 		this.state={
 			userInformation:{},
 			displayEditButtonSubmitModal:false,
@@ -149,7 +148,6 @@ class BlogPostCreation extends Component{
 				isOwner=(this.props.companyInformation.id==this.props.match.params.id)?true:false;
 
 			let blogContentState;
-			console.log(this.props.location.state);
 			if(this.props.location.state.postType=="Creation" && isMobile==true){
 				alert('Unfortunately this isnt supported for you mobile device. Please switch to desktop to continue');
 				this.setState({

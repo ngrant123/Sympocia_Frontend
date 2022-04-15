@@ -102,7 +102,6 @@ const NodeDesignOptions=({userId,nodeId,closeEditArea})=>{
 		}
 
 		const {confirmation,data}=await updateFriendsGaugeNodeAvatar(updatedAvatarInformation);
-		debugger;
 		if(confirmation=="Success"){
 			alert('Success. Please reload the page');
 			closeEditArea();

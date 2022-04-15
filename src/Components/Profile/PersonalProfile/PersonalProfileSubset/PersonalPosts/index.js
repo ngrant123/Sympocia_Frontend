@@ -381,7 +381,6 @@ const PersonalPostsIndex=(props)=>{
 
 			const {confirmation,data}=await getUserImages(postFetchRequest);
 			
-			debugger;
 			if(confirmation=="Success"){
 				const {crownedPost,posts}=data;
 				if(posts.length==0 && crownedPost==null){

@@ -75,7 +75,6 @@ const CreateResource=({closeModal,triggerAddSymposiumResource,symposiumId})=>{
 				resourceUploadStatus:true
 			}
 		}
-		debugger;
 		updateSecondaryInformation(symposiumUniversitySecondaryInformation);
 	}
 

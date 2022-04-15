@@ -81,7 +81,6 @@ const NextButtonCSS={
 
 
 const SymposiumCommunity=({featuresType,isLoading})=>{
-	debugger;
 	const featuresPageConsumer=useContext(FeaturesContext);
 	const [currentQuestionIndex,changeCurrentQuestionIndex]=useState(0);
 	const [displayCommunityPostCreation,changeDisplayCommunityPostCreation]=useState(false);
@@ -105,10 +104,8 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 		competitionEndDate,
 		responses
 	}=featuresPagePrimaryInformation;
-	console.log(featuresPagePrimaryInformation);
 
 	useEffect(()=>{
-		debugger;
 		if(currentQuestionIndex>0 || firstInitializationCompleted==true){
 			triggerFetchNextPosts(currentQuestionIndex,false);
 		}else{
@@ -155,7 +152,6 @@ const SymposiumCommunity=({featuresType,isLoading})=>{
 			isBeaconParentComponent:false,
 			featurePageType:"Community"
 		}
-		console.log(postProps);
 		switch(questionType){
 			case "Image":{
 				return <Images {...postProps}/>

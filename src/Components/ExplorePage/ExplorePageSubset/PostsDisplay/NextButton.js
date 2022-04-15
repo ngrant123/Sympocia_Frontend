@@ -25,7 +25,6 @@ const NextButton=(props)=>{
 		triggerReloadingPostsHandle,
 		postType
 	}=props;
-	console.log(props);
 	return(
 		<div style={{width:"100%"}}>
 			{endOfPostsDBIndicator==false && ( 

@@ -314,7 +314,6 @@ const AdditionalInformation=(props)=>{
 	}
 
 	const AdditionalInformationInitialDisplayModal=({children})=>{
-		console.log(children);
 		return children.filter(data=>data.props.selectedComponentType==currentAdditionalInformationType);
 	}
 

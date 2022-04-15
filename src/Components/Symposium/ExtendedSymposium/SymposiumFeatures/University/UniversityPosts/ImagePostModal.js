@@ -378,8 +378,6 @@ const ImagePostModal=(props)=>{
 		questionType
 	}=selectedQuestion;
 
-	console.log(selectedQuestion);
-
 	const [displayCreationModal,changeDisplayCreationModal]=useState(false);
 	const [posts,changePosts]=useState([]);
 	const [symposiumIdState,changeSymposiumIdState]=useState();

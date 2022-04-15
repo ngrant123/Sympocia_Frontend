@@ -290,7 +290,6 @@ const SymposiumFeatures=(props)=>{
 	const retrieveSymposiumCommunity=async(featuresPageGetParams)=>{
 		const {confirmation,data}=await getCommunityFeaturesPage(featuresPageGetParams);
 		if(confirmation=="Success"){
-			debugger;
 			const {message}=data;
 			const {
 				competitionEndDate,
@@ -300,8 +299,6 @@ const SymposiumFeatures=(props)=>{
 				submissionCount,
 				ownerQuestionCreationStatus
 			}=message
-
-			console.log(message);
 
 			const symposiumCommunityPrimaryInformation={
 				headerQuestions:questions,
@@ -375,7 +372,6 @@ const SymposiumFeatures=(props)=>{
 	}
 
 	const resetEndOfPostEvaluation=(isNextPostsRequest,postType)=>{
-		debugger;
 		let token=currentPostManagmentToken;
 		if(isNextPostsRequest==false){
 			token=postFeedTokenGenerator();
@@ -446,7 +442,6 @@ const SymposiumFeatures=(props)=>{
 
 		const {confirmation,data}=await retrieveCommunityPosts(communityGetParams);
 		if(confirmation=="Success"){
-			debugger;
 			const {message}=data;
 			if(message.length==0){
 				if(isNextPostsRequest==false){

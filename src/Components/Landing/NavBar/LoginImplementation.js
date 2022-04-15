@@ -154,7 +154,6 @@ const triggerResetPasswordDisplay=(history)=>{
 }
 
 const handleLoginClick=async(email,password,dispatch,history)=>{
-  debugger;
   const {confirmation,data}=await loginProfile(email,password);
 
   if(confirmation=="Success"){
@@ -208,7 +207,6 @@ const LoginUI=({closeModal,history,displayMobileLoginTrigger})=>{
 
 
   const setWebTextSecurity=()=>{
-    debugger;
     var x = document.getElementById('LoginPassword');
     var style = window.getComputedStyle(x);
     if(style.webkitTextSecurity){

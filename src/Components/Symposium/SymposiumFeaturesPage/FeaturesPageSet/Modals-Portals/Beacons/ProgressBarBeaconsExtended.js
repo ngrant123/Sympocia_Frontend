@@ -122,8 +122,6 @@ const ProgressBarBeaconsExtended=({
 						personalInformation.accessToken
 		});
 
-		debugger;
-
 		if(confirmation=="Success"){
 			const {message}=data;
 			changePosts([...message]);
@@ -149,7 +147,6 @@ const ProgressBarBeaconsExtended=({
 	}
 
 	const triggerDisplayPosts=async(retrievalType,postType)=>{
-		debugger;
 		let currentPostToken=currentPostTokenManagement;
 		if(postType!=selectedPostType){
 			currentPostToken=uuidv4();

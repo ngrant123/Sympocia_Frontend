@@ -147,7 +147,6 @@ const BlogCreationButton=styled(Link)`
 `;
 
 const NoPostsModal=(props)=>{
-	console.log(props);
 	const [recommendedPosts,changeRecommendedPosts]=useState([]);
 	const postContext=useContext(PostContext);
 	const profileContext=useContext(UserContext);
