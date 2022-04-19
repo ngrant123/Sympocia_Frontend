@@ -64,27 +64,6 @@ const Container=styled.div`
 		height:140px;	
     }
 `;
-
-// ${({triggerTokenIncreaseUI})=>{
-// 	triggerTokenIncreaseUI==true &&(
-// 		css`animation: glowing 1300ms infinite;
-// 	    @keyframes glowing {
-// 			0% { 
-// 				border-color: #D6C5F4;
-// 				box-shadow:-1px 1px 5px 1px #C8B0F4;
-// 			}
-// 		    50% {
-// 		     	border-color: #C8B0F4;
-// 		     	box-shadow:-1px 1px 20px 9px #C8B0F4;
-// 		    }
-// 		    100% {
-// 		     	border-color: #B693F7;
-// 		     	box-shadow:-1px 1px 5px 1px #C8B0F4;
-// 		    }
-// 		  }
-// 		`
-// 	)
-// }}
 const CloseTokenDisplay=styled.div`
 	position:absolute;
 	border-radius:50%;

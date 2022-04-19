@@ -36,7 +36,7 @@ export const getAuthenticPostComments=async(postId,postOption)=>{
 		const {data}=postComments;
 		return data.data;
 
-	}catch(err){https://www.youtube.com/watch?v=hmk1aHU0768
+	}catch(err){
 		return err;
 	}
 }

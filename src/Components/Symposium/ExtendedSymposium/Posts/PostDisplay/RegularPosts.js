@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import SymposiumRegularPostDisplay from "../../../../GeneralComponents/PostComponent/RegularPostComponent/SymposiumAndExplorePageRegularPost.js";
 
-// postUserInformation
 
 const Container=styled.div`
 	display:flex;

@@ -82,7 +82,6 @@ const LandingPageNavBar=(props)=>{
       displayLoginModalHandle
   }=props;
 	const [displayMissionPage,changeDisplayMissionPage]=useState(true);
-	//<p style={{color:displayMissionPage==false?"#5298F8":"#A4A4A4"}}>
 	const communityButton=()=>{
 		return <svg onClick={()=>displayCommunityMissionOption()}
 				style={{cursor:"pointer",borderRadius:"50%",boxShadow:"1px 1px 10px #d5d5d5",padding:"5px"}} 

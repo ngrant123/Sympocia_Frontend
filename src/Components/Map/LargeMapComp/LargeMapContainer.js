@@ -154,7 +154,6 @@ class LargeMapContainer extends Component {
 				UserLocation();
 
 			},{
-				//timeout:10000,
 				 enableHighAccuracy: true
 			});
 	

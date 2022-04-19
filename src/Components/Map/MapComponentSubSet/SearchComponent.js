@@ -212,7 +212,6 @@ class SearchComponent extends Component{
       }
 
       submitData=async(mapContext)=>{
-          //  const addedOptions=this.state.addedOptionsObject;
             const location=document.getElementById("locationId").value;
             const industry=document.getElementById("industryId").value.trim();
             const name=document.getElementById("nameId").value;

@@ -253,8 +253,6 @@ class PaymentOption extends Component {
 			loginCompanyPage(true);
 			loginPersonalPage(false);
 			return profile;
-
-			///Implement strip api on frontend
 		}
 
 	render(){

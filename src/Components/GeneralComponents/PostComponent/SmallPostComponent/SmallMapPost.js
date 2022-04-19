@@ -108,16 +108,6 @@ class SmallMapPost extends Component{
   		  }
 	}
 
-	handleMouseEnter(){
-		//document.getElementById("mapDescriptionContainer").style.opacity=1;
-	}
-
-	handleMouseOut(){
-
-		//document.getElementById("mapDescriptionContainer").style.opacity=.3;
-
-	}
-
 	render(){
 		const position = [this.state.lat, this.state.lng]
 

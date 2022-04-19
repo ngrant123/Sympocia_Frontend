@@ -9,7 +9,6 @@ import PauseIcon from '@material-ui/icons/Pause';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import MicIcon from '@material-ui/icons/Mic';
-//<Icon icon={scissorsCutting} />
 
 const ShadowContainer= styled.div`
 	position:fixed;
@@ -144,7 +143,6 @@ const VideoOptionCSS={
 	boxShadow:"2px 10px 10px #b9d6ff"
 }
 
-//"blob:http://localhost:3000/9b5bb4e0-de5b-4e15-b127-1f05aeaaeb36"
 const VoiceDescriptionPortal=(props)=>{
 	var targetContainer;
 	if(props.isBlog==true){

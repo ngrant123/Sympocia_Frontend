@@ -29,10 +29,6 @@ import styled from "styled-components";
 	}
  `;
 
-//100%
-
- //5% top is the cuttoff limit
-
   const SupportingWave=styled.div`
  	position:absolute;
  	background-color:#C8B0F4;

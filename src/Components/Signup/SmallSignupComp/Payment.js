@@ -349,8 +349,6 @@ class Payment extends Component {
 			loginCompanyPage(true);
 			loginPersonalPage(false);
 			return profile;
-
-			///Implement strip api on frontend
 		}
 
 	handleFirstPageContinueClick=()=>{

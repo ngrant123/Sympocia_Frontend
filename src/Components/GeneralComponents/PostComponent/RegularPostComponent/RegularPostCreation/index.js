@@ -257,10 +257,7 @@ const ButtonCSS={
 	const sendRegularPost=async({profilePostInformation,isAccessTokenUpdated,updatedAccessToken})=>{
 		
 		changeIsSubmittedAndProcessing(true);
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const searchCriteriaIndustryArray=[];
-		//const content=editorState;
-		//const rawDraftContentState = JSON.stringify(convertToRaw(content.getCurrentContent()));
 		let currentPost=audioDescription!=null?audioDescription:textDescription
 		const industries=industriesSelected;
 		const isPostCrowned=isCrownedPost==undefined?false:isCrownedPost;
@@ -467,11 +464,6 @@ const ButtonCSS={
 		}
 		profilePostInformation.updateRegularPost(newRegularObject);
 	}
-
-
-	// const onEditorStateChange=(editorState)=>{
-	// 	changeEditorState(editorState);
-	// }
 
 	const closeModal=()=>{
 		changeAudioOrTextScreenChoice(true);

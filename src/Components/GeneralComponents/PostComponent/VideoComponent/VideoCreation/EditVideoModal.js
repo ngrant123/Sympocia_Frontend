@@ -350,8 +350,6 @@ class EditVideoModal extends Component{
 		})
 		const currentVideoTitle=document.getElementById("videoTitle").value;
 		const currentVideoDescription=document.getElementById("videoDescription").value;
-
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const videoAudioDescription=this.state.videoDescription;

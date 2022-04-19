@@ -266,7 +266,6 @@ const Arena=()=>{
 					)}
 			   </>
 	}
-//
 	const handleBoost=async(boostInformation)=>{
 		
 		const{

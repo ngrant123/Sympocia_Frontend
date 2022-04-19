@@ -180,7 +180,7 @@ const HorizontalLineCSS={
 	marginRight:"0",
 	width:"100%"
 }
-///<input type="file" accept=".mp3,audio/*">
+
 const AudioPostUpload=({
 	closeModal,
 	symposiumId,

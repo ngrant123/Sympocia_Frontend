@@ -2,10 +2,6 @@
 import React,{Suspense} from "react";
 import ReactDom from "react-dom";
 import {BrowserRouter as Router, Route , Switch} from 'react-router-dom';
-import ImageDisplay from "./Components/GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js"
-import VideoDisplay from "./Components/GeneralComponents/PostComponent/ImageAndVideoDisplay/PostContainer.js"
-import BlogDisplay from "./Components/GeneralComponents/PostComponent/BlogComponent/BlogPostDisplay/BlogPostContainer.js"
-import RegularPostDisplay from "./Components/GeneralComponents/PostComponent/RegularPostComponent/RegularPostDisplay/RegularPostContainer.js"
 import allReducers from './Actions/Redux/Reducers';
 import { Provider } from 'react-redux';
 import { createStore,compose } from 'redux';

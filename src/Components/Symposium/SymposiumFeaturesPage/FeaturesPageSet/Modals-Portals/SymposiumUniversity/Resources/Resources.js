@@ -46,9 +46,6 @@ const Resources=({resources,displayCreateResource,displayHighLightedResource})=>
 										<p>
 											<b>{data.firstName}</b>
 										</p>
-										{/*
-											<p style={{marginLeft:"2%",color:"#B38AFF"}}>Rank:{index+1}</p>
-										*/}
 									</div>
 									<p style={{maxHeight:"40px",overflow:"hidden"}}>
 										{data.resourcePost}

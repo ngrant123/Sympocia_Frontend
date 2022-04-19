@@ -286,7 +286,6 @@ class BlogEditSubmitModal extends Component{
 		})
 		const currentTitle=this.state.title;
 		const currentDescription=this.state.description;
-		//this could be done in a better way but... niggas is on a time crunch and stressed soooooo.....
 		const industries=this.state.industriesSelected;
 		const selectedSubCommunities=this.state.subIndustriesSelected;
 		const currentVideoDescription=this.state.videoDescription;
@@ -324,7 +323,6 @@ class BlogEditSubmitModal extends Component{
 		}
 		
 		
-			//Quick fix but this could be implemented in a better way
 		if(this.props.previousState==null){
 			const rawDraftContentState = JSON.stringify(convertToRaw(blogPostInformation.blogPostState.getCurrentContent()));
 			const blogPostSendObject={
@@ -412,7 +410,6 @@ class BlogEditSubmitModal extends Component{
 					title:currentTitle!=title?currentTitle:null,
 					isCrownedPost:this.state.isPostCrowned!=isCrownedPost?this.state.isPostCrowned:null,
 					uncompressedImageId,
-					//blog:rawDraftContentState!=blog?rawDraftContentState:null
 					blog:currentBlogPost==null?null:(
 						currentBlogPost!=blog?currentBlogPost:null
 					),

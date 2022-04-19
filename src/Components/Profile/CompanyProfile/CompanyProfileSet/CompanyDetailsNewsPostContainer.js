@@ -516,16 +516,12 @@ class ProfileComp extends Component{
 //COMBINE THESE TWO METHODS
 
 	displayEmployee(props){
-
-		//Gets state from small profile file then displays it 
 		var tempprops=props;
 		tempprops.neworemployee=1;
 		this.props.displaytoplevelemployeeprofile(tempprops);
 	}
 
 	displayNotification(props){
-
-		//Gets state from small profile file then displays it 
 		var tempprops=props;
 		tempprops.neworemployee=2;
 
@@ -576,7 +572,6 @@ class ProfileComp extends Component{
 
 
 	render(){
-		//Condidtional rendering for post/image/location section 
 		var PostOptions;
 
 		if(this.state.postdecider==1){

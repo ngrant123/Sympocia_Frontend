@@ -66,7 +66,6 @@ const HotCategoriesContainer=()=>{
 
 	const [displayPopularVideos,changePopularVideos]=useState(false);
 
-	//Test Display
 	const [popularVideos,changePopular]=useState([{},{},{}]);
 	const [popularCommunities,changeCommunities]=useState([{},{},{},{},{},{},{},{},{}]);
 

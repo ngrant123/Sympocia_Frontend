@@ -430,26 +430,6 @@ const AdAnalysis=({postData,postDisplayType,closeAnalysis,userId})=>{
 									</p>
 									<p>Interaction consists of comments,stamps,video comments etc</p>
 								</div>
-								{/*
-									<div class="btn-group">
-										<button class="btn btn-primary dropdown-toggle" type="button" 
-											data-toggle="dropdown" style={ClearFeedPostOptions}>
-											Sort By
-											<ArrowDropDownCircleOutlinedIcon
-												style={{fontSize:"15",color:"7C7C7C",marginLeft:"10px"}}
-											/>
-										</button>
-										<ul class="dropdown-menu" style={{padding:"10px"}}>
-											<li style={{cursor:"pointer"}}>
-												Current Ads 
-											</li>
-											<hr/>	
-											<li style={{cursor:"pointer"}}>
-												Create
-											</li>	
-										</ul>
-									</div>	
-								*/}
 							</div>
 
 							<div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",marginTop:"2%"}}>

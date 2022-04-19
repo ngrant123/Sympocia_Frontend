@@ -280,7 +280,7 @@ class PersonalFeedContainer extends Component{
 		}
 	}
 
-	//Find a better way of doing this
+
 	async componentDidMount(){
 		try{
 			window.addEventListener('resize',this.triggerUIChange)

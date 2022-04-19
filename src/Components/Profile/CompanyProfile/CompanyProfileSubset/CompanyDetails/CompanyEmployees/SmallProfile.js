@@ -144,8 +144,6 @@ const EmployeeBioCaption = styled.div`
 
 
 `;
-
-//Could be turned into a functional component
 class SmallProfile extends Component {
 	constructor(props){
 		super(props);

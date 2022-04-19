@@ -194,7 +194,6 @@ const WinnersDisplay=({closeModal,winnersData,displayConfetti})=>{
 					)}
 			</>
 	}
-//
 	const VideoWinners=()=>{
 		return <>
 				{videoWinner!=null &&(

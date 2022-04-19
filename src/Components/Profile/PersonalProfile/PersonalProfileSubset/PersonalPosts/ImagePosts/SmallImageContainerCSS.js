@@ -1,19 +1,5 @@
 import styled from "styled-components";
 
-		// padding-left:40px;
-		// padding-right:40px;
-
-// background-color:blue;
-
-
-
-// @media screen and (max-width:350px){
-// 	#smallPostLI{
-// 		width:115px !important;
-// 		height:110px !important;
-// 	}
-// }
-
 export const Container=styled.div`
 	display:flex;
 	#smallPostLI{

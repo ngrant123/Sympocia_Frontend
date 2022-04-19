@@ -168,7 +168,6 @@ const InvestorProfilePictureCSS={
 	borderRadius:"50%"
 }
 
-//could be turned into a functional component
 class SmallInvestorProfileTab extends Component{
 
 	constructor(props){

@@ -146,7 +146,6 @@ const RecruitsPortal=({isOwner,closeModal,userId})=>{
 					recruitsFollowing
 				}=message;
 				changeRecruits(recruitsFollowing);
-				//recruitsProfileFollows(recruits);
 
 			}else{
 				alert('Unfortunately there has been an error trying to get your recruits. Please try again');

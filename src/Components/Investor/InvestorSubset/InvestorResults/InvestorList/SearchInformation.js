@@ -76,9 +76,6 @@ const InvestorProfileCSS={
 
 
 const SearchInformation=(props)=>{
-
-	//Test data 
-
 	const [investors,changeInvestors]=useState([]);
 
 	const constructNewestInvestors=()=>{

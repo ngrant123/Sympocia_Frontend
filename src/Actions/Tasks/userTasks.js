@@ -1,6 +1,4 @@
 
-	//import { getUserLocation } from "../MapPageAxiosRequests/MapPageGetRequests.js";
-
 	export function searchforfirstName(firstName,data){
 		var investorcontainer=[];
 		var investorname;
@@ -81,28 +79,10 @@
 	}
 
 	export function UserLocation(userId){
-		//decrypt userId
 		let userId2=decrypt(userId);
-		//getUserLocation()
-
-
-
 
 	}
 
 	function decrypt(userId){
 
 	}
-
-/*
-
-	Should be implemented later in developement after mvp is set up 
-	//To do list
-
-	1.) Verify user input
-	2.) verify email
-	3.)Verify number of characters in a bio or something
-
-
-*/
-

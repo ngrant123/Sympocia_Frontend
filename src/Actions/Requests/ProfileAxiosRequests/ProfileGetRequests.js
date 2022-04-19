@@ -7,8 +7,6 @@ const SearchUrl=process.env.NODE_ENV=='production'?
 				process.env.REACT_APP_TEST_PROFILE_GET_URL;
 
 export function getActivityLog(userId){
-	//userId:number
-
 	axios.get(`${baseurl}/ActivityLog`,{
 
 		param:{

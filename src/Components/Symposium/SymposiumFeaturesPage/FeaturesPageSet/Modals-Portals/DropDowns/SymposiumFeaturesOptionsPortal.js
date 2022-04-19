@@ -2,7 +2,6 @@ import React,{useContext} from "react";
 import styled from "styled-components";
 import {createPortal} from "react-dom";
 import {FeaturesContext} from "../../FeaturesPageContext.js";
-// top:35%;
 
 const Container=styled.div`
 	position:fixed;

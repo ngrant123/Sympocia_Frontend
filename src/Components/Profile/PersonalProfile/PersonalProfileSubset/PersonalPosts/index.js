@@ -348,8 +348,6 @@ const PersonalPostsIndex=(props)=>{
 		}
 	}
 
-// Should be refactored in the future everytime i look at it i want to kill myself
-
 	const handlePostsClick=async({
 		kindOfPost,
 		id,

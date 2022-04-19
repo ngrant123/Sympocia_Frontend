@@ -203,8 +203,6 @@ class SecondPageContainer extends Component{
 
 		sendMessage(socket,messageObject);
 
-		
-		//Reason behind this is that later down the wrong it would make have multiple people in conversation easier
 		var participantsArray=[];
 
 		var roomId=null;

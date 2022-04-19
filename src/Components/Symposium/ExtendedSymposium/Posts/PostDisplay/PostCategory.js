@@ -14,7 +14,7 @@ import {SymposiumContext} from "../../SymposiumContext.js";
 import {useSelector} from "react-redux";
 import ArrowForwardIosIcon from '@material-ui/icons/KeyboardArrowDown';
 
-// margin-top:5%;
+
 const Container=styled.div`
 	width:90%;
 	height:550px;

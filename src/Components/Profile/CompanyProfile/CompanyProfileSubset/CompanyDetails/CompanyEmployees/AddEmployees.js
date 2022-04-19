@@ -461,9 +461,6 @@ class AddEmployees extends Component{
 
 		var ShortDescription=document.getElementById("ShortDescriptionTextarea").value;
 		document.getElementById("ShortDescriptionTextarea").value="";
-
-		//Callback function becasue setState is asychronous
-
 		this.setState(prevState=>({
 			...prevState,
 			displaySecondPage:false,

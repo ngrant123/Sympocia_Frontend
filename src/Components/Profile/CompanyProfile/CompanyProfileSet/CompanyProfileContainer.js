@@ -709,8 +709,6 @@ class LProfile extends Component{
 		const firstTimeIndicator=this.props.firstTimeIndicator;
 
 		if(firstTimeIndicator==true){
-			//Start tutorial mode
-
 		 }else{
 				if(id==this.props.companyPersonalId){
 
@@ -729,8 +727,6 @@ class LProfile extends Component{
 						displayChampionModal:containsChampion,
 						championModalData:profile.championData
 					});
-
-					//window.addEventListener('scroll',this.ScrollFunction);
 				}
 				else{
 					const profile=await getCompanyInformation(id);

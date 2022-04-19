@@ -118,10 +118,6 @@ class SearchBarModal extends Component{
 		}
 	}
 
-	componentDidMount(){
-		//this.changeHeaderOptionCSS("Recent");
-	}
-
 	changeHeaderOptionCSS=(option)=>{
 		const recent=document.getElementById("recentOption");
 		recent.style.color="#BDBDBD";

@@ -253,10 +253,6 @@ const SignupButtonCSS={
 	cursor:"pointer",
 	boxShadow:"1px 1px 5px #6e6e6e"
 }
-/*
-	Down the road should look into implementing something like
-	https://medium.com/@gabriele.cimato/on-how-to-store-an-image-in-redux-d623bcc06ca7
-*/
 
 const NavBar=(pageProps)=>{
 	const dispatch=useDispatch();

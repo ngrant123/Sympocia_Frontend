@@ -1,6 +1,5 @@
 import React,{useState,useEffect,useContext} from "react";
 import styled from "styled-components";
-//import {FeaturesContext} from "../../FeaturesPageSet/FeaturesPageContext.js";
 
 const Container=styled.div`
 	width:100%;
@@ -26,8 +25,6 @@ const ButtonCSS={
 const SelectedTag=({selectedTag,displayInitialScreen})=>{
 
 	const [dateCreated,changeDateCreated]=useState(); 
-	///const featuresPageConsumer=useContext(FeaturesContext);
-	// const {fetchPosts}=featuresPageConsumer;
 
 
 	useEffect(()=>{
@@ -35,19 +32,6 @@ const SelectedTag=({selectedTag,displayInitialScreen})=>{
 		changeDateCreated(dateTagCreated);
 	},[]);
 
-	// const retrievePostsUsingTag=(selectedPostType)=>{
-	// 	const tag=[];
-	// 	tag.push(selectedTag);
-
-	// 	const beaconFetchParams={
-	// 		postType:selectedPostType,
-	// 		tags:tag,
-	// 		isNextPostsRequest:false
-	// 	}
-	// 	fetchPosts("Beacons",beaconFetchParams);
-
-
-	// }
 	return(	
 		<Container>
 			<div style={ButtonCSS} onClick={()=>displayInitialScreen()}>
@@ -71,34 +55,6 @@ const SelectedTag=({selectedTag,displayInitialScreen})=>{
 				</div>
 			</div>
 			<hr/>
-
-			{/*
-				<div class="dropdown">
-					<button class="btn btn-primary dropdown-toggle" id="text"
-						type="button" data-toggle="dropdown" style={ButtonCSS}>
-						<p>View posts using tag</p>
-					</button>
-					<ul class="dropdown-menu" style={{padding:"5px",height:"170px",overflowY:"auto",overflowX:"hidden"}}>
-						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>retrievePostsUsingTag("Images")}>
-							Images
-						</li>
-						<hr/>
-
-						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>retrievePostsUsingTag("Videos")}>
-							Videos
-						</li>
-						<hr/>
-
-						<li style={{listStyle:"none",cursor:"pointer"}}
-							onClick={()=>retrievePostsUsingTag("Text")}>
-							Regular Posts
-						</li>
-						<hr/>
-					</ul>
-			  	</div>
-			*/}
 		</Container>
 	)
 }

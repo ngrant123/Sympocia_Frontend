@@ -26,7 +26,6 @@ const Container=styled.div`
 	top:10%;
 	overflow-y:auto;
 `;
-//Later down the road should add a contact button in this modal
 const EmployeeDisplayModal=(props)=>{
 	const {data,closeModal}=props;
 	return(

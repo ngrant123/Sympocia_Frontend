@@ -491,7 +491,7 @@ export const InputContainer = styled.div`
 	}
 
 `;
-//Change opacity back to what it was 
+
 export const PaymentScreen = styled.div`
 
 	position:absolute;

@@ -647,8 +647,6 @@ class CommentsContainer extends Component{
 				}
 
 				currentReplies.splice(0,0,newReply);
-
-				//Add this temporarily to the appropriate comment so user can see 
 				
 				var newComments=this.state.comments
 				for(var i=0;i<newComments.length;i++){

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
-//width:90%;
 export const Container=styled.div`
 	display:flex;
 	top:5%;

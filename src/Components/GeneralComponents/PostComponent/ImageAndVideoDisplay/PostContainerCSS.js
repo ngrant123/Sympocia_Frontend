@@ -220,11 +220,6 @@ export const StampIconEffect=styled.div`
 
 `;
 
-	// ${({postHeight})=>
-	// 	postHeight!=null?
-	// 	`height:${postHeight}px;`:
-	// 	`height:100%;`
-	// }
 export const VideoDesriptionContainer=styled.div`
 	height:250px;
 	width:360px;
@@ -336,36 +331,6 @@ export const PersonalInformation=styled.div`
     }
 `;
 
-/*
-		@media screen and (max-width:650px){
-		${({isImagePost})=>
-			isImagePost==false?
-			css`height:250px;`:
-			css`height:180px;`
-		}
-	}
-*/
-//height:350px;
-
-/*
-		${({isImagePost,isWidthFocusedImage})=>
-			isImagePost==false?
-			`
-				isWidthFocusedImage==true?
-	    		height:250px !important;:
-	    		height:300px !important;
-			`:
-			`height:180px;`
-		}
-
-		@media screen and (max-width:650px){
-			${({isImagePost})=>
-				isImagePost==false?
-				css`height:250px;`:
-				css`height:150px;`
-			}
-		}
-*/
 export const Post=styled.div`
 	position:relative;
 	display:flex;

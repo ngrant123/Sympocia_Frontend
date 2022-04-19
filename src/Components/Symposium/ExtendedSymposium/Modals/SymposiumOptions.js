@@ -6,8 +6,6 @@ import SymposiumOptionsPortal from "./SymposiumOptionsPortal.js";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 
-// backgroundColor:"#3898ec",
-
 let SymposiumOptionsButtonCSS={
     backgroundColor:"white",
     borderRadius:"5px",

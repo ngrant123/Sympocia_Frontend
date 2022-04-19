@@ -6,7 +6,6 @@ import BuildSharpIcon from '@material-ui/icons/BuildSharp';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-//import {concatVideoTogether} from "../../../Actions/Requests/ProfileAxiosRequests/ProfilePostRequests.js";
 import RefreshIcon from '@material-ui/icons/Refresh';
 import CameraIcon from '@material-ui/icons/Camera';
 

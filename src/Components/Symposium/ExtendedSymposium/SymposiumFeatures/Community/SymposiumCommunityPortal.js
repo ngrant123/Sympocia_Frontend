@@ -130,7 +130,6 @@ const QuestionUploadOption=({
 
 
 	const sendData=async({postData,isAccessTokenUpdated,updatedAccessToken})=>{
-		//const profileIndicator=personalInformation.industry==null?"Profile":"Company";
 		changeIsCommentProcessing(true);
 		let description;
 		let continueUploadProcess=true;
@@ -424,8 +423,6 @@ const QuestionsPortal=(props)=>{
 	const [currentReplies,changeCurrentReplies]=useState(responses);
 	const [displayCreatePost,changeDisplayPost]=useState(false);
 	const [currentQuestionType,changeCurrentQuestionType]=useState(questions[counter].questionType);
-
-	//const [displayExpandedQuestionModal,change]
 
 	const dispatch=useDispatch();
 

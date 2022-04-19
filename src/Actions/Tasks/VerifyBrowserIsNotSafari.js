@@ -1,5 +1,4 @@
 const VerifyBrowserIsChrome=()=>{
-   // var isChrome = navigator.vendor && navigator.vendor.indexOf('Google Inc')!=-1;
     var isChromium = window.chrome;
 	var winNav = window.navigator;
 	var vendorName = winNav.vendor;

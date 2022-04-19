@@ -316,24 +316,10 @@ class PersonalizedPage extends Component{
 	  }
 
 	  componentDidMount(){
-	  		
-	  		/*
-				Could be done in a better way
-	  		*/
-
 
 	  		const postContainerElement=document.getElementById("postChatInformation");
 	  		const headerContentsContainerElement=document.getElementById("headerContents");
 
-
-	  
-
-				/*
-					Make api call here
-
-
-
-				*/
 		  		const communities=this.props.communities;
 		  		let communityCounter=0;
 

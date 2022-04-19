@@ -58,7 +58,6 @@ const Caption = styled.div`
 
 `;
 
-//Could be a functional component
 class Notification extends Component{
 
 
