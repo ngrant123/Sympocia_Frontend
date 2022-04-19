@@ -1,4 +1,3 @@
-
 ## Sympocia_Frontend
 
 The current situation with social media platforms is very interesting. People care more about their follower count, the number of likes, and views than actually being their most authentic selves. How many times have you wanted to post something but were worried about how it made you look? Sympocia is trying to change this.
@@ -10,3 +9,6 @@ Similar to subreddits, symposiums are sections dedicated to a topic but go much 
 These are just a few of the things that are new to Sympocia. So if you are someone who is tired of the current state of social media platforms, you should sign up for Sympocia and join the movement.
 
 The architecture consists of two microservices dedicated to video and image compression. Additionally, there are two other microservices that are used for the feed generation and server/data handling. The feed generation microservice uses java and the algorithm for item-based collaborative filtering but since it is connected to the db I wont be displaying it on github for now. What you're seeing right now is the frontend code for Sympocia that uses the React framework.
+
+
+![Screen Shot 2022-04-15 at 1 10 22 PM](https://user-images.githubusercontent.com/13792797/164088906-6e2c6935-08e2-4e79-840e-51e057466525.png)
